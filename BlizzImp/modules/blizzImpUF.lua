@@ -32,17 +32,10 @@ local focFrameScale = 1.25;
 -- Timer
 local timer = CreateFrame("Frame");
 local time = 0;
-local delayLength = 1.5;
+local delayLength = 1;
 local startTimer = false;
 
 local function SetUnitFrames()
-
-	-- Hide Damage Spam
-	PlayerHitIndicator:SetText(nil)
-	PlayerHitIndicator.SetText = function() end
-
-	PetHitIndicator:SetText(nil)
-	PetHitIndicator.SetText = function() end
 
 	-- Tweak Party Frame
 	PartyMemberFrame1:ClearAllPoints();
@@ -53,47 +46,58 @@ local function SetUnitFrames()
 	PartyMemberFrame1:SetPoint( "LEFT" , parFrameX, parFrameY );
 
 	-- Tweak Player Frame
+	PlayerFrame:SetMovable( true );
 	PlayerFrame:ClearAllPoints();
 	PlayerFrame:SetScale( pFrameScale );
 	PlayerFrame:SetPoint( "CENTER", pFrameX, pFrameY );
 	PlayerFrame:SetUserPlaced(true);
+	PlayerFrame:SetMovable( false );
 
 	-- Tweak Target Frame
+	TargetFrame:SetMovable( true );
 	TargetFrame:ClearAllPoints();
 	TargetFrame:SetScale( tFrameScale );
 	TargetFrame:SetPoint( "CENTER", tFrameX, tFrameY );
+	TargetFrame:SetUserPlaced(true);
+	TargetFrame:SetMovable( false );
 
 	-- Tweak Focus Frame
+	FocusFrame:SetMovable( true );
 	FocusFrame:ClearAllPoints();
 	FocusFrame:SetScale( focFrameScale );
 	FocusFrame:SetPoint( "TOPLEFT", focFrameX, focFrameY );
+	FocusFrame:SetUserPlaced( true );
+	FocusFrame:SetMovable( false );
 
 	-- Move Cast Bar
+	CastingBarFrame:SetMovable(true);
 	CastingBarFrame:ClearAllPoints();
 	CastingBarFrame:SetScale( 1.1 );
 	CastingBarFrame:SetPoint("CENTER", 0, -175);
-	CastingBarFrame.ClearAllPoints = function () end
-	CastingBarFrame.SetPoint = function () end
-	CastingBarFrame.SetScale = function () end
+	CastingBarFrame:SetUserPlaced(true);
+	CastingBarFrame:SetMovable( false );
 
 	for i=1, 5 do
         _G["ArenaPrepFrame"..i]:SetScale(1.5);      
-        _G["ArenaPrepFrame"..i].SetScale = function () end
 	end
 	ArenaEnemyFrames:SetScale(1.5);
 end
 
 -- Handle Raid Stuff Seperately
 local function SetRaidFrames()
-	if( CompactRaidFrameManager:IsVisible() ) then
-		local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
-        CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+	if( combatLock == false )then
+		if CompactRaidFrameManager:IsVisible() then  
+			local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
+			CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+		end
 	end
 
 	CompactRaidFrameManagerToggleButton:HookScript("OnClick", function()
-		if CompactRaidFrameManager:IsVisible() then  
-		    local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
-		    CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+		if( combatLock == false )then
+			if CompactRaidFrameManager:IsVisible() then  
+			    local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
+			    CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+			end
 		end
 	end);
 end
@@ -132,20 +136,20 @@ local function UF_HandleEvents( self, event, ... )
 		if( combatLock == false ) then
 			SetUnitFrames();
 			startTimer = true;
-			--SetRaidFrames();
 		end
 	end
 
 	if( event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" ) then
-		local isInVehicle = UnitControllingVehicle("player");
-		if( isInVehicle == true ) then
-			SetUnitFrames();
-		end
+		if( combatLock == false )then
+			local isInVehicle = UnitControllingVehicle("player");
+			if( isInVehicle == true ) then
+				SetUnitFrames();
+			end
 
-		if ( UnitHasVehiclePlayerFrameUI("player") ) then
-			SetUnitFrames();
+			if ( UnitHasVehiclePlayerFrameUI("player") ) then
+				SetUnitFrames();
+			end
 		end
-
 	end
 
 	if ( event == "PLAYER_TARGET_CHANGED" ) then
@@ -184,7 +188,6 @@ local function Delay(self, elapsed)
 		time = time + elapsed;
 		if( time >= delayLength ) then
 			SetRaidFrames();
-			timer:SetScript("OnUpdate", function() end );
 			startTimer = false;
 			time = 0;
 		end
@@ -224,6 +227,16 @@ local function UF_Init()
 	impUF:RegisterEvent( "UNIT_GAINS_VEHICLE_DATA")
 	impUF:RegisterEvent( "PLAYER_REGEN_DISABLED" );
 	impUF:RegisterEvent( "PLAYER_REGEN_ENABLED" );
+end
+
+-- Remove Portrait Damage Spam
+-- Reimplimentation of CombatFeedback_OnCombatEvent from CombatFeedback.lua
+function CFeedback_OnCombatEvent(self, event, flags, amount, type)
+	self.feedbackText:SetText(" ");
+end
+
+do
+	hooksecurefunc("CombatFeedback_OnCombatEvent", CFeedback_OnCombatEvent );
 end
 
 -- Run Initialisation
