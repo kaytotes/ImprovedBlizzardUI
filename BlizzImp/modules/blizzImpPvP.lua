@@ -1,9 +1,11 @@
 local impPvP = CreateFrame( "Frame", "ImprovPVP", UIParent );
 
+local storedHealth; -- Players Health
+
 -- Message Related
 local player; -- Player ID
 local killTracker;
-message = CreateFrame( "MessageFrame", "CustomMessageFrame", UIParent );
+local message = CreateFrame( "MessageFrame", "BlizzImpMessageFrame", UIParent );
 local eventDelay = 3;
 local storedTime;
 local messageHeight = 29;
@@ -110,7 +112,7 @@ local function BuildMessage(sourceGUID, sourceName, destGUID, destName )
 end
 
 local function InitMessage()
-	killBlowCount = 0;
+	local killBlowCount = 0;
 
 	-- Create Message Frame
 	message:SetPoint( "LEFT" );
@@ -146,7 +148,10 @@ local function InitMessage()
 					UpdateKills( killString );
 				end
 			end
+		end
 
+		--ASHRAN KILL BLOW DEBUG
+		if( instanceType == "pvp" or instanceType == "arena" or (instanceType == "none" and GetZonePVPInfo() == "combat") )then
 			if( event == "PARTY_KILL")then
 				if( sourceGUID == player ) then
 					message:AddMessage( "Killing Blow!", 1, 1, 0, 53, 3);
@@ -156,8 +161,26 @@ local function InitMessage()
 	end);
 end
 
+local function PVP_Update()
+	-- Health Warning
+	healthPerc = UnitHealth("player") / UnitHealthMax("player");
+	if( healthPerc > 0.5) then
+		storedHealth = 0;
+		return;
+	elseif ( healthPerc > 0.25 ) then
+		if( storedHealth == 0 ) then
+			message:AddMessage( "HP < 50%  !", 0, 1, 1, 53, 3 );
+		end
+		return;
+	elseif ( storedHealth ~= 2 ) then
+		message:AddMessage( "HP < 25%  !!!", 1, 0, 0, 53, 3 );
+	end
+	storedHealth = 2;
+end
+
 local function PVP_Init()
 	impPvP:SetScript( "OnEvent", PVP_HandleEvents );
+	impPvP:SetScript( "OnUpdate", PVP_Update );
 
 	impPvP:RegisterEvent( "PLAYER_LOGIN" );
 	impPvP:RegisterEvent( "PLAYER_ENTERING_WORLD" );

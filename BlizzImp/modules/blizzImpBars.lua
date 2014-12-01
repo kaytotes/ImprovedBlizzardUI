@@ -2,6 +2,15 @@ local impBars = CreateFrame( "Frame", "ImprovBars", UIParent );
 
 local hideArt = false;
 
+local function HideMicroMenu()
+	-- Move Micro Menu
+    CharacterMicroButton:SetMovable(true);
+    CharacterMicroButton:ClearAllPoints();
+    CharacterMicroButton:SetPoint("BOTTOMRIGHT", UIParent, 0, 5000);
+    CharacterMicroButton:SetUserPlaced(true);
+    CharacterMicroButton:SetMovable(false);
+end
+
 local function SetBars()
 
 	-- Remove Art
@@ -86,12 +95,27 @@ local function SetBars()
     -- Move Bag Bar
     MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, -1, -300);
     
-    -- Move Micro Menu
-    CharacterMicroButton:SetMovable(true);
-    CharacterMicroButton:ClearAllPoints();
-    CharacterMicroButton:SetPoint("BOTTOMRIGHT", UIParent, 0, 5000);
-    CharacterMicroButton:SetUserPlaced(true);
-    CharacterMicroButton:SetMovable(false);
+    HideMicroMenu();
+
+    --Hide Exhaustion Tick
+    ExhaustionTick:HookScript("OnShow", ExhaustionTick.Hide);
+end
+
+local function Bars_HandleEvents( self, event, ... )
+	if( event == "PLAYER_ENTERING_WORLD" ) then
+		SetBars();
+	end
+
+	if( event == "PLAYER_FLAGS_CHANGED" )then
+		HideMicroMenu();
+	end
+
+	if( event == "UNIT_EXITED_VEHICLE" )then
+		local unit = ...;
+		if(unit == "player")then
+			HideMicroMenu();
+		end
+	end
 end
 
 local function Bars_Init()
@@ -106,12 +130,7 @@ local function Bars_Init()
 	SetBars();
 end
 
-local function Bars_HandleEvents( self, event, ... )
-	--TESTING
-	if( event == "PLAYER_ENTERING_WORLD" ) then
-		SetBars();
-	end
-end
+
 
 -- Nigh identical replacement for ReputationWatchBar_Update
 -- Orig Func exists in Blizz ReputationFrame.lua
@@ -223,7 +242,7 @@ local function RepWatchBar_Update( newLevel )
 	TextStatusBar_UpdateTextString(MainMenuExpBar);
 	ExpBar_Update();
 	
-	if ( visibilityChanged ) then
+	if ( visibilityChanged) and ( InCombatLockdown() == false ) then
 		UIParent_ManageFramePositions();
 		UpdateContainerFrameAnchors();
 	end
@@ -251,9 +270,24 @@ local function UpdateRange( self, elapsed )
 	end
 end
 
+local function Pet_UpdatePos()
+	if ( PetActionBarFrame_IsAboveStance(true) ) then
+		PETACTIONBAR_XPOS = 36;
+	elseif ( MainMenuBarVehicleLeaveButton and MainMenuBarVehicleLeaveButton:IsShown() ) then
+		PETACTIONBAR_XPOS = MainMenuBarVehicleLeaveButton:GetRight() + 20;
+	elseif ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
+		PETACTIONBAR_XPOS = 100;
+	elseif ( MultiCastActionBarFrame and HasMultiCastActionBar() ) then
+		PETACTIONBAR_XPOS = 500;
+	else
+		PETACTIONBAR_XPOS = 36;
+	end
+end
+
 do
 	hooksecurefunc( "ActionButton_OnUpdate", UpdateRange );
 	hooksecurefunc( "ReputationWatchBar_Update", RepWatchBar_Update );
+	hooksecurefunc( "PetActionBar_UpdatePositionValues", Pet_UpdatePos)
 end
 
 -- Initalise
