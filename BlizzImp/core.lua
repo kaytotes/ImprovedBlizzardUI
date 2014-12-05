@@ -1,9 +1,24 @@
-local ADDON_VERSION = "014b";
+local ADDON_VERSION = "015";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
 
 local bagsHidden = true; -- Bags Toggle 
+
+-- Stats Frame
+local statsFont = "Fonts\\FRIZQT__.TTF";
+local statsFrame = CreateFrame( "Frame", nil, UIParent );
+local timeSinceLastUpdate = 0;
+local updateDelay = 2;
+local statsFrameX = -100;
+local statsFrameY = -0;
+
+-- Co-Ordinates 
+local locationFrame = CreateFrame("Frame", nil, Minimap );
+local locationDelay = 0.5;
+local locationTimeElapsed = 0;
+local locationFrameX = 3;
+local locationFrameY = 0;
 
 -- AFK Frame
 local afkFrame = CreateFrame( "Frame", nil, WorldFrame );
@@ -103,6 +118,69 @@ local function AFKSpin(spin)
 	end
 end
 
+-- Updates Player Co-ordinates
+local function UpdateLocation()
+	if( Minimap:IsVisible() )then
+		local playerX, playerY = GetPlayerMapPosition("player");
+		if( playerX ~= 0 and playerY ~= 0 )then
+			locationFrame.text:SetFormattedText( "(%d:%d)", playerX * 100, playerY * 100 );
+		end
+	end
+end
+
+function LocationFrame_Delay(self, elapsed)
+	locationTimeElapsed = locationTimeElapsed + elapsed;
+	if( locationTimeElapsed >= locationDelay )then
+		UpdateLocation();
+		locationTimeElapsed = 0;
+	end
+end
+
+-- Updates Network Statistics. Throttled based on updateDelay.
+local function UpdateStats(self, elapsed)
+	timeSinceLastUpdate = timeSinceLastUpdate + elapsed;
+	if( timeSinceLastUpdate >= updateDelay )then
+		local _, _, latencyHome, latencyWorld = GetNetStats();
+		local homeString, worldString;
+
+		-- Colour Latency Strings
+		if( latencyHome <= 75 )then
+			homeString = format("|cff00CC00%s|r", latencyHome );
+		elseif( latencyHome > 75 and latencyHome <= 250 )then
+			homeString = format("|cffFFFF00%s|r", latencyHome );
+		elseif( latencyHome > 250 )then
+			homeString = format("|cffFF0000%s|r", latencyHome );
+		end
+
+		if( latencyWorld <= 75 )then
+			worldString = format("|cff00CC00%s|r", latencyWorld );
+		elseif( latencyWorld > 75 and latencyHome <= 250 )then
+			worldString = format("|cffFFFF00%s|r", latencyWorld );
+		elseif( latencyWorld > 250 )then
+			worldString = format("|cffFF0000%s|r", latencyWorld );
+		end
+
+		statsFrame.latency:SetText(homeString.. " / " ..worldString.. " ms");
+		timeSinceLastUpdate = 0;
+	end
+end
+
+-- Stats Frame Init
+local function StatsInit()
+	statsFrame:SetFrameStrata("HIGH");
+	statsFrame:SetWidth(32);
+	statsFrame:SetHeight(32);
+	statsFrame:SetPoint("TOPRIGHT", statsFrameX, statsFrameY);
+
+	-- Latency
+	statsFrame.latency = statsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" );
+	statsFrame.latency:SetPoint("CENTER", 0, 0 );
+	statsFrame.latency:SetFont( statsFont, 16, "OUTLINE" );
+	statsFrame.latency:SetText("0/0 ms"); -- debug
+
+	statsFrame:SetScript("OnUpdate", UpdateStats);
+end
+
 -- Hide Leave Queue button for PvP
 local function HideLeaveButton()
 	PVPReadyDialog.enterButton:ClearAllPoints();
@@ -117,7 +195,7 @@ local function ModifyBuffs()
 	BuffFrame:SetPoint( "TOPRIGHT", -175, -13 );
 end
 
--- Tweak Minimap
+-- Tweak Minimap and World Map
 local function ModifyMinimap()
 	-- Hide Buttons
 	MinimapZoomIn:Hide();
@@ -125,7 +203,7 @@ local function ModifyMinimap()
 
 	MinimapCluster:ClearAllPoints();
 	MinimapCluster:SetScale(1.15);
-	MinimapCluster:SetPoint("TOPRIGHT", -15, -15)
+	MinimapCluster:SetPoint("TOPRIGHT", -15, -25)
 
 	-- Allow and Handle Scrollwheel Zoom
 	Minimap:EnableMouseWheel( true );
@@ -148,6 +226,15 @@ local function ModifyMinimap()
 		Minimap_OnClick(self)
 	end
 	end)
+
+	--Create Location Coords
+	locationFrame:SetFrameStrata("HIGH");
+	locationFrame:SetWidth(32);
+	locationFrame:SetHeight(32);
+	locationFrame:SetPoint("BOTTOM", locationFrameX, locationFrameY);
+	locationFrame.text = locationFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" );
+	locationFrame.text:SetPoint("CENTER", 0, 0 );
+	locationFrame.text:SetFont( statsFont, 14, "OUTLINE" );
 end
 
 local function Core_HandleEvents( self, event, unit )
@@ -165,14 +252,16 @@ local function Core_HandleEvents( self, event, unit )
 			ModifyMinimap();
 			ModifyBuffs();
 		end
+		StatsInit();
 	end
 
 	-- Auto Repair
 	if( event == "MERCHANT_SHOW" and CanMerchantRepair() == true) then
 		local repCost, bRepair = GetRepairAllCost();
 		if(bRepair == true) and (repCost <= GetMoney()) then
-			RepairAllItems();
-			print("|cffffff00Items Repaired");
+			RepairAllItems(true);
+			RepairAllItems(false);
+			print("|cffffff00Items Repaired: " ..GetCoinTextureString( repCost ));
 		end
 	end
 
@@ -215,6 +304,11 @@ local function Core_HandleEvents( self, event, unit )
 			AFKSpin( false );
 		end
 	end
+
+	if( event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA" )then
+		UpdateLocation();
+	end
+
 end
 
 local function Core_Init()
@@ -224,6 +318,11 @@ local function Core_Init()
 	core:RegisterEvent("PLAYER_ENTERING_WORLD");
 	core:RegisterEvent("PLAYER_FLAGS_CHANGED");
 	core:RegisterEvent("MERCHANT_SHOW");
+	core:RegisterEvent("ZONE_CHANGED");
+	core:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+	core:RegisterEvent("ZONE_CHANGED_INDOORS");
+
+	locationFrame:SetScript("OnUpdate", LocationFrame_Delay);
 
 	SLASH_IMP1 = "/imp";
 	SlashCmdList["IMP"] = HandleSlashCommands;

@@ -1,6 +1,19 @@
+local addon, imp = ...; --Addon Namespace
+
 local impPvP = CreateFrame( "Frame", "ImprovPVP", UIParent );
 
 local storedHealth; -- Players Health
+
+local bgAlerts = true;
+
+-- BG Map ID's
+local WSGID = 443;
+
+-- Timer
+local timer = CreateFrame("Frame");
+local time = 0;
+local delayLength = 2;
+local startTimer = false;
 
 -- Message Related
 local player; -- Player ID
@@ -14,6 +27,15 @@ local messageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
 local recentKills = { " ", " ", " ", " ", " " }
 local killsFrame;
 local killFont = "Fonts\\FRIZQT__.TTF";
+
+local function DetectBattleGround()
+	if( bgAlerts == true )then
+		local mapID, _ = GetCurrentMapAreaID();
+		if( mapID == WSGID )then
+			imp:WSG_Init();	
+		end
+	end
+end
 
 local function ClearKills()
 	for i = 1, #recentKills do
@@ -36,6 +58,10 @@ local function PVP_HandleEvents( self, event, unit )
 
 	if( event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_ENTERING_BATTLEGROUND") then
 		ClearKills();
+	end
+
+	if( event == "PLAYER_ENTERING_BATTLEGROUND" )then
+		startTimer = true;
 	end
 end
 
@@ -177,6 +203,18 @@ local function PVP_Update()
 	end
 	storedHealth = 2;
 end
+
+local function Delay(self, elapsed)
+	if( startTimer == true ) then
+		time = time + elapsed;
+		if( time >= delayLength ) then
+			DetectBattleGround();
+			startTimer = false;
+			time = 0;
+		end
+	end
+end
+timer:SetScript("OnUpdate", Delay );
 
 local function PVP_Init()
 	impPvP:SetScript( "OnEvent", PVP_HandleEvents );

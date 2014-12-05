@@ -1,10 +1,11 @@
 ## Interface: 60000
 ## Title: Improved Blizzard
 ## Notes: General Improvements to the Default Blizzard UI
-## Version: 0.14
+## Version: 0.15
 ## Author: Kaytotes
 
 core.lua
+modules\bg\wsg.lua
 modules\blizzImpUF.lua
 modules\blizzImpPvP.lua
 modules\blizzImpBars.lua

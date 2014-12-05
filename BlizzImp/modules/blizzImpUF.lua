@@ -82,21 +82,24 @@ end
 
 -- Handle Raid Stuff Seperately
 local function SetRaidFrames()
-	if( InCombatLockdown() == false )then
-		if CompactRaidFrameManager:IsVisible() then  
-			local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
-			CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
-		end
-	end
-
-	CompactRaidFrameManagerToggleButton:HookScript("OnClick", function()
+	local _, instanceType = IsInInstance();
+	if( instanceType == "pvp" )then
 		if( InCombatLockdown() == false )then
 			if CompactRaidFrameManager:IsVisible() then  
-			    local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
-			    CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+				local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
+				CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
 			end
 		end
-	end);
+
+		CompactRaidFrameManagerToggleButton:HookScript("OnClick", function()
+			if( InCombatLockdown() == false )then
+				if CompactRaidFrameManager:IsVisible() then  
+				    local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
+				    CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+				end
+			end
+		end);
+	end
 end
 
 local function UpdateClassIcon(class)

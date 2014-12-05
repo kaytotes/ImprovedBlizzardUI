@@ -284,7 +284,13 @@ local function Pet_UpdatePos()
 	end
 end
 
+local function MoveMicro(anchor, anchorTo, relAnchor, x, y, isStacked)
+	HideMicroMenu();
+	UpdateMicroButtons();
+end
+
 do
+	hooksecurefunc( "MoveMicroButtons", MoveMicro );
 	hooksecurefunc( "ActionButton_OnUpdate", UpdateRange );
 	hooksecurefunc( "ReputationWatchBar_Update", RepWatchBar_Update );
 	hooksecurefunc( "PetActionBar_UpdatePositionValues", Pet_UpdatePos)
