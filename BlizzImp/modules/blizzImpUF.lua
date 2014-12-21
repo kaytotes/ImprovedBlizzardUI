@@ -1,9 +1,10 @@
+
+
 local impUF = CreateFrame( "Frame", "ImprovUF", UIParent );
 
 local classFrame;
 local classIcon;
 local classIconBorder;
-local showClassIcon = true;
 
 -- Player Frame
 local pFrameX = -265;
@@ -139,6 +140,23 @@ local function UF_HandleEvents( self, event, ... )
 		end
 	end
 
+	if( event == "ADDON_LOADED" and ... == "BlizzImp" )then
+				-- Create Frames
+		if( bClassIcon == true ) then
+			classFrame = CreateFrame("Frame", "ClassFrame", TargetFrame );
+			classFrame:SetPoint( "CENTER", 110, 40);
+			classFrame:SetSize( 40, 40 );
+			classIcon = classFrame:CreateTexture( "ClassIcon" );
+			classIcon:SetPoint( "CENTER" );
+			classIcon:SetSize( 40, 40 );
+			classIcon:SetTexture( "Interface\\TARGETINGFRAME\\UI-CLASSES-CIRCLES.BLP" );
+			classIconBorder = classFrame:CreateTexture( "ClassIconBorder", "ARTWORK", nil, 1 );
+			classIconBorder:SetPoint( "CENTER" , classIcon );
+			classIconBorder:SetSize( 80, 80 );
+			classIconBorder:SetTexture( "Interface\\UNITPOWERBARALT\\WowUI_Circular_Frame.blp" );
+		end
+	end
+
 	if( event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" ) then
 		if( InCombatLockdown() == false )then
 			if( UnitControllingVehicle("player") or UnitHasVehiclePlayerFrameUI("player") ) then
@@ -148,10 +166,33 @@ local function UF_HandleEvents( self, event, ... )
 	end
 
 	if ( event == "PLAYER_TARGET_CHANGED" ) then
-		if( showClassIcon == true ) then
+		if( bClassIcon == true ) then
 			local target = select( 2, UnitClass("target") );
 			UpdateClassIcon( target );
 		end
+
+		if( bClassColours == true )then
+			if UnitIsPlayer("target") then
+	                c = RAID_CLASS_COLORS[select(2, UnitClass("target"))]
+	                TargetFrameNameBackground:SetVertexColor(c.r, c.g, c.b)
+	        end
+	        if UnitIsPlayer("focus") then
+	                c = RAID_CLASS_COLORS[select(2, UnitClass("focus"))]
+	                FocusFrameNameBackground:SetVertexColor(c.r, c.g, c.b)
+	        end
+    	end
+	end
+	if( event == "UNIT_FACTION" or event == "GROUP_ROSTER_UPDATE" or event == "PLAYER_FOCUS_CHANGED" or event == "UNIT_FACTION")then
+		if( bClassColours == true )then
+			if UnitIsPlayer("target") then
+	                c = RAID_CLASS_COLORS[select(2, UnitClass("target"))]
+	                TargetFrameNameBackground:SetVertexColor(c.r, c.g, c.b)
+	        end
+	        if UnitIsPlayer("focus") then
+	                c = RAID_CLASS_COLORS[select(2, UnitClass("focus"))]
+	                FocusFrameNameBackground:SetVertexColor(c.r, c.g, c.b)
+	        end
+    	end
 	end
 end
 
@@ -173,23 +214,12 @@ local function UF_Init()
 	impUF:SetScript( "OnEvent", UF_HandleEvents );
 	LoadAddOn("Blizzard_ArenaUI");
 
-	-- Create Frames
-	if( showClassIcon == true ) then
-		classFrame = CreateFrame("Frame", "ClassFrame", TargetFrame );
-		classFrame:SetPoint( "CENTER", 110, 40);
-		classFrame:SetSize( 40, 40 );
-		classIcon = classFrame:CreateTexture( "ClassIcon" );
-		classIcon:SetPoint( "CENTER" );
-		classIcon:SetSize( 40, 40 );
-		classIcon:SetTexture( "Interface\\TARGETINGFRAME\\UI-CLASSES-CIRCLES.BLP" );
-		classIconBorder = classFrame:CreateTexture( "ClassIconBorder", "ARTWORK", nil, 1 );
-		classIconBorder:SetPoint( "CENTER" , classIcon );
-		classIconBorder:SetSize( 80, 80 );
-		classIconBorder:SetTexture( "Interface\\UNITPOWERBARALT\\WowUI_Circular_Frame.blp" );
-	end
-
 	impUF:RegisterEvent( "PLAYER_ENTERING_WORLD" );
+	impUF:RegisterEvent( "ADDON_LOADED" );
 	impUF:RegisterEvent( "PLAYER_TARGET_CHANGED" );
+	impUF:RegisterEvent( "GROUP_ROSTER_UPDATE" );
+	impUF:RegisterEvent( "UNIT_FACTION" );
+	impUF:RegisterEvent("PLAYER_FOCUS_CHANGED");
 	impUF:RegisterEvent( "UNIT_EXITED_VEHICLE" );
 end
 

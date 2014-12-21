@@ -1,4 +1,4 @@
-local ADDON_VERSION = "015";
+local ADDON_VERSION = "017";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
@@ -8,6 +8,7 @@ local bagsHidden = true; -- Bags Toggle
 -- Stats Frame
 local statsFont = "Fonts\\FRIZQT__.TTF";
 local statsFrame = CreateFrame( "Frame", nil, UIParent );
+statsFrame.latency = statsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" );
 local timeSinceLastUpdate = 0;
 local updateDelay = 2;
 local statsFrameX = -100;
@@ -15,6 +16,7 @@ local statsFrameY = -0;
 
 -- Co-Ordinates 
 local locationFrame = CreateFrame("Frame", nil, Minimap );
+locationFrame.text = locationFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" );
 local locationDelay = 0.5;
 local locationTimeElapsed = 0;
 local locationFrameX = 3;
@@ -76,8 +78,8 @@ local microMenuList = {
 	{text = "|cffFFFFFFCollections", func = function() TogglePetJournal() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
 	{text = "|cffFFFFFFDungeon Journal", func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
 	{text = "|cffFFFFFFSwap Bags", func = function() ShowBagBar() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
-	{text = "|cffffff00Log Out|r", func = function() Logout() end, notCheckable = true, fontObject = GameFontNormal },
-	{text = "|cffFE2E2EForce Exit|r", func = function() ForceQuit() end, notCheckable = true, fontObject = GameFontNormal },
+	{text = "|cffffff00Log Out", func = function() Logout() end, notCheckable = true, fontObject = GameFontNormal },
+	{text = "|cffFE2E2EForce Exit", func = function() ForceQuit() end, notCheckable = true, fontObject = GameFontNormal },
 }
 
 function HandleSlashCommands( command )
@@ -120,10 +122,12 @@ end
 
 -- Updates Player Co-ordinates
 local function UpdateLocation()
-	if( Minimap:IsVisible() )then
-		local playerX, playerY = GetPlayerMapPosition("player");
-		if( playerX ~= 0 and playerY ~= 0 )then
-			locationFrame.text:SetFormattedText( "(%d:%d)", playerX * 100, playerY * 100 );
+	if( bShowCoords == true )then
+		if( Minimap:IsVisible() )then
+			local playerX, playerY = GetPlayerMapPosition("player");
+			if( playerX ~= 0 and playerY ~= 0 )then
+				locationFrame.text:SetFormattedText( "(%d:%d)", playerX * 100, playerY * 100 );
+			end
 		end
 	end
 end
@@ -154,29 +158,33 @@ local function UpdateStats(self, elapsed)
 
 		if( latencyWorld <= 75 )then
 			worldString = format("|cff00CC00%s|r", latencyWorld );
-		elseif( latencyWorld > 75 and latencyHome <= 250 )then
+		elseif( latencyWorld > 75 and latencyWorld <= 250 )then
 			worldString = format("|cffFFFF00%s|r", latencyWorld );
 		elseif( latencyWorld > 250 )then
 			worldString = format("|cffFF0000%s|r", latencyWorld );
 		end
 
-		statsFrame.latency:SetText(homeString.. " / " ..worldString.. " ms");
+		local frameRate = floor(GetFramerate());
+		--print(frameRate)
+		statsFrame.latency:SetText(" ");
+		if( bShowStats == true )then
+			statsFrame.latency:SetText(homeString.. " / " ..worldString.. " ms - " ..frameRate.. " fps");
+		end
 		timeSinceLastUpdate = 0;
 	end
 end
 
 -- Stats Frame Init
 local function StatsInit()
-	statsFrame:SetFrameStrata("HIGH");
+	statsFrame:SetFrameStrata("BACKGROUND");
 	statsFrame:SetWidth(32);
 	statsFrame:SetHeight(32);
 	statsFrame:SetPoint("TOPRIGHT", statsFrameX, statsFrameY);
 
 	-- Latency
-	statsFrame.latency = statsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" );
 	statsFrame.latency:SetPoint("CENTER", 0, 0 );
 	statsFrame.latency:SetFont( statsFont, 16, "OUTLINE" );
-	statsFrame.latency:SetText("0/0 ms"); -- debug
+	--statsFrame.latency:SetText("0/0 ms"); -- debug
 
 	statsFrame:SetScript("OnUpdate", UpdateStats);
 end
@@ -186,6 +194,7 @@ local function HideLeaveButton()
 	PVPReadyDialog.enterButton:ClearAllPoints();
 	PVPReadyDialog.enterButton:SetPoint("BOTTOM", PVPReadyDialog, "BOTTOM", 0, 25);
 	PVPReadyDialog.label:SetPoint("TOP", 0, -22);
+	PVPReadyDialog.leaveButton:Hide();
 	PVPReadyDialog.leaveButton:HookScript("OnShow", PVPReadyDialog.leaveButton.Hide);
 end
 
@@ -207,7 +216,7 @@ local function ModifyMinimap()
 
 	-- Allow and Handle Scrollwheel Zoom
 	Minimap:EnableMouseWheel( true );
-	Minimap:SetScript('OnMouseWheel', function( self, delta )
+	Minimap:SetScript("OnMouseWheel", function( self, delta )
 	        if ( delta > 0 ) then
 	            Minimap_ZoomIn();
 	        else
@@ -228,11 +237,10 @@ local function ModifyMinimap()
 	end)
 
 	--Create Location Coords
-	locationFrame:SetFrameStrata("HIGH");
+	locationFrame:SetFrameStrata("LOW");
 	locationFrame:SetWidth(32);
 	locationFrame:SetHeight(32);
 	locationFrame:SetPoint("BOTTOM", locationFrameX, locationFrameY);
-	locationFrame.text = locationFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" );
 	locationFrame.text:SetPoint("CENTER", 0, 0 );
 	locationFrame.text:SetFont( statsFont, 14, "OUTLINE" );
 end
@@ -256,7 +264,7 @@ local function Core_HandleEvents( self, event, unit )
 	end
 
 	-- Auto Repair
-	if( event == "MERCHANT_SHOW" and CanMerchantRepair() == true) then
+	if( event == "MERCHANT_SHOW" and CanMerchantRepair() == true and bAutoRepair == true) then
 		local repCost, bRepair = GetRepairAllCost();
 		if(bRepair == true) and (repCost <= GetMoney()) then
 			RepairAllItems(true);
@@ -266,7 +274,7 @@ local function Core_HandleEvents( self, event, unit )
 	end
 
 	-- Sell Grey Items
-	if( event == "MERCHANT_SHOW" ) then
+	if( event == "MERCHANT_SHOW" and bAutoSell == true) then
 		local moneyEarned = 0;
 		for bags = 0, 4 do
 			for bagSlot = 1, GetContainerNumSlots( bags ) do
@@ -290,7 +298,7 @@ local function Core_HandleEvents( self, event, unit )
 	-- AFK Camera Spin
 	if( event == "PLAYER_FLAGS_CHANGED") then
 		-- Check for AFK and Toggle Camera Spin
-		if( unit == "player") then
+		if( unit == "player" and bAFKMode == true) then
 			if( UnitIsAFK(unit) and not UnitIsDead(unit)) then
 				AFKSpin( true );
 			else

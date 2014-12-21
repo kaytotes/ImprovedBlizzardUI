@@ -2,6 +2,13 @@ local impBars = CreateFrame( "Frame", "ImprovBars", UIParent );
 
 local hideArt = false;
 
+local petBar = CreateFrame("Frame", nil, PetActionBarFrame);
+petBar:SetFrameStrata("BACKGROUND");
+petBar:SetWidth(330);
+petBar:SetHeight(33);
+--petBar:ClearAllPoints();
+--petBar:SetPoint("CENTER", -415, 0);
+
 local function HideMicroMenu()
 	-- Move Micro Menu
     CharacterMicroButton:SetMovable(true);
@@ -11,16 +18,54 @@ local function HideMicroMenu()
     CharacterMicroButton:SetMovable(false);
 end
 
+local function BuildPetBar()
+	for i = 1, 12 do
+		local button = _G["PetActionButton"..i];--getglobal("PetActionButton"..i);
+		if (button ~= nil) then
+			button:ClearAllPoints();
+			local x = 2 + ((i - 1) * 33);
+			local y = -1;
+			button:SetPoint("BOTTOMLEFT", petBar, "TOPLEFT", x, y);
+		end
+	end
+	local _, _, class = UnitClass("player");
+	local offset = 0;
+
+	if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown())then
+		offset = 0;
+	else
+		offset = 8;
+	end
+
+	-- Death Knight
+	if( class == 6 ) then
+		petBar:ClearAllPoints();
+		petBar:SetPoint("CENTER", -415, offset);
+	else
+		petBar:ClearAllPoints();
+		petBar:SetPoint("CENTER", 50, offset);
+	end
+end
+
 local function SetBars()
+
+	MainMenuBarVehicleLeaveButton:SetMovable(true);
+	MainMenuBarVehicleLeaveButton:ClearAllPoints();
+	MainMenuBarVehicleLeaveButton:SetPoint("TOPLEFT", 0, 0);
+	MainMenuBarVehicleLeaveButton:SetUserPlaced(true);
+	MainMenuBarVehicleLeaveButton:SetMovable(false);
 
 	-- Remove Art
 	MainMenuBarTexture2:SetTexture(nil)
     MainMenuBarTexture3:SetTexture(nil)
     
     -- Move Main Bar
+    MainMenuBar:SetMovable(true);
     MainMenuBar:ClearAllPoints();
     MainMenuBar:SetScale( 1.1 );
     MainMenuBar:SetPoint("BOTTOM", 256, 0)
+    MainMenuBar:SetUserPlaced(true);
+    MainMenuBar:SetMovable(false);
     
     -- Move End Cap
     MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 35, 0)
@@ -30,15 +75,20 @@ local function SetBars()
     end
 
     -- Move Bottom Right Bar
-    MultiBarBottomRight:ClearAllPoints();
-    MultiBarBottomRight:SetPoint("BOTTOM", -254, 100);
+    MultiBarBottomRight:SetMovable(true);
+	MultiBarBottomRight:ClearAllPoints();
+	MultiBarBottomRight:SetPoint("BOTTOM", -254, 100);
+    MultiBarBottomRight:SetUserPlaced(true);
+    MultiBarBottomRight:SetMovable(false);
 
-    -- Move Pet Bar
-    PetActionBarFrame:SetMovable(true);
-    PetActionBarFrame:ClearAllPoints();
-	PetActionBarFrame:SetPoint("BOTTOM", -222, 142);
-	PetActionBarFrame:SetUserPlaced(true);
-	PetActionBarFrame:SetMovable(false);
+    -- Move Bottom Left Bar
+    MultiBarBottomLeft:SetMovable(true);
+	MultiBarBottomLeft:ClearAllPoints();
+	MultiBarBottomLeft:SetPoint("BOTTOM", -254, 55);
+    MultiBarBottomLeft:SetUserPlaced(true);
+    MultiBarBottomLeft:SetMovable(false);
+
+    BuildPetBar();
 
 	-- Remove Pet Bar Textures
 	for i = 0, 1 do
@@ -103,17 +153,24 @@ end
 
 local function Bars_HandleEvents( self, event, ... )
 	if( event == "PLAYER_ENTERING_WORLD" ) then
-		SetBars();
+		if( InCombatLockdown() == false )then
+			--BuildPetBar();
+			SetBars();
+		end
 	end
 
 	if( event == "PLAYER_FLAGS_CHANGED" )then
-		HideMicroMenu();
+		if( InCombatLockdown() == false )then
+			HideMicroMenu();
+		end
 	end
 
 	if( event == "UNIT_EXITED_VEHICLE" )then
 		local unit = ...;
 		if(unit == "player")then
-			HideMicroMenu();
+			if( InCombatLockdown() == false )then
+				HideMicroMenu();
+			end
 		end
 	end
 end
@@ -126,8 +183,10 @@ local function Bars_Init()
 	impBars:RegisterEvent( "PLAYER_TARGET_CHANGED" );
 	impBars:RegisterEvent( "UNIT_EXITED_VEHICLE" );
 	impBars:RegisterEvent("PLAYER_FLAGS_CHANGED");
-
-	SetBars();
+	if( InCombatLockdown() == false )then
+		SetBars();
+		--BuildPetBar();
+	end
 end
 
 
@@ -241,14 +300,35 @@ local function RepWatchBar_Update( newLevel )
 	-- update the xp bar
 	TextStatusBar_UpdateTextString(MainMenuExpBar);
 	ExpBar_Update();
-	
-	if ( visibilityChanged) and ( InCombatLockdown() == false ) then
-		UIParent_ManageFramePositions();
-		UpdateContainerFrameAnchors();
+
+	if( InCombatLockdown() == false )then
+		SetBars();
 	end
 end
 
 local function UpdateRange( self, elapsed )
+	if ( ActionButton_IsFlashing(self) ) then
+		local flashtime = self.flashtime;
+		flashtime = flashtime - elapsed;
+		
+		if ( flashtime <= 0 ) then
+			local overtime = -flashtime;
+			if ( overtime >= ATTACK_BUTTON_FLASH_TIME ) then
+				overtime = 0;
+			end
+			flashtime = ATTACK_BUTTON_FLASH_TIME - overtime;
+
+			local flashTexture = self.Flash;
+			if ( flashTexture:IsShown() ) then
+				flashTexture:Hide();
+			else
+				flashTexture:Show();
+			end
+		end
+		
+		self.flashtime = flashtime;
+	end
+
 	local rangeTimer = self.rangeTimer
 	local icon = self.icon;
 
@@ -270,30 +350,34 @@ local function UpdateRange( self, elapsed )
 	end
 end
 
-local function Pet_UpdatePos()
-	if ( PetActionBarFrame_IsAboveStance(true) ) then
-		PETACTIONBAR_XPOS = 36;
-	elseif ( MainMenuBarVehicleLeaveButton and MainMenuBarVehicleLeaveButton:IsShown() ) then
-		PETACTIONBAR_XPOS = MainMenuBarVehicleLeaveButton:GetRight() + 20;
-	elseif ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
-		PETACTIONBAR_XPOS = 100;
-	elseif ( MultiCastActionBarFrame and HasMultiCastActionBar() ) then
-		PETACTIONBAR_XPOS = 500;
-	else
-		PETACTIONBAR_XPOS = 36;
-	end
-end
-
 local function MoveMicro(anchor, anchorTo, relAnchor, x, y, isStacked)
 	HideMicroMenu();
 	UpdateMicroButtons();
 end
 
+function VehicleLeaveButton_Update()
+	if ( CanExitVehicle() and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN ) then
+		MainMenuBarVehicleLeaveButton:ClearAllPoints();
+		MainMenuBarVehicleLeaveButton:SetPoint("CENTER", -600, 25)
+
+		MainMenuBarVehicleLeaveButton:Show();
+		ShowPetActionBar(true);
+	else
+		MainMenuBarVehicleLeaveButton:Hide();
+		ShowPetActionBar(true);
+	end
+
+	--TESTING
+	--if( InCombatLockdown() == false )then
+		--UIParent_ManageFramePositions();
+	--end
+end
+
 do
+	hooksecurefunc( "MainMenuBarVehicleLeaveButton_Update", VehicleLeaveButton_Update)
 	hooksecurefunc( "MoveMicroButtons", MoveMicro );
 	hooksecurefunc( "ActionButton_OnUpdate", UpdateRange );
 	hooksecurefunc( "ReputationWatchBar_Update", RepWatchBar_Update );
-	hooksecurefunc( "PetActionBar_UpdatePositionValues", Pet_UpdatePos)
 end
 
 -- Initalise
