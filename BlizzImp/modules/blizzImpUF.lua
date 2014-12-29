@@ -67,6 +67,13 @@ local function SetUnitFrames()
 	FocusFrame:SetUserPlaced( true );
 	FocusFrame:SetMovable( false );
 
+	for i=1, 5 do
+        _G["ArenaPrepFrame"..i]:SetScale(1.5);      
+	end
+	ArenaEnemyFrames:SetScale(1.5);
+end
+
+local function MoveCastBar()
 	-- Move Cast Bar
 	CastingBarFrame:SetMovable(true);
 	CastingBarFrame:ClearAllPoints();
@@ -74,11 +81,6 @@ local function SetUnitFrames()
 	CastingBarFrame:SetPoint("CENTER", 0, -175);
 	CastingBarFrame:SetUserPlaced(true);
 	CastingBarFrame:SetMovable( false );
-
-	for i=1, 5 do
-        _G["ArenaPrepFrame"..i]:SetScale(1.5);      
-	end
-	ArenaEnemyFrames:SetScale(1.5);
 end
 
 -- Handle Raid Stuff Seperately
@@ -136,6 +138,7 @@ local function UF_HandleEvents( self, event, ... )
 	if( event == "PLAYER_ENTERING_WORLD" ) then
 		if( InCombatLockdown() == false ) then
 			SetUnitFrames();
+			MoveCastBar();
 			startTimer = true;
 		end
 	end

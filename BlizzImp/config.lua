@@ -18,6 +18,8 @@ local function OkayButton()
 	bKillingBlow = config.panel.killChkBtn:GetChecked();
 	bAFKMode = config.panel.afkChkBtn:GetChecked();
 	bClassColours = config.panel.colourChkBtn:GetChecked();
+	bShowBarArt = config.panel.artChkBtn:GetChecked();
+	bGuildRepair = config.panel.gbankChkBtn:GetChecked();
 
 	ReloadUI();
 end
@@ -33,6 +35,8 @@ local function CancelButton()
 	config.panel.killChkBtn:SetChecked( bKillingBlow );
 	config.panel.afkChkBtn:SetChecked( bAFKMode );
 	config.panel.colourChkBtn:SetChecked( bClassColours );
+	config.panel.artChkBtn:SetChecked( bShowBarArt );
+	config.panel.gbankChkBtn:SetChecked( bGuildRepair );
 end
 
 local function DefaultButton()
@@ -45,6 +49,8 @@ local function DefaultButton()
 	config.panel.killChkBtn:SetChecked( true );
 	config.panel.afkChkBtn:SetChecked( true );
 	config.panel.colourChkBtn:SetChecked( true );
+	config.panel.artChkBtn:SetChecked( true );
+	config.panel.gbankChkBtn:SetChecked( false );
 end
 
 local function LoadOptions()
@@ -77,6 +83,12 @@ local function LoadOptions()
 	end
 	if( bClassColours ~= nil)then
 		config.panel.colourChkBtn:SetChecked( bClassColours );
+	end
+	if( bShowBarArt ~= nil)then
+		config.panel.artChkBtn:SetChecked( bShowBarArt );
+	end
+	if( bShowBarArt ~= nil)then
+		config.panel.gbankChkBtn:SetChecked( bGuildRepair );
 	end
 end
 
@@ -112,6 +124,12 @@ local function Config_HandleEvents( self, event, ...)
 		end
 		if( bClassColours == nil)then
 			bClassColours = true;
+		end
+		if( bShowBarArt == nil)then
+			bShowBarArt = true;
+		end
+		if( bGuildRepair == nil)then
+			bGuildRepair = false;
 		end
 
 		LoadOptions();
@@ -186,17 +204,25 @@ local function CreateLayout()
 	_G[config.panel.repairChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
 	_G[config.panel.repairChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - Auto Repair");
 
+	-- Guild Bank Repair Toggle
+	config.panel.gbankChkBtn = CreateFrame("CheckButton", "GuildBankCheckButton", config.panel, "UICheckButtonTemplate");
+	config.panel.gbankChkBtn:ClearAllPoints();
+	config.panel.gbankChkBtn:SetPoint("TOPLEFT", 5, -280);
+	_G[config.panel.gbankChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
+	_G[config.panel.gbankChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - Use Guild Bank For Repairs");
+
+
 	-- Auto Sell Greys Check Box
 	config.panel.sellChkBtn = CreateFrame("CheckButton", "SellCheckButton", config.panel, "UICheckButtonTemplate");
 	config.panel.sellChkBtn:ClearAllPoints();
-	config.panel.sellChkBtn:SetPoint("TOPLEFT", 5, -280);
+	config.panel.sellChkBtn:SetPoint("TOPLEFT", 5, -310);
 	_G[config.panel.sellChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
 	_G[config.panel.sellChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - Auto Sell Trash");
 
 	-- Auto Sell Greys Check Box
 	config.panel.afkChkBtn = CreateFrame("CheckButton", "AFKCheckButton", config.panel, "UICheckButtonTemplate");
 	config.panel.afkChkBtn:ClearAllPoints();
-	config.panel.afkChkBtn:SetPoint("TOPLEFT", 5, -310);
+	config.panel.afkChkBtn:SetPoint("TOPLEFT", 5, -340);
 	_G[config.panel.afkChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
 	_G[config.panel.afkChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - AFK Mode");
 
@@ -205,7 +231,7 @@ local function CreateLayout()
 	-- UI Header
 	config.panel.uiHeader = config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 	config.panel.uiHeader:SetFont(configFont, headerFontSize, "OUTLINE");
-	config.panel.uiHeader:SetPoint("TOPLEFT", 5, -360);
+	config.panel.uiHeader:SetPoint("TOPLEFT", 5, -390);
 	config.panel.uiHeader:SetText("|cffffff00 - User Interface -");
 
 	-- UI Check Boxes Start ==============
@@ -213,16 +239,24 @@ local function CreateLayout()
 	-- Display Net / FPS Stats Check Box
 	config.panel.statsChkBtn = CreateFrame("CheckButton", "StatsCheckButton", config.panel, "UICheckButtonTemplate");
 	config.panel.statsChkBtn:ClearAllPoints();
-	config.panel.statsChkBtn:SetPoint("TOPLEFT", 5, -380 );
+	config.panel.statsChkBtn:SetPoint("TOPLEFT", 5, -410 );
 	_G[config.panel.statsChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
 	_G[config.panel.statsChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - Display System Stats");
 
 	-- Display Co-Ordinates Check Box
 	config.panel.coordsChkBtn = CreateFrame("CheckButton", "CoordsCheckButton", config.panel, "UICheckButtonTemplate");
 	config.panel.coordsChkBtn:ClearAllPoints();
-	config.panel.coordsChkBtn:SetPoint("TOPLEFT", 5, -410 );
+	config.panel.coordsChkBtn:SetPoint("TOPLEFT", 5, -440 );
 	_G[config.panel.coordsChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
 	_G[config.panel.coordsChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - Display Player Co-Ordinates");
+
+	-- Display Co-Ordinates Check Box
+	config.panel.artChkBtn = CreateFrame("CheckButton", "ArtCheckButton", config.panel, "UICheckButtonTemplate");
+	config.panel.artChkBtn:ClearAllPoints();
+	config.panel.artChkBtn:SetPoint("TOPLEFT", 5, -470 );
+	_G[config.panel.artChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
+	_G[config.panel.artChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - Display ActionBar Art (Gryphons)");
+
 
 	-- UI Check Boxes End ==============
 end

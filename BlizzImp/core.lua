@@ -1,4 +1,4 @@
-local ADDON_VERSION = "017";
+local ADDON_VERSION = "017b";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
@@ -266,10 +266,23 @@ local function Core_HandleEvents( self, event, unit )
 	-- Auto Repair
 	if( event == "MERCHANT_SHOW" and CanMerchantRepair() == true and bAutoRepair == true) then
 		local repCost, bRepair = GetRepairAllCost();
-		if(bRepair == true) and (repCost <= GetMoney()) then
-			RepairAllItems(true);
-			RepairAllItems(false);
-			print("|cffffff00Items Repaired: " ..GetCoinTextureString( repCost ));
+		
+		if( bGuildRepair == true )then
+			if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost) then
+				RepairAllItems( true );
+				print("|cffffff00Items Repaired from Guild Bank: " ..GetCoinTextureString( repCost ));
+			else
+				print("|cffffff00Can not Repair from Guild Bank");
+				if( repCost <= GetMoney() )then
+					RepairAllItems( false );
+					print("|cffffff00Items Repaired from Own Money: " ..GetCoinTextureString( repCost ));
+				end
+			end
+		else
+			if( repCost <= GetMoney() )then
+				RepairAllItems( false );
+				print("|cffffff00Items Repaired from Own Money: " ..GetCoinTextureString( repCost ));
+			end
 		end
 	end
 

@@ -1,7 +1,5 @@
 local impBars = CreateFrame( "Frame", "ImprovBars", UIParent );
 
-local hideArt = false;
-
 local petBar = CreateFrame("Frame", nil, PetActionBarFrame);
 petBar:SetFrameStrata("BACKGROUND");
 petBar:SetWidth(330);
@@ -69,7 +67,7 @@ local function SetBars()
     
     -- Move End Cap
     MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 35, 0)
-    if( hideArt )then
+    if( bShowBarArt == false)then
     	MainMenuBarRightEndCap:SetTexture(nil);
 		MainMenuBarLeftEndCap:SetTexture(nil);
     end
