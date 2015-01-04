@@ -1,3 +1,5 @@
+local _, imp = ...;
+
 local impPvP = CreateFrame( "Frame", "ImprovPVP", UIParent );
 
 local storedHealth; -- Players Health
@@ -9,11 +11,11 @@ local message = CreateFrame( "MessageFrame", "BlizzImpMessageFrame", UIParent );
 local eventDelay = 3;
 local storedTime;
 local messageHeight = 29;
-local messageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
+local messageFont = "Interface\\AddOns\\BlizzImp\\media\\impfont.ttf";
 
 local recentKills = { " ", " ", " ", " ", " " }
 local killsFrame;
-local killFont = "Fonts\\FRIZQT__.TTF";
+local killFont = "Interface\\AddOns\\BlizzImp\\media\\impfont.ttf";
 
 local function ClearKills()
 	for i = 1, #recentKills do
@@ -27,7 +29,7 @@ local function PVP_HandleEvents( self, event, unit )
 		player = UnitGUID( "player" );
 		local _, instanceType = IsInInstance();
 		-- Hide Objective Tracker When Entering PvP Instance
-		if( instanceType == "pvp" or "arena" ) then
+		if( instanceType == "pvp" or instanceType == "arena" ) then
 			if( not ObjectiveTrackerFrame.collapsed ) then
 				ObjectiveTracker_Collapse();
 			end
@@ -108,7 +110,7 @@ local function BuildMessage(sourceGUID, sourceName, destGUID, destName )
 		end
 	end
 
-	return format("%s killed %s", killerString, killedString);
+	return format("%s%s%s", killerString, killedString, imp[" killed "]);
 end
 
 local function InitMessage()
@@ -122,7 +124,7 @@ local function InitMessage()
 	message:SetFrameStrata( "HIGH" );
 	message:SetTimeVisible( 3 );
 	message:SetFadeDuration( 1 );
-	message:SetFont( messageFont, 28 );
+	message:SetFont( messageFont, 26, "OUTLINE" );
 
 	-- Create Tracker Frame and Listen for Kills
 	killTracker = CreateFrame( "Frame" );
@@ -157,7 +159,7 @@ local function InitMessage()
 		if( instanceType == "pvp" or instanceType == "arena" or (instanceType == "none" and GetZonePVPInfo() == "combat") )then
 			if( event == "PARTY_KILL")then
 				if( sourceGUID == player ) then
-					message:AddMessage( "Killing Blow!", 1, 1, 0, 53, 3);
+					message:AddMessage( imp["Killing Blow!"], 1, 1, 0, 53, 3);
 				end
 			end
 		end
@@ -173,11 +175,11 @@ local function PVP_Update()
 			return;
 		elseif ( healthPerc > 0.25 ) then
 			if( storedHealth == 0 ) then
-				message:AddMessage( "HP < 50%  !", 0, 1, 1, 53, 3 );
+				message:AddMessage( imp["HP < 50% !"], 0, 1, 1, 53, 3 );
 			end
 			return;
 		elseif ( storedHealth ~= 2 ) then
-			message:AddMessage( "HP < 25%  !!!", 1, 0, 0, 53, 3 );
+			message:AddMessage( imp["HP < 25% !!!"], 1, 0, 0, 53, 3 );
 		end
 	end
 	storedHealth = 2;

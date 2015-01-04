@@ -1,5 +1,7 @@
 local impBars = CreateFrame( "Frame", "ImprovBars", UIParent );
 
+local barScale = 1.1;
+
 local petBar = CreateFrame("Frame", nil, PetActionBarFrame);
 petBar:SetFrameStrata("BACKGROUND");
 petBar:SetWidth(330);
@@ -60,7 +62,7 @@ local function SetBars()
     -- Move Main Bar
     MainMenuBar:SetMovable(true);
     MainMenuBar:ClearAllPoints();
-    MainMenuBar:SetScale( 1.1 );
+    MainMenuBar:SetScale( barScale );
     MainMenuBar:SetPoint("BOTTOM", 256, 0)
     MainMenuBar:SetUserPlaced(true);
     MainMenuBar:SetMovable(false);
@@ -173,6 +175,7 @@ local function Bars_HandleEvents( self, event, ... )
 	end
 end
 
+
 local function Bars_Init()
 	impBars:SetScript( "OnEvent", Bars_HandleEvents );
 
@@ -186,8 +189,6 @@ local function Bars_Init()
 		--BuildPetBar();
 	end
 end
-
-
 
 -- Nigh identical replacement for ReputationWatchBar_Update
 -- Orig Func exists in Blizz ReputationFrame.lua
@@ -353,7 +354,7 @@ local function MoveMicro(anchor, anchorTo, relAnchor, x, y, isStacked)
 	UpdateMicroButtons();
 end
 
-function VehicleLeaveButton_Update()
+local function VehicleLeaveButton_Update()
 	if ( CanExitVehicle() and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN ) then
 		MainMenuBarVehicleLeaveButton:ClearAllPoints();
 		MainMenuBarVehicleLeaveButton:SetPoint("CENTER", -600, 25)
@@ -364,14 +365,45 @@ function VehicleLeaveButton_Update()
 		MainMenuBarVehicleLeaveButton:Hide();
 		ShowPetActionBar(true);
 	end
+end
 
-	--TESTING
-	--if( InCombatLockdown() == false )then
-		--UIParent_ManageFramePositions();
-	--end
+-- Fixes the Blizzard Bug related to World Map Breaking Cooldown Display
+-- Force Cooldown Update
+local function FixCooldowns()
+
+	-- Action Bar 1
+	for i = 1, 12 do
+		local button = _G["ActionButton"..i];
+		ActionButton_UpdateCooldown( button );
+	end
+
+	-- Action Bar 2
+	for i = 1, 12 do
+		local button = _G["MultiBarBottomLeftButton"..i];
+		ActionButton_UpdateCooldown( button );
+	end
+
+	-- Action Bar 3
+	for i = 1, 12 do
+		local button = _G["MultiBarBottomRightButton"..i];
+		ActionButton_UpdateCooldown( button );
+	end
+
+	-- Action Bar 4
+	for i = 1, 12 do
+		local button = _G["MultiBarLeftButton"..i];
+		ActionButton_UpdateCooldown( button );
+	end
+
+	-- Action Bar 5
+	for i = 1, 12 do
+		local button = _G["MultiBarRightButton"..i];
+		ActionButton_UpdateCooldown( button );
+	end		
 end
 
 do
+	hooksecurefunc(WorldMapFrame, "Hide", FixCooldowns);
 	hooksecurefunc( "MainMenuBarVehicleLeaveButton_Update", VehicleLeaveButton_Update)
 	hooksecurefunc( "MoveMicroButtons", MoveMicro );
 	hooksecurefunc( "ActionButton_OnUpdate", UpdateRange );

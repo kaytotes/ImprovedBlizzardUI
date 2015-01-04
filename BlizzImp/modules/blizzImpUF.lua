@@ -27,6 +27,9 @@ local focFrameX = 300;
 local focFrameY = -200;
 local focFrameScale = 1.25;
 
+local bossFrameScale = 1.1;
+local bossFrameSpacing = 15;
+
 -- Timer
 local timer = CreateFrame("Frame");
 local time = 0;
@@ -66,6 +69,18 @@ local function SetUnitFrames()
 	FocusFrame:SetPoint( "TOPLEFT", focFrameX, focFrameY );
 	FocusFrame:SetUserPlaced( true );
 	FocusFrame:SetMovable( false );
+
+	-- Tweak Boss Frames
+	for i = 1, 5 do -- Position
+    	local bossFrame = _G["Boss"..i.."TargetFrame"]
+    	bossFrame:SetParent( UIParent );
+   		bossFrame:SetScale( bossFrameScale );
+   		--_G["Boss"..i.."TargetFrameCastingBar"]:Show()
+	end
+
+	for i = 2, 5 do -- Spacing
+    	_G["Boss"..i.."TargetFrame"]:SetPoint("TOPLEFT", _G["Boss"..(i-1).."TargetFrame"], "BOTTOMLEFT", 0, bossFrameSpacing)
+	end	
 
 	for i=1, 5 do
         _G["ArenaPrepFrame"..i]:SetScale(1.5);      
@@ -211,7 +226,6 @@ local function Delay(self, elapsed)
 	end
 end
 timer:SetScript("OnUpdate", Delay );
-
 
 local function UF_Init()
 	impUF:SetScript( "OnEvent", UF_HandleEvents );

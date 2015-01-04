@@ -1,7 +1,13 @@
-local ADDON_VERSION = "017b";
+local _, imp = ...;
+
+local ADDON_VERSION = "018";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
+local fontArial = "Interface\\AddOns\\BlizzImp\\media\\impfont_arial.ttf"
+local menuFont = CreateFont("ImpMenuFont")
+menuFont:SetFontObject(GameFontNormal);
+menuFont:SetFont(fontArial, 12, nil );
 
 local bagsHidden = true; -- Bags Toggle 
 
@@ -68,18 +74,18 @@ local function ShowBagBar()
 end
 
 local microMenuList = {
-	{text = "|cffFFFFFFCharacter", func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' },
-	{text = "|cffFFFFFFSpellbook", func = function() ToggleSpellBook( "spell" ) end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
-	{text = "|cffFFFFFFTalents", func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' },
-	{text = "|cffFFFFFFAchievements", func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', },
-	{text = "|cffFFFFFFQuest Log", func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
-	{text = "|cffFFFFFFGuild", func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
-	{text = "|cffFFFFFFGroup Finder", func = function() ToggleFrame( PVEFrame ) end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
-	{text = "|cffFFFFFFCollections", func = function() TogglePetJournal() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
-	{text = "|cffFFFFFFDungeon Journal", func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
-	{text = "|cffFFFFFFSwap Bags", func = function() ShowBagBar() end, notCheckable = true, fontObject = GameFontNormal, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
-	{text = "|cffffff00Log Out", func = function() Logout() end, notCheckable = true, fontObject = GameFontNormal },
-	{text = "|cffFE2E2EForce Exit", func = function() ForceQuit() end, notCheckable = true, fontObject = GameFontNormal },
+	{text = "|cffFFFFFF"..imp["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' },
+	{text = "|cffFFFFFF"..imp["Spellbook"], func = function() ToggleSpellBook( "spell" ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
+	{text = "|cffFFFFFF"..imp["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' },
+	{text = "|cffFFFFFF"..imp["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', },
+	{text = "|cffFFFFFF"..imp["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
+	{text = "|cffFFFFFF"..imp["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
+	{text = "|cffFFFFFF"..imp["Group Finder"], func = function() ToggleFrame( PVEFrame ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
+	{text = "|cffFFFFFF"..imp["Collections"], func = function() TogglePetJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
+	{text = "|cffFFFFFF"..imp["Dungeon Journal"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
+	{text = "|cffFFFFFF"..imp["Swap Bags"], func = function() ShowBagBar() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
+	{text = "|cffffff00"..imp["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = menuFont },
+	{text = "|cffFE2E2E"..imp["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = menuFont },
 }
 
 function HandleSlashCommands( command )
@@ -270,18 +276,18 @@ local function Core_HandleEvents( self, event, unit )
 		if( bGuildRepair == true )then
 			if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost) then
 				RepairAllItems( true );
-				print("|cffffff00Items Repaired from Guild Bank: " ..GetCoinTextureString( repCost ));
+				print("|cffffff00"..imp["Items Repaired from Guild Bank"]..": " ..GetCoinTextureString( repCost ));
 			else
-				print("|cffffff00Can not Repair from Guild Bank");
+				print("|cffffff00"..imp["Can not Repair from Guild Bank"]);
 				if( repCost <= GetMoney() )then
 					RepairAllItems( false );
-					print("|cffffff00Items Repaired from Own Money: " ..GetCoinTextureString( repCost ));
+					print("|cffffff00"..imp["Items Repaired from Own Money"]..": " ..GetCoinTextureString( repCost ));
 				end
 			end
 		else
 			if( repCost <= GetMoney() )then
 				RepairAllItems( false );
-				print("|cffffff00Items Repaired from Own Money: " ..GetCoinTextureString( repCost ));
+				print("|cffffff00"..imp["Items Repaired from Own Money"]..": " ..GetCoinTextureString( repCost ));
 			end
 		end
 	end
@@ -304,7 +310,7 @@ local function Core_HandleEvents( self, event, unit )
 		end
 
 		if( moneyEarned ~= 0 ) then
-			print("|cffffff00Sold Trash Items: " .. GetCoinTextureString( moneyEarned ) );
+			print("|cffffff00"..imp["Sold Trash Items"]..": " .. GetCoinTextureString( moneyEarned ) );
 		end
 	end	
 

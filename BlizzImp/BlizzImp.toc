@@ -1,9 +1,12 @@
 ## Interface: 60000
 ## Title: Improved Blizzard
 ## Notes: General Improvements to the Default Blizzard UI
-## Version: 0.17
+## Version: 0.18
 ## Author: Kaytotes
 ## SavedVariables: bClassIcon, bAutoRepair, bAutoSell, bHealthWarning, bShowStats, bShowCoords, bKillTracker, bKillingBlow, bAFKMode, bClassColours, bShowBarArt, bGuildRepair
+
+loc.lua
+loc\ruRU.lua
 
 config.lua
 core.lua
