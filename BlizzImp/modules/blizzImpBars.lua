@@ -170,6 +170,7 @@ local function Bars_HandleEvents( self, event, ... )
 		if(unit == "player")then
 			if( InCombatLockdown() == false )then
 				HideMicroMenu();
+				SetBars();
 			end
 		end
 	end

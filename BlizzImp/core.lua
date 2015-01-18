@@ -1,6 +1,6 @@
 local _, imp = ...;
 
-local ADDON_VERSION = "018";
+local ADDON_VERSION = "018b";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
@@ -10,6 +10,17 @@ menuFont:SetFontObject(GameFontNormal);
 menuFont:SetFont(fontArial, 12, nil );
 
 local bagsHidden = true; -- Bags Toggle 
+
+-- Buff Local Func
+local locBuffPoint = BuffFrame.SetPoint;
+local locBuffScale = BuffFrame.SetScale;
+local buffPosX = -175;
+local buffPosY = -11;
+local buffScale = 1.4;
+
+-- Consolidated Buffs
+local locConBuffPoint = ConsolidatedBuffs.SetPoint;
+local locConBuffScale = ConsolidatedBuffs.SetScale;
 
 -- Stats Frame
 local statsFont = "Fonts\\FRIZQT__.TTF";
@@ -75,7 +86,7 @@ end
 
 local microMenuList = {
 	{text = "|cffFFFFFF"..imp["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' },
-	{text = "|cffFFFFFF"..imp["Spellbook"], func = function() ToggleSpellBook( "spell" ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
+	{text = "|cffFFFFFF"..imp["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
 	{text = "|cffFFFFFF"..imp["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' },
 	{text = "|cffFFFFFF"..imp["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', },
 	{text = "|cffFFFFFF"..imp["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
@@ -206,8 +217,12 @@ end
 
 local function ModifyBuffs()
 	BuffFrame:ClearAllPoints();
-	BuffFrame:SetScale( 1.4 );
-	BuffFrame:SetPoint( "TOPRIGHT", -175, -13 );
+	locBuffPoint(BuffFrame, "TOPRIGHT", buffPosX, buffPosY );
+	locBuffScale(BuffFrame, buffScale );
+
+	ConsolidatedBuffs:ClearAllPoints();
+	locConBuffPoint( ConsolidatedBuffs, "TOPRIGHT", buffPosX, buffPosY );
+	locConBuffScale( ConsolidatedBuffs, buffScale);
 end
 
 -- Tweak Minimap and World Map
@@ -401,6 +416,25 @@ do
             end             
         end)
     end
+end
+
+do
+	-- Secure Hooks for Buffs
+	hooksecurefunc( BuffFrame, "SetPoint", function(frame)
+		frame:ClearAllPoints();
+		locBuffPoint(BuffFrame, "TOPRIGHT", buffPosX, buffPosY);
+	end)
+	hooksecurefunc( BuffFrame, "SetScale", function(frame)
+		locBuffScale( buffScale );
+	end)
+	-- Consolidated Buffs
+	hooksecurefunc( ConsolidatedBuffs, "SetPoint", function(frame)
+		frame:ClearAllPoints();
+		locConBuffPoint( ConsolidatedBuffs, "TOPRIGHT", buffPosX, buffPosY );
+	end)
+	hooksecurefunc( ConsolidatedBuffs, "SetScale", function(frame)
+		locConBuffScale( buffScale );
+	end)
 end
 
 Core_Init();

@@ -27,8 +27,22 @@ local focFrameX = 300;
 local focFrameY = -200;
 local focFrameScale = 1.25;
 
-local bossFrameScale = 1.1;
+-- Boss Frame
+local bossFrameScale = 0.95;
 local bossFrameSpacing = 15;
+
+-- Cast Bar
+local castBarX = 0;
+local castBarY = -175;
+local castBarScale = 1.1;
+
+-- Raid Frames
+local raidFrameOffsetY = -300;
+
+-- Class Icon
+local classIconSize = 40;
+local classIconPosX = 110;
+local classIconPosY = 40;
 
 -- Timer
 local timer = CreateFrame("Frame");
@@ -75,6 +89,8 @@ local function SetUnitFrames()
     	local bossFrame = _G["Boss"..i.."TargetFrame"]
     	bossFrame:SetParent( UIParent );
    		bossFrame:SetScale( bossFrameScale );
+   		bossFrame:SetFrameStrata("BACKGROUND");
+   		--bossFrame:Show();
    		--_G["Boss"..i.."TargetFrameCastingBar"]:Show()
 	end
 
@@ -92,8 +108,8 @@ local function MoveCastBar()
 	-- Move Cast Bar
 	CastingBarFrame:SetMovable(true);
 	CastingBarFrame:ClearAllPoints();
-	CastingBarFrame:SetScale( 1.1 );
-	CastingBarFrame:SetPoint("CENTER", 0, -175);
+	CastingBarFrame:SetScale( castBarScale );
+	CastingBarFrame:SetPoint("CENTER", castBarX, castBarY);
 	CastingBarFrame:SetUserPlaced(true);
 	CastingBarFrame:SetMovable( false );
 end
@@ -105,7 +121,7 @@ local function SetRaidFrames()
 		if( InCombatLockdown() == false )then
 			if CompactRaidFrameManager:IsVisible() then  
 				local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
-				CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+				CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, raidFrameOffsetY)
 			end
 		end
 
@@ -113,7 +129,7 @@ local function SetRaidFrames()
 			if( InCombatLockdown() == false )then
 				if CompactRaidFrameManager:IsVisible() then  
 				    local point, relativeTo, relativePoint, xOfs, yOfs = CompactRaidFrameManager:GetPoint()
-				    CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, -300)
+				    CompactRaidFrameManager:SetPoint(point, relativeTo, relativePoint, xOfs, raidFrameOffsetY)
 				end
 			end
 		end);
@@ -121,7 +137,6 @@ local function SetRaidFrames()
 end
 
 local function UpdateClassIcon(class)
-
 	if class == "WARRIOR" then
 		classIcon:SetTexCoord( 0, .25, 0, .25 );
 	elseif class == "MAGE" then
@@ -145,7 +160,6 @@ local function UpdateClassIcon(class)
 	elseif class == "WARLOCK" then
 		classIcon:SetTexCoord( .75, .98, .25, .5 );
 	end
-
 end
 
 local function UF_HandleEvents( self, event, ... )
@@ -162,15 +176,15 @@ local function UF_HandleEvents( self, event, ... )
 				-- Create Frames
 		if( bClassIcon == true ) then
 			classFrame = CreateFrame("Frame", "ClassFrame", TargetFrame );
-			classFrame:SetPoint( "CENTER", 110, 40);
-			classFrame:SetSize( 40, 40 );
+			classFrame:SetPoint( "CENTER", classIconPosX, classIconPosY);
+			classFrame:SetSize( classIconSize, classIconSize );
 			classIcon = classFrame:CreateTexture( "ClassIcon" );
 			classIcon:SetPoint( "CENTER" );
-			classIcon:SetSize( 40, 40 );
+			classIcon:SetSize( classIconSize, classIconSize );
 			classIcon:SetTexture( "Interface\\TARGETINGFRAME\\UI-CLASSES-CIRCLES.BLP" );
 			classIconBorder = classFrame:CreateTexture( "ClassIconBorder", "ARTWORK", nil, 1 );
 			classIconBorder:SetPoint( "CENTER" , classIcon );
-			classIconBorder:SetSize( 80, 80 );
+			classIconBorder:SetSize( classIconSize * 2, classIconSize * 2 );
 			classIconBorder:SetTexture( "Interface\\UNITPOWERBARALT\\WowUI_Circular_Frame.blp" );
 		end
 	end
@@ -200,6 +214,8 @@ local function UF_HandleEvents( self, event, ... )
 	        end
     	end
 	end
+
+	-- Update Class Colours
 	if( event == "UNIT_FACTION" or event == "GROUP_ROSTER_UPDATE" or event == "PLAYER_FOCUS_CHANGED" or event == "UNIT_FACTION")then
 		if( bClassColours == true )then
 			if UnitIsPlayer("target") then
