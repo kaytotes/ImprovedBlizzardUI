@@ -15,6 +15,7 @@ if( GetLocale() == "ruRU" )then
 	imp["Collections"] = "Коллекции";
 	imp["Dungeon Journal"] = "Атлас подземелий";
 	imp["Swap Bags"] = "Переместить сумки";
+	imp["BlizzImp Options"] = "BlizzImp oпции"
 	imp["Log Out"] = "Выход из мира";
 	imp["Force Exit"] = "Выход из игры";
 

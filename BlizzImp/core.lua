@@ -1,6 +1,6 @@
 local _, imp = ...;
 
-local ADDON_VERSION = "018b";
+local ADDON_VERSION = "019";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
@@ -95,7 +95,8 @@ local microMenuList = {
 	{text = "|cffFFFFFF"..imp["Collections"], func = function() TogglePetJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
 	{text = "|cffFFFFFF"..imp["Dungeon Journal"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
 	{text = "|cffFFFFFF"..imp["Swap Bags"], func = function() ShowBagBar() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
-	{text = "|cffffff00"..imp["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = menuFont },
+	{text = "|cff00FFFF"..imp["BlizzImp Options"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = menuFont },
+	{text = "|cffFFFF00"..imp["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = menuFont },
 	{text = "|cffFE2E2E"..imp["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = menuFont },
 }
 
@@ -435,6 +436,76 @@ do
 	hooksecurefunc( ConsolidatedBuffs, "SetScale", function(frame)
 		locConBuffScale( buffScale );
 	end)
+end
+
+-- CREDIT - !BlizzBugsSuck
+-- Fix InterfaceOptionsFrame_OpenToCategory not actually opening the category (and not even scrolling to it)
+-- Confirmed still broken in 6.0.3.19243
+do
+	local function get_panel_name(panel)
+		local tp = type(panel)
+		local cat = INTERFACEOPTIONS_ADDONCATEGORIES
+		if tp == "string" then
+			for i = 1, #cat do
+				local p = cat[i]
+				if p.name == panel then
+					if p.parent then
+						return get_panel_name(p.parent)
+					else
+						return panel
+					end
+				end
+			end
+		elseif tp == "table" then
+			for i = 1, #cat do
+				local p = cat[i]
+				if p == panel then
+					if p.parent then
+						return get_panel_name(p.parent)
+					else
+						return panel.name
+					end
+				end
+			end
+		end
+	end
+
+	local function InterfaceOptionsFrame_OpenToCategory_Fix(panel)
+		if doNotRun or InCombatLockdown() then return end
+		local panelName = get_panel_name(panel)
+		if not panelName then return end -- if its not part of our list return early
+		local noncollapsedHeaders = {}
+		local shownpanels = 0
+		local mypanel
+		local t = {}
+		local cat = INTERFACEOPTIONS_ADDONCATEGORIES
+		for i = 1, #cat do
+			local panel = cat[i]
+			if not panel.parent or noncollapsedHeaders[panel.parent] then
+				if panel.name == panelName then
+					panel.collapsed = true
+					t.element = panel
+					InterfaceOptionsListButton_ToggleSubCategories(t)
+					noncollapsedHeaders[panel.name] = true
+					mypanel = shownpanels + 1
+				end
+				if not panel.collapsed then
+					noncollapsedHeaders[panel.name] = true
+				end
+				shownpanels = shownpanels + 1
+			end
+		end
+		local Smin, Smax = InterfaceOptionsFrameAddOnsListScrollBar:GetMinMaxValues()
+		if shownpanels > 15 and Smin < Smax then
+			local val = (Smax/(shownpanels-15))*(mypanel-2)
+			InterfaceOptionsFrameAddOnsListScrollBar:SetValue(val)
+		end
+		doNotRun = true
+		InterfaceOptionsFrame_OpenToCategory(panel)
+		doNotRun = false
+	end
+
+	hooksecurefunc("InterfaceOptionsFrame_OpenToCategory", InterfaceOptionsFrame_OpenToCategory_Fix)
 end
 
 Core_Init();
