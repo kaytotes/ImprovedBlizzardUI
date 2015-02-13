@@ -37,8 +37,7 @@ local function BuildPetBar()
 		offset = 8;
 	end
 
-	-- Death Knight
-	if( class == 6 ) then
+	if ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
 		petBar:ClearAllPoints();
 		petBar:SetPoint("CENTER", -415, offset);
 	else

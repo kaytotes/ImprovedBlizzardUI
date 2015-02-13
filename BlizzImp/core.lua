@@ -1,6 +1,6 @@
 local _, imp = ...;
 
-local ADDON_VERSION = "019";
+local ADDON_VERSION = "019a";
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
 local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
