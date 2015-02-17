@@ -1,45 +1,45 @@
--- Localization Needed
+-- Micro Menu
+imp["Character"] = "";
+imp["Spellbook"] = "";
+imp["Talents"] = "";
+imp["Achievements"] = "";
+imp["Quest Log"] = "";
+imp["Guild"] = "";
+imp["Group Finder"] = "";
+imp["Collections"] = "";
+imp["Dungeon Journal"] = "";
+imp["Swap Bags"] = "";
+imp["BlizzImp Options"] = ""
+imp["Log Out"] = "";
+imp["Force Exit"] = "";
 
-local ENG_MM_LIST = {
-	"Character",
-	"Spellbook",
-	"Talents",
-	"Achievements",
-	"Quest Log",
-	"Guild",
-	"Group Finder",
-	"Collections",
-	"Dungeon Journal",
-	"Swap Bags",
-	"Log Out",
-	"Force Exit"
-}
+-- Merchant
+imp["Items Repaired from Guild Bank"] = "";
+imp["Can not Repair from Guild Bank"] = "";
+imp["Items Repaired from Own Money"] = "";
+imp["Sold Trash Items"] = "";
 
-local ENG_ITEMS_REPAIRED_GUILD = "Items Repaired from Guild Bank"
-local ENG_ITEMS_REPAIRED_FAIL = "Can not Repair from Guild Bank"
-local ENG_ITEMS_REPAIRED_LOCAL = "Items Repaired from Own Money"
+-- Combat
+imp[" killed "] = "";
+imp["Killing Blow!"] = "";
+imp["HP < 50% !"] = "";
+imp["HP < 25% !!!"] = "";
 
-local ENG_ITEMS_SOLD = "Sold Trash Items"
+-- Config Headers
+imp["Combat"] = "";
+imp["Miscellaneous"] = "";
+imp["User Interface"] = "";
 
-local ENG_MESSAGE_PLAYER_KILLED = " killed " -- EG. Player1 killed Player2
-local ENG_MESSAGE_KILLING_BLOW = "Killing Blow!"
-local ENG_MESSAGE_LOW_HEALTH = "HP < 50%  !"
-local ENG_MESSAGE_CRITICAL_HEALTH = "HP < 25%  !!!"
-
-local ENG_CONFIG_COMBAT_HEADER = "Combat"
-local ENG_CONFIG_MISC_HEADER = "Miscellaneous"
-local ENG_CONFIG_UI_HEADER = "User Interface"
-
-
-local ENG_CONFIG_CLASS_ICON = "Display Class Icon"
-local ENG_CONFIG_HEALTH_WARN = "Display Health Warnings"
-local ENG_CONFIG_KILL_TRACKER = "Display PvP Kill Tracker"
-local ENG_CONFIG_KILLING_BLOW = "Display PvP Killing Blow Indicator"
-local ENG_CONFIG_CLASS_COLOURS = "Display Class Colours"
-local ENG_CONFIG_AUTOREPAIR = "Auto Repair"
-local ENG_CONFIG_GUILD_BANK = "Use Guild Bank For Repairs"
-local ENG_CONFIG_SELL_TRASH = "Auto Sell Trash"
-local ENG_CONFIG_AFK = "AFK Mode"
-local ENG_CONFIG_STATS = "Display System Statistics"
-local ENG_CONFIG_COORDS = "Display Player Co-Ordinates"
-local ENG_CONFIG_ART = "Display Art"
+-- Config Options
+imp["Display Class Icon"] = "";
+imp["Display Health Warnings"] = "";
+imp["Display PvP Kill Tracker"] = "";
+imp["Display PvP Killing Blow Indicator"] = "";
+imp["Display Class Colours"] = "";
+imp["Auto Repair"] = "";
+imp["Use Guild Bank For Repairs"] = "";
+imp["Auto Sell Trash"] = "";
+imp["AFK Mode"] = "";
+imp["Display System Statistics"] = "";
+imp["Display Player Co-Ordinates"] = "";
+imp["Display Art"] = "";

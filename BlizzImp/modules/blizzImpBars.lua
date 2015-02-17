@@ -34,7 +34,7 @@ local function BuildPetBar()
 	if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown())then
 		offset = 0;
 	else
-		offset = 8;
+		offset = 12;
 	end
 
 	if ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
@@ -173,6 +173,12 @@ local function Bars_HandleEvents( self, event, ... )
 			end
 		end
 	end
+
+	if( event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED")then
+		if( InCombatLockdown() == false)then
+			SetBars();
+		end
+	end
 end
 
 
@@ -183,7 +189,9 @@ local function Bars_Init()
 	impBars:RegisterEvent( "PLAYER_ENTERING_WORLD" );
 	impBars:RegisterEvent( "PLAYER_TARGET_CHANGED" );
 	impBars:RegisterEvent( "UNIT_EXITED_VEHICLE" );
-	impBars:RegisterEvent("PLAYER_FLAGS_CHANGED");
+	impBars:RegisterEvent( "PLAYER_FLAGS_CHANGED" );
+	impBars:RegisterEvent( "PLAYER_TALENT_UPDATE" );
+	impBars:RegisterEvent( "ACTIVE_TALENT_GROUP_CHANGED" )
 	if( InCombatLockdown() == false )then
 		SetBars();
 		--BuildPetBar();

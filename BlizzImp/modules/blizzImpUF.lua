@@ -18,7 +18,7 @@ local tFrameScale = 1.45;
 local tFrameHidden = true;
 
 -- Party Frame
-local parFrameX = 40;
+local parFrameX = 120;
 local parFrameY = 125;
 local parFrameScale = 1.6;
 
@@ -59,6 +59,10 @@ local function SetUnitFrames()
 	PartyMemberFrame3:SetScale( parFrameScale );
 	PartyMemberFrame4:SetScale( parFrameScale );
 	PartyMemberFrame1:SetPoint( "LEFT" , parFrameX, parFrameY );
+	--PartyMemberFrame1:Show();
+	--PartyMemberFrame2:Show();
+	--PartyMemberFrame3:Show();
+	--PartyMemberFrame4:Show();
 
 	-- Tweak Player Frame
 	PlayerFrame:SetMovable( true );
@@ -112,6 +116,12 @@ local function MoveCastBar()
 	CastingBarFrame:SetPoint("CENTER", castBarX, castBarY);
 	CastingBarFrame:SetUserPlaced(true);
 	CastingBarFrame:SetMovable( false );
+
+	-- Casting Timer
+	CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil);
+	CastingBarFrame.timer:SetFont(STANDARD_TEXT_FONT,12,"OUTLINE");
+	CastingBarFrame.timer:SetPoint("TOP", CastingBarFrame, "BOTTOM", 0, 35);
+	CastingBarFrame.updateDelay = 0.1;
 end
 
 -- Handle Raid Stuff Seperately
@@ -262,8 +272,44 @@ function CFeedback_OnCombatEvent(self, event, flags, amount, type)
 	self.feedbackText:SetText(" ");
 end
 
+-- Casting Bar Update
+function CastingUpdate(self, elapsed)
+	if( not self.timer ) then
+		return;
+	end
+
+	if( self.updateDelay ) and (self.updateDelay < elapsed ) then
+		if( self.casting ) then
+			self.timer:SetText( format( "%2.1f / %1.1f", max( self.maxValue - self.value, 0), self.maxValue ));
+		elseif( self.channeling ) then
+			self.timer:SetText( format( "%.1f", max( self.value, 0 )));
+		else
+			self.timer:SetText("");
+		end
+		self.updateDelay = 0.1;
+	else
+		self.updateDelay = self.updateDelay - elapsed;
+	end
+	--[[
+	if not self.timer then return end
+        if self.updateDelay and self.updateDelay < elapsed then
+            if self.casting then
+                    self.timer:SetText(format("%2.1f/%1.1f", max(self.maxValue - self.value, 0), self.maxValue))
+            elseif self.channeling then
+                    self.timer:SetText(format("%.1f", max(self.value, 0)))
+            else
+                    self.timer:SetText("")
+            end
+            self.updateDelay = .1
+        else
+            self.updateDelay = self.updateDelay - elapsed
+        end
+    --]]
+end
+
 do
 	hooksecurefunc("CombatFeedback_OnCombatEvent", CFeedback_OnCombatEvent );
+	hooksecurefunc("CastingBarFrame_OnUpdate", CastingUpdate);
 end
 
 -- Run Initialisation

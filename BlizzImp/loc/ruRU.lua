@@ -2,7 +2,6 @@ local _, imp = ...;
 
 -- Set To ruRu
 if( GetLocale() == "ruRU" )then
-	--imp["EngString"] = "TEST"
 
 	-- Micro Menu
 	imp["Character"] = "Персонаж";

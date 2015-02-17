@@ -65,7 +65,7 @@ local function InitKillLog()
 
 	for i = 1, #recentKills do
 		killsFrame.texts[i] = killsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal" )
-		killsFrame.texts[i]:SetFont( killFont, 18, "THICKOUTLINE" );
+		killsFrame.texts[i]:SetFont( killFont, 18, "OUTLINE" );
 		killsFrame.texts[i]:SetPoint("TOPLEFT", 15, -(30 * i) );
 		killsFrame.texts[i]:SetWordWrap( false );
 	end
@@ -110,7 +110,7 @@ local function BuildMessage(sourceGUID, sourceName, destGUID, destName )
 		end
 	end
 
-	return format("%s%s%s", killerString, killedString, imp[" killed "]);
+	return format("%s%s%s", killerString, imp[" killed "], killedString);
 end
 
 local function InitMessage()
@@ -138,6 +138,7 @@ local function InitMessage()
 			if( event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "RANGE_DAMAGE" )then
 				local _, _, _, _, overkill, _, _, _, _, _, _, _ = select(12, ...);
 				if( overkill >= 0 )then
+					local killString = BuildMessage(sourceGUID, sourceName, destGUID, destName);
 					if( bKillTracker == true )then
 						UpdateKills( killString );
 					end
