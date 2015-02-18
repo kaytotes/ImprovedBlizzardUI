@@ -181,7 +181,6 @@ local function Bars_HandleEvents( self, event, ... )
 	end
 end
 
-
 local function Bars_Init()
 	impBars:SetScript( "OnEvent", Bars_HandleEvents );
 

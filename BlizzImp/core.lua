@@ -10,6 +10,7 @@ menuFont:SetFontObject(GameFontNormal);
 menuFont:SetFont(fontArial, 12, nil );
 
 local bagsHidden = true; -- Bags Toggle 
+local PVEFrameOpen = false;
 
 -- Buff Local Func
 local locBuffPoint = BuffFrame.SetPoint;
@@ -91,7 +92,7 @@ local microMenuList = {
 	{text = "|cffFFFFFF"..imp["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', },
 	{text = "|cffFFFFFF"..imp["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
 	{text = "|cffFFFFFF"..imp["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
-	{text = "|cffFFFFFF"..imp["Group Finder"], func = function() ToggleFrame( PVEFrame ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
+	{text = "|cffFFFFFF"..imp["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
 	{text = "|cffFFFFFF"..imp["Collections"], func = function() TogglePetJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
 	{text = "|cffFFFFFF"..imp["Dungeon Journal"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
 	{text = "|cffFFFFFF"..imp["Swap Bags"], func = function() ShowBagBar() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
@@ -103,6 +104,13 @@ local microMenuList = {
 function HandleSlashCommands( command )
 	if( string.lower( command ) == "test" ) then
 		print("test");
+	end
+end
+
+function IsPVPOpen()
+	if( PVEFrame and PVEFrame:IsShown() )then
+		print("PVEFrame open");
+		print(GroupFinderFrame_GetSelection(PVEFrame));
 	end
 end
 
@@ -121,6 +129,14 @@ local function AFKSpin(spin)
 			afkFrame.petModel:SetRotation( math.rad( 45 ) );
 			afkFrame.petModel:SetCamDistanceScale( 1.7 );
 
+			-- Hide PVE Frame If Shown
+			if( PVEFrame and PVEFrame:IsShown() )then
+				PVEFrameOpen = true;
+				PVEFrame_ToggleFrame();
+			else
+				PVEFrameOpen = false;
+			end
+
 			-- Hide UI / Move Camera
 			UIParent:Hide();
 			fadeInAnim:Play();
@@ -132,6 +148,12 @@ local function AFKSpin(spin)
 				UIParent:Show();
 				fadeOutAnim:Play();
 				MoveViewRightStop();
+
+				-- Was PVEFrame Open? If so reopen it
+				if( PVEFrameOpen == true )then
+					PVEFrame_ToggleFrame();
+				end
+
 				afkFrameHidden = true;
 			end
 		end
