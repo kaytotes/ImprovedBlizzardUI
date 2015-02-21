@@ -3,8 +3,8 @@ local _, imp = ...;
 local ADDON_VERSION = GetAddOnMetadata("BlizzImp", "Version");
 local core = CreateFrame( "Frame", "ImprovCore", UIParent );
 
-local damageFont = "Interface\\Addons\\BlizzImp\\media\\test.ttf";
-local fontArial = "Interface\\AddOns\\BlizzImp\\media\\impfont_arial.ttf"
+local damageFont = "Interface\\Addons\\BlizzImp\\media\\damage.ttf";
+local fontArial = "Interface\\AddOns\\BlizzImp\\media\\impfont.ttf"
 local menuFont = CreateFont("ImpMenuFont")
 menuFont:SetFontObject(GameFontNormal);
 menuFont:SetFont(fontArial, 12, nil );

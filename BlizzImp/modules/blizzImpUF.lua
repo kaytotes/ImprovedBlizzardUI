@@ -179,6 +179,9 @@ local function UF_HandleEvents( self, event, ... )
 			SetUnitFrames();
 			MoveCastBar();
 			startTimer = true;
+
+			-- Set Raid Frame Colours
+			SetCVar( "raidFramesDisplayClassColor", 1 );
 		end
 	end
 

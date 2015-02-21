@@ -34,6 +34,7 @@ if( GetLocale() == "ruRU" )then
 	imp["Combat"] = "Бой";
 	imp["Miscellaneous"] = "Смешанный";
 	imp["User Interface"] = "Пользовательский интерфейс";
+	imp["Chat"] = "Chat"; -- NEEDS LOCALIZATION
 
 	-- Config Options
 	imp["Display Class Icon"] = "Отображать классовую иконку";
@@ -48,4 +49,5 @@ if( GetLocale() == "ruRU" )then
 	imp["Display System Statistics"] = "Отображать пинг и фпс";
 	imp["Display Player Co-Ordinates"] = "Отображать координаты";
 	imp["Display Art"] = "Отображать грифонов снизу";
+	imp["Modify Chat"] = "Modify Chat"; -- NEEDS LOCALIZATION
 end

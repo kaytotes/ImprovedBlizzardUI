@@ -48,6 +48,9 @@ local function OkayButton()
 	if( bGuildRepair ~= config.panel.gbankChkBtn:GetChecked() )then
 		changeOccured = true;
 	end
+	if( bModifyChat ~= config.panel.chatChkBtn:GetChecked() )then
+		changeOccured = true;
+	end
 	
 	bClassIcon = config.panel.classChkBtn:GetChecked();
 	bAutoRepair = config.panel.repairChkBtn:GetChecked();
@@ -61,6 +64,7 @@ local function OkayButton()
 	bClassColours = config.panel.colourChkBtn:GetChecked();
 	bShowBarArt = config.panel.artChkBtn:GetChecked();
 	bGuildRepair = config.panel.gbankChkBtn:GetChecked();
+	bModifyChat = config.panel.chatChkBtn:GetChecked();
 
 	if( changeOccured == true )then
 		ReloadUI();
@@ -80,6 +84,7 @@ local function CancelButton()
 	config.panel.colourChkBtn:SetChecked( bClassColours );
 	config.panel.artChkBtn:SetChecked( bShowBarArt );
 	config.panel.gbankChkBtn:SetChecked( bGuildRepair );
+	config.panel.chatChkBtn:SetChecked( bModifyChat );
 end
 
 local function DefaultButton()
@@ -93,7 +98,8 @@ local function DefaultButton()
 	config.panel.afkChkBtn:SetChecked( true );
 	config.panel.colourChkBtn:SetChecked( true );
 	config.panel.artChkBtn:SetChecked( true );
-	config.panel.gbankChkBtn:SetChecked( false );
+	config.panel.gbankChkBtn:SetChecked( true );
+	config.panel.chatChkBtn:SetChecked( true );
 end
 
 local function LoadOptions()
@@ -132,6 +138,9 @@ local function LoadOptions()
 	end
 	if( bShowBarArt ~= nil)then
 		config.panel.gbankChkBtn:SetChecked( bGuildRepair );
+	end
+	if( bModifyChat ~= nil)then
+		config.panel.chatChkBtn:SetChecked( bModifyChat );
 	end
 end
 
@@ -174,6 +183,9 @@ local function Config_HandleEvents( self, event, ...)
 		if( bGuildRepair == nil)then
 			bGuildRepair = true;
 		end
+		if( bModifyChat == nil)then
+			bModifyChat = true;
+		end
 
 		LoadOptions();
 	end
@@ -190,7 +202,7 @@ local function CreateLayout()
 	config.panel.combatHeader = config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 	config.panel.combatHeader:SetFont(configFont, headerFontSize, "OUTLINE");
 	config.panel.combatHeader:SetPoint("TOPLEFT", 5, -40);
-	config.panel.combatHeader:SetText("|cffffff00 - "..imp["Combat"]);
+	config.panel.combatHeader:SetText("|cffffff00 - "..imp["Combat"].." - ");
 
 	-- Combat Check Boxes Start ==============
 
@@ -300,8 +312,23 @@ local function CreateLayout()
 	_G[config.panel.artChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
 	_G[config.panel.artChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - "..imp["Display Art"]);
 
-
 	-- UI Check Boxes End ==============
+
+	-- Chat Header
+	config.panel.chatHeader = config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+	config.panel.chatHeader:SetFont(configFont, headerFontSize, "OUTLINE");
+	config.panel.chatHeader:SetPoint( "TOPLEFT", 310, -40 );
+	config.panel.chatHeader:SetText("|cffffff00 - "..imp["Chat"].." - ");
+
+	-- Chat Check Boxes Start ==============
+
+	config.panel.chatChkBtn = CreateFrame("CheckButton", "ChatCheckButton", config.panel, "UICheckButtonTemplate");
+	config.panel.chatChkBtn:ClearAllPoints();
+	config.panel.chatChkBtn:SetPoint( "TOPLEFT", 310, -60 );
+	_G[config.panel.chatChkBtn:GetName().."Text"]:SetFont(configFont, checkButtonFontSize, "OUTLINE")
+	_G[config.panel.chatChkBtn:GetName().."Text"]:SetText("|cffFFFFFF - "..imp["Modify Chat"]);
+
+	-- Chat Check Boxes End ================
 end
 
 -- Interface Options Panel
