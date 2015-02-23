@@ -85,6 +85,18 @@ local function ShowBagBar()
 	end
 end
 
+-- Temporary Function to ease end user migration to 6.1
+local function OpenCollections()
+	local _, _, _, tocV = GetBuildInfo();
+	--ToggleCollectionsJournal()
+
+	if( tocV == 60100 )then
+		ToggleCollectionsJournal();
+	elseif( tocV == 60000 )then
+		TogglePetJournal();
+	end
+end
+
 local microMenuList = {
 	{text = "|cffFFFFFF"..imp["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' },
 	{text = "|cffFFFFFF"..imp["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
@@ -93,7 +105,7 @@ local microMenuList = {
 	{text = "|cffFFFFFF"..imp["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
 	{text = "|cffFFFFFF"..imp["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
 	{text = "|cffFFFFFF"..imp["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
-	{text = "|cffFFFFFF"..imp["Collections"], func = function() TogglePetJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
+	{text = "|cffFFFFFF"..imp["Collections"], func = function() OpenCollections() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
 	{text = "|cffFFFFFF"..imp["Dungeon Journal"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
 	{text = "|cffFFFFFF"..imp["Swap Bags"], func = function() ShowBagBar() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
 	{text = "|cff00FFFF"..imp["BlizzImp Options"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = menuFont },
