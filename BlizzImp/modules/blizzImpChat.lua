@@ -8,7 +8,7 @@ local function ModifyBlizzStrings()
 	CURRENCY_GAINED = "|cffFFFF00+ %s";
 	CURRENCY_GAINED_MULTIPLE = "|cffFFFF00+ %s |cffFFFF00(%d)";
 	CURRENCY_GAINED_MULTIPLE_BONUS = "|cffFFFF00+ %s |cffFFFF00(%d)";
-	
+	YOU_LOOT_MONEY = "|cffFFFF00+ %s";
 	LOOT_ITEM_SELF = "|cffFFFF00+ %s";
 	LOOT_ITEM_SELF_MULTIPLE = "|cffFFFF00+ %s |cffFFFF00(%d)";
 	LOOT_ITEM_CREATED_SELF = "|cffFFFF00+ %s";
@@ -19,6 +19,7 @@ local function ModifyBlizzStrings()
 	LOOT_ITEM_REFUND_MULTIPLE = "|cffFFFF00+ %s |cffFFFF00(%d)";
 	LOOT_ITEM_PUSHED_SELF = "|cffFFFF00+ %s";
 	LOOT_ITEM_PUSHED_SELF_MULTIPLE = "|cffFFFF00+ %s |cffFFFF00(%d)";
+	TRADESKILL_LOG_FIRSTPERSON = ""; -- Hidden. Useless Info.
 
 	-- Remote Players Loot
 	LOOT_ITEM = "%s |cffFFFF00+ %s";
@@ -27,24 +28,29 @@ local function ModifyBlizzStrings()
 	LOOT_ITEM_MULTIPLE = "%s |cffFFFF00+ %s |cffFFFF00(%d)";
 	LOOT_ITEM_PUSHED = "%s |cffFFFF00+ %s";
 	LOOT_ITEM_PUSHED_MULTIPLE = "%s |cffFFFF00+ %s |cffFFFF00(%d)";
+	CREATED_ITEM = "%s |cffFFFF00+ %s";
+	CREATED_ITEM_MULTIPLE = "%s |cffFFFF00+ %s |cffFFFF00(%d)";
 
 	-- Chat Channels
-	CHAT_SAY_GET = "%s "
-	CHAT_YELL_GET = "%s "
-	CHAT_WHISPER_INFORM_GET = "w to %s "
-	CHAT_WHISPER_GET = "w from %s "
-	CHAT_BN_WHISPER_INFORM_GET = "w to %s "
-	CHAT_BN_WHISPER_GET = "w from %s "
-	CHAT_PARTY_GET = "|Hchannel:PARTY|hp|h %s "
-	CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|hpl|h %s "
-	CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|hpg|h %s "
-	CHAT_INSTANCE_CHAT_GET = "|Hchannel:Battleground|hi.|h %s: "
-	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|hil.|h %s: "
-	CHAT_GUILD_GET = "|Hchannel:GUILD|hg|h %s "
-	CHAT_OFFICER_GET = "|Hchannel:OFFICER|ho|h %s "
-	CHAT_FLAG_AFK = "[AFK] "
-	CHAT_FLAG_DND = "[DND] "
-	CHAT_FLAG_GM = "[GM] "
+	CHAT_SAY_GET = "%s ";
+	CHAT_YELL_GET = "%s ";
+	CHAT_WHISPER_INFORM_GET = "w to %s ";
+	CHAT_WHISPER_GET = "w from %s ";
+	CHAT_BN_WHISPER_INFORM_GET = "w to %s ";
+	CHAT_BN_WHISPER_GET = "w from %s ";
+	CHAT_PARTY_GET = "|Hchannel:PARTY|hp|h %s ";
+	CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|hpl|h %s ";
+	CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|hpg|h %s ";
+	CHAT_INSTANCE_CHAT_GET = "|Hchannel:Battleground|hi|h %s: ";
+	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|hil|h %s: ";
+	CHAT_GUILD_GET = "|Hchannel:GUILD|hg|h %s ";
+	CHAT_OFFICER_GET = "|Hchannel:OFFICER|ho|h %s ";
+	CHAT_FLAG_AFK = "[AFK] ";
+	CHAT_FLAG_DND = "[DND] ";
+	CHAT_FLAG_GM = "[GM] ";
+
+	-- Skill Ups
+	ERR_SKILL_UP_SI = "|cffFFFF00+ |cff00FFFF%s Skill |cffFFFF00(%d)";
 end
 
 local function TweakChat()

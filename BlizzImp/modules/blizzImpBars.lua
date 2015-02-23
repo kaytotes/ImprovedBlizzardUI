@@ -18,31 +18,21 @@ local function HideMicroMenu()
     CharacterMicroButton:SetMovable(false);
 end
 
-local function BuildPetBar()
-	for i = 1, 12 do
-		local button = _G["PetActionButton"..i];--getglobal("PetActionButton"..i);
-		if (button ~= nil) then
-			button:ClearAllPoints();
-			local x = 2 + ((i - 1) * 33);
-			local y = -1;
-			button:SetPoint("BOTTOMLEFT", petBar, "TOPLEFT", x, y);
-		end
-	end
-	local _, _, class = UnitClass("player");
+local function BuildPet()
 	local offset = 0;
 
 	if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown())then
 		offset = 0;
 	else
-		offset = 12;
+		offset = 10;
 	end
 
 	if ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
-		petBar:ClearAllPoints();
-		petBar:SetPoint("CENTER", -415, offset);
+		PetActionButton1:ClearAllPoints()
+		PetActionButton1:SetPoint("CENTER", -606, 28 + offset)
 	else
-		petBar:ClearAllPoints();
-		petBar:SetPoint("CENTER", 50, offset);
+		PetActionButton1:ClearAllPoints()
+		PetActionButton1:SetPoint("CENTER", -140, 28 + offset)
 	end
 end
 
@@ -87,7 +77,7 @@ local function SetBars()
     MultiBarBottomLeft:SetUserPlaced(true);
     MultiBarBottomLeft:SetMovable(false);
 
-    BuildPetBar();
+    BuildPet();
 
 	-- Remove Pet Bar Textures
 	for i = 0, 1 do
