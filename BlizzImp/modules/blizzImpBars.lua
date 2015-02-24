@@ -52,12 +52,12 @@ local function SetBars()
     MainMenuBar:SetMovable(true);
     MainMenuBar:ClearAllPoints();
     MainMenuBar:SetScale( barScale );
-    MainMenuBar:SetPoint("BOTTOM", 256, 0)
+    MainMenuBar:SetPoint("BOTTOM", 256, 0);
     MainMenuBar:SetUserPlaced(true);
     MainMenuBar:SetMovable(false);
     
     -- Move End Cap
-    MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 35, 0)
+    MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 34, 0);
     if( bShowBarArt == false)then
     	MainMenuBarRightEndCap:SetTexture(nil);
 		MainMenuBarLeftEndCap:SetTexture(nil);

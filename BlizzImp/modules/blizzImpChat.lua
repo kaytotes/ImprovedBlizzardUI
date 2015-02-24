@@ -20,6 +20,11 @@ local function ModifyBlizzStrings()
 	LOOT_ITEM_PUSHED_SELF = "|cffFFFF00+ %s";
 	LOOT_ITEM_PUSHED_SELF_MULTIPLE = "|cffFFFF00+ %s |cffFFFF00(%d)";
 	TRADESKILL_LOG_FIRSTPERSON = ""; -- Hidden. Useless Info.
+	ERR_QUEST_REWARD_ITEM_S = "|cffFFFF00+ %s";
+	--ERR_QUEST_REWARD_ITEM_MULT_IS = "Received %d of item: %s.";
+	ERR_QUEST_REWARD_ITEM_MULT_IS = "|cffFFFF00+ %s |cffFFFF00(%d)";
+	ERR_QUEST_REWARD_MONEY_S = "|cffFFFF00+ %s.";
+	ERR_QUEST_REWARD_EXP_I = "|cffFFFF00+ %d EXP";
 
 	-- Remote Players Loot
 	LOOT_ITEM = "%s |cffFFFF00+ %s";
