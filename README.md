@@ -1,7 +1,11 @@
 ImprovedBlizzardUI
 ==================
 
-Improved Blizzard UI is an attempt to improve the default Blizzard interface. This has been customized to how I personally like my UI set up. There is no configuration. Just install and go. Any customization can only be accomplished by modifying the addon LUA.
+Improved Blizzard UI is an attempt to improve the default Blizzard interface. This has been customized to how I personally like my UI set up. There is some very basic configuration in game but things like positioning and scale of items still needs modifying directly in the LUA.
+
+Only 1920x1080 is supported, other resolutions will need tweaks.
+
+Localized for enGB / enUS / ruRU.
 
 === Features ===
 
@@ -15,13 +19,11 @@ Unit Frames:-
     Raid Frames moved
     Focus Frame moved and scaled
 
-
 Action Bars:-
 
     Main Action Bar squished.
     Bottom left and right Action Bar moved and scaled.
     Range and Mana Coloring on Buttons
-
 
 Combat:-
 
@@ -30,7 +32,8 @@ Combat:-
     Buffs made more visible
     Health warning at <50% and 25% health.
     Battleground Kills Tracker. Faction Coloured where applicable.
-
+    Class Colours added to Target and Focus Frames
+    Casting Bar Timer
 
 User Interface:-
 
@@ -41,8 +44,8 @@ User Interface:-
     Non static AFK Camera (With Player & Pet Model)
     Micro Menu functionality replaced with MiniMap Right Click
     Bags can be swapped with the "Swap Bags" Micro Menu option. Click to show, Click again to hide.
-    Minor Animation Tweaks ( Target Frame Fade )
-
+    Latency Indicator (Home / Server) - FPS Indicator
+    Player Position Co-ordinates on Minimap
 
 Misc:-
 
@@ -51,3 +54,9 @@ Misc:-
     Camera zoom limit set to maximum.
     Quest Watcher hidden in Instanced PvP.
 
+Chat:-
+
+    Chat Frame Cleaned Up
+    Font Colour / Size / Outline Changed
+    Loot notifications shortened
+    Chat channels shortened
