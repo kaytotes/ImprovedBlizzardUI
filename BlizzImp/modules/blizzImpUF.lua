@@ -179,9 +179,6 @@ local function UF_HandleEvents( self, event, ... )
 			SetUnitFrames();
 			MoveCastBar();
 			startTimer = true;
-
-			-- Set Raid Frame Colours
-			SetCVar( "raidFramesDisplayClassColor", 1 );
 		end
 	end
 
@@ -217,11 +214,11 @@ local function UF_HandleEvents( self, event, ... )
 		end
 
 		if( bClassColours == true )then
-			if UnitIsPlayer("target") then
+			if UnitIsPlayer( "target" )then
 	                c = RAID_CLASS_COLORS[select(2, UnitClass("target"))]
 	                TargetFrameNameBackground:SetVertexColor(c.r, c.g, c.b)
 	        end
-	        if UnitIsPlayer("focus") then
+	        if UnitIsPlayer( "focus" )then
 	                c = RAID_CLASS_COLORS[select(2, UnitClass("focus"))]
 	                FocusFrameNameBackground:SetVertexColor(c.r, c.g, c.b)
 	        end
@@ -293,21 +290,6 @@ function CastingUpdate(self, elapsed)
 	else
 		self.updateDelay = self.updateDelay - elapsed;
 	end
-	--[[
-	if not self.timer then return end
-        if self.updateDelay and self.updateDelay < elapsed then
-            if self.casting then
-                    self.timer:SetText(format("%2.1f/%1.1f", max(self.maxValue - self.value, 0), self.maxValue))
-            elseif self.channeling then
-                    self.timer:SetText(format("%.1f", max(self.value, 0)))
-            else
-                    self.timer:SetText("")
-            end
-            self.updateDelay = .1
-        else
-            self.updateDelay = self.updateDelay - elapsed
-        end
-    --]]
 end
 
 do

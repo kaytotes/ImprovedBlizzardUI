@@ -60,6 +60,11 @@ end
 
 local function TweakChat()
 
+	-- Add More Font Sizes
+	for i = 1, 13 do
+		CHAT_FONT_HEIGHTS[i] = i + 7
+	end
+
 	-- Hide Buttons
 	ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide)
 	ChatFrameMenuButton:Hide()
@@ -121,7 +126,7 @@ local function TweakChat()
 end
 
 local function Chat_HandleEvents( self, event, ... )
-	if( event == "PLAYER_ENTERING_WORLD" )then
+	if( event == "ADDON_LOADED" and ... == "BlizzImp" )then
 		if( bModifyChat == true )then
 			ModifyBlizzStrings();
 			TweakChat();
@@ -131,7 +136,7 @@ end
 
 local function Chat_Init()
 	impChat:SetScript( "OnEvent", Chat_HandleEvents );
-	impChat:RegisterEvent( "PLAYER_ENTERING_WORLD" );
+	impChat:RegisterEvent( "ADDON_LOADED" );
 end
 
 -- Call Initialisation

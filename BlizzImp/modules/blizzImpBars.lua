@@ -354,7 +354,7 @@ end
 local function VehicleLeaveButton_Update()
 	if ( CanExitVehicle() and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN ) then
 		MainMenuBarVehicleLeaveButton:ClearAllPoints();
-		MainMenuBarVehicleLeaveButton:SetPoint("CENTER", -600, 25)
+		MainMenuBarVehicleLeaveButton:SetPoint("CENTER", -600, 40)
 
 		MainMenuBarVehicleLeaveButton:Show();
 		ShowPetActionBar(true);
