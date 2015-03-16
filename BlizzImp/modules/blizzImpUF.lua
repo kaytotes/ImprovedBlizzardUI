@@ -27,6 +27,8 @@ local focFrameX = 300;
 local focFrameY = -200;
 local focFrameScale = 1.25;
 
+local arenaFrameScale = 1.75;
+
 -- Boss Frame
 local bossFrameScale = 0.95;
 local bossFrameSpacing = 15;
@@ -103,9 +105,9 @@ local function SetUnitFrames()
 	end	
 
 	for i=1, 5 do
-        _G["ArenaPrepFrame"..i]:SetScale(1.5);      
+        _G["ArenaPrepFrame"..i]:SetScale(arenaFrameScale);      
 	end
-	ArenaEnemyFrames:SetScale(1.5);
+	ArenaEnemyFrames:SetScale(arenaFrameScale);
 end
 
 local function MoveCastBar()
@@ -277,7 +279,6 @@ function CastingUpdate(self, elapsed)
 	if( not self.timer ) then
 		return;
 	end
-
 	if( self.updateDelay ) and (self.updateDelay < elapsed ) then
 		if( self.casting ) then
 			self.timer:SetText( format( "%2.1f / %1.1f", max( self.maxValue - self.value, 0), self.maxValue ));

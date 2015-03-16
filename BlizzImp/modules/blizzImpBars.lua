@@ -357,10 +357,14 @@ local function VehicleLeaveButton_Update()
 		MainMenuBarVehicleLeaveButton:SetPoint("CENTER", -600, 40)
 
 		MainMenuBarVehicleLeaveButton:Show();
-		ShowPetActionBar(true);
+		if( InCombatLockdown() == false)then
+			ShowPetActionBar(true);
+		end
 	else
 		MainMenuBarVehicleLeaveButton:Hide();
-		ShowPetActionBar(true);
+		if( InCombatLockdown() == false)then
+			ShowPetActionBar(true);
+		end
 	end
 end
 
