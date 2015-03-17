@@ -23,7 +23,7 @@ local function ModifyBlizzStrings()
 	ERR_QUEST_REWARD_ITEM_S = "|cffFFFF00+ %s";
 	--ERR_QUEST_REWARD_ITEM_MULT_IS = "Received %d of item: %s.";
 	ERR_QUEST_REWARD_ITEM_MULT_IS = "|cffFFFF00+ %s |cffFFFF00(%d)";
-	ERR_QUEST_REWARD_MONEY_S = "|cffFFFF00+ %s.";
+	ERR_QUEST_REWARD_MONEY_S = "|cffFFFF00+ %s";
 	ERR_QUEST_REWARD_EXP_I = "|cffFFFF00+ %d EXP";
 
 	-- Remote Players Loot
@@ -62,21 +62,21 @@ local function TweakChat()
 
 	-- Add More Font Sizes
 	for i = 1, 13 do
-		CHAT_FONT_HEIGHTS[i] = i + 7
+		CHAT_FONT_HEIGHTS[i] = i + 7;
 	end
 
 	-- Hide Buttons
-	ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide)
-	ChatFrameMenuButton:Hide()
-	FriendsMicroButton:HookScript("OnShow", FriendsMicroButton.Hide)
-	FriendsMicroButton:Hide()
-	BNToastFrame:SetClampedToScreen(true)
-	BNToastFrame:SetClampRectInsets(-15,15,15,-15)
+	ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide);
+	ChatFrameMenuButton:Hide();
+	FriendsMicroButton:HookScript("OnShow", FriendsMicroButton.Hide);
+	FriendsMicroButton:Hide();
+	BNToastFrame:SetClampedToScreen(true);
+	BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
 	  --Edit Box Font
-	ChatFontNormal:SetFont(STANDARD_TEXT_FONT, CHAT_FONT_SIZE, "THINOUTLINE")
-	ChatFontNormal:SetShadowOffset(1,-1)
-	ChatFontNormal:SetShadowColor(0,0,0,0.6)
+	ChatFontNormal:SetFont(STANDARD_TEXT_FONT, CHAT_FONT_SIZE, "THINOUTLINE");
+	ChatFontNormal:SetShadowOffset(1,-1);
+	ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
 	-- Loop Through Chat Windows
 	for i = 1, NUM_CHAT_WINDOWS do
@@ -110,18 +110,18 @@ local function TweakChat()
 
 		-- Stop Chat Arrows Coming Back
 		_G[chatWindowName.."ButtonFrame"]:Hide();
-    	_G[chatWindowName.."ButtonFrame"]:HookScript("OnShow", _G[chatWindowName.."ButtonFrame"].Hide)
+    	_G[chatWindowName.."ButtonFrame"]:HookScript("OnShow", _G[chatWindowName.."ButtonFrame"].Hide);
 	
     	-- Skin Edit Text Box
-	    _G[chatWindowName.."EditBoxLeft"]:Hide()
-	    _G[chatWindowName.."EditBoxMid"]:Hide()
-	    _G[chatWindowName.."EditBoxRight"]:Hide()
+	    _G[chatWindowName.."EditBoxLeft"]:Hide();
+	    _G[chatWindowName.."EditBoxMid"]:Hide();
+	    _G[chatWindowName.."EditBoxRight"]:Hide();
 
-	    _G[chatWindowName.."EditBox"]:SetAltArrowKeyMode(false)
-	    _G[chatWindowName.."EditBox"]:ClearAllPoints()
-	    _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22)
-	    _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0)
-	    _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0)
+	    _G[chatWindowName.."EditBox"]:SetAltArrowKeyMode(false);
+	    _G[chatWindowName.."EditBox"]:ClearAllPoints();
+	    _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
+	    _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0);
+	    _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0);
 	end
 end
 
