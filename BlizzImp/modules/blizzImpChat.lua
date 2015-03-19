@@ -22,7 +22,7 @@ local function ModifyBlizzStrings()
 	TRADESKILL_LOG_FIRSTPERSON = ""; -- Hidden. Useless Info.
 	ERR_QUEST_REWARD_ITEM_S = "|cffFFFF00+ %s";
 	--ERR_QUEST_REWARD_ITEM_MULT_IS = "Received %d of item: %s.";
-	ERR_QUEST_REWARD_ITEM_MULT_IS = "|cffFFFF00+ %s |cffFFFF00(%d)";
+	ERR_QUEST_REWARD_ITEM_MULT_IS = "|cffFFFF00+ %d |cffFFFF00%s";
 	ERR_QUEST_REWARD_MONEY_S = "|cffFFFF00+ %s";
 	ERR_QUEST_REWARD_EXP_I = "|cffFFFF00+ %d EXP";
 
