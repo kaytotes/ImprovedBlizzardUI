@@ -1,7 +1,7 @@
 ## Interface: 60100
 ## Title: Improved Blizzard
 ## Notes: General Improvements to the Default Blizzard UI
-## Version: 0.21e
+## Version: 0.21f
 ## Author: Kaytotes
 ## SavedVariables: bClassIcon, bAutoRepair, bAutoSell, bHealthWarning, bShowStats, bShowCoords, bKillTracker, bKillingBlow, bAFKMode, bClassColours, bShowBarArt, bGuildRepair, bModifyChat
 

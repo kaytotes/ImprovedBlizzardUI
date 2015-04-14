@@ -75,6 +75,9 @@ fadeOutAnim:SetScript("OnFinished", function() afkFrame:SetAlpha( 0 ) end );
 -- MicroMenu
 local microMenu = CreateFrame("Frame", "RightClickMenu", UIParent, "UIDropDownMenuTemplate");
 
+-- Dev Grid
+local grid;
+
 local function ShowBagBar()
 	if( bagsHidden == true ) then
 		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, - 100, 0 );
@@ -100,12 +103,6 @@ local microMenuList = {
 	{text = "|cffFFFF00"..imp["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = menuFont },
 	{text = "|cffFE2E2E"..imp["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = menuFont },
 }
-
-function HandleSlashCommands( command )
-	if( string.lower( command ) == "test" ) then
-		print("test");
-	end
-end
 
 function IsPVPOpen()
 	if( PVEFrame and PVEFrame:IsShown() )then
@@ -376,6 +373,51 @@ local function Core_HandleEvents( self, event, unit )
 		UpdateLocation();
 	end
 
+end
+
+local function DrawDevGrid()
+	-- Grid Already Drawn?
+	if( grid ) then
+		grid:Hide();
+		grid = nil; -- Kill Grid
+	else
+		grid = CreateFrame( 'Frame', nil, UIParent );
+		grid:SetAllPoints( UIParent );
+
+		local cellSizeX = 32;
+		local cellSizeY = 18;
+
+		local screenWidth = GetScreenWidth() / cellSizeX;
+		local screenHeight = GetScreenHeight() / cellSizeY;
+
+		for columns = 0, cellSizeX do
+			local line = grid:CreateTexture(nil, 'BACKGROUND');
+			if( columns == cellSizeX / 2 ) then -- Half Way Line
+				line:SetTexture(1, 0, 0, 0.5 );
+			else
+				line:SetTexture(0, 0, 0, 0.5 );
+			end
+			line:SetPoint('TOPLEFT', grid, 'TOPLEFT', columns * screenWidth - 1, 0);
+			line:SetPoint('BOTTOMRIGHT', grid, 'BOTTOMLEFT', columns * screenWidth + 1, 0);
+		end
+		for rows = 0, cellSizeY do
+			local line = grid:CreateTexture(nil, 'BACKGROUND');
+			if( rows == cellSizeY / 2 ) then -- Half Way Line
+				line:SetTexture(1, 0, 0, 0.5 );
+			else
+				line:SetTexture(0, 0, 0, 0.5 );
+			end
+			line:SetPoint('TOPLEFT', grid, 'TOPLEFT', 0, -rows * screenHeight + 1);
+			line:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -rows * screenHeight - 1)
+		end
+	end
+end
+
+-- Slash Commands
+function HandleSlashCommands( command )
+	if( string.lower( command ) == "devgrid" ) then
+		DrawDevGrid();
+	end
 end
 
 local function Core_Init()
