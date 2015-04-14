@@ -7,12 +7,12 @@ local classIcon;
 local classIconBorder;
 
 -- Player Frame
-local pFrameX = -265;
+local pFrameX = -300;
 local pFrameY = -150;
 local pFrameScale = 1.45;
 
 -- Target Frame
-local tFrameX = 265;
+local tFrameX = 300;
 local tFrameY = -150;
 local tFrameScale = 1.45;
 local tFrameHidden = true;
@@ -81,6 +81,7 @@ local function SetUnitFrames()
 	TargetFrame:SetPoint( "CENTER", tFrameX, tFrameY );
 	TargetFrame:SetUserPlaced(true);
 	TargetFrame:SetMovable( false );
+	TargetFrame.buffsOnTop = true;
 
 	-- Tweak Focus Frame
 	FocusFrame:SetMovable( true );
