@@ -97,7 +97,7 @@ local microMenuList = {
 	{text = "|cffFFFFFF"..imp["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
 	{text = "|cffFFFFFF"..imp["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
 	{text = "|cffFFFFFF"..imp["Collections"], func = function() ToggleCollectionsJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
-	{text = "|cffFFFFFF"..imp["Dungeon Journal"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
+	{text = "|cffFFFFFF"..imp["Adventure Guide"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
 	{text = "|cffFFFFFF"..imp["Swap Bags"], func = function() ShowBagBar() end, notCheckable = true, fontObject = menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
 	{text = "|cff00FFFF"..imp["BlizzImp Options"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = menuFont },
 	{text = "|cffFFFF00"..imp["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = menuFont },

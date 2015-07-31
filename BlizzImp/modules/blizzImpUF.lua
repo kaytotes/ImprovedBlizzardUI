@@ -7,12 +7,12 @@ local classIcon;
 local classIconBorder;
 
 -- Player Frame
-local pFrameX = -300;
+local pFrameX = -265;
 local pFrameY = -150;
 local pFrameScale = 1.45;
 
 -- Target Frame
-local tFrameX = 300;
+local tFrameX = 265;
 local tFrameY = -150;
 local tFrameScale = 1.45;
 local tFrameHidden = true;

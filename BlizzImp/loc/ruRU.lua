@@ -12,7 +12,7 @@ if( GetLocale() == "ruRU" )then
 	imp["Guild"] = "Гильдия";
 	imp["Group Finder"] = "Поиск группы";
 	imp["Collections"] = "Коллекции";
-	imp["Dungeon Journal"] = "Атлас подземелий";
+	imp["Dungeon Journal"] = "Руководство Приключения";
 	imp["Swap Bags"] = "Переместить сумки";
 	imp["BlizzImp Options"] = "BlizzImp oпции"
 	imp["Log Out"] = "Выход из мира";
