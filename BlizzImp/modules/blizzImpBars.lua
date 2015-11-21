@@ -22,6 +22,7 @@ local leftBarY = 55;
 -- Stance Bar
 local stanceBarX = 0;
 local stanceBarY = 120;
+local stanceBarScale = 1;
 
 -- Right Gryphon Art
 local artPosX = 34;
@@ -123,6 +124,7 @@ local function SetBars()
 	-- Move Stance Bar
 	StanceBarFrame:SetMovable(true);
 	StanceBarFrame:ClearAllPoints();
+	StanceBarFrame:SetScale( stanceBarScale );
 	StanceBarFrame:SetPoint("TOPLEFT", stanceBarX, stanceBarY);
 	StanceBarFrame:SetUserPlaced(true);
 	StanceBarFrame:SetMovable( false );
