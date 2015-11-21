@@ -1,13 +1,41 @@
 local impBars = CreateFrame( "Frame", "ImprovBars", UIParent );
 
+-- Used for all action bars
 local barScale = 1.1;
+
+-- Vehicle Leave Button
+local vehButtonX = 0;
+local vehButtonY = 0;
+
+-- Main Action Bar
+local mainBarX = 256;
+local mainBarY = 0;
+
+-- Bottom Right Action Bar
+local rightBarX = -254;
+local rightBarY = 100;
+
+-- Bottom Left Action Bar
+local leftBarX = -254;
+local leftBarY = 55;
+
+-- Stance Bar
+local stanceBarX = 0;
+local stanceBarY = 120;
+
+-- Right Gryphon Art
+local artPosX = 34;
+local artPosY = 0;
+
+-- Bags Bar
+local bagsBarHiddenX = -1;
+local bagsBarHiddenY = -300;
+
 
 local petBar = CreateFrame("Frame", nil, PetActionBarFrame);
 petBar:SetFrameStrata("BACKGROUND");
 petBar:SetWidth(330);
 petBar:SetHeight(33);
---petBar:ClearAllPoints();
---petBar:SetPoint("CENTER", -415, 0);
 
 local function HideMicroMenu()
 	-- Move Micro Menu
@@ -40,7 +68,7 @@ local function SetBars()
 
 	MainMenuBarVehicleLeaveButton:SetMovable(true);
 	MainMenuBarVehicleLeaveButton:ClearAllPoints();
-	MainMenuBarVehicleLeaveButton:SetPoint("TOPLEFT", 0, 0);
+	MainMenuBarVehicleLeaveButton:SetPoint("TOPLEFT", vehButtonX, vehButtonY);
 	MainMenuBarVehicleLeaveButton:SetUserPlaced(true);
 	MainMenuBarVehicleLeaveButton:SetMovable(false);
 
@@ -52,12 +80,12 @@ local function SetBars()
     MainMenuBar:SetMovable(true);
     MainMenuBar:ClearAllPoints();
     MainMenuBar:SetScale( barScale );
-    MainMenuBar:SetPoint("BOTTOM", 256, 0);
+    MainMenuBar:SetPoint("BOTTOM", mainBarX, mainBarY);
     MainMenuBar:SetUserPlaced(true);
     MainMenuBar:SetMovable(false);
     
     -- Move End Cap
-    MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 34, 0);
+    MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, artPosX, artPosY);
     if( bShowBarArt == false)then
     	MainMenuBarRightEndCap:SetTexture(nil);
 		MainMenuBarLeftEndCap:SetTexture(nil);
@@ -66,14 +94,14 @@ local function SetBars()
     -- Move Bottom Right Bar
     MultiBarBottomRight:SetMovable(true);
 	MultiBarBottomRight:ClearAllPoints();
-	MultiBarBottomRight:SetPoint("BOTTOM", -254, 100);
+	MultiBarBottomRight:SetPoint("BOTTOM", rightBarX, rightBarY);
     MultiBarBottomRight:SetUserPlaced(true);
     MultiBarBottomRight:SetMovable(false);
 
     -- Move Bottom Left Bar
     MultiBarBottomLeft:SetMovable(true);
 	MultiBarBottomLeft:ClearAllPoints();
-	MultiBarBottomLeft:SetPoint("BOTTOM", -254, 55);
+	MultiBarBottomLeft:SetPoint("BOTTOM", leftBarX, leftBarY);
     MultiBarBottomLeft:SetUserPlaced(true);
     MultiBarBottomLeft:SetMovable(false);
 
@@ -95,7 +123,7 @@ local function SetBars()
 	-- Move Stance Bar
 	StanceBarFrame:SetMovable(true);
 	StanceBarFrame:ClearAllPoints();
-	StanceBarFrame:SetPoint("TOPLEFT", 0, 120);
+	StanceBarFrame:SetPoint("TOPLEFT", stanceBarX, stanceBarY);
 	StanceBarFrame:SetUserPlaced(true);
 	StanceBarFrame:SetMovable( false );
     
@@ -132,7 +160,7 @@ local function SetBars()
     ActionBarUpButton:Hide();
 
     -- Move Bag Bar
-    MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, -1, -300);
+    MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, bagsBarHiddenX, bagsBarHiddenY);
     
     HideMicroMenu();
 
@@ -143,7 +171,6 @@ end
 local function Bars_HandleEvents( self, event, ... )
 	if( event == "PLAYER_ENTERING_WORLD" ) then
 		if( InCombatLockdown() == false )then
-			--BuildPetBar();
 			SetBars();
 		end
 	end
@@ -183,7 +210,6 @@ local function Bars_Init()
 	impBars:RegisterEvent( "ACTIVE_TALENT_GROUP_CHANGED" )
 	if( InCombatLockdown() == false )then
 		SetBars();
-		--BuildPetBar();
 	end
 end
 

@@ -61,10 +61,6 @@ local function SetUnitFrames()
 	PartyMemberFrame3:SetScale( parFrameScale );
 	PartyMemberFrame4:SetScale( parFrameScale );
 	PartyMemberFrame1:SetPoint( "LEFT" , parFrameX, parFrameY );
-	--PartyMemberFrame1:Show();
-	--PartyMemberFrame2:Show();
-	--PartyMemberFrame3:Show();
-	--PartyMemberFrame4:Show();
 
 	-- Tweak Player Frame
 	PlayerFrame:SetMovable( true );
@@ -97,8 +93,6 @@ local function SetUnitFrames()
     	bossFrame:SetParent( UIParent );
    		bossFrame:SetScale( bossFrameScale );
    		bossFrame:SetFrameStrata("BACKGROUND");
-   		--bossFrame:Show();
-   		--_G["Boss"..i.."TargetFrameCastingBar"]:Show()
 	end
 
 	for i = 2, 5 do -- Spacing

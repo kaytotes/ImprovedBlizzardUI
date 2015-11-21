@@ -232,7 +232,7 @@ local function HideLeaveButton()
 	PVPReadyDialog.enterButton:SetPoint("BOTTOM", PVPReadyDialog, "BOTTOM", 0, 25);
 	PVPReadyDialog.label:SetPoint("TOP", 0, -22);
 	PVPReadyDialog.leaveButton:Hide();
-	PVPReadyDialog.leaveButton:HookScript("OnShow", PVPReadyDialog.leaveButton.Hide);
+	PVPReadyDialog.leaveButton:HookScript("OnShow", HideLeaveButton);
 end
 
 local function ModifyBuffs()
