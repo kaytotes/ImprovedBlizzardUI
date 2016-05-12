@@ -1,7 +1,12 @@
-local addon, imp = ...;
+--[[
+    ImpBlizzardUI/loc.lua
+    Handles the matching of English Key Pairs for Localisation Support
+    Notes: Actual Localised data is kept in the ImpBlizzardUI/loc/*.lua files
+]]
+local _, ImpBlizz = ...;
 
--- If no Localization just return English
-local function defaultFunc( imp, key )
+-- If no Localization data found just return English
+local function defaultFunc( ImpBlizz, key )
 	return key;
 end
-setmetatable( imp, {__index=defaultFunc});
+setmetatable( ImpBlizz, {__index=defaultFunc});

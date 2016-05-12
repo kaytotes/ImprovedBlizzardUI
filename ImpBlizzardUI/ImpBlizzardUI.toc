@@ -4,5 +4,8 @@
 ## Version: 1.0.0
 ## Author: Kaytotes
 
-core.lua
+loc.lua
+loc\ruRU.lua
+
 config.lua
+core.lua

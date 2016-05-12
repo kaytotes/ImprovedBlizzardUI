@@ -1,53 +1,53 @@
-local _, imp = ...;
+local _, ImpBlizz = ...;
 
 -- Set To ruRu
 if( GetLocale() == "ruRU" )then
 
 	-- Micro Menu
-	imp["Character"] = "Персонаж";
-	imp["Spellbook"] = "Способности";
-	imp["Talents"] = "Таланты";
-	imp["Achievements"] = "Достижения";
-	imp["Quest Log"] = "Журнал заданий";
-	imp["Guild"] = "Гильдия";
-	imp["Group Finder"] = "Поиск группы";
-	imp["Collections"] = "Коллекции";
-	imp["Dungeon Journal"] = "Руководство Приключения";
-	imp["Swap Bags"] = "Переместить сумки";
-	imp["BlizzImp Options"] = "BlizzImp oпции"
-	imp["Log Out"] = "Выход из мира";
-	imp["Force Exit"] = "Выход из игры";
+	ImpBlizz["Character"] = "Персонаж";
+	ImpBlizz["Spellbook"] = "Способности";
+	ImpBlizz["Talents"] = "Таланты";
+	ImpBlizz["Achievements"] = "Достижения";
+	ImpBlizz["Quest Log"] = "Журнал заданий";
+	ImpBlizz["Guild"] = "Гильдия";
+	ImpBlizz["Group Finder"] = "Поиск группы";
+	ImpBlizz["Collections"] = "Коллекции";
+	ImpBlizz["Dungeon Journal"] = "Руководство Приключения";
+	ImpBlizz["Swap Bags"] = "Переместить сумки";
+	ImpBlizz["BlizzImp Options"] = "BlizzImp oпции"
+	ImpBlizz["Log Out"] = "Выход из мира";
+	ImpBlizz["Force Exit"] = "Выход из игры";
 
 	-- Merchant
-	imp["Items Repaired from Guild Bank"] = "Вещи починены с помощью гильдейского банка";
-	imp["Can not Repair from Guild Bank"] = "Невозможно починить вещи с помощью гильдейского банка";
-	imp["Items Repaired from Own Money"] = "Вещи починены с затратами собственных денег";
-	imp["Sold Trash Items"] = "Продан ненужный хлам";
+	ImpBlizz["Items Repaired from Guild Bank"] = "Вещи починены с помощью гильдейского банка";
+	ImpBlizz["Can not Repair from Guild Bank"] = "Невозможно починить вещи с помощью гильдейского банка";
+	ImpBlizz["Items Repaired from Own Money"] = "Вещи починены с затратами собственных денег";
+	ImpBlizz["Sold Trash Items"] = "Продан ненужный хлам";
 
 	-- Combat
-	imp[" killed "] = " Убит ";
-	imp["Killing Blow!"] = "Мертв";
-	imp["HP < 50% !"] = "Здоровье ниже < 50% !";
-	imp["HP < 25% !!!"] = "Здоровье ниже < 25% !!!";
+	ImpBlizz[" killed "] = " Убит ";
+	ImpBlizz["Killing Blow!"] = "Мертв";
+	ImpBlizz["HP < 50% !"] = "Здоровье ниже < 50% !";
+	ImpBlizz["HP < 25% !!!"] = "Здоровье ниже < 25% !!!";
 
 	-- Config Headers
-	imp["Combat"] = "Бой";
-	imp["Miscellaneous"] = "Смешанный";
-	imp["User Interface"] = "Пользовательский интерфейс";
-	imp["Chat"] = "Chat"; -- NEEDS LOCALIZATION
+	ImpBlizz["Combat"] = "Бой";
+	ImpBlizz["Miscellaneous"] = "Смешанный";
+	ImpBlizz["User Interface"] = "Пользовательский интерфейс";
+	ImpBlizz["Chat"] = "Chat"; -- NEEDS LOCALIZATION
 
 	-- Config Options
-	imp["Display Class Icon"] = "Отображать классовую иконку";
-	imp["Display Health Warnings"] = "Сообщать о количестве здоровья";
-	imp["Display PvP Kill Tracker"] = "Отслеживать убийство игроков";
-	imp["Display PvP Killing Blow Indicator"] = "Отображать надпись Убит";
-	imp["Display Class Colours"] = "Раскрасить здоровье под цвета классов";
-	imp["Auto Repair"] = "Авто починка";
-	imp["Use Guild Bank For Repairs"] = "Использовать гильдейский банк для починки";
-	imp["Auto Sell Trash"] = "Авто продажа хлама";
-	imp["AFK Mode"] = "АФК 3D модель";
-	imp["Display System Statistics"] = "Отображать пинг и фпс";
-	imp["Display Player Co-Ordinates"] = "Отображать координаты";
-	imp["Display Art"] = "Отображать грифонов снизу";
-	imp["Modify Chat"] = "Modify Chat"; -- NEEDS LOCALIZATION
+	ImpBlizz["Display Class Icon"] = "Отображать классовую иконку";
+	ImpBlizz["Display Health Warnings"] = "Сообщать о количестве здоровья";
+	ImpBlizz["Display PvP Kill Tracker"] = "Отслеживать убийство игроков";
+	ImpBlizz["Display PvP Killing Blow Indicator"] = "Отображать надпись Убит";
+	ImpBlizz["Display Class Colours"] = "Раскрасить здоровье под цвета классов";
+	ImpBlizz["Auto Repair"] = "Авто починка";
+	ImpBlizz["Use Guild Bank For Repairs"] = "Использовать гильдейский банк для починки";
+	ImpBlizz["Auto Sell Trash"] = "Авто продажа хлама";
+	ImpBlizz["AFK Mode"] = "АФК 3D модель";
+	ImpBlizz["Display System Statistics"] = "Отображать пинг и фпс";
+	ImpBlizz["Display Player Co-Ordinates"] = "Отображать координаты";
+	ImpBlizz["Display Art"] = "Отображать грифонов снизу";
+	ImpBlizz["Modify Chat"] = "Modify Chat"; -- NEEDS LOCALIZATION
 end

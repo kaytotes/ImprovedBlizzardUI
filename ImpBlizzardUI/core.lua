@@ -2,7 +2,7 @@
     ImpBlizzardUI/core.lua
     Handles the misc functions of the addon that don't quite fit into any other category.
     Current Features: Development Grid Overlay
-    Todo: AFK Camera, Performance Statistics, Player Co-Ordinates,
+    Todo: AFK Camera, Performance Statistics, Player Co-Ordinates, Auto Repair, Auto Sell, ,
 ]]
 
 local _, ImpBlizz = ...;
@@ -15,6 +15,13 @@ local Core = CreateFrame("Frame", "ImpCore", UIParent); -- Create the Core frame
 local DamageFont = "Interface\\Addons\\ImpBlizzardUI\\media\\damage.ttf";
 local MenuFont = "Interface\\Addons\\ImpBlizzardUI\\media\\impfont.ttf";
 local CoreFont = "Fonts\\FRIZQT__.TTF";
+
+-- Handle the Core Events
+local function HandleEvents(self, event, unit)
+	if(event == "ADDON_LOADED") then --Doesn't check that it's this addon, don't want any other addon overriding it. Will make it a config option soon.
+		DAMAGE_TEXT_FONT = DamageFont;
+	end
+end
 
 -- Just draws an overlay grid to aid in placing stuff
 local function DrawDevGrid()
@@ -52,12 +59,6 @@ local function DrawDevGrid()
 			line:SetPoint('TOPLEFT', grid, 'TOPLEFT', 0, -rows * screenHeight + 1);
 			line:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -rows * screenHeight - 1)
 		end
-	end
-end
-
-local function HandleEvents(self, event, unit)
-	if(event == "ADDON_LOADED") then --Doesn't check that it's this addon, don't want any other addon overriding it. Will make it a config option soon.
-		DAMAGE_TEXT_FONT = DamageFont;
 	end
 end
 
