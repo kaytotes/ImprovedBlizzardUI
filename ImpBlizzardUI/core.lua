@@ -21,6 +21,32 @@ local function HandleEvents(self, event, unit)
 	if(event == "ADDON_LOADED") then --Doesn't check that it's this addon, don't want any other addon overriding it. Will make it a config option soon.
 		DAMAGE_TEXT_FONT = DamageFont;
 	end
+
+	-- Auto Repair all Equipment. Uses Guild Bank when possible. Toggleable under Misc Config
+	if(event == "MERCHANT_SHOW" and CanMerchantRepair() and Conf_AutoRepair) then
+		local repCost, bRepair = GetRepairAllCost();
+
+		if(Conf_GuildBankRepair == true) then
+			if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost) then
+				if(repCost > 0) then
+					RepairAllItems(true);
+					print("|cffffff00"..ImpBlizz["Items Repaired from Guild Bank"]..": "..GetCoinTextureString(repCost));
+				end
+			else
+				print("|cffffff00"..ImpBlizz["Can not Repair from Guild Bank"]);
+				if(repCost <= GetMoney() and repCost > 0) then
+					RepairAllItems(false);
+					print("|cffffff00"..ImpBlizz["Items Repaired from Own Money"]..": "..GetCoinTextureString(repCost));
+				end
+			end
+		else
+			if(repCost <= GetMoney() and repCost > 0) then
+				RepairAllItems(false);
+				print("|cffffff00"..ImpBlizz["Items Repaired from Own Money"]..": "..GetCoinTextureString(repCost));
+			end
+		end
+	end
+	
 end
 
 -- Just draws an overlay grid to aid in placing stuff

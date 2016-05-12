@@ -19,7 +19,11 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-
+    if(Conf_AutoRepair ~= MiscConfig.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= MiscConfig.panel.guildRepair:GetChecked()) then
+        return true;
+    else
+        return false;
+    end
 end
 
 --[[
@@ -27,23 +31,31 @@ end
 ]]
 -- Reset all options to the default settings
 local function SetDefaults_Primary()
-
+    MiscConfig.panel.autoRepair:SetChecked(true);
+    MiscConfig.panel.guildRepair:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
 local function LoadConfig_Primary()
-
+    MiscConfig.panel.autoRepair:SetChecked(Conf_AutoRepair);
+    MiscConfig.panel.guildRepair:SetChecked(Conf_GuildBankRepair);
 end
 
 -- Applies any changes
 local function ApplyChanges_Primary()
+    if(ConfigChanged()) then
+        Conf_AutoRepair = MiscConfig.panel.autoRepair:GetChecked();
+        Conf_GuildBankRepair = MiscConfig.panel.guildRepair:GetChecked();
 
+        ReloadUI();
+    end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
 local function HandleEvents(self, event, ...)
     if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
         LoadConfig_Primary();
+        LoadConfig_PvP();
     end
 end
 
@@ -58,6 +70,26 @@ local function BuildWindow_Primary()
     -- Register the event handler and addon loaded event
     MiscConfig.panel:SetScript("OnEvent", HandleEvents);
     MiscConfig.panel:RegisterEvent("ADDON_LOADED");
+
+    -- Title
+    MiscConfig.panel.titleText = MiscConfig.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    MiscConfig.panel.titleText:SetFont(Font, 18, "OUTLINE");
+    MiscConfig.panel.titleText:SetPoint("TOPLEFT", 5, -10);
+    MiscConfig.panel.titleText:SetText("|cffffff00 Improved Blizzard UI:- Miscellaneous Config");
+
+    -- Auto Repair Checkbox
+    MiscConfig.panel.autoRepair = CreateFrame("CheckButton", "RepairCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
+    MiscConfig.panel.autoRepair:ClearAllPoints();
+    MiscConfig.panel.autoRepair:SetPoint("TOPLEFT", 5, -250);
+    _G[MiscConfig.panel.autoRepair:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[MiscConfig.panel.autoRepair:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Auto Repair"]);
+
+    -- Guild Bank Repair Checkbox
+    MiscConfig.panel.guildRepair = CreateFrame("CheckButton", "GuildRepairCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
+    MiscConfig.panel.guildRepair:ClearAllPoints();
+    MiscConfig.panel.guildRepair:SetPoint("TOPLEFT", 5, -280);
+    _G[MiscConfig.panel.guildRepair:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[MiscConfig.panel.guildRepair:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Use Guild Bank For Repairs"]);
 end
 --[[
     Primary Window Config Stuff Ends
