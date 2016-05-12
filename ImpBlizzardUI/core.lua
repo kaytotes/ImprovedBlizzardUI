@@ -2,7 +2,7 @@
     ImpBlizzardUI/core.lua
     Handles the misc functions of the addon that don't quite fit into any other category.
     Current Features: Development Grid Overlay
-    Todo: AFK Camera, Performance Statistics, Player Co-Ordinates, 
+    Todo: AFK Camera, Performance Statistics, Player Co-Ordinates,
 ]]
 
 local _, ImpBlizz = ...;
@@ -56,13 +56,15 @@ local function DrawDevGrid()
 end
 
 local function HandleEvents(self, event, unit)
-
+	if(event == "ADDON_LOADED") then --Doesn't check that it's this addon, don't want any other addon overriding it. Will make it a config option soon.
+		DAMAGE_TEXT_FONT = DamageFont;
+	end
 end
 
 -- Handle any of the core /impblizz commands issued by the player
 local function HandleCommands(input)
     local command = string.lower(input);
-    
+
     if(command == "grid") then
         DrawGrid();
     end
@@ -72,12 +74,12 @@ end
 local function Init()
     SLASH_IMPBLIZZ1 = "/impblizz";
     SlashCmdList["IMPBLIZZ"] = HandleCommands; -- Set up the slash commands handler
-    
-    core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
-    
+
+    Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
+
     -- Register the Core Events
-    core:RegisterEvent("ADDON_LOADED");
-    
+    Core:RegisterEvent("ADDON_LOADED");
+
     -- Init Finished
     print("|cffffff00Improved Blizzard UI " .. AddonVersion .. " Initialised");
 end
