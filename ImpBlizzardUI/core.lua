@@ -18,9 +18,6 @@ local CoreFont = "Fonts\\FRIZQT__.TTF";
 
 -- Handle the Core Events
 local function HandleEvents(self, event, unit)
-	if(event == "ADDON_LOADED") then --Doesn't check that it's this addon, don't want any other addon overriding it. Will make it a config option soon.
-		DAMAGE_TEXT_FONT = DamageFont;
-	end
 
 	-- Auto Repair all Equipment. Uses Guild Bank when possible. Toggleable under Misc Config
 	if(event == "MERCHANT_SHOW" and CanMerchantRepair() and Conf_AutoRepair) then
@@ -46,7 +43,7 @@ local function HandleEvents(self, event, unit)
 			end
 		end
 	end
-	
+
 end
 
 -- Just draws an overlay grid to aid in placing stuff
