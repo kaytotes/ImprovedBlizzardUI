@@ -5,3 +5,4 @@
 ## Author: Kaytotes
 
 core.lua
+config.lua
