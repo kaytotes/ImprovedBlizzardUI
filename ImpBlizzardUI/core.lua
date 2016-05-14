@@ -6,8 +6,6 @@
 
 local _, ImpBlizz = ...;
 
-local AddonVersion = GetAddOnMetadata("ImpBlizzardUI", "Version");
-
 local Core = CreateFrame("Frame", "ImpCore", UIParent); -- Create the Core frame, doesn't ever get drawn just logic
 
 -- Get Font references
@@ -363,7 +361,7 @@ local function Init()
 	Core:RegisterEvent("PLAYER_ENTERING_WORLD");
 
     -- Init Finished
-    print("|cffffff00Improved Blizzard UI " .. AddonVersion .. " Initialised");
+    print("|cffffff00Improved Blizzard UI " .. GetAddOnMetadata("ImpBlizzardUI", "Version") .. " Initialised");
 end
 
 -- End of File, Call Init
