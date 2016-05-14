@@ -63,7 +63,7 @@ end
 
 -- Actually does the AFK Camera actions, begins spin, hides windows etc
 local function AFKCamera_Spin(spin)
-	if(!InCombatLockdown()) then
+	if(InCombatLockdown() == false) then
 		if(spin) then
 			-- Refresh and Set the Player Model anims
 			AFKCamera.playerModel:SetUnit("player");
@@ -91,10 +91,10 @@ local function AFKCamera_Spin(spin)
 			AFKCamera.hidden = false;
 			MoveViewRightStart(0.15);
 		else
-			if(!AFKCamera.hidden) then
-				UIParent:Show();
-				AFKCamera.fadeOutAnim:play();
+			if(AFKCamera.hidden == false) then
 				MoveViewRightStop();
+				UIParent:Show();
+				AFKCamera.fadeOutAnim:Play();
 
 				-- Reopen PVE Frame if it was open
 				if(AFKCamera.PvEIsOpen) then
