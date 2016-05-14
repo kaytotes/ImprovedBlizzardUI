@@ -102,8 +102,8 @@ local function BuildWindow_Primary()
     -- Title
     Config.panel.titleText = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
     Config.panel.titleText:SetFont(Font, 18, "OUTLINE");
-    Config.panel.titleText:SetPoint("TOPLEFT", 150, -10);
-    Config.panel.titleText:SetText("|cffffff00 Improved Blizzard UI Config");
+    Config.panel.titleText:SetPoint("TOPLEFT", 160, -10);
+    Config.panel.titleText:SetText("|cffffff00 Improved Blizzard UI - v"..GetAddOnMetadata("ImpBlizzardUI", "Version"));
 
     --[[
         Misc Config Begins
@@ -141,22 +141,34 @@ local function BuildWindow_Primary()
     Config.panel.afkCamera:SetPoint("TOPLEFT", 15, -170);
     _G[Config.panel.afkCamera:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.afkCamera:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["AFK Mode"]);
+    --[[
+        Misc Config Ends
+    ]]
+
+    --[[
+        User Interface Config Begins
+    ]]
+    -- Misc Header
+    Config.panel.miscHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    Config.panel.miscHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
+    Config.panel.miscHeader:SetPoint( "TOPLEFT", 15, -220 );
+    Config.panel.miscHeader:SetText("|cffffff00 - "..ImpBlizz["User Interface"].." - ");
 
     -- Player Co-ordinates Checkbox
     Config.panel.playerCoords = CreateFrame("CheckButton", "CoordsCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.playerCoords:ClearAllPoints();
-    Config.panel.playerCoords:SetPoint("TOPLEFT", 15, -200);
+    Config.panel.playerCoords:SetPoint("TOPLEFT", 15, -250);
     _G[Config.panel.playerCoords:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.playerCoords:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Player Co-Ordinates"]);
 
     -- Performance Counter
     Config.panel.systemStats = CreateFrame("CheckButton", "StatsCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.systemStats:ClearAllPoints();
-    Config.panel.systemStats:SetPoint("TOPLEFT", 15, -230);
+    Config.panel.systemStats:SetPoint("TOPLEFT", 15, -280);
     _G[Config.panel.systemStats:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.systemStats:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display System Statistics"]);
     --[[
-        Misc Config Ends
+        User Interface Config Ends
     ]]
 
     --[[
@@ -183,6 +195,18 @@ local function BuildWindow_Primary()
     _G[Config.panel.styleChat:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Style Chat"]);
     --[[
         Chat Config Ends
+    ]]
+
+    --[[
+        Action Bar Config Begins
+    ]]
+    -- Action Bars Header
+    Config.panel.actionBarsHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    Config.panel.actionBarsHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
+    Config.panel.actionBarsHeader:SetPoint( "TOPLEFT", 375, -220 );
+    Config.panel.actionBarsHeader:SetText("|cffffff00 - "..ImpBlizz["Action Bars"].." - ");
+    --[[
+        Action Bar Config Ends
     ]]
 end
 --[[

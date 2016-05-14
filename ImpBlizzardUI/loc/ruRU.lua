@@ -1,5 +1,5 @@
 --[[
-	Missing: Minify Blizzard Strings, Style CHat
+	Missing: Minify Blizzard Strings, Style Chat, Action Bars
 ]]
 
 local _, ImpBlizz = ...;
