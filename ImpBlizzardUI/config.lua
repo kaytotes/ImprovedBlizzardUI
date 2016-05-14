@@ -19,7 +19,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_AutoRepair ~= MiscConfig.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= MiscConfig.panel.guildRepair:GetChecked() or Conf_SellGreys ~= MiscConfig.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= MiscConfig.panel.afkCamera:GetChecked()) then
+    if(Conf_AutoRepair ~= MiscConfig.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= MiscConfig.panel.guildRepair:GetChecked() or Conf_SellGreys ~= MiscConfig.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= MiscConfig.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= MiscConfig.panel.playerCoords:GetChecked()) then
         return true;
     else
         return false;
@@ -63,6 +63,7 @@ local function SetDefaults_Primary()
     MiscConfig.panel.guildRepair:SetChecked(true);
     MiscConfig.panel.sellGreys:SetChecked(true);
     MiscConfig.panel.afkCamera:SetChecked(true);
+    MiscConfig.panel.playerCoords:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -71,6 +72,7 @@ local function LoadConfig_Primary()
     MiscConfig.panel.guildRepair:SetChecked(Conf_GuildBankRepair);
     MiscConfig.panel.sellGreys:SetChecked(Conf_SellGreys);
     MiscConfig.panel.afkCamera:SetChecked(Conf_AFKCamera);
+    MiscConfig.panel.playerCoords:SetChecked(Conf_ShowCoords);
 end
 
 -- Applies any changes
@@ -80,6 +82,7 @@ local function ApplyChanges_Primary()
         Conf_GuildBankRepair = MiscConfig.panel.guildRepair:GetChecked();
         Conf_SellGreys = MiscConfig.panel.sellGreys:GetChecked();
         Conf_AFKCamera = MiscConfig.panel.afkCamera:GetChecked();
+        Conf_ShowCoords = MiscConfig.panel.playerCoords:GetChecked();
         ReloadUI();
     end
 end
@@ -90,6 +93,7 @@ local function CheckFirstLoad()
     if (Conf_GuildBankRepair == nil) then Conf_GuildBankRepair = true end
     if (Conf_SellGreys == nil) then Conf_SellGreys = true end
     if (Conf_AFKCamera == nil) then Conf_AFKCamera = true end
+    if (Conf_ShowCoords == nil) then Conf_ShowCoords = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -146,6 +150,13 @@ local function BuildWindow_Primary()
     MiscConfig.panel.afkCamera:SetPoint("TOPLEFT", 15, -130);
     _G[MiscConfig.panel.afkCamera:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.afkCamera:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["AFK Mode"]);
+
+    -- Player Co-ordinates Checkbox
+    MiscConfig.panel.playerCoords = CreateFrame("CheckButton", "CoordsCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
+    MiscConfig.panel.playerCoords:ClearAllPoints();
+    MiscConfig.panel.playerCoords:SetPoint("TOPLEFT", 15, -160);
+    _G[MiscConfig.panel.playerCoords:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[MiscConfig.panel.playerCoords:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Player Co-Ordinates"]);
 end
 --[[
     Primary Window Config Stuff Ends

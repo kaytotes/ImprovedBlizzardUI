@@ -22,6 +22,63 @@ local DevGrid;
 -- AFK Camera
 local AFKCamera;
 
+-- Co-ordinates Frame
+local CoordsFrame;
+
+-- Ticks every 0.5 seconds, purely to update the Co-ordinates display.
+local function Core_Tick(self, elapsed)
+	CoordsFrame.elapsed += elapsed; -- Increment the tick timer
+	if(CoordsFrame.elapsed >= CoordsFrame.delay) then -- Matched tick delay?
+		if(Conf_ShowCoords) then -- Update the Co-ords frame
+			if(Minimap:IsVisible()) then
+				local x, y = GetPlayerMapPosition("player");
+				if(x ~= 0 and y ~= 0) then
+					CoordsFrame.text:SetFormattedText("(%d:%d)", x * 100, y * 100);
+				end
+			end
+		end
+		CoordsFrame.elapsed = 0; -- Reset the timer
+	end
+end
+
+-- Tweaks the standard Blizzard minimap, hiding a few buttons and enabling Mouse Scroll.
+-- Also Initialises the Co-Ords text
+local function ModifyMinimap()
+	-- Hide Minimap Zoom Buttons
+	MinimapZoomIn:Hide();
+	MinimapZoomOut:Hide();
+
+	-- Move and Scale the entire Minimap frame
+	MinimapCluster:ClearAllPoints();
+	MinimapCluster:SetScale(1.15);
+	MinimapCluster:SetPoint("TOPRIGHT", -15, -25);
+
+	-- All and handle Mouse Scroll for minimap zooming
+	Minimap:EnableMouseWheel(true);
+	Minimap:SetScript("OnMouseWheel", function(self, delta)
+		if(delta > 0) then
+			Minimap_ZoomIn();
+		else
+			Minimap_ZoomOut();
+		end
+	end);
+
+	-- Create the Co-Ordinates Frame
+	CoordsFrame = CreateFrame("Frame", nil, Minimap);
+	CoordsFrame.text = CoordsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+	CoordsFrame.delay = 0.5;
+	CoordsFrame.elapsed = 0;
+
+	-- Set the position and scale etc
+	CoordsFrame:SetFrameStrata("LOW");
+	CoordsFrame:SetWidth(32);
+	CoordsFrame:SetHeight(32);
+	CoordsFrame:SetPoint("BOTTOM", 3, 0);
+	CoordsFrame.text:SetPoint("CENTER", 0, 0);
+	CoordsFrame.text:SetFont(CoreFont, 14, "OUTLINE");
+	CoordsFrame:SetScript("OnUpdate", Core_Tick); -- Begin the Core_Tick
+end
+
 -- Actually does the AFK Camera actions, begins spin, hides windows etc
 local function AFKCamera_Spin(spin)
 	if(InCombatLockdown() == false) then
@@ -215,6 +272,12 @@ local function HandleEvents(self, event, unit)
 			AFKSpin(false);
 		end
 	end
+
+	if(event == "PLAYER_ENTERING_WORLD") then
+		if(InCombatLockdown() == false) then
+			ModifyMinimap();
+		end
+	end
 end
 
 -- Initialises the Core module and its relevant submodules
@@ -231,6 +294,7 @@ local function Init()
 	Core:RegisterEvent("PLAYER_FLAGS_CHANGED");
 	Core:RegisterEvent("PLAYER_LEAVING_WORLD");
 	Core:RegisterEvent("PLAYER_DEAD");
+	Core:RegisterEvent("PLAYER_ENTERING_WORLD");
 
     -- Init Finished
     print("|cffffff00Improved Blizzard UI " .. AddonVersion .. " Initialised");
