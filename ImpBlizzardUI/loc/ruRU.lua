@@ -1,3 +1,7 @@
+--[[
+	Missing: Minify Blizzard Strings, Style CHat
+]]
+
 local _, ImpBlizz = ...;
 
 -- Set To ruRu
@@ -34,7 +38,6 @@ if( GetLocale() == "ruRU" )then
 	ImpBlizz["Combat"] = "Бой";
 	ImpBlizz["Miscellaneous"] = "Смешанный";
 	ImpBlizz["User Interface"] = "Пользовательский интерфейс";
-	ImpBlizz["Chat"] = "Chat"; -- NEEDS LOCALIZATION
 
 	-- Config Options
 	ImpBlizz["Display Class Icon"] = "Отображать классовую иконку";
@@ -49,5 +52,4 @@ if( GetLocale() == "ruRU" )then
 	ImpBlizz["Display System Statistics"] = "Отображать пинг и фпс";
 	ImpBlizz["Display Player Co-Ordinates"] = "Отображать координаты";
 	ImpBlizz["Display Art"] = "Отображать грифонов снизу";
-	ImpBlizz["Modify Chat"] = "Modify Chat"; -- NEEDS LOCALIZATION
 end
