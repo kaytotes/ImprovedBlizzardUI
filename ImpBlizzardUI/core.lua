@@ -25,8 +25,11 @@ local AFKCamera;
 -- Co-ordinates Frame
 local CoordsFrame;
 
+-- Performance Counter
+local PerformanceFrame;
+
 -- Ticks every 0.5 seconds, purely to update the Co-ordinates display.
-local function Core_Tick(self, elapsed)
+local function CoordsFrame_Tick(self, elapsed)
 	CoordsFrame.elapsed = CoordsFrame.elapsed + elapsed; -- Increment the tick timer
 	if(CoordsFrame.elapsed >= CoordsFrame.delay) then -- Matched tick delay?
 		if(Conf_ShowCoords) then -- Update the Co-ords frame
@@ -76,7 +79,7 @@ local function ModifyMinimap()
 	CoordsFrame:SetPoint("BOTTOM", 3, 0);
 	CoordsFrame.text:SetPoint("CENTER", 0, 0);
 	CoordsFrame.text:SetFont(CoreFont, 14, "OUTLINE");
-	CoordsFrame:SetScript("OnUpdate", Core_Tick); -- Begin the Core_Tick
+	CoordsFrame:SetScript("OnUpdate", CoordsFrame_Tick); -- Begin the Core_Tick
 end
 
 -- Actually does the AFK Camera actions, begins spin, hides windows etc
@@ -158,6 +161,69 @@ local function AFKCamera_Init()
 	AFKCamera.fadeOut:SetChange(-1);
 	AFKCamera.fadeOut:SetOrder(1);
 	AFKCamera.fadeOutAnim:SetScript("OnFinished", function() AFKCamera:SetAlpha(0) end );
+end
+
+
+-- Ticks every 2 seconds, updates the performance counter
+local function PerformanceFrame_Tick(self, elapsed)
+	PerformanceFrame.elapsed = PerformanceFrame.elapsed + elapsed; -- Increment Timer
+	if(PerformanceFrame.elapsed >= PerformanceFrame.delay) then
+		local _, _, latencyHome, latencyWorld = GetNetStats(); -- Get current Latency
+
+		-- Colour Latency Strings
+		if( latencyHome <= 75 )then
+			latencyHome = format("|cff00CC00%s|r", latencyHome );
+		elseif( latencyHome > 75 and latencyHome <= 250 )then
+			latencyHome = format("|cffFFFF00%s|r", latencyHome );
+		elseif( latencyHome > 250 )then
+			latencyHome = format("|cffFF0000%s|r", latencyHome );
+		end
+
+		if( latencyWorld <= 75 )then
+			latencyWorld = format("|cff00CC00%s|r", latencyWorld );
+		elseif( latencyWorld > 75 and latencyWorld <= 250 )then
+			latencyWorld = format("|cffFFFF00%s|r", latencyWorld );
+		elseif( latencyWorld > 250 )then
+			latencyWorld = format("|cffFF0000%s|r", latencyWorld );
+		end
+
+		local frameRate = floor(GetFramerate()); -- Get the current frame rate
+
+		-- Colour Frame Rate
+		if(frameRate >= 60) then
+			frameRate = format("|cff00CC00%s|r", frameRate );
+		elseif(frameRate >= 20 and frameRate <= 59) then
+			frameRate = format("|cffFFFF00%s|r", frameRate );
+		elseif(frameRate < 20) then
+			frameRate = format("|cffFF0000%s|r", frameRate );
+		end
+
+		-- Write Text
+		PerformanceFrame.text:SetText(" ");
+		if(Conf_ShowStats) then
+			PerformanceFrame.text:SetText(latencyHome.." / "..latencyWorld.." ms - "..frameRate.." fps");
+		end
+		PerformanceFrame.elapsed = 0;
+	end
+end
+
+-- Initialises the Performance Counter
+local function PerformanceFrame_Init()
+	-- Create and Position the Performance Counter
+	PerformanceFrame = CreateFrame("Frame", nil, UIParent);
+	PerformanceFrame.text = PerformanceFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+	PerformanceFrame.elapsed = 0;
+	PerformanceFrame.delay = 2;
+	PerformanceFrame:SetFrameStrata("BACKGROUND");
+	PerformanceFrame:SetWidth(32);
+	PerformanceFrame:SetHeight(32);
+	PerformanceFrame:SetPoint("TOPRIGHT", -100, -0);
+
+	-- Text positioning
+	PerformanceFrame.text:SetPoint("CENTER", 0, 0);
+	PerformanceFrame.text:SetFont(CoreFont, 16, "OUTLINE");
+
+	PerformanceFrame:SetScript("OnUpdate", PerformanceFrame_Tick);
 end
 
 -- Just draws an overlay DevGrid to aid in placing stuff
@@ -277,6 +343,7 @@ local function HandleEvents(self, event, unit)
 		if(InCombatLockdown() == false) then
 			ModifyMinimap();
 		end
+		PerformanceFrame_Init();
 	end
 end
 
