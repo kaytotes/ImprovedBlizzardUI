@@ -9,6 +9,12 @@ Localized for enGB / enUS / ruRU.
 
 # Features
 
+### User Interface
+
+### Combat
+
 ### Miscellaneous
 
 * Automatically repairs damaged equipment utilising the Guild Bank where possible.
+* Automatically sells grey quality loot when at an appropriate vendor.
+* "Hero View" AFK Camera system.

@@ -1,8 +1,8 @@
 --[[
     ImpBlizzardUI/core.lua
     Handles the misc functions of the addon that don't quite fit into any other category.
-    Current Features: Development DevGrid Overlay
-    Todo: AFK Camera, Performance Statistics, Player Co-Ordinates, Auto Repair, Auto Sell, ,
+    Current Features: Development DevGrid Overlay, Auto Sell, Auto Repair, AFK Camera
+    Todo: Performance Statistics, Player Co-Ordinates, Minimap Tweaks
 ]]
 
 local _, ImpBlizz = ...;
