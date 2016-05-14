@@ -19,7 +19,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_AutoRepair ~= MiscConfig.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= MiscConfig.panel.guildRepair:GetChecked() or Conf_SellGreys ~= MiscConfig.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= MiscConfig.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= MiscConfig.panel.playerCoords:GetChecked() or Conf_ShowStats ~= MiscConfig.panel.systemStats:GetChecked()) then
+    if(Conf_AutoRepair ~= MiscConfig.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= MiscConfig.panel.guildRepair:GetChecked() or Conf_SellGreys ~= MiscConfig.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= MiscConfig.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= MiscConfig.panel.playerCoords:GetChecked() or Conf_ShowStats ~= MiscConfig.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= MiscConfig.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= MiscConfig.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -49,6 +49,12 @@ local function BuildWindow_PvP()
     PvPConfig.panel.okay = ApplyChanges_PvP;
     PvPConfig.panel.cancel = LoadConfig_PvP;
     PvPConfig.panel.default = SetDefaults_PvP;
+
+    -- Title
+    PvPConfig.panel.titleText = PvPConfig.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    PvPConfig.panel.titleText:SetFont(Font, 18, "OUTLINE");
+    PvPConfig.panel.titleText:SetPoint("TOPLEFT", 150, -10);
+    PvPConfig.panel.titleText:SetText("|cffffff00 Improved Blizzard UI Config");
 end
 --[[
     Primary PvP Config Stuff Ends
@@ -65,6 +71,8 @@ local function SetDefaults_Primary()
     MiscConfig.panel.afkCamera:SetChecked(true);
     MiscConfig.panel.playerCoords:SetChecked(true);
     MiscConfig.panel.systemStats:SetChecked(true);
+    MiscConfig.panel.minifyStrings:SetChecked(true);
+    MiscConfig.panel.styleChat:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -75,6 +83,8 @@ local function LoadConfig_Primary()
     MiscConfig.panel.afkCamera:SetChecked(Conf_AFKCamera);
     MiscConfig.panel.playerCoords:SetChecked(Conf_ShowCoords);
     MiscConfig.panel.systemStats:SetChecked(Conf_ShowStats);
+    MiscConfig.panel.minifyStrings:SetChecked(Conf_MinifyGlobals);
+    MiscConfig.panel.styleChat:SetChecked(Conf_StyleChat);
 end
 
 -- Applies any changes
@@ -86,6 +96,8 @@ local function ApplyChanges_Primary()
         Conf_AFKCamera = MiscConfig.panel.afkCamera:GetChecked();
         Conf_ShowCoords = MiscConfig.panel.playerCoords:GetChecked();
         Conf_ShowStats = MiscConfig.panel.systemStats:GetChecked();
+        Conf_MinifyGlobals = MiscConfig.panel.minifyStrings:GetChecked();
+        Conf_StyleChat = MiscConfig.panel.styleChat:GetChecked();
         ReloadUI();
     end
 end
@@ -98,6 +110,8 @@ local function CheckFirstLoad()
     if (Conf_AFKCamera == nil) then Conf_AFKCamera = true end
     if (Conf_ShowCoords == nil) then Conf_ShowCoords = true end
     if (Conf_ShowStats == nil) then Conf_ShowStats = true end
+    if (Conf_MinifyGlobals == nil) then Conf_MinifyGlobals = true end
+    if (Conf_StyleChat == nil) then Conf_StyleChat = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -124,50 +138,88 @@ local function BuildWindow_Primary()
     -- Title
     MiscConfig.panel.titleText = MiscConfig.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
     MiscConfig.panel.titleText:SetFont(Font, 18, "OUTLINE");
-    MiscConfig.panel.titleText:SetPoint("TOPLEFT", 110, -10);
-    MiscConfig.panel.titleText:SetText("|cffffff00 Improved Blizzard UI:- Miscellaneous Config");
+    MiscConfig.panel.titleText:SetPoint("TOPLEFT", 150, -10);
+    MiscConfig.panel.titleText:SetText("|cffffff00 Improved Blizzard UI Config");
+
+    --[[
+        Misc Config Begins
+    ]]
+    -- Misc Header
+    MiscConfig.panel.miscHeader = MiscConfig.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    MiscConfig.panel.miscHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
+    MiscConfig.panel.miscHeader:SetPoint( "TOPLEFT", 15, -50 );
+    MiscConfig.panel.miscHeader:SetText("|cffffff00 - "..ImpBlizz["Miscellaneous"].." - ");
 
     -- Auto Repair Checkbox
     MiscConfig.panel.autoRepair = CreateFrame("CheckButton", "RepairCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
     MiscConfig.panel.autoRepair:ClearAllPoints();
-    MiscConfig.panel.autoRepair:SetPoint("TOPLEFT", 15, -40);
+    MiscConfig.panel.autoRepair:SetPoint("TOPLEFT", 15, -80);
     _G[MiscConfig.panel.autoRepair:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.autoRepair:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Auto Repair"]);
 
     -- Guild Bank Repair Checkbox
     MiscConfig.panel.guildRepair = CreateFrame("CheckButton", "GuildRepairCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
     MiscConfig.panel.guildRepair:ClearAllPoints();
-    MiscConfig.panel.guildRepair:SetPoint("TOPLEFT", 15, -70);
+    MiscConfig.panel.guildRepair:SetPoint("TOPLEFT", 15, -110);
     _G[MiscConfig.panel.guildRepair:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.guildRepair:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Use Guild Bank For Repairs"]);
 
     -- Sell Greys Checkbox
     MiscConfig.panel.sellGreys = CreateFrame("CheckButton", "SellGreysCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
     MiscConfig.panel.sellGreys:ClearAllPoints();
-    MiscConfig.panel.sellGreys:SetPoint("TOPLEFT", 15, -100);
+    MiscConfig.panel.sellGreys:SetPoint("TOPLEFT", 15, -140);
     _G[MiscConfig.panel.sellGreys:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.sellGreys:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Auto Sell Trash"]);
 
     -- AFKCamera Spin Checkbox
     MiscConfig.panel.afkCamera = CreateFrame("CheckButton", "AFKCameraCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
     MiscConfig.panel.afkCamera:ClearAllPoints();
-    MiscConfig.panel.afkCamera:SetPoint("TOPLEFT", 15, -130);
+    MiscConfig.panel.afkCamera:SetPoint("TOPLEFT", 15, -170);
     _G[MiscConfig.panel.afkCamera:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.afkCamera:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["AFK Mode"]);
 
     -- Player Co-ordinates Checkbox
     MiscConfig.panel.playerCoords = CreateFrame("CheckButton", "CoordsCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
     MiscConfig.panel.playerCoords:ClearAllPoints();
-    MiscConfig.panel.playerCoords:SetPoint("TOPLEFT", 15, -160);
+    MiscConfig.panel.playerCoords:SetPoint("TOPLEFT", 15, -200);
     _G[MiscConfig.panel.playerCoords:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.playerCoords:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Player Co-Ordinates"]);
 
     -- Performance Counter
     MiscConfig.panel.systemStats = CreateFrame("CheckButton", "StatsCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
     MiscConfig.panel.systemStats:ClearAllPoints();
-    MiscConfig.panel.systemStats:SetPoint("TOPLEFT", 15, -190);
+    MiscConfig.panel.systemStats:SetPoint("TOPLEFT", 15, -230);
     _G[MiscConfig.panel.systemStats:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[MiscConfig.panel.systemStats:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display System Statistics"]);
+    --[[
+        Misc Config Ends
+    ]]
+
+    --[[
+        Chat Config Begins
+    ]]
+    -- Chat Header
+    MiscConfig.panel.chatHeader = MiscConfig.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    MiscConfig.panel.chatHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
+    MiscConfig.panel.chatHeader:SetPoint( "TOPLEFT", 400, -50 );
+    MiscConfig.panel.chatHeader:SetText("|cffffff00 - "..ImpBlizz["Chat"].." - ");
+
+    -- Minify Blizzard Strings Checkbox
+    MiscConfig.panel.minifyStrings = CreateFrame("CheckButton", "MinifyCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
+    MiscConfig.panel.minifyStrings:ClearAllPoints();
+    MiscConfig.panel.minifyStrings:SetPoint("TOPLEFT", 330, -80);
+    _G[MiscConfig.panel.minifyStrings:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[MiscConfig.panel.minifyStrings:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Minify Blizzard Strings"]);
+
+    -- Style Chat Checkbox
+    MiscConfig.panel.styleChat = CreateFrame("CheckButton", "StyleChatCheckBox", MiscConfig.panel, "UICheckButtonTemplate");
+    MiscConfig.panel.styleChat:ClearAllPoints();
+    MiscConfig.panel.styleChat:SetPoint("TOPLEFT", 330, -110);
+    _G[MiscConfig.panel.styleChat:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[MiscConfig.panel.styleChat:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Style Chat"]);
+    --[[
+        Chat Config Ends
+    ]]
 end
 --[[
     Primary Window Config Stuff Ends

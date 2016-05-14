@@ -18,6 +18,13 @@ Localized for enGB / enUS / ruRU.
 
 ### Combat
 
+### Chat
+* Minified numerous Blizzard strings (Loot Gained, Chat Channels etc)
+* Replaced chat Font
+* Removed chat tab backgrounds
+* Removed some chat buttons
+* Increased the font size range
+
 ### Miscellaneous
 
 * Automatically repairs damaged equipment utilising the Guild Bank where possible.
