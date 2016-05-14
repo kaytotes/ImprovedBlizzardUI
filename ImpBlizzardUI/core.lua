@@ -22,45 +22,6 @@ local DevGrid;
 -- AFK Camera
 local AFKCamera;
 
--- Just draws an overlay DevGrid to aid in placing stuff
-local function DrawDevGrid()
-	-- DevGrid Already Drawn?
-	if( DevGrid ) then
-		DevGrid:Hide();
-		DevGrid = nil; -- Kill DevGrid
-	else
-		DevGrid = CreateFrame( 'Frame', nil, UIParent );
-		DevGrid:SetAllPoints( UIParent );
-
-		local cellSizeX = 32;
-		local cellSizeY = 18;
-
-		local screenWidth = GetScreenWidth() / cellSizeX;
-		local screenHeight = GetScreenHeight() / cellSizeY;
-
-		for columns = 0, cellSizeX do
-			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
-			if( columns == cellSizeX / 2 ) then -- Half Way Line
-				line:SetTexture(1, 0, 0, 0.5 );
-			else
-				line:SetTexture(0, 0, 0, 0.5 );
-			end
-			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', columns * screenWidth - 1, 0);
-			line:SetPoint('BOTTOMRIGHT', DevGrid, 'BOTTOMLEFT', columns * screenWidth + 1, 0);
-		end
-		for rows = 0, cellSizeY do
-			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
-			if( rows == cellSizeY / 2 ) then -- Half Way Line
-				line:SetTexture(1, 0, 0, 0.5 );
-			else
-				line:SetTexture(0, 0, 0, 0.5 );
-			end
-			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', 0, -rows * screenHeight + 1);
-			line:SetPoint('BOTTOMRIGHT', DevGrid, 'TOPRIGHT', 0, -rows * screenHeight - 1)
-		end
-	end
-end
-
 -- Actually does the AFK Camera actions, begins spin, hides windows etc
 local function AFKCamera_Spin(spin)
 	if(InCombatLockdown() == false) then
@@ -140,6 +101,45 @@ local function AFKCamera_Init()
 	AFKCamera.fadeOut:SetChange(-1);
 	AFKCamera.fadeOut:SetOrder(1);
 	AFKCamera.fadeOutAnim:SetScript("OnFinished", function() AFKCamera:SetAlpha(0) end );
+end
+
+-- Just draws an overlay DevGrid to aid in placing stuff
+local function DrawDevGrid()
+	-- DevGrid Already Drawn?
+	if( DevGrid ) then
+		DevGrid:Hide();
+		DevGrid = nil; -- Kill DevGrid
+	else
+		DevGrid = CreateFrame( 'Frame', nil, UIParent );
+		DevGrid:SetAllPoints( UIParent );
+
+		local cellSizeX = 32;
+		local cellSizeY = 18;
+
+		local screenWidth = GetScreenWidth() / cellSizeX;
+		local screenHeight = GetScreenHeight() / cellSizeY;
+
+		for columns = 0, cellSizeX do
+			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
+			if( columns == cellSizeX / 2 ) then -- Half Way Line
+				line:SetTexture(1, 0, 0, 0.5 );
+			else
+				line:SetTexture(0, 0, 0, 0.5 );
+			end
+			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', columns * screenWidth - 1, 0);
+			line:SetPoint('BOTTOMRIGHT', DevGrid, 'BOTTOMLEFT', columns * screenWidth + 1, 0);
+		end
+		for rows = 0, cellSizeY do
+			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
+			if( rows == cellSizeY / 2 ) then -- Half Way Line
+				line:SetTexture(1, 0, 0, 0.5 );
+			else
+				line:SetTexture(0, 0, 0, 0.5 );
+			end
+			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', 0, -rows * screenHeight + 1);
+			line:SetPoint('BOTTOMRIGHT', DevGrid, 'TOPRIGHT', 0, -rows * screenHeight - 1)
+		end
+	end
 end
 
 -- Handle any of the core /impblizz commands issued by the player
