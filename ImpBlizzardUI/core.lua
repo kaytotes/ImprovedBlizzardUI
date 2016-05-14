@@ -30,7 +30,6 @@ local function HandleEvents(self, event, unit)
 					print("|cffffff00"..ImpBlizz["Items Repaired from Guild Bank"]..": "..GetCoinTextureString(repCost));
 				end
 			else
-				print("|cffffff00"..ImpBlizz["Can not Repair from Guild Bank"]);
 				if(repCost <= GetMoney() and repCost > 0) then
 					RepairAllItems(false);
 					print("|cffffff00"..ImpBlizz["Items Repaired from Own Money"]..": "..GetCoinTextureString(repCost));
