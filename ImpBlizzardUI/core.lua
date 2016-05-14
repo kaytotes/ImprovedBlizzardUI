@@ -27,7 +27,7 @@ local CoordsFrame;
 
 -- Ticks every 0.5 seconds, purely to update the Co-ordinates display.
 local function Core_Tick(self, elapsed)
-	CoordsFrame.elapsed += elapsed; -- Increment the tick timer
+	CoordsFrame.elapsed = CoordsFrame.elapsed + elapsed; -- Increment the tick timer
 	if(CoordsFrame.elapsed >= CoordsFrame.delay) then -- Matched tick delay?
 		if(Conf_ShowCoords) then -- Update the Co-ords frame
 			if(Minimap:IsVisible()) then
