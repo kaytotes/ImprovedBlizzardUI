@@ -11,6 +11,11 @@ Localized for enGB / enUS / ruRU.
 
 ### User Interface
 
+* Slightly adjusted position and scale of the Minimap
+* Removed Minimap zoom buttons and replaced with mouse wheel scrolling
+* Added Player co-ordinates to the Minimap
+* Added a performance counter above the Minimap
+
 ### Combat
 
 ### Miscellaneous
@@ -18,3 +23,4 @@ Localized for enGB / enUS / ruRU.
 * Automatically repairs damaged equipment utilising the Guild Bank where possible.
 * Automatically sells grey quality loot when at an appropriate vendor.
 * "Hero View" AFK Camera system.
+* Positioning grid overlay with `/impblizz grid`
