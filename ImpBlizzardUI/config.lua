@@ -18,7 +18,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
+    if(Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -38,6 +38,8 @@ local function SetDefaults_Primary()
     Config.panel.systemStats:SetChecked(true);
     Config.panel.minifyStrings:SetChecked(true);
     Config.panel.styleChat:SetChecked(true);
+    Config.panel.barArt:SetChecked(true);
+    Config.panel.rangeIndicator:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -50,6 +52,8 @@ local function LoadConfig_Primary()
     Config.panel.systemStats:SetChecked(Conf_ShowStats);
     Config.panel.minifyStrings:SetChecked(Conf_MinifyGlobals);
     Config.panel.styleChat:SetChecked(Conf_StyleChat);
+    Config.panel.barArt:SetChecked(Conf_ShowArt);
+    Config.panel.rangeIndicator:SetChecked(Conf_OutOfRange);
 end
 
 -- Applies any changes
@@ -63,6 +67,8 @@ local function ApplyChanges_Primary()
         Conf_ShowStats = Config.panel.systemStats:GetChecked();
         Conf_MinifyGlobals = Config.panel.minifyStrings:GetChecked();
         Conf_StyleChat = Config.panel.styleChat:GetChecked();
+        Conf_ShowArt = Config.panel.barArt:GetChecked();
+        Conf_OutOfRange = Config.panel.rangeIndicator:GetChecked();
         ReloadUI();
     end
 end
@@ -77,6 +83,8 @@ local function CheckFirstLoad()
     if (Conf_ShowStats == nil) then Conf_ShowStats = true end
     if (Conf_MinifyGlobals == nil) then Conf_MinifyGlobals = true end
     if (Conf_StyleChat == nil) then Conf_StyleChat = true end
+    if (Conf_ShowArt == nil) then Conf_ShowArt = true end
+    if (Conf_OutOfRange == nil) then Conf_OutOfRange = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -205,6 +213,20 @@ local function BuildWindow_Primary()
     Config.panel.actionBarsHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
     Config.panel.actionBarsHeader:SetPoint( "TOPLEFT", 375, -220 );
     Config.panel.actionBarsHeader:SetText("|cffffff00 - "..ImpBlizz["Action Bars"].." - ");
+
+    -- Show Bar Art Checkbox
+    Config.panel.barArt = CreateFrame("CheckButton", "ArtCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.barArt:ClearAllPoints();
+    Config.panel.barArt:SetPoint("TOPLEFT", 330, -250);
+    _G[Config.panel.barArt:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.barArt:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Art"]);
+
+    -- Show Bar Art Checkbox
+    Config.panel.rangeIndicator = CreateFrame("CheckButton", "RangeCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.rangeIndicator:ClearAllPoints();
+    Config.panel.rangeIndicator:SetPoint("TOPLEFT", 330, -280);
+    _G[Config.panel.rangeIndicator:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.rangeIndicator:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Out of Range Indicator"]);
     --[[
         Action Bar Config Ends
     ]]
