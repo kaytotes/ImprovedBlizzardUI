@@ -12,3 +12,4 @@ config.lua
 core.lua
 modules\ImpBlizzardUI_Chat.lua
 modules\ImpBlizzardUI_Bars.lua
+modules\ImpBlizzardUI_UnitFrames.lua
