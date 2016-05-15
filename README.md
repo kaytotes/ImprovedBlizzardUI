@@ -18,6 +18,12 @@ Localized for enGB / enUS / ruRU.
 
 ### Combat
 
+### Action Bars
+
+* Action Bars (Main, Left, Right, Stance, Pet) minified and styled.
+* Range / Out of Mana colours on all icons
+* Replaced the Micro Menu with a Minimap Dropdown (On Right Click)
+
 ### Chat
 * Minified numerous Blizzard strings (Loot Gained, Chat Channels etc)
 * Replaced chat Font
