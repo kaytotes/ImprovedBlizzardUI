@@ -1,12 +1,17 @@
 --[[
     ImpBlizzardUI/modules/ImpBlizzardUI_Bars
     Handles and modifies Action Bar related stuff
-    Current Features: Main Action Bars minified, Range / OOM colours on all abilities, Moved Vehicle Leave Button, stripped unneccesary textures, Micro Menu on Minimap
-    Todo: Cast Bar (With Timer), Buff Bars
+    Current Features: Main Action Bars minified, Range / OOM colours on all abilities, Moved Vehicle Leave Button, stripped unneccesary textures, Micro Menu on Minimap, Cast Bar (With Timer), Buff Bars
 ]]
 local _, ImpBlizz = ...;
 
 local BarFrame = CreateFrame("Frame", nil, UIParent);
+
+-- Buffs
+BarFrame.buffPoint = BuffFrame.SetPoint;
+BarFrame.buffScale = BuffFrame.SetScale;
+BarFrame.conBuffPoint = ConsolidatedBuffs.SetPoint;
+BarFrame.conBuffScale = ConsolidatedBuffs.SetScale;
 
 -- Helper function for moving a Blizzard frame that has a SetMoveable flag
 local function ModifyFrame(frame, anchor, parent, posX, posY, scale)
@@ -103,6 +108,21 @@ local function AdjustActionBars()
     	end
     	end)
 
+        -- Casting Bar
+        ModifyFrame(CastingBarFrame, "CENTER", nil, 0, -175, 1.1);
+        if(Conf_CastingTimer) then
+            CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil);
+            CastingBarFrame.timer:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE");
+            CastingBarFrame.timer:SetPoint("TOP", CastingBarFrame, "BOTTOM", 0, 35);
+            CastingBarFrame.updateDelay = 0.1;
+        end
+
+        BuffFrame:ClearAllPoints();
+    	BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11);
+    	BarFrame.buffScale(BuffFrame, 1.4);
+    	ConsolidatedBuffs:ClearAllPoints();
+    	BarFrame.conBuffPoint( ConsolidatedBuffs, "TOPRIGHT", -175, -11 );
+    	BarFrame.conBuffScale( ConsolidatedBuffs, 1.4)
     end
 end
 
@@ -190,6 +210,16 @@ local function UpdateActionRange(self, elapsed)
     end
 end
 
+-- Fixes the Buff Frames once the Blizzard UI messes with them
+local function FixBuffs()
+    BuffFrame:ClearAllPoints();
+    BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11);
+    BarFrame.buffScale(BuffFrame, 1.4);
+    ConsolidatedBuffs:ClearAllPoints();
+    BarFrame.conBuffPoint( ConsolidatedBuffs, "TOPRIGHT", -175, -11 );
+    BarFrame.conBuffScale( ConsolidatedBuffs, 1.4)
+end
+
 -- Repositon stuff after the Blizzard UI fucks with them
 local function ReputationWatchBar_Update_Hook(newLevel)
     AdjustActionBars();
@@ -205,11 +235,35 @@ local function MoveMicroButtons_Hook(...)
     ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil);
 end
 
+-- Displays the Casting Bar timer
+local function CastingBarFrame_OnUpdate_Hook(self, elapsed)
+    if( not self.timer ) then
+		return;
+	end
+	if( self.updateDelay ) and (self.updateDelay < elapsed ) then
+		if( self.casting ) then
+			self.timer:SetText( format( "%2.1f / %1.1f", max( self.maxValue - self.value, 0), self.maxValue ));
+		elseif( self.channeling ) then
+			self.timer:SetText( format( "%.1f", max( self.value, 0 )));
+		else
+			self.timer:SetText("");
+		end
+		self.updateDelay = 0.1;
+	else
+		self.updateDelay = self.updateDelay - elapsed;
+	end
+end
+
 -- Add a function to be called after execution of a secure function. Allows one to "post-hook" a secure function without tainting the original.
 hooksecurefunc("MoveMicroButtons", MoveMicroButtons_Hook);
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange);
 hooksecurefunc("ReputationWatchBar_Update", ReputationWatchBar_Update_Hook);
-hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook)
+hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook);
+hooksecurefunc("CastingBarFrame_OnUpdate", CastingBarFrame_OnUpdate_Hook);
+hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11); end);
+hooksecurefunc( BuffFrame, "SetScale", function(frame) BarFrame.buffScale(BuffFrame, 1.4); end)
+hooksecurefunc( ConsolidatedBuffs, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.conBuffPoint( ConsolidatedBuffs, "TOPRIGHT", -175, -11 ); end)
+hooksecurefunc( ConsolidatedBuffs, "SetScale", function(frame) BarFrame.conBuffScale( ConsolidatedBuffs, 1.4); end)
 
 -- Credit : BlizzBugsSuck (Shefki, Phanx) - http://www.wowinterface.com/downloads/info17002-BlizzBugsSuck.html
 -- Fix InterfaceOptionsFrame_OpenToCategory not actually opening the category (and not even scrolling to it) Used by the MicroMenu

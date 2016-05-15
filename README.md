@@ -15,8 +15,12 @@ Localized for enGB / enUS / ruRU.
 * Removed Minimap zoom buttons and replaced with mouse wheel scrolling
 * Added Player co-ordinates to the Minimap
 * Added a performance counter above the Minimap
+* Buffs repositioned and tweaked.
+* Casting Bar Repositioned
 
 ### Combat
+
+* Cast timer added to Casting Bar
 
 ### Action Bars
 
