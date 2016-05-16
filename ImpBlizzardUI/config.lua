@@ -1,9 +1,6 @@
 --[[
     ImpBlizzardUI/config.lua
     Handles the various config settings within ImpBlizzardUI and builds the config panes.
-
-    Notes: LoadConfig & ApplyChanges are called for all panels no matter which is in focus at that time.
-           SetDefaults is called individually or globally depending on player input
 ]]
 
 local _, ImpBlizz = ...;
@@ -18,7 +15,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
+    if(Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -41,6 +38,9 @@ local function SetDefaults_Primary()
     Config.panel.barArt:SetChecked(true);
     Config.panel.rangeIndicator:SetChecked(true);
     Config.panel.castingBar:SetChecked(true);
+    Config.panel.classIcon:SetChecked(true);
+    Config.panel.classColours:SetChecked(true);
+    Config.panel.portraitSpam:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -56,6 +56,9 @@ local function LoadConfig_Primary()
     Config.panel.barArt:SetChecked(Conf_ShowArt);
     Config.panel.rangeIndicator:SetChecked(Conf_OutOfRange);
     Config.panel.castingBar:SetChecked(Conf_CastingTimer);
+    Config.panel.classIcon:SetChecked(Conf_ClassIcon);
+    Config.panel.classColours:SetChecked(Conf_ClassColours);
+    Config.panel.portraitSpam:SetChecked(Conf_HideSpam);
 end
 
 -- Applies any changes
@@ -72,6 +75,9 @@ local function ApplyChanges_Primary()
         Conf_ShowArt = Config.panel.barArt:GetChecked();
         Conf_OutOfRange = Config.panel.rangeIndicator:GetChecked();
         Conf_CastingTimer = Config.panel.castingBar:GetChecked();
+        Conf_ClassIcon = Config.panel.classIcon:GetChecked();
+        Conf_ClassColours = Config.panel.classColours:GetChecked();
+        Conf_HideSpam = Config.panel.portraitSpam:GetChecked();
         ReloadUI();
     end
 end
@@ -89,6 +95,9 @@ local function CheckFirstLoad()
     if (Conf_ShowArt == nil) then Conf_ShowArt = true end
     if (Conf_OutOfRange == nil) then Conf_OutOfRange = true end
     if (Conf_CastingTimer == nil) then Conf_CastingTimer = true end
+    if (Conf_ClassIcon == nil) then Conf_ClassIcon = true end
+    if (Conf_ClassColours == nil) then Conf_ClassColours = true end
+    if (Conf_HideSpam == nil) then Conf_HideSpam = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -250,6 +259,27 @@ local function BuildWindow_Primary()
     Config.panel.castingBar:SetPoint("TOPLEFT", 330, -300);
     _G[Config.panel.castingBar:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.castingBar:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Casting Bar Timer"]);
+
+    -- Class Icon Checkbox
+    Config.panel.classIcon = CreateFrame("CheckButton", "ClassIconCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.classIcon:ClearAllPoints();
+    Config.panel.classIcon:SetPoint("TOPLEFT", 330, -330);
+    _G[Config.panel.classIcon:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.classIcon:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Class Icon"]);
+
+    -- CLass Colours Checkbox
+    Config.panel.classColours = CreateFrame("CheckButton", "ClassColoursCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.classColours:ClearAllPoints();
+    Config.panel.classColours:SetPoint("TOPLEFT", 330, -360);
+    _G[Config.panel.classColours:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.classColours:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Class Colours"]);
+
+    -- Portrait Spam Checkbox
+    Config.panel.portraitSpam = CreateFrame("CheckButton", "PortraitSpamCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.portraitSpam:ClearAllPoints();
+    Config.panel.portraitSpam:SetPoint("TOPLEFT", 330, -390);
+    _G[Config.panel.portraitSpam:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.portraitSpam:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Hide Portrait Spam"]);
     --[[
         Combat Bar Config Ends
     ]]

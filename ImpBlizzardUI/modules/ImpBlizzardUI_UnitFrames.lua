@@ -1,8 +1,7 @@
 --[[
     ImpBlizzardUI/modules/ImpBlizzardUI_UnitFrames
     Handles and modifies the Blizzard unit frames
-    Current Features: Player Frame, Target Frame, Focus Frame, Party Frames, Boss Frames, Arena Frames
-    Todo: All rescaling
+    Current Features: Player Frame, Target Frame, Focus Frame, Party Frames, Boss Frames, Arena Frames, Class Icon, Class Colours, Portrait Spam Text
 ]]
 local _, ImpBlizz = ...;
 
@@ -55,7 +54,67 @@ local function AdjustUnitFrames()
     end
 end
 
+-- Updates the option class icon that displays near the target frame
+local function UpdateClassIcon(class)
+    if(Conf_ClassIcon) then
+        if class == "WARRIOR" then
+            UnitFrames.classIconTexture:SetTexCoord( 0, .25, 0, .25 );
+        elseif class == "MAGE" then
+            UnitFrames.classIconTexture:SetTexCoord( .25, .5,0, .25 );
+        elseif class == "ROGUE" then
+            UnitFrames.classIconTexture:SetTexCoord( .5, .74,0, .25 );
+        elseif class == "DRUID" then
+            UnitFrames.classIconTexture:SetTexCoord( .75, .98, 0, .25 );
+        elseif class == "PALADIN" then
+            UnitFrames.classIconTexture:SetTexCoord( 0, .25, .5, .75 );
+        elseif class == "DEATHKNIGHT" then
+            UnitFrames.classIconTexture:SetTexCoord( .25, .5, .5, .75);
+        elseif class == "MONK" then
+            UnitFrames.classIconTexture:SetTexCoord( .5, .74, .5,.75);
+        elseif class == "HUNTER" then
+            UnitFrames.classIconTexture:SetTexCoord( 0, .25, .25, .5 );
+        elseif class == "SHAMAN" then
+            UnitFrames.classIconTexture:SetTexCoord( .25, .5, .25, .5 );
+        elseif class == "PRIEST" then
+            UnitFrames.classIconTexture:SetTexCoord( .5, .74, .25, .5 );
+        elseif class == "WARLOCK" then
+            UnitFrames.classIconTexture:SetTexCoord( .75, .98, .25, .5 );
+        end
+    end
+end
+
+-- Builds the optional class icon that displays near the target frame
+local function BuildClassIcon()
+    if(Conf_ClassIcon) then
+        UnitFrames.classIcon = CreateFrame("Frame", "ClassIconFrame", TargetFrame);
+        UnitFrames.classIcon:SetPoint( "CENTER", 110, 40);
+        UnitFrames.classIcon:SetSize( 40, 40 );
+        UnitFrames.classIconTexture = UnitFrames.classIcon:CreateTexture( "ClassIconTexture" );
+        UnitFrames.classIconTexture:SetPoint( "CENTER" );
+        UnitFrames.classIconTexture:SetSize( 40, 40 );
+        UnitFrames.classIconTexture:SetTexture( "Interface\\TARGETINGFRAME\\UI-CLASSES-CIRCLES.BLP" );
+        UnitFrames.classIconBorder = UnitFrames.classIcon:CreateTexture( "ClassIconBorder", "ARTWORK", nil, 1 );
+        UnitFrames.classIconBorder:SetPoint( "CENTER" , UnitFrames.classIconTexture );
+        UnitFrames.classIconBorder:SetSize( 40 * 2, 40 * 2 );
+        UnitFrames.classIconBorder:SetTexture( "Interface\\UNITPOWERBARALT\\WowUI_Circular_Frame.blp" )
+    end
+end
+
+-- Updates the class colours on the Target and Focus frames
+local function UpdateClassColours()
+    if(Conf_ClassColours) then
+        local class = RAID_CLASS_COLORS[select(2, UnitClass("target"))];
+        TargetFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        local class = RAID_CLASS_COLORS[select(2, UnitClass("focus"))];
+        FocusFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+    end
+end
+
 local function HandleEvents(self, event, ...)
+    if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
+        BuildClassIcon();
+    end
+
     if(event == "PLAYER_ENTERING_WORLD") then
         AdjustUnitFrames();
     end
@@ -64,6 +123,23 @@ local function HandleEvents(self, event, ...)
         if(UnitControllingVehicle("player") or UnitHasVehiclePlayerFrameUI("player")) then
             SetUnitFrames();
         end
+    end
+
+    if(event == "PLAYER_TARGET_CHANGED") then
+        UpdateClassColours();
+        UpdateClassIcon(select( 2, UnitClass("target")));
+    end
+
+    if(event == "UNIT_FACTION" or event == "GROUP_ROSTER_UPDATE" or event == "PLAYER_FOCUS_CHANGED") then
+        UpdateClassColours();
+    end
+end
+
+-- Remove Portrait Damage Spam
+-- Reimplimentation of CombatFeedback_OnCombatEvent from CombatFeedback.lua
+function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, type)
+    if(Conf_HideSpam) then
+        self.feedbackText:SetText(" ");
     end
 end
 
@@ -81,6 +157,8 @@ local function Init()
     UnitFrames:RegisterEvent("GROUP_ROSTER_UPDATE");
     UnitFrames:RegisterEvent("PLAYER_FOCUS_CHANGED");
 end
+
+hooksecurefunc("CombatFeedback_OnCombatEvent", CombatFeedback_OnCombatEvent_Hook);
 
 -- End of file, call Init
 Init();

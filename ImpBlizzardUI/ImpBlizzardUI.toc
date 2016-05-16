@@ -3,7 +3,7 @@
 ## Notes: General Improvements to the Default Blizzard UI
 ## Version: 1.0.0
 ## Author: Kaytotes
-## SavedVariables: Conf_CastingTimer, Conf_AutoRepair, Conf_GuildBankRepair, Conf_SellGreys, Conf_AFKCamera, Conf_ShowCoords, Conf_ShowStats, Conf_StyleChat, Conf_MinifyGlobals, Conf_ShowArt, Conf_OutOfRange
+## SavedVariables: Conf_HideSpam, Conf_CastingTimer, Conf_AutoRepair, Conf_GuildBankRepair, Conf_SellGreys, Conf_AFKCamera, Conf_ShowCoords, Conf_ShowStats, Conf_StyleChat, Conf_MinifyGlobals, Conf_ShowArt, Conf_OutOfRange
 
 loc.lua
 loc\ruRU.lua

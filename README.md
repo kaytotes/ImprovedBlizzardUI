@@ -18,6 +18,13 @@ Localized for enGB / enUS / ruRU.
 * Buffs repositioned and tweaked.
 * Casting Bar Repositioned
 
+### Unit Frames
+
+* Player Frame, Target Frame, Focus Frame, Party Frames, Boss Frames and Arena Frames position and scale adjusted.
+* Portrait Damage Spam Hidden
+* Class Coloured Target and Focus Frames
+* Added a Class Icon alongside Target Frame
+
 ### Combat
 
 * Cast timer added to Casting Bar
