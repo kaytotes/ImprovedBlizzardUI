@@ -1,5 +1,5 @@
 --[[
-	Missing: Minify Blizzard Strings, Style Chat, Action Bars, Casting Bar Timer, Out of Range Indicator, Hide Portrait Spam
+	Missing: Auto-Hide Quest Tracker, Highlight Killing Blows, PvP, Minify Blizzard Strings, Style Chat, Action Bars, Casting Bar Timer, Out of Range Indicator, Hide Portrait Spam
 ]]
 
 local _, ImpBlizz = ...;
@@ -43,7 +43,6 @@ if( GetLocale() == "ruRU" )then
 	ImpBlizz["Display Class Icon"] = "Отображать классовую иконку";
 	ImpBlizz["Display Health Warnings"] = "Сообщать о количестве здоровья";
 	ImpBlizz["Display PvP Kill Tracker"] = "Отслеживать убийство игроков";
-	ImpBlizz["Display PvP Killing Blow Indicator"] = "Отображать надпись Убит";
 	ImpBlizz["Display Class Colours"] = "Раскрасить здоровье под цвета классов";
 	ImpBlizz["Auto Repair"] = "Авто починка";
 	ImpBlizz["Use Guild Bank For Repairs"] = "Использовать гильдейский банк для починки";

@@ -1,8 +1,7 @@
 --[[
     ImpBlizzardUI/modules/ImpBlizzardUI_PvP
     Builds the PvP kill tracker and handles some more PvP combat events
-    Current Features: Health Warnings, Killing Blow Indicator, PvP Kill Feed
-    Todo: Objective Tracker Collapse, remove leave queue
+    Current Features: Health Warnings, Killing Blow Indicator, PvP Kill Feed, Objective Tracker Collapse, Remove "Leave Queue" button on PvP Join Window
 ]]
 local _, ImpBlizz = ...;
 
@@ -25,7 +24,6 @@ end
 
 -- Writes a Kill Feed message. Works out factions and colours text appropriately
 local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName)
-    local Conf_KillFeed = true;
     if(Conf_KillFeed) then
         local playerFaction, _ = UnitFactionGroup( "player" );
         local killerString, killedString, killerFaction, killedFaction;
@@ -109,21 +107,21 @@ local function BuildOnScreenDisplay()
 end
 
 -- Handle the Blizzard API events and respond appropriately
-local function HandleEvents(self, event, ...) then
+local function HandleEvents(self, event, ...)
     local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _ = ...; -- Get all the variables we need
     local _, instanceType = IsInInstance();
 
     -- Checks for a Killing Blow made by the player. Triggers in BG's, Arena and World PvP Zones (Ashran etc)
     if(instanceType == "pvp" or instanceType == "arena" or (instanceType == "none" and GetZonePVPInfo() == "combat")) then -- Only run in a BG
         if(event == "PARTY_KILL") then
-            if(sourceGUID == player) then
-                PvPFrame.onScreenDisplay:AddMessage( ImpBlizz["Killing Blow!"], 1, 1, 0, 53, 3);
+            if(sourceGUID == player and Conf_KillingBlow) then
+                PvPFrame.onScreenDisplay:AddMessage(ImpBlizz["Killing Blow!"], 1, 1, 0, 53, 3);
             end
         end
     end
 
     -- Check for kills and update the Kill Feed, only runs in Battlegrounds and Arenas
-    if( instanceType == "pvp" or instanceType == "arena" ) then
+    if(instanceType == "pvp" or instanceType == "arena") then
         -- Ranged / Spell Damage
         if( event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "RANGE_DAMAGE" )then
             local _, _, _, _, overkill, _, _, _, _, _, _, _ = select(12, ...);
@@ -136,6 +134,15 @@ local function HandleEvents(self, event, ...) then
             local _, overkill = select(12, ... );
             if( overkill >= 0 )then
                 KillFeed_Update(sourceGUID, sourceName, destGUID, destName);
+            end
+        end
+    end
+
+    -- Hide Objective Tracker in PvP
+    if(instanceType == "pvp" or instanceType == "arena") then
+        if(Conf_ObjectiveTracker) then
+            if(not ObjectiveTrackerFrame.collapsed) then
+                ObjectiveTracker_Collapse();
             end
         end
     end
@@ -153,9 +160,8 @@ end
 
 -- Sets up everything
 local function Init()
-    local Conf_HealthUpdate = true;
-
     BuildOnScreenDisplay();
+    BuildKillFeed();
 
     PvPFrame:SetScript("OnEvent", HandleEvents);
     PvPFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
@@ -170,6 +176,16 @@ local function Init()
         PvPFrame.healthUpdater.storedHealth = 0;
     end
 end
+
+-- Triggered when the BG / Arena queue pops, reposition the buttons
+function PVPReadyDialog_Display_Hook(self, index, displayName, isRated, queueType, gameType, role)
+    self.enterButton:ClearAllPoints();
+    self.enterButton:SetPoint("BOTTOM", self, "BOTTOM", 0, 25);
+    self.label:SetPoint("TOP", 0, -22);
+    self.leaveButton:Hide();
+end
+
+hooksecurefunc("PVPReadyDialog_Display", PVPReadyDialog_Display_Hook);
 
 -- End of file, Initialise
 Init();

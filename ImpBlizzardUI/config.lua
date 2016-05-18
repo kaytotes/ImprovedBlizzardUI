@@ -15,7 +15,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
+    if(Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -41,6 +41,10 @@ local function SetDefaults_Primary()
     Config.panel.classIcon:SetChecked(true);
     Config.panel.classColours:SetChecked(true);
     Config.panel.portraitSpam:SetChecked(true);
+    Config.panel.killingBlow:SetChecked(true);
+    Config.panel.killFeed:SetChecked(true);
+    Config.panel.objectiveTracker:SetChecked(true);
+    Config.panel.healthWarning:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -59,6 +63,10 @@ local function LoadConfig_Primary()
     Config.panel.classIcon:SetChecked(Conf_ClassIcon);
     Config.panel.classColours:SetChecked(Conf_ClassColours);
     Config.panel.portraitSpam:SetChecked(Conf_HideSpam);
+    Config.panel.killingBlow:SetChecked(Conf_KillingBlow);
+    Config.panel.killFeed:SetChecked(Conf_KillFeed);
+    Config.panel.objectiveTracker:SetChecked(Conf_ObjectiveTracker);
+    Config.panel.healthWarning:SetChecked(Conf_HealthUpdate);
 end
 
 -- Applies any changes
@@ -78,6 +86,10 @@ local function ApplyChanges_Primary()
         Conf_ClassIcon = Config.panel.classIcon:GetChecked();
         Conf_ClassColours = Config.panel.classColours:GetChecked();
         Conf_HideSpam = Config.panel.portraitSpam:GetChecked();
+        Conf_KillingBlow = Config.panel.killingBlow:GetChecked();
+        Conf_KillFeed = Config.panel.killFeed:GetChecked();
+        Conf_ObjectiveTracker = Config.panel.objectiveTracker:GetChecked();
+        Conf_HealthUpdate = Config.panel.healthWarning:GetChecked();
         ReloadUI();
     end
 end
@@ -98,6 +110,10 @@ local function CheckFirstLoad()
     if (Conf_ClassIcon == nil) then Conf_ClassIcon = true end
     if (Conf_ClassColours == nil) then Conf_ClassColours = true end
     if (Conf_HideSpam == nil) then Conf_HideSpam = true end
+    if (Conf_KillingBlow == nil) then Conf_KillingBlow = true end
+    if (Conf_KillFeed == nil) then Conf_KillFeed = true end
+    if (Conf_ObjectiveTracker == nil) then Conf_ObjectiveTracker = true end
+    if (Conf_HealthUpdate == nil) then Conf_HealthUpdate = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -132,7 +148,7 @@ local function BuildWindow_Primary()
     -- Misc Header
     Config.panel.miscHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
     Config.panel.miscHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
-    Config.panel.miscHeader:SetPoint( "TOPLEFT", 15, -50 );
+    Config.panel.miscHeader:SetPoint( "TOPLEFT", 45, -50 );
     Config.panel.miscHeader:SetText("|cffffff00 - "..ImpBlizz["Miscellaneous"].." - ");
 
     -- Auto Repair Checkbox
@@ -172,7 +188,7 @@ local function BuildWindow_Primary()
     -- Misc Header
     Config.panel.miscHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
     Config.panel.miscHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
-    Config.panel.miscHeader:SetPoint( "TOPLEFT", 15, -220 );
+    Config.panel.miscHeader:SetPoint( "TOPLEFT", 45, -220 );
     Config.panel.miscHeader:SetText("|cffffff00 - "..ImpBlizz["User Interface"].." - ");
 
     -- Player Co-ordinates Checkbox
@@ -280,8 +296,48 @@ local function BuildWindow_Primary()
     Config.panel.portraitSpam:SetPoint("TOPLEFT", 330, -390);
     _G[Config.panel.portraitSpam:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.portraitSpam:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Hide Portrait Spam"]);
+
+    -- Health Warnings Checkbox
+    Config.panel.healthWarning = CreateFrame("CheckButton", "healthWarningCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.healthWarning:ClearAllPoints();
+    Config.panel.healthWarning:SetPoint("TOPLEFT", 330, -420);
+    _G[Config.panel.healthWarning:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.healthWarning:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Health Warnings"]);
     --[[
         Combat Bar Config Ends
+    ]]
+
+    --[[
+        PvP Config Begins
+    ]]
+    -- PvP Header
+    Config.panel.pvpHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    Config.panel.pvpHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
+    Config.panel.pvpHeader:SetPoint( "TOPLEFT", 45, -330 );
+    Config.panel.pvpHeader:SetText("|cffffff00 - "..ImpBlizz["PvP"].." - ");
+
+    -- Killing Blow Checkbox
+    Config.panel.killingBlow = CreateFrame("CheckButton", "KillingBlowsCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.killingBlow:ClearAllPoints();
+    Config.panel.killingBlow:SetPoint("TOPLEFT", 15, -360);
+    _G[Config.panel.killingBlow:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.killingBlow:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Highlight Killing Blows"]);
+
+    -- Kill Feed Checkbox
+    Config.panel.killFeed = CreateFrame("CheckButton", "KillFeedCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.killFeed:ClearAllPoints();
+    Config.panel.killFeed:SetPoint("TOPLEFT", 15, -390);
+    _G[Config.panel.killFeed:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.killFeed:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display PvP Kill Tracker"]);
+
+    -- Objective Tracker Checkbox
+    Config.panel.objectiveTracker = CreateFrame("CheckButton", "ObjectiveTrackerFeedCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.objectiveTracker:ClearAllPoints();
+    Config.panel.objectiveTracker:SetPoint("TOPLEFT", 15, -420);
+    _G[Config.panel.objectiveTracker:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.objectiveTracker:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Auto-Hide Quest Tracker"]);
+    --[[
+        User Interface Config Ends
     ]]
 end
 --[[
