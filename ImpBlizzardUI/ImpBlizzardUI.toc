@@ -13,3 +13,4 @@ core.lua
 modules\ImpBlizzardUI_Chat.lua
 modules\ImpBlizzardUI_Bars.lua
 modules\ImpBlizzardUI_UnitFrames.lua
+modules\ImpBlizzardUI_PvP.lua
