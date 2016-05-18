@@ -1,5 +1,5 @@
 --[[
-	Missing: Auto-Hide Quest Tracker, Highlight Killing Blows, PvP, Minify Blizzard Strings, Style Chat, Action Bars, Casting Bar Timer, Out of Range Indicator, Hide Portrait Spam
+	Missing: ImpBlizzardUI, Auto-Hide Quest Tracker, Highlight Killing Blows, PvP, Minify Blizzard Strings, Style Chat, Action Bars, Casting Bar Timer, Out of Range Indicator, Hide Portrait Spam
 ]]
 
 local _, ImpBlizz = ...;
@@ -18,7 +18,6 @@ if( GetLocale() == "ruRU" )then
 	ImpBlizz["Collections"] = "Коллекции";
 	ImpBlizz["Dungeon Journal"] = "Руководство Приключения";
 	ImpBlizz["Swap Bags"] = "Переместить сумки";
-	ImpBlizz["BlizzImp Options"] = "BlizzImp oпции"
 	ImpBlizz["Log Out"] = "Выход из мира";
 	ImpBlizz["Force Exit"] = "Выход из игры";
 
