@@ -104,9 +104,14 @@ end
 local function UpdateClassColours()
     if(Conf_ClassColours) then
         local class = RAID_CLASS_COLORS[select(2, UnitClass("target"))];
-        TargetFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        if(class ~= nil) then
+            TargetFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        end
+
         local class = RAID_CLASS_COLORS[select(2, UnitClass("focus"))];
-        FocusFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        if(class ~= nil) then
+            FocusFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        end
     end
 end
 
