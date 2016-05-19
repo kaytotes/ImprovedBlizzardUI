@@ -359,6 +359,7 @@ local function Init()
 	Core:RegisterEvent("PLAYER_LEAVING_WORLD");
 	Core:RegisterEvent("PLAYER_DEAD");
 	Core:RegisterEvent("PLAYER_ENTERING_WORLD");
+	Core:RegisterEvent("MERCHANT_SHOW");
 
     -- Init Finished
     print("|cffffff00Improved Blizzard UI " .. GetAddOnMetadata("ImpBlizzardUI", "Version") .. " Initialised");
