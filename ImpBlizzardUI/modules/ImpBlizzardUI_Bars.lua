@@ -10,8 +10,6 @@ local BarFrame = CreateFrame("Frame", nil, UIParent);
 -- Buffs
 BarFrame.buffPoint = BuffFrame.SetPoint;
 BarFrame.buffScale = BuffFrame.SetScale;
-BarFrame.conBuffPoint = ConsolidatedBuffs.SetPoint;
-BarFrame.conBuffScale = ConsolidatedBuffs.SetScale;
 
 -- Helper function for moving a Blizzard frame that has a SetMoveable flag
 local function ModifyFrame(frame, anchor, parent, posX, posY, scale)
@@ -120,9 +118,6 @@ local function AdjustActionBars()
         BuffFrame:ClearAllPoints();
     	BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11);
     	BarFrame.buffScale(BuffFrame, 1.4);
-    	ConsolidatedBuffs:ClearAllPoints();
-    	BarFrame.conBuffPoint( ConsolidatedBuffs, "TOPRIGHT", -175, -11 );
-    	BarFrame.conBuffScale( ConsolidatedBuffs, 1.4)
     end
 end
 
@@ -215,9 +210,6 @@ local function FixBuffs()
     BuffFrame:ClearAllPoints();
     BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11);
     BarFrame.buffScale(BuffFrame, 1.4);
-    ConsolidatedBuffs:ClearAllPoints();
-    BarFrame.conBuffPoint( ConsolidatedBuffs, "TOPRIGHT", -175, -11 );
-    BarFrame.conBuffScale( ConsolidatedBuffs, 1.4)
 end
 
 -- Repositon stuff after the Blizzard UI fucks with them
@@ -262,8 +254,6 @@ hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveBu
 hooksecurefunc("CastingBarFrame_OnUpdate", CastingBarFrame_OnUpdate_Hook);
 hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11); end);
 hooksecurefunc( BuffFrame, "SetScale", function(frame) BarFrame.buffScale(BuffFrame, 1.4); end)
-hooksecurefunc( ConsolidatedBuffs, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.conBuffPoint( ConsolidatedBuffs, "TOPRIGHT", -175, -11 ); end)
-hooksecurefunc( ConsolidatedBuffs, "SetScale", function(frame) BarFrame.conBuffScale( ConsolidatedBuffs, 1.4); end)
 
 -- Credit : BlizzBugsSuck (Shefki, Phanx) - http://www.wowinterface.com/downloads/info17002-BlizzBugsSuck.html
 -- Fix InterfaceOptionsFrame_OpenToCategory not actually opening the category (and not even scrolling to it) Used by the MicroMenu
