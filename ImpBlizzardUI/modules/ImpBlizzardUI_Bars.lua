@@ -213,7 +213,7 @@ local function FixBuffs()
 end
 
 -- Repositon stuff after the Blizzard UI fucks with them
-local function ReputationWatchBar_Update_Hook(newLevel)
+local function ReputationFrame_Update_Hook(newLevel)
     AdjustActionBars();
 end
 
@@ -249,7 +249,7 @@ end
 -- Add a function to be called after execution of a secure function. Allows one to "post-hook" a secure function without tainting the original.
 hooksecurefunc("MoveMicroButtons", MoveMicroButtons_Hook);
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange);
-hooksecurefunc("ReputationWatchBar_Update", ReputationWatchBar_Update_Hook);
+hooksecurefunc("ReputationFrame_Update", ReputationFrame_Update_Hook);
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook);
 hooksecurefunc("CastingBarFrame_OnUpdate", CastingBarFrame_OnUpdate_Hook);
 hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11); end);
