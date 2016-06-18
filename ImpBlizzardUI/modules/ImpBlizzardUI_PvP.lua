@@ -11,12 +11,15 @@ local PvPFrame = CreateFrame("Frame", nil, UIParent);
 local function HealthWarning_Update()
     local healthPercentage = UnitHealth("player") / UnitHealthMax("player");
 
-    if(healthPercentage <= 0.50 and healthPercentage > 0.25) then
-        PvPFrame.onScreenDisplay:AddMessage( ImpBlizz["HP < 50% !"], 0, 1, 1, 53, 3 );
-        return;
-    elseif(healthPercentage < 0.25) then
-        PvPFrame.onScreenDisplay:AddMessage(ImpBlizz["HP < 25% !!!"], 0, 1, 1, 53, 3);
-        return;
+    -- Only shows if not dead
+    if(healthPercentage >= 0.01) then
+        if(healthPercentage <= 0.50 and healthPercentage > 0.25) then
+            PvPFrame.onScreenDisplay:AddMessage( ImpBlizz["HP < 50% !"], 0, 1, 1, 53, 3 );
+            return;
+        elseif(healthPercentage < 0.25) then
+            PvPFrame.onScreenDisplay:AddMessage(ImpBlizz["HP < 25% !!!"], 1, 0, 0, 53, 3);
+            return;
+        end
     end
 
     return;
@@ -74,6 +77,14 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName)
     end
 end
 
+local function BuildHealthWarning()
+    if(Conf_HealthUpdate) then
+        PvPFrame.healthUpdater = CreateFrame("Frame", nil, UIParent);
+        PvPFrame.healthUpdater:SetScript("OnUpdate", HealthWarning_Update);
+        PvPFrame.healthUpdater.storedHealth = 0;
+    end
+end
+
 -- Builds the BG / Arena kill feed.
 local function BuildKillFeed()
     PvPFrame.killFeed = CreateFrame("Frame", nil, UIParent );
@@ -108,6 +119,11 @@ end
 
 -- Handle the Blizzard API events and respond appropriately
 local function HandleEvents(self, event, ...)
+
+    if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
+        BuildHealthWarning();
+    end
+
     local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _ = ...; -- Get all the variables we need
     local _, instanceType = IsInInstance();
 
@@ -160,6 +176,7 @@ end
 
 -- Sets up everything
 local function Init()
+
     BuildOnScreenDisplay();
     BuildKillFeed();
 
@@ -168,13 +185,7 @@ local function Init()
     PvPFrame:RegisterEvent("PLAYER_LOGIN");
     PvPFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
     PvPFrame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND");
-
-    -- Create the Health Warning checker
-    if(Conf_HealthUpdate) then
-        PvPFrame.healthUpdater = CreateFrame("Frame", nil, UIParent);
-        PvPFrame.healthUpdater:SetScript("OnUpdate", HealthWarning_Update);
-        PvPFrame.healthUpdater.storedHealth = 0;
-    end
+    PvPFrame:RegisterEvent("ADDON_LOADED");
 end
 
 -- Triggered when the BG / Arena queue pops, reposition the buttons
