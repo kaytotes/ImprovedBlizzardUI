@@ -52,15 +52,14 @@ local function AdjustActionBars()
             if _G["MainMenuMaxLevelBar"..i] then _G["MainMenuMaxLevelBar"..i]:Hide() end
         end
 
-        -- Reputation Bar
-        ReputationWatchStatusBar:SetWidth(512);
+        -- Tweak and Adjust Reputation Bar
+        ReputationWatchBar.StatusBar:SetWidth(512);
         ReputationWatchBar:SetWidth(512);
-        ModifyBasicFrame(ReputationWatchStatusBar, "TOP", nil, 0, 0, nil);
-        ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, 0, nil);
-        for i = 0, 3 do -- Hide the textures
-            _G["ReputationWatchBarTexture"..i]:Hide();
-            _G["ReputationXPBarTexture"..i]:Hide();
-        end
+        ReputationWatchBar.StatusBar.WatchBarTexture0:Hide();
+        ReputationWatchBar.StatusBar.WatchBarTexture1:Hide();
+        ReputationWatchBar.StatusBar.WatchBarTexture2:Hide();
+        ReputationWatchBar.StatusBar.WatchBarTexture3:Hide();
+        ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, 7, nil);
 
         -- Hide Textures
         MainMenuBarTexture2:SetTexture(nil);
