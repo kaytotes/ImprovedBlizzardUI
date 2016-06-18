@@ -320,6 +320,7 @@ local function HandleEvents(self, event, unit)
 	end
 
 	-- Trigger the AFK Camera
+	--[[
 	if(event == "PLAYER_FLAGS_CHANGED") then
 		if(unit =="player" and Conf_AFKCamera) then
 			if(UnitIsAFK(unit) and not UnitIsDead(unit)) then
@@ -335,6 +336,7 @@ local function HandleEvents(self, event, unit)
 			AFKSpin(false);
 		end
 	end
+	--]]
 
 	if(event == "PLAYER_ENTERING_WORLD") then
 		if(InCombatLockdown() == false) then
@@ -349,7 +351,7 @@ local function Init()
     SLASH_IMPBLIZZ1 = "/impblizz";
     SlashCmdList["IMPBLIZZ"] = HandleCommands; -- Set up the slash commands handler
 
-	AFKCamera_Init();
+	--AFKCamera_Init();
 
     Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
 
@@ -359,6 +361,7 @@ local function Init()
 	Core:RegisterEvent("PLAYER_LEAVING_WORLD");
 	Core:RegisterEvent("PLAYER_DEAD");
 	Core:RegisterEvent("PLAYER_ENTERING_WORLD");
+	Core:RegisterEvent("MERCHANT_SHOW");
 
     -- Init Finished
     print("|cffffff00Improved Blizzard UI " .. GetAddOnMetadata("ImpBlizzardUI", "Version") .. " Initialised");
