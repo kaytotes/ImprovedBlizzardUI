@@ -32,9 +32,6 @@ end
 local function AdjustActionBars()
     if(InCombatLockdown() == false) then
         ModifyFrame(MainMenuBar, "BOTTOM", nil, 256, 0, 1.1); -- Main Action Bar
-        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 100, nil); -- Bottom Right Action Bar
-        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 57, nil); -- Bottom Left Action Bar
-        ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 120, 1); -- Stance Bar
         MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 34, 0); -- Right End Cap
         ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil); -- Bag Bar
         ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
@@ -52,14 +49,40 @@ local function AdjustActionBars()
             if _G["MainMenuMaxLevelBar"..i] then _G["MainMenuMaxLevelBar"..i]:Hide() end
         end
 
+        local offset = 0;
+        if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
+            offset = 7;
+        elseif(ReputationWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown() ~= true) then
+            offset = -10;
+        else
+            offset = 0;
+        end
+
+        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 100 + offset, nil); -- Bottom Right Action Bar
+        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 57 + offset, nil); -- Bottom Left Action Bar
+        ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 120 + offset, 1); -- Stance Bar
+
         -- Tweak and Adjust Reputation Bar
         ReputationWatchBar.StatusBar:SetWidth(512);
         ReputationWatchBar:SetWidth(512);
+        -- I fucking hate this, should be looped but currently can't find the global reference. Hacky but works.
+        -- Will Replace
         ReputationWatchBar.StatusBar.WatchBarTexture0:Hide();
         ReputationWatchBar.StatusBar.WatchBarTexture1:Hide();
         ReputationWatchBar.StatusBar.WatchBarTexture2:Hide();
         ReputationWatchBar.StatusBar.WatchBarTexture3:Hide();
-        ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, 7, nil);
+        ReputationWatchBar.StatusBar.XPBarTexture0:Hide();
+        ReputationWatchBar.StatusBar.XPBarTexture1:Hide();
+        ReputationWatchBar.StatusBar.XPBarTexture2:Hide();
+        ReputationWatchBar.StatusBar.XPBarTexture3:Hide();
+
+        -- Move Bar
+        if(MainMenuExpBar:IsShown()) then
+            offset = 7;
+        else
+            offset = 0;
+        end
+        ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, offset, nil);
 
         -- Hide Textures
         MainMenuBarTexture2:SetTexture(nil);
