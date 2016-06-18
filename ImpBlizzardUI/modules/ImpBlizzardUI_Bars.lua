@@ -279,7 +279,7 @@ hooksecurefunc( BuffFrame, "SetScale", function(frame) BarFrame.buffScale(BuffFr
 
 -- Credit : BlizzBugsSuck (Shefki, Phanx) - http://www.wowinterface.com/downloads/info17002-BlizzBugsSuck.html
 -- Fix InterfaceOptionsFrame_OpenToCategory not actually opening the category (and not even scrolling to it) Used by the MicroMenu
--- Confirmed still broken in 6.2.2.20490 (6.2.2a)
+-- Confirmed still broken in 7.0.3.21973 (7.0.3)
 do
 	local function get_panel_name(panel)
 		local tp = type(panel)
