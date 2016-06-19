@@ -186,6 +186,7 @@ local function Init()
     PvPFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
     PvPFrame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND");
     PvPFrame:RegisterEvent("ADDON_LOADED");
+    PvPFrame:RegisterEvent("PARTY_KILL");
 end
 
 -- Triggered when the BG / Arena queue pops, reposition the buttons
