@@ -96,7 +96,7 @@ local function BuildKillFeed()
 
     for i = 1, #PvPFrame.killFeed.recentKills do
         PvPFrame.killFeed.texts[i] = PvPFrame.killFeed:CreateFontString(nil, "OVERLAY", "GameFontNormal" )
-        PvPFrame.killFeed.texts[i]:SetFont( "Interface\\AddOns\\BlizzImp\\media\\impfont.ttf", 18, "OUTLINE" );
+        PvPFrame.killFeed.texts[i]:SetFont( "Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", 18, "OUTLINE" );
         PvPFrame.killFeed.texts[i]:SetPoint("TOPLEFT", 15, -(30 * i) );
         PvPFrame.killFeed.texts[i]:SetWordWrap( false );
     end
