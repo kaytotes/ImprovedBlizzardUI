@@ -173,6 +173,24 @@ local function ToggleBagBar()
     end
 end
 
+-- Builds the Micro Menu List that displays on Right Click
+local function UpdateMicroMenuList()
+    BarFrame.microMenuList = {};
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Collections"], func = function() ToggleCollectionsJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Adventure Guide"].."     ", func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Swap Bags"], func = function() ToggleBagBar() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' });
+    table.insert(BarFrame.microMenuList, {text = "|cff00FFFF"..ImpBlizz["ImpBlizzardUI"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = BarFrame.menuFont });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFF00"..ImpBlizz["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = BarFrame.menuFont });
+    table.insert(BarFrame.microMenuList, {text = "|cffFE2E2E"..ImpBlizz["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = BarFrame.menuFont });
+end
+
 -- Sets up Event Handlers etc
 local function Init()
     BarFrame:SetScript("OnEvent", HandleEvents);
@@ -190,21 +208,7 @@ local function Init()
     BarFrame.menuFont:SetFontObject(GameFontNormal);
     BarFrame.menuFont:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", 12, nil);
     BarFrame.bagsVisible = false;
-    BarFrame.microMenuList = {
-    	{text = "|cffFFFFFF"..ImpBlizz["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', },
-    	{text = "|cffFFFFFF"..ImpBlizz["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Collections"], func = function() ToggleCollectionsJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Adventure Guide"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Swap Bags"], func = function() ToggleBagBar() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
-    	{text = "|cff00FFFF"..ImpBlizz["ImpBlizzardUI"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = BarFrame.menuFont },
-    	{text = "|cffFFFF00"..ImpBlizz["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = BarFrame.menuFont },
-    	{text = "|cffFE2E2E"..ImpBlizz["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = BarFrame.menuFont },
-    }
+    UpdateMicroMenuList();
 end
 
 -- Handles the Out of Range action bar colouring
