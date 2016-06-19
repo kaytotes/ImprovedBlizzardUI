@@ -120,6 +120,16 @@ end
 -- Handle the Blizzard API events and respond appropriately
 local function HandleEvents(self, event, ...)
 
+    -- Clear the kill feed between instance transitions / ui reload
+    if(event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_BATTLEGROUND") then
+        if(Conf_KillFeed) then
+            for i = 1, #PvPFrame.killFeed.recentKills do
+                PvPFrame.killFeed.recentKills[i] = " ";
+                PvPFrame.killFeed.texts[i]:SetText(" ");
+            end
+        end
+    end
+
     if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
         BuildHealthWarning();
     end
@@ -159,16 +169,6 @@ local function HandleEvents(self, event, ...)
         if(Conf_ObjectiveTracker) then
             if(not ObjectiveTrackerFrame.collapsed) then
                 ObjectiveTracker_Collapse();
-            end
-        end
-    end
-
-    -- Clear the kill feed between instance transitions / ui reload
-    if( event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_ENTERING_BATTLEGROUND") then
-        if(Conf_KillFeed) then
-            for i = 1, #PvPFrame.killFeed.recentKills do
-                PvPFrame.killFeed.recentKills[i] = " ";
-                PvPFrame.killFeed.texts[i]:SetText(" ");
             end
         end
     end
