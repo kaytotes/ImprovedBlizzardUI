@@ -36,6 +36,19 @@ local function AdjustActionBars()
         ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil); -- Bag Bar
         ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
 
+        -- Adjust Honor Bar
+        HonorWatchBar:SetWidth(512);
+        ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, 0, nil); -- Move it
+        HonorWatchBar.StatusBar:SetWidth(512);
+        HonorWatchBar.StatusBar.XPBarTexture0:Hide();
+        HonorWatchBar.StatusBar.XPBarTexture1:Hide();
+        HonorWatchBar.StatusBar.XPBarTexture2:Hide();
+        HonorWatchBar.StatusBar.XPBarTexture3:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture0:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture1:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture2:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture3:Hide();
+
         -- Adjust Exp Bar
         MainMenuExpBar:SetWidth(512);
         ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
@@ -52,7 +65,9 @@ local function AdjustActionBars()
         local offset = 0;
         if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
             offset = 7;
-        elseif(ReputationWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown() ~= true) then
+        elseif(ReputationWatchBar:IsShown() and HonorWatchBar:IsShown()) then
+            offset = 7;
+        elseif(ReputationWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown() ~= true and HonorWatchBar:IsShown() ~= true) then
             offset = -10;
         else
             offset = 0;
@@ -77,7 +92,7 @@ local function AdjustActionBars()
         ReputationWatchBar.StatusBar.XPBarTexture3:Hide();
 
         -- Move Bar
-        if(MainMenuExpBar:IsShown()) then
+        if(MainMenuExpBar:IsShown() or HonorWatchBar:IsShown()) then
             offset = 7;
         else
             offset = 0;
