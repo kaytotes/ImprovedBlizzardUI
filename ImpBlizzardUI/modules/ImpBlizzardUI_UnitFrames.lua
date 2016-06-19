@@ -126,7 +126,7 @@ local function HandleEvents(self, event, ...)
 
     if(event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE") then
         if(UnitControllingVehicle("player") or UnitHasVehiclePlayerFrameUI("player")) then
-            SetUnitFrames();
+            AdjustUnitFrames();
         end
     end
 
