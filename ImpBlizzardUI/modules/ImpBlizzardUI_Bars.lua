@@ -36,6 +36,19 @@ local function AdjustActionBars()
         ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil); -- Bag Bar
         ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
 
+        -- Adjust Honor Bar
+        HonorWatchBar:SetWidth(512);
+        ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, 0, nil); -- Move it
+        HonorWatchBar.StatusBar:SetWidth(512);
+        HonorWatchBar.StatusBar.XPBarTexture0:Hide();
+        HonorWatchBar.StatusBar.XPBarTexture1:Hide();
+        HonorWatchBar.StatusBar.XPBarTexture2:Hide();
+        HonorWatchBar.StatusBar.XPBarTexture3:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture0:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture1:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture2:Hide();
+        HonorWatchBar.StatusBar.WatchBarTexture3:Hide();
+
         -- Adjust Exp Bar
         MainMenuExpBar:SetWidth(512);
         ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
@@ -52,7 +65,9 @@ local function AdjustActionBars()
         local offset = 0;
         if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
             offset = 7;
-        elseif(ReputationWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown() ~= true) then
+        elseif(ReputationWatchBar:IsShown() and HonorWatchBar:IsShown()) then
+            offset = 7;
+        elseif(ReputationWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown() ~= true and HonorWatchBar:IsShown() ~= true) then
             offset = -10;
         else
             offset = 0;
@@ -77,7 +92,7 @@ local function AdjustActionBars()
         ReputationWatchBar.StatusBar.XPBarTexture3:Hide();
 
         -- Move Bar
-        if(MainMenuExpBar:IsShown()) then
+        if(MainMenuExpBar:IsShown() or HonorWatchBar:IsShown()) then
             offset = 7;
         else
             offset = 0;
@@ -144,9 +159,37 @@ local function AdjustActionBars()
 end
 
 
+-- Builds the Micro Menu List that displays on Right Click
+local function UpdateMicroMenuList(newLevel)
+    BarFrame.microMenuList = {}; -- Create the array
+
+    -- Add Stuff to it
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });
+    if(newLevel >= 10) then
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' });
+    end
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' });
+    if(newLevel >= 15) then
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' });
+    end
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Collections"], func = function() ToggleCollectionsJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' });
+    if(newLevel >= 15) then
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Adventure Guide"].."     ", func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
+    end
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Swap Bags"], func = function() ToggleBagBar() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' });
+    table.insert(BarFrame.microMenuList, {text = "|cff00FFFF"..ImpBlizz["ImpBlizzardUI"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = BarFrame.menuFont });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFF00"..ImpBlizz["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = BarFrame.menuFont });
+    table.insert(BarFrame.microMenuList, {text = "|cffFE2E2E"..ImpBlizz["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = BarFrame.menuFont });
+end
+
+
 local function HandleEvents(self, event, ...)
     if(event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED") then
         AdjustActionBars();
+        UpdateMicroMenuList(UnitLevel("player"));
     end
 
     if(event == "UNIT_EXITED_VEHICLE") then
@@ -157,6 +200,17 @@ local function HandleEvents(self, event, ...)
 
     if(event == "PLAYER_FLAGS_CHANGED") then
         ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil);
+    end
+
+    if(event == "PLAYER_LEVEL_UP") then
+        local newLevel, _, _, _, _, _, _, _, _ = ...;
+        UpdateMicroMenuList(newLevel);
+        -- Print out hint for players on level up of unlocks, replaces the blizzard flashing thing
+        if(newLevel == 10) then
+            print("|cffffff00Talents now available under the Minimap Right-Click Menu!");
+        elseif(newLevel == 15) then
+            print("|cffffff00Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!");
+        end
     end
 end
 
@@ -183,6 +237,7 @@ local function Init()
     BarFrame:RegisterEvent("PLAYER_TALENT_UPDATE");
     BarFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
     BarFrame:RegisterEvent("UNIT_EXITED_VEHICLE");
+    BarFrame:RegisterEvent("PLAYER_LEVEL_UP");
 
     -- Micro Menu that replaces the removed action bar based one. Spawns on right click of minimamp
     BarFrame.microMenu = CreateFrame("Frame", "RightClickMenu", UIParent, "UIDropDownMenuTemplate");
@@ -190,21 +245,6 @@ local function Init()
     BarFrame.menuFont:SetFontObject(GameFontNormal);
     BarFrame.menuFont:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", 12, nil);
     BarFrame.bagsVisible = false;
-    BarFrame.microMenuList = {
-    	{text = "|cffFFFFFF"..ImpBlizz["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', },
-    	{text = "|cffFFFFFF"..ImpBlizz["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Collections"], func = function() ToggleCollectionsJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Adventure Guide"], func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' },
-    	{text = "|cffFFFFFF"..ImpBlizz["Swap Bags"], func = function() ToggleBagBar() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' },
-    	{text = "|cff00FFFF"..ImpBlizz["ImpBlizzardUI"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = BarFrame.menuFont },
-    	{text = "|cffFFFF00"..ImpBlizz["Log Out"], func = function() Logout() end, notCheckable = true, fontObject = BarFrame.menuFont },
-    	{text = "|cffFE2E2E"..ImpBlizz["Force Exit"], func = function() ForceQuit() end, notCheckable = true, fontObject = BarFrame.menuFont },
-    }
 end
 
 -- Handles the Out of Range action bar colouring

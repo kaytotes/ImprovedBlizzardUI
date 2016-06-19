@@ -96,8 +96,8 @@ local function BuildKillFeed()
 
     for i = 1, #PvPFrame.killFeed.recentKills do
         PvPFrame.killFeed.texts[i] = PvPFrame.killFeed:CreateFontString(nil, "OVERLAY", "GameFontNormal" )
-        PvPFrame.killFeed.texts[i]:SetFont( "Interface\\AddOns\\BlizzImp\\media\\impfont.ttf", 18, "OUTLINE" );
-        PvPFrame.killFeed.texts[i]:SetPoint("TOPLEFT", 15, -(30 * i) );
+        PvPFrame.killFeed.texts[i]:SetFont( "Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", 18, "OUTLINE" );
+        PvPFrame.killFeed.texts[i]:SetPoint("TOPLEFT", 30, -(26 * i) );
         PvPFrame.killFeed.texts[i]:SetWordWrap( false );
     end
 
@@ -119,6 +119,16 @@ end
 
 -- Handle the Blizzard API events and respond appropriately
 local function HandleEvents(self, event, ...)
+
+    -- Clear the kill feed between instance transitions / ui reload
+    if(event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_BATTLEGROUND") then
+        if(Conf_KillFeed) then
+            for i = 1, #PvPFrame.killFeed.recentKills do
+                PvPFrame.killFeed.recentKills[i] = " ";
+                PvPFrame.killFeed.texts[i]:SetText(" ");
+            end
+        end
+    end
 
     if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
         BuildHealthWarning();
@@ -162,16 +172,6 @@ local function HandleEvents(self, event, ...)
             end
         end
     end
-
-    -- Clear the kill feed between instance transitions / ui reload
-    if( event == "PLAYER_LOGIN" or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_ENTERING_BATTLEGROUND") then
-        if(Conf_KillFeed) then
-            for i = 1, #PvPFrame.killFeed.recentKills do
-                PvPFrame.killFeed.recentKills[i] = " ";
-                PvPFrame.killFeed.texts[i]:SetText(" ");
-            end
-        end
-    end
 end
 
 -- Sets up everything
@@ -186,6 +186,7 @@ local function Init()
     PvPFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
     PvPFrame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND");
     PvPFrame:RegisterEvent("ADDON_LOADED");
+    PvPFrame:RegisterEvent("PARTY_KILL");
 end
 
 -- Triggered when the BG / Arena queue pops, reposition the buttons
