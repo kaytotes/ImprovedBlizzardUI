@@ -29,6 +29,8 @@ local function ModifyBasicFrame(frame, anchor, parent, posX, posY, scale)
 end
 
 local function AdjustExperienceBars()
+    offset = 0;
+
     -- Adjust all fillable bars eg Honor, Exp, Artifact Power
     -- Adjust Exp Bar
     MainMenuExpBar:SetWidth(512);
@@ -122,23 +124,28 @@ local function AdjustActionBars()
 
         AdjustExperienceBars();
 
-        -- Adjust Bottom Left / Right actionbar based on the above
-        if(HonorWatchBar:IsShown() and ArtifactWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
-            offset = 30;
-        elseif(HonorWatchBar:IsShown() ~= true and ArtifactWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
-            offset = 20;
-        elseif(ArtifactWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown()) then
-            offset = 10;
-        elseif(MainMenuExpBar:IsShown() ~= true and ArtifactWatchBar:IsShown()) then
-            offset = 10;
-        elseif(MainMenuExpBar:IsShown() ~= true and HonorWatchBar:IsShown()) then
-            offset = 10;
-        else
-            offset = 0;
+        local shownBars = 0;
+        if(MainMenuExpBar:IsShown()) then
+            shownBars = shownBars + 1;
         end
-        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 100 + offset, nil); -- Bottom Right Action Bar
-        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 57 + offset, nil); -- Bottom Left Action Bar
-        ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 120 + offset, 1); -- Stance Bar
+
+        if(ArtifactWatchBar:IsShown()) then
+            shownBars = shownBars + 1;
+        end
+
+        if(HonorWatchBar:IsShown()) then
+            shownBars = shownBars + 1;
+        end
+
+        if(ReputationWatchBar:IsShown()) then
+            shownBars = shownBars + 1;
+        end
+
+        offset = shownBars * 10;
+
+        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 90 + offset, nil); -- Bottom Right Action Bar
+        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 47 + offset, nil); -- Bottom Left Action Bar
+        ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1); -- Stance Bar
 
         -- Hide Textures
         MainMenuBarTexture2:SetTexture(nil);
