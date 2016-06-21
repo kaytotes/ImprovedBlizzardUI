@@ -147,21 +147,15 @@ local function AdjustActionBars()
         ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 47 + offset, nil); -- Bottom Left Action Bar
 
         -- Adjust and reposition the stance bar based on the above
-        bottomLeftShown, bottomRightShown, _, _ = GetActionBarToggles();
-        if(bottomRightShown) then
-            ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1);
-        end
-        if(bottomLeftShown) then
+        if(MultiBarBottomLeft:IsShown()) then
             ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 65 + offset, 1);
         end
-        if(bottomLeftShown ~= true and bottomRightShown ~= true) then
+        if(MultiBarBottomRight:IsShown()) then
+            ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1);
+        end
+        if(MultiBarBottomLeft:IsShown() ~= true and MultiBarBottomRight:IsShown() ~= true) then
             ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 20 + offset, 1);
         end
-
-        -- detect actionbar state
-        -- bump via offset same as above
-
-        --ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1); -- Stance Bar
 
         -- Hide Textures
         MainMenuBarTexture2:SetTexture(nil);
@@ -376,6 +370,7 @@ end
 -- Add a function to be called after execution of a secure function. Allows one to "post-hook" a secure function without tainting the original.
 hooksecurefunc("MoveMicroButtons", MoveMicroButtons_Hook);
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange);
+hooksecurefunc("MultiActionBar_Update", AdjustActionBars);
 hooksecurefunc("MainMenuBar_UpdateExperienceBars", MainMenuBar_UpdateExperienceBars_Hook);
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook);
 hooksecurefunc("CastingBarFrame_OnUpdate", CastingBarFrame_OnUpdate_Hook);
