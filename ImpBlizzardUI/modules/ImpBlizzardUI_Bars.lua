@@ -28,76 +28,117 @@ local function ModifyBasicFrame(frame, anchor, parent, posX, posY, scale)
     if(scale ~= nil) then frame:SetScale(scale) end
 end
 
+local function AdjustExperienceBars()
+    -- Adjust all fillable bars eg Honor, Exp, Artifact Power
+    -- Adjust Exp Bar
+    MainMenuExpBar:SetWidth(512);
+    ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
+    ExhaustionTick:Hide(); -- Hide Exhaustion Tick
+    ExhaustionTick:HookScript("OnShow", ExhaustionTick.Hide); -- Make sure it never comes back
+    ExhaustionLevelFillBar:SetVertexColor(0.0, 0.0, 0.0, 0.0);
+    for i = 1, 19 do -- Remove EXP Dividers
+        if _G["MainMenuXPBarDiv"..i] then _G["MainMenuXPBarDiv"..i]:Hide() end
+    end
+    for i = 0, 3 do -- Remove "collapsed" exp bar at max level
+        if _G["MainMenuMaxLevelBar"..i] then _G["MainMenuMaxLevelBar"..i]:Hide() end
+    end
+
+    -- Adjust Artifact Power Bar
+    ArtifactWatchBar:SetWidth(512);
+    ArtifactWatchBar:SetFrameStrata("BACKGROUND");
+    ArtifactWatchBar.StatusBar:SetWidth(512);
+    ArtifactWatchBar.StatusBar.XPBarTexture0:Hide();
+    ArtifactWatchBar.StatusBar.XPBarTexture1:Hide();
+    ArtifactWatchBar.StatusBar.XPBarTexture2:Hide();
+    ArtifactWatchBar.StatusBar.XPBarTexture3:Hide();
+    ArtifactWatchBar.StatusBar.WatchBarTexture0:Hide();
+    ArtifactWatchBar.StatusBar.WatchBarTexture1:Hide();
+    ArtifactWatchBar.StatusBar.WatchBarTexture2:Hide();
+    ArtifactWatchBar.StatusBar.WatchBarTexture3:Hide();
+    if(MainMenuExpBar:IsShown()) then
+        offset = 10;
+    else
+        offset = 0;
+    end -- Tweak position based on exp bar being visible
+    ModifyBasicFrame(ArtifactWatchBar, "TOP", nil, -256, offset, nil); -- Move it
+
+    -- Adjust Honor Bar
+    HonorWatchBar:SetWidth(512);
+    HonorWatchBar:SetFrameStrata("BACKGROUND");
+    HonorWatchBar.StatusBar:SetWidth(512);
+    HonorWatchBar.StatusBar.XPBarTexture0:Hide();
+    HonorWatchBar.StatusBar.XPBarTexture1:Hide();
+    HonorWatchBar.StatusBar.XPBarTexture2:Hide();
+    HonorWatchBar.StatusBar.XPBarTexture3:Hide();
+    HonorWatchBar.StatusBar.WatchBarTexture0:Hide();
+    HonorWatchBar.StatusBar.WatchBarTexture1:Hide();
+    HonorWatchBar.StatusBar.WatchBarTexture2:Hide();
+    HonorWatchBar.StatusBar.WatchBarTexture3:Hide();
+    if(MainMenuExpBar:IsShown() and ArtifactWatchBar:IsShown()) then
+        offset = 20;
+    elseif(MainMenuExpBar:IsShown() ~= true and ArtifactWatchBar:IsShown()) then
+        offset = 10;
+    end
+    ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, offset, nil); -- Move it
+
+    -- Tweak and Adjust Reputation Bar
+    ReputationWatchBar.StatusBar:SetWidth(512);
+    ReputationWatchBar:SetFrameStrata("BACKGROUND");
+    ReputationWatchBar:SetWidth(512);
+    ReputationWatchBar.StatusBar.WatchBarTexture0:Hide();
+    ReputationWatchBar.StatusBar.WatchBarTexture1:Hide();
+    ReputationWatchBar.StatusBar.WatchBarTexture2:Hide();
+    ReputationWatchBar.StatusBar.WatchBarTexture3:Hide();
+    ReputationWatchBar.StatusBar.XPBarTexture0:Hide();
+    ReputationWatchBar.StatusBar.XPBarTexture1:Hide();
+    ReputationWatchBar.StatusBar.XPBarTexture2:Hide();
+    ReputationWatchBar.StatusBar.XPBarTexture3:Hide();
+    if(HonorWatchBar:IsShown() and ArtifactWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
+        offset = 30;
+    elseif(HonorWatchBar:IsShown() ~= true and ArtifactWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
+        offset = 20;
+    elseif(ArtifactWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown()) then
+        offset = 10;
+    elseif(MainMenuExpBar:IsShown() ~= true and ArtifactWatchBar:IsShown()) then
+        offset = 10;
+    elseif(MainMenuExpBar:IsShown() ~= true and HonorWatchBar:IsShown()) then
+        offset = 10;
+    else
+        offset = 0;
+    end
+    ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, offset, nil); -- Move it
+end
+
 -- Does the bulk of the tweaking to the primary action bars
+-- god damn I hate the repeating bar stuff, need to refactor once the logic is finalised
 local function AdjustActionBars()
+    local offset = 0;
+
     if(InCombatLockdown() == false) then
         ModifyFrame(MainMenuBar, "BOTTOM", nil, 256, 0, 1.1); -- Main Action Bar
         MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 34, 0); -- Right End Cap
         ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil); -- Bag Bar
         ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
 
-        -- Adjust Honor Bar
-        HonorWatchBar:SetWidth(512);
-        ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, 0, nil); -- Move it
-        HonorWatchBar.StatusBar:SetWidth(512);
-        HonorWatchBar.StatusBar.XPBarTexture0:Hide();
-        HonorWatchBar.StatusBar.XPBarTexture1:Hide();
-        HonorWatchBar.StatusBar.XPBarTexture2:Hide();
-        HonorWatchBar.StatusBar.XPBarTexture3:Hide();
-        HonorWatchBar.StatusBar.WatchBarTexture0:Hide();
-        HonorWatchBar.StatusBar.WatchBarTexture1:Hide();
-        HonorWatchBar.StatusBar.WatchBarTexture2:Hide();
-        HonorWatchBar.StatusBar.WatchBarTexture3:Hide();
+        AdjustExperienceBars();
 
-        -- Adjust Exp Bar
-        MainMenuExpBar:SetWidth(512);
-        ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
-        ExhaustionTick:Hide(); -- Hide Exhaustion Tick
-        ExhaustionTick:HookScript("OnShow", ExhaustionTick.Hide); -- Make sure it never comes back
-        ExhaustionLevelFillBar:SetVertexColor(0.0, 0.0, 0.0, 0.0);
-        for i = 1, 19 do -- Remove EXP Dividers
-        	if _G["MainMenuXPBarDiv"..i] then _G["MainMenuXPBarDiv"..i]:Hide() end
-    	end
-        for i = 0, 3 do -- Remove "collapsed" exp bar at max level
-            if _G["MainMenuMaxLevelBar"..i] then _G["MainMenuMaxLevelBar"..i]:Hide() end
-        end
-
-        local offset = 0;
-        if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
-            offset = 7;
-        elseif(ReputationWatchBar:IsShown() and HonorWatchBar:IsShown()) then
-            offset = 7;
-        elseif(ReputationWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown() ~= true and HonorWatchBar:IsShown() ~= true) then
-            offset = -10;
+        -- Adjust Bottom Left / Right actionbar based on the above
+        if(HonorWatchBar:IsShown() and ArtifactWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
+            offset = 30;
+        elseif(HonorWatchBar:IsShown() ~= true and ArtifactWatchBar:IsShown() and MainMenuExpBar:IsShown()) then
+            offset = 20;
+        elseif(ArtifactWatchBar:IsShown() ~= true and MainMenuExpBar:IsShown()) then
+            offset = 10;
+        elseif(MainMenuExpBar:IsShown() ~= true and ArtifactWatchBar:IsShown()) then
+            offset = 10;
+        elseif(MainMenuExpBar:IsShown() ~= true and HonorWatchBar:IsShown()) then
+            offset = 10;
         else
             offset = 0;
         end
-
         ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 100 + offset, nil); -- Bottom Right Action Bar
         ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 57 + offset, nil); -- Bottom Left Action Bar
         ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 120 + offset, 1); -- Stance Bar
-
-        -- Tweak and Adjust Reputation Bar
-        ReputationWatchBar.StatusBar:SetWidth(512);
-        ReputationWatchBar:SetWidth(512);
-        -- I fucking hate this, should be looped but currently can't find the global reference. Hacky but works.
-        -- Will Replace
-        ReputationWatchBar.StatusBar.WatchBarTexture0:Hide();
-        ReputationWatchBar.StatusBar.WatchBarTexture1:Hide();
-        ReputationWatchBar.StatusBar.WatchBarTexture2:Hide();
-        ReputationWatchBar.StatusBar.WatchBarTexture3:Hide();
-        ReputationWatchBar.StatusBar.XPBarTexture0:Hide();
-        ReputationWatchBar.StatusBar.XPBarTexture1:Hide();
-        ReputationWatchBar.StatusBar.XPBarTexture2:Hide();
-        ReputationWatchBar.StatusBar.XPBarTexture3:Hide();
-
-        -- Move Bar
-        if(MainMenuExpBar:IsShown() or HonorWatchBar:IsShown()) then
-            offset = 7;
-        else
-            offset = 0;
-        end
-        ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, offset, nil);
 
         -- Hide Textures
         MainMenuBarTexture2:SetTexture(nil);
@@ -277,6 +318,7 @@ end
 -- Repositon stuff after the Blizzard UI fucks with them
 local function MainMenuBar_UpdateExperienceBars_Hook(newLevel)
     AdjustActionBars();
+    AdjustExperienceBars();
 end
 
 -- Repositon stuff after the Blizzard UI fucks with them
