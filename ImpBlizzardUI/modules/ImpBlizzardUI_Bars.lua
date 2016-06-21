@@ -49,10 +49,6 @@ local function AdjustActionBars()
         HonorWatchBar.StatusBar.WatchBarTexture2:Hide();
         HonorWatchBar.StatusBar.WatchBarTexture3:Hide();
 
-	-- First try of adjusting ArtifactWatchBar
-	ArtifactWatchBar:SetWidth(512);
-	ModifyBasicFrame(ArtifactWatchBar, "TOP", nil, -256, 0, nil);
-
         -- Adjust Exp Bar
         MainMenuExpBar:SetWidth(512);
         ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
