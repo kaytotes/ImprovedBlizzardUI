@@ -145,7 +145,23 @@ local function AdjustActionBars()
 
         ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 90 + offset, nil); -- Bottom Right Action Bar
         ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 47 + offset, nil); -- Bottom Left Action Bar
-        ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1); -- Stance Bar
+
+        -- Adjust and reposition the stance bar based on the above
+        bottomLeftShown, bottomRightShown, _, _ = GetActionBarToggles();
+        if(bottomRightShown) then
+            ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1);
+        end
+        if(bottomLeftShown) then
+            ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 65 + offset, 1);
+        end
+        if(bottomLeftShown ~= true and bottomRightShown ~= true) then
+            ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 20 + offset, 1);
+        end
+
+        -- detect actionbar state
+        -- bump via offset same as above
+
+        --ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1); -- Stance Bar
 
         -- Hide Textures
         MainMenuBarTexture2:SetTexture(nil);
