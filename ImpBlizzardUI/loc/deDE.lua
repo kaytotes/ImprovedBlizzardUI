@@ -2,10 +2,10 @@
 
 local _, ImpBlizz = ...;
 
-if(GetLocale() == "localeHere") then
+if(GetLocale() == "deDE") then
 
     -- Micro Menu
-    ImpBlizz["Character"] = "Charakter“;
+    ImpBlizz["Character"] = "Charakter";
     ImpBlizz["Spellbook"] = "Zauberbuch";
     ImpBlizz["Talents"] = "Talente";
     ImpBlizz["Achievements"] = "Erfolge";
