@@ -10,7 +10,7 @@ if(GetLocale() == "deDE") then
     ImpBlizz["Achievements"] = "Erfolge";
     ImpBlizz["Quest Log"] = "Quest Log";
     ImpBlizz["Guild"] = "Gilde";
-    ImpBlizz["Group Finder"] = "Gruppen Suche";
+    ImpBlizz["Group Finder"] = "Gruppensuche";
     ImpBlizz["Collections"] = "Sammlungen";
     ImpBlizz["Dungeon Journal"] = "Dungeonkompendium";
     ImpBlizz["Swap Bags"] = "Taschen";
