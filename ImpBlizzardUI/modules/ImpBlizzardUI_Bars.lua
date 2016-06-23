@@ -211,7 +211,7 @@ local function AdjustActionBars()
         end
 
         BuffFrame:ClearAllPoints();
-    	BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11);
+    	BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22);
     	BarFrame.buffScale(BuffFrame, 1.4);
     end
 end
@@ -328,7 +328,7 @@ end
 -- Fixes the Buff Frames once the Blizzard UI messes with them
 local function FixBuffs()
     BuffFrame:ClearAllPoints();
-    BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11);
+    BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22);
     BarFrame.buffScale(BuffFrame, 1.4);
 end
 
@@ -374,7 +374,7 @@ hooksecurefunc("MultiActionBar_Update", AdjustActionBars);
 hooksecurefunc("MainMenuBar_UpdateExperienceBars", MainMenuBar_UpdateExperienceBars_Hook);
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook);
 hooksecurefunc("CastingBarFrame_OnUpdate", CastingBarFrame_OnUpdate_Hook);
-hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -11); end);
+hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22); end);
 hooksecurefunc( BuffFrame, "SetScale", function(frame) BarFrame.buffScale(BuffFrame, 1.4); end)
 
 -- Credit : BlizzBugsSuck (Shefki, Phanx) - http://www.wowinterface.com/downloads/info17002-BlizzBugsSuck.html
