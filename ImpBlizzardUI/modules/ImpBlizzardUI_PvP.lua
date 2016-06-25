@@ -140,7 +140,7 @@ local function HandleEvents(self, event, ...)
     -- Checks for a Killing Blow made by the player. Triggers in BG's, Arena and World PvP Zones (Ashran etc)
     if(instanceType == "pvp" or instanceType == "arena" or (instanceType == "none" and GetZonePVPInfo() == "combat")) then -- Only run in a BG
         if(event == "PARTY_KILL") then
-            if(sourceGUID == player and Conf_KillingBlow) then
+            if(sourceGUID == UnitGUID("player") and Conf_KillingBlow) then
                 PvPFrame.onScreenDisplay:AddMessage(ImpBlizz["Killing Blow!"], 1, 1, 0, 53, 3);
             end
         end
