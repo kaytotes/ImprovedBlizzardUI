@@ -55,7 +55,7 @@ Localized for enGB / enUS / deDE (ben2k1690) / ruRU (A few strings missing). See
 
 * Automatically repairs damaged equipment utilising the Guild Bank where possible.
 * Automatically sells grey quality loot when at an appropriate vendor.
-* "Hero View" AFK Camera system. - Note: Disabled in Release Candidate
+* "Hero View" AFK Camera system.
 * Positioning grid overlay with `/impblizz grid`
 
 ## Git jiggy with it

@@ -147,15 +147,17 @@ local function AFKCamera_Init()
 	-- Initialise the fadein / out anims
 	AFKCamera.fadeInAnim = AFKCamera:CreateAnimationGroup();
 	AFKCamera.fadeIn = AFKCamera.fadeInAnim:CreateAnimation("Alpha");
-	AFKCamera.fadeIn:SetDuration(0.25);
-	AFKCamera.fadeIn:SetChange(1);
+	AFKCamera.fadeIn:SetDuration(0.5);
+	AFKCamera.fadeIn:SetFromAlpha(0);
+	AFKCamera.fadeIn:SetToAlpha(1);
 	AFKCamera.fadeIn:SetOrder(1);
 	AFKCamera.fadeInAnim:SetScript("OnFinished", function() AFKCamera:SetAlpha(1) end );
 
 	AFKCamera.fadeOutAnim = AFKCamera:CreateAnimationGroup();
 	AFKCamera.fadeOut = AFKCamera.fadeOutAnim:CreateAnimation("Alpha");
-	AFKCamera.fadeOut:SetDuration(0.25);
-	AFKCamera.fadeOut:SetChange(-1);
+	AFKCamera.fadeOut:SetDuration(0.5);
+	AFKCamera.fadeOut:SetFromAlpha(1);
+	AFKCamera.fadeOut:SetToAlpha(0);
 	AFKCamera.fadeOut:SetOrder(1);
 	AFKCamera.fadeOutAnim:SetScript("OnFinished", function() AFKCamera:SetAlpha(0) end );
 end
@@ -320,7 +322,6 @@ local function HandleEvents(self, event, unit)
 	end
 
 	-- Trigger the AFK Camera
-	--[[
 	if(event == "PLAYER_FLAGS_CHANGED") then
 		if(unit =="player" and Conf_AFKCamera) then
 			if(UnitIsAFK(unit) and not UnitIsDead(unit)) then
@@ -336,7 +337,6 @@ local function HandleEvents(self, event, unit)
 			AFKSpin(false);
 		end
 	end
-	--]]
 
 	if(event == "PLAYER_ENTERING_WORLD") then
 		if(InCombatLockdown() == false) then
@@ -351,7 +351,7 @@ local function Init()
     SLASH_IMPBLIZZ1 = "/impblizz";
     SlashCmdList["IMPBLIZZ"] = HandleCommands; -- Set up the slash commands handler
 
-	--AFKCamera_Init();
+	AFKCamera_Init();
 
     Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
 
