@@ -178,19 +178,20 @@ local function AdjustActionBars()
         -- Vehicle Leave Button
         ModifyBasicFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -600, 40, nil);
 
-        -- Pet Bar
-        local offset = 0;
-    	if(ReputationWatchBar:IsShown() and MainMenuExpBar:IsShown())then
-    		offset = 0;
-    	else
-    		offset = 10;
-    	end
-
-    	if ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
-            ModifyBasicFrame(PetActionButton1, "CENTER", nil, -606, 28 + offset);
-    	else
-            ModifyBasicFrame(PetActionButton1, "CENTER", nil, -140, 28 + offset);
-    	end
+        -- Adjust and reposition the pet bar based on the above
+        if(MultiBarBottomRight:IsShown()) then
+            if ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
+                ModifyBasicFrame(PetActionButton1, "CENTER", nil, -609, 35 + offset);
+            else
+                ModifyBasicFrame(PetActionButton1, "CENTER", nil, -143, 35 + offset);
+            end
+        else
+            if ( StanceBarFrame and GetNumShapeshiftForms() > 0 ) then
+                ModifyBasicFrame(PetActionButton1, "CENTER", nil, -609, -8 + offset);
+            else
+                ModifyBasicFrame(PetActionButton1, "CENTER", nil, -143, -8 + offset);
+            end
+        end
 
         -- Enable the Micro Menu
         Minimap:SetScript("OnMouseUp", function(self, btn)
