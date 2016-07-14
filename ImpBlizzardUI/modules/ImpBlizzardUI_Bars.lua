@@ -217,6 +217,18 @@ local function AdjustActionBars()
     end
 end
 
+-- Toggles the Bag Bar between hidden and visible, called from the Micro Menu
+local function ToggleBagBar()
+    if(BarFrame.bagsVisible) then
+        -- Hide them
+        ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil);
+        BarFrame.bagsVisible = false;
+    else
+        --show them
+        ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -100, 0, nil);
+        BarFrame.bagsVisible = true;
+    end
+end
 
 -- Builds the Micro Menu List that displays on Right Click
 local function UpdateMicroMenuList(newLevel)
@@ -270,19 +282,6 @@ local function HandleEvents(self, event, ...)
         elseif(newLevel == 15) then
             print("|cffffff00Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!");
         end
-    end
-end
-
--- Toggles the Bag Bar between hidden and visible, called from the Micro Menu
-local function ToggleBagBar()
-    if(BarFrame.bagsVisible) then
-        -- Hide them
-        ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil);
-        BarFrame.bagsVisible = false;
-    else
-        --show them
-        ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -100, 0, nil);
-        BarFrame.bagsVisible = true;
     end
 end
 
