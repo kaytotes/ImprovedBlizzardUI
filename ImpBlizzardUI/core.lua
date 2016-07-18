@@ -51,7 +51,7 @@ local function ModifyMinimap()
 	-- Move and Scale the entire Minimap frame
 	MinimapCluster:ClearAllPoints();
 	MinimapCluster:SetScale(1.15);
-	MinimapCluster:SetPoint("TOPRIGHT", -15, -25);
+	MinimapCluster:SetPoint("TOPRIGHT", -15, -25 + Core.orderHallOffset);
 
 	-- All and handle Mouse Scroll for minimap zooming
 	Minimap:EnableMouseWheel(true);
@@ -216,7 +216,7 @@ local function PerformanceFrame_Init()
 	PerformanceFrame:SetFrameStrata("BACKGROUND");
 	PerformanceFrame:SetWidth(32);
 	PerformanceFrame:SetHeight(32);
-	PerformanceFrame:SetPoint("TOPRIGHT", -100, -0);
+	PerformanceFrame:SetPoint("TOPRIGHT", -100, -0 + Core.orderHallOffset);
 
 	-- Text positioning
 	PerformanceFrame.text:SetPoint("CENTER", 0, 0);
@@ -339,6 +339,13 @@ local function HandleEvents(self, event, unit)
 	end
 
 	if(event == "PLAYER_ENTERING_WORLD") then
+
+		-- Hide Order Hall Bar
+		Core.orderHallOffset = 0;
+		if(OrderHallCommandBar:IsShown()) then
+			Core.orderHallOffset = -20;
+		end
+
 		if(InCombatLockdown() == false) then
 			ModifyMinimap();
 		end
@@ -352,6 +359,8 @@ local function Init()
     SlashCmdList["IMPBLIZZ"] = HandleCommands; -- Set up the slash commands handler
 
 	AFKCamera_Init();
+
+	LoadAddOn("Blizzard_OrderHallUI"); -- So the order hall bar can be adjusted 
 
     Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
 
