@@ -208,6 +208,7 @@ end
 
 -- Initialises the Performance Counter
 local function PerformanceFrame_Init()
+
 	-- Create and Position the Performance Counter
 	PerformanceFrame = CreateFrame("Frame", nil, UIParent);
 	PerformanceFrame.text = PerformanceFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
@@ -339,17 +340,11 @@ local function HandleEvents(self, event, unit)
 	end
 
 	if(event == "PLAYER_ENTERING_WORLD") then
-
 		-- Hide Order Hall Bar
 		Core.orderHallOffset = 0;
 		if(OrderHallCommandBar:IsShown()) then
 			Core.orderHallOffset = -20;
 		end
-
-		if(InCombatLockdown() == false) then
-			ModifyMinimap();
-		end
-		PerformanceFrame_Init();
 	end
 end
 
@@ -360,7 +355,7 @@ local function Init()
 
 	AFKCamera_Init();
 
-	LoadAddOn("Blizzard_OrderHallUI"); -- So the order hall bar can be adjusted 
+	LoadAddOn("Blizzard_OrderHallUI"); -- So the order hall bar can be adjusted
 
     Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
 
@@ -371,6 +366,12 @@ local function Init()
 	Core:RegisterEvent("PLAYER_DEAD");
 	Core:RegisterEvent("PLAYER_ENTERING_WORLD");
 	Core:RegisterEvent("MERCHANT_SHOW");
+
+	Core.orderHallOffset = 0;
+	if(InCombatLockdown() == false) then
+		ModifyMinimap();
+	end
+	PerformanceFrame_Init();
 
     -- Init Finished
     print("|cffffff00Improved Blizzard UI " .. GetAddOnMetadata("ImpBlizzardUI", "Version") .. " Initialised");
