@@ -62,7 +62,9 @@ local function ModifyMinimap()
 			Minimap_ZoomOut();
 		end
 	end);
+end
 
+local function CreateCoords()
 	-- Create the Co-Ordinates Frame
 	CoordsFrame = CreateFrame("Frame", nil, Minimap);
 	CoordsFrame.text = CoordsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
@@ -345,6 +347,7 @@ local function HandleEvents(self, event, unit)
 		if(OrderHallCommandBar:IsShown()) then
 			Core.orderHallOffset = -20;
 		end
+		ModifyMinimap();
 	end
 end
 
@@ -368,9 +371,8 @@ local function Init()
 	Core:RegisterEvent("MERCHANT_SHOW");
 
 	Core.orderHallOffset = 0;
-	if(InCombatLockdown() == false) then
-		ModifyMinimap();
-	end
+
+	CreateCoords();
 	PerformanceFrame_Init();
 
     -- Init Finished

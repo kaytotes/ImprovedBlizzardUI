@@ -204,12 +204,7 @@ local function AdjustActionBars()
 
         -- Casting Bar
         ModifyFrame(CastingBarFrame, "CENTER", nil, 0, -175, 1.1);
-        if(Conf_CastingTimer) then
-            CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil);
-            CastingBarFrame.timer:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE");
-            CastingBarFrame.timer:SetPoint("TOP", CastingBarFrame, "BOTTOM", 0, 35);
-            CastingBarFrame.updateDelay = 0.1;
-        end
+
 
         BuffFrame:ClearAllPoints();
     	BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22);
@@ -283,6 +278,15 @@ local function HandleEvents(self, event, ...)
             print("|cffffff00Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!");
         end
     end
+
+    if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
+      if(Conf_CastingTimer) then
+          CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil);
+          CastingBarFrame.timer:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE");
+          CastingBarFrame.timer:SetPoint("TOP", CastingBarFrame, "BOTTOM", 0, 35);
+          CastingBarFrame.updateDelay = 0.1;
+      end
+    end
 end
 
 -- Sets up Event Handlers etc
@@ -296,6 +300,7 @@ local function Init()
     BarFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
     BarFrame:RegisterEvent("UNIT_EXITED_VEHICLE");
     BarFrame:RegisterEvent("PLAYER_LEVEL_UP");
+    BarFrame:RegisterEvent("ADDON_LOADED");
 
     -- Micro Menu that replaces the removed action bar based one. Spawns on right click of minimamp
     BarFrame.microMenu = CreateFrame("Frame", "RightClickMenu", UIParent, "UIDropDownMenuTemplate");
@@ -349,23 +354,22 @@ local function MoveMicroButtons_Hook(...)
 end
 
 -- Displays the Casting Bar timer
-local function CastingBarFrame_OnUpdate_Hook(self, elapsed)
-    if( not self.timer ) then
-		return;
-	end
-	if( self.updateDelay ) and (self.updateDelay < elapsed ) then
-		if( self.casting ) then
-			self.timer:SetText( format( "%2.1f / %1.1f", max( self.maxValue - self.value, 0), self.maxValue ));
-		elseif( self.channeling ) then
-			self.timer:SetText( format( "%.1f", max( self.value, 0 )));
-		else
-			self.timer:SetText("");
-		end
-		self.updateDelay = 0.1;
-	else
-		self.updateDelay = self.updateDelay - elapsed;
-	end
-end
+CastingBarFrame:HookScript('OnUpdate', function(self, elapsed)
+    if not self.timer then return end
+
+    if (self.updateDelay and self.updateDelay < elapsed) then
+        if (self.casting) then
+            self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
+        elseif (self.channeling) then
+            self.timer:SetText(format("%.1f", max(self.value, 0)))
+        else
+            self.timer:SetText("")
+        end
+        self.updateDelay = 0.1
+    else
+        self.updateDelay = self.updateDelay - elapsed
+    end
+end)
 
 -- Add a function to be called after execution of a secure function. Allows one to "post-hook" a secure function without tainting the original.
 hooksecurefunc("MoveMicroButtons", MoveMicroButtons_Hook);
@@ -373,7 +377,6 @@ hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange);
 hooksecurefunc("MultiActionBar_Update", AdjustActionBars);
 hooksecurefunc("MainMenuBar_UpdateExperienceBars", MainMenuBar_UpdateExperienceBars_Hook);
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook);
-hooksecurefunc("CastingBarFrame_OnUpdate", CastingBarFrame_OnUpdate_Hook);
 hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22); end);
 hooksecurefunc( BuffFrame, "SetScale", function(frame) BarFrame.buffScale(BuffFrame, 1.4); end)
 
