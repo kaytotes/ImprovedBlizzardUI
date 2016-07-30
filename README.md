@@ -3,7 +3,7 @@ ImprovedBlizzardUI
 
 Improved Blizzard UI is an attempt to improve the default Blizzard interface. This has been customized to how I personally like my UI set up. There is some very basic configuration in game but things like positioning and scale of items still needs modifying directly in the LUA.
 
-Only 1920x1080 is supported out of the box other resolutions will need tweaks.
+Only 1920x1080 and 2560x1440 are supported / tested out of the box so some other resolutions may need tweaks.
 
 Localized for enGB / enUS / deDE (ben2k1690) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
 
