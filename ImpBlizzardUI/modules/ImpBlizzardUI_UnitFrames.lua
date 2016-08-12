@@ -55,36 +55,18 @@ local function AdjustUnitFrames()
 end
 
 -- Updates the option class icon that displays near the target frame
-local function UpdateClassIcon(class)
+local function UpdateClassIcon()
     if(Conf_ClassIcon) then
-        if class == "WARRIOR" then
-            UnitFrames.classIconTexture:SetTexCoord( 0, .25, 0, .25 );
-        elseif class == "MAGE" then
-            UnitFrames.classIconTexture:SetTexCoord( .25, .5,0, .25 );
-        elseif class == "ROGUE" then
-            UnitFrames.classIconTexture:SetTexCoord( .5, .74,0, .25 );
-        elseif class == "DRUID" then
-            UnitFrames.classIconTexture:SetTexCoord( .75, .98, 0, .25 );
-        elseif class == "PALADIN" then
-            UnitFrames.classIconTexture:SetTexCoord( 0, .25, .5, .75 );
-        elseif class == "DEATHKNIGHT" then
-            UnitFrames.classIconTexture:SetTexCoord( .25, .5, .5, .75);
-        elseif class == "MONK" then
-            UnitFrames.classIconTexture:SetTexCoord( .5, .74, .5,.75);
-        elseif class == "HUNTER" then
-            UnitFrames.classIconTexture:SetTexCoord( 0, .25, .25, .5 );
-        elseif class == "SHAMAN" then
-            UnitFrames.classIconTexture:SetTexCoord( .25, .5, .25, .5 );
-        elseif class == "PRIEST" then
-            UnitFrames.classIconTexture:SetTexCoord( .5, .74, .25, .5 );
-        elseif class == "WARLOCK" then
-            UnitFrames.classIconTexture:SetTexCoord( .75, .98, .25, .5 );
+        local texCoords = CLASS_ICON_TCOORDS[select(2, UnitClass("target"))]; -- Get targets class texture co-ordinate
+        if (texCoords) then
+            UnitFrames.classIconTexture:SetTexCoord(unpack(texCoords))
         end
     end
 end
 
 -- Builds the optional class icon that displays near the target frame
 local function BuildClassIcon()
+
     if(Conf_ClassIcon) then
         UnitFrames.classIcon = CreateFrame("Frame", "ClassIconFrame", TargetFrame);
         UnitFrames.classIcon:SetPoint( "CENTER", 110, 40);
@@ -132,7 +114,7 @@ local function HandleEvents(self, event, ...)
 
     if(event == "PLAYER_TARGET_CHANGED") then
         UpdateClassColours();
-        UpdateClassIcon(select( 2, UnitClass("target")));
+        UpdateClassIcon();
     end
 
     if(event == "UNIT_FACTION" or event == "GROUP_ROSTER_UPDATE" or event == "PLAYER_FOCUS_CHANGED") then

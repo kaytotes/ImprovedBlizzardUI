@@ -1,7 +1,7 @@
 ## Interface: 70000
 ## Title: Improved Blizzard UI
 ## Notes: General Improvements to the Default Blizzard UI
-## Version: 1.0.8
+## Version: 1.0.9
 ## Author: Kaytotes
 ## SavedVariables: Conf_ClassIcon, Conf_ClassColours, Conf_HealthUpdate, Conf_ObjectiveTracker, Conf_KillingBlow, Conf_KillFeed, Conf_HideSpam, Conf_CastingTimer, Conf_AutoRepair, Conf_GuildBankRepair, Conf_SellGreys, Conf_AFKCamera, Conf_ShowCoords, Conf_ShowStats, Conf_StyleChat, Conf_MinifyGlobals, Conf_ShowArt, Conf_OutOfRange
 
