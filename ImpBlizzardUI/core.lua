@@ -51,7 +51,7 @@ local function ModifyMinimap()
 	-- Move and Scale the entire Minimap frame
 	MinimapCluster:ClearAllPoints();
 	MinimapCluster:SetScale(1.15);
-	MinimapCluster:SetPoint("TOPRIGHT", -15, -25 + Core.orderHallOffset);
+	MinimapCluster:SetPoint("TOPRIGHT", -15, -25);
 
 	-- All and handle Mouse Scroll for minimap zooming
 	Minimap:EnableMouseWheel(true);
@@ -219,7 +219,7 @@ local function PerformanceFrame_Init()
 	PerformanceFrame:SetFrameStrata("BACKGROUND");
 	PerformanceFrame:SetWidth(32);
 	PerformanceFrame:SetHeight(32);
-	PerformanceFrame:SetPoint("TOPRIGHT", -100, -0 + Core.orderHallOffset);
+	PerformanceFrame:SetPoint("TOPRIGHT", -100, -0);
 
 	-- Text positioning
 	PerformanceFrame.text:SetPoint("CENTER", 0, 0);
@@ -342,13 +342,19 @@ local function HandleEvents(self, event, unit)
 	end
 
 	if(event == "PLAYER_ENTERING_WORLD") then
-		-- Hide Order Hall Bar
-		Core.orderHallOffset = 0;
-		if(OrderHallCommandBar:IsShown()) then
-			Core.orderHallOffset = -20;
-		end
 		ModifyMinimap();
 	end
+end
+
+function FixOrderHall()
+	LoadAddOn("Blizzard_OrderHallUI"); -- So the order hall bar can be adjusted
+
+	-- Stop the Order Hall bar from ever showing
+	local OrderHall = OrderHallCommandBar;
+	OrderHall:UnregisterAllEvents();
+	OrderHall:SetScript("OnShow", OrderHall.Hide);
+	OrderHall:Hide();
+	UIParent:UnregisterEvent("UNIT_AURA");
 end
 
 -- Initialises the Core module and its relevant submodules
@@ -358,7 +364,7 @@ local function Init()
 
 	AFKCamera_Init();
 
-	LoadAddOn("Blizzard_OrderHallUI"); -- So the order hall bar can be adjusted
+	FixOrderHall();
 
     Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
 
@@ -369,8 +375,6 @@ local function Init()
 	Core:RegisterEvent("PLAYER_DEAD");
 	Core:RegisterEvent("PLAYER_ENTERING_WORLD");
 	Core:RegisterEvent("MERCHANT_SHOW");
-
-	Core.orderHallOffset = 0;
 
 	CreateCoords();
 	PerformanceFrame_Init();
