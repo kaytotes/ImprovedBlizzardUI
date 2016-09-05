@@ -81,7 +81,7 @@ local function AdjustExperienceBars()
     elseif(MainMenuExpBar:IsShown() ~= true and ArtifactWatchBar:IsShown()) then
         offset = 10;
     end
-    ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, offset, nil); -- Move it
+    ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, offset + 3, nil); -- Move it
 
     -- Tweak and Adjust Reputation Bar
     ReputationWatchBar.StatusBar:SetWidth(512);
