@@ -78,13 +78,14 @@ local function BuildChat()
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
       --Edit Box Font
-    ChatFontNormal:SetFont(STANDARD_TEXT_FONT, FontSize, "THINOUTLINE");
+    ChatFontNormal:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", FontSize, "THINOUTLINE");
     ChatFontNormal:SetShadowOffset(1,-1);
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
     -- Loop Through Chat Windows
     for i = 1, NUM_CHAT_WINDOWS do
         local chatWindowName = _G["ChatFrame"..i]:GetName();
+		local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
 
         -- Allow Moving Anywhere
         _G["ChatFrame"..i]:SetClampRectInsets( 0, 0, 0, 0 );
@@ -92,7 +93,7 @@ local function BuildChat()
         _G["ChatFrame"..i]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
 
         -- Change Chat Text
-        _G["ChatFrame"..i]:SetFont(STANDARD_TEXT_FONT, FontSize, "THINOUTLINE");
+        _G["ChatFrame"..i]:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", size, "THINOUTLINE");
         _G["ChatFrame"..i]:SetShadowOffset( 1, -1 );
         _G["ChatFrame"..i]:SetShadowColor( 0, 0, 0, 0.6 );
 
