@@ -62,7 +62,7 @@ local function AdjustExperienceBars()
     else
         offset = 0;
     end -- Tweak position based on exp bar being visible
-    ModifyBasicFrame(ArtifactWatchBar, "TOP", nil, -256, offset, nil); -- Move it
+    ModifyBasicFrame(ArtifactWatchBar, "TOP", nil, -256, offset + 3, nil); -- Move it
 
     -- Adjust Honor Bar
     HonorWatchBar:SetWidth(512);
@@ -108,7 +108,7 @@ local function AdjustExperienceBars()
     else
         offset = 0;
     end
-    ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, offset, nil); -- Move it
+    ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, 2 + offset, nil); -- Move it
 end
 
 -- Does the bulk of the tweaking to the primary action bars
@@ -143,8 +143,8 @@ local function AdjustActionBars()
 
         offset = shownBars * 10;
 
-        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 90 + offset, nil); -- Bottom Right Action Bar
-        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 47 + offset, nil); -- Bottom Left Action Bar
+        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 93 + offset, nil); -- Bottom Right Action Bar
+        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 50 + offset, nil); -- Bottom Left Action Bar
 
         -- Adjust and reposition the stance bar based on the above
         if(MultiBarBottomLeft:IsShown()) then
@@ -204,7 +204,6 @@ local function AdjustActionBars()
 
         -- Casting Bar
         ModifyFrame(CastingBarFrame, "CENTER", nil, 0, -175, 1.1);
-
 
         BuffFrame:ClearAllPoints();
     	BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22);
