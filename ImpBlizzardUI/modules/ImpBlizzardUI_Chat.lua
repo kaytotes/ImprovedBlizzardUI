@@ -4,8 +4,13 @@
     Current Features: Truncates a bunch of Global Strings (Loot Gained, Chat Channels etc), changes font styling, tab backgrounds hidden, edit box skinned, chat boxes placeable anywhere, unneccesary buttons removed, added more font sizes
 ]]
 local ChatFrame = CreateFrame("Frame", nil, UIParent);
+local ChatBubbles = CreateFrame("Frame");
+local WorldFrame = WorldFrame;
+
+local children = -1;
 
 local FontSize = 15;
+local BubbleFontSize = 15;
 
 -- Overrides a bunch of Blizzard strings
 local function OverrideGlobalStrings()
@@ -119,7 +124,6 @@ local function BuildChat()
 			_G[chatWindowName.."ButtonFrame"]:HookScript("OnShow", _G[chatWindowName.."ButtonFrame"].Hide);
 		end
 
-
         -- Skin Edit Text Box
         _G[chatWindowName.."EditBoxLeft"]:Hide();
         _G[chatWindowName.."EditBoxMid"]:Hide();
@@ -133,6 +137,45 @@ local function BuildChat()
     end
 end
 
+local function IsChatBubble(frame)
+	if(frame:GetName()) then
+		return
+	end
+
+	if(not frame:GetRegions()) then
+		return
+	end
+
+	local frameRegions = frame:GetRegions();
+	return frameRegions:GetTexture() == [[Interface\Tooltips\ChatBubble-Background]];
+end
+
+local function SkinBubbles(frame, ...)
+	if (not frame.transparent and IsChatBubble(frame)) then
+		for i=1, frame:GetNumRegions() do
+			local frameRegion = select(i, frame:GetRegions());
+			if (frameRegion:GetObjectType() == "Texture") then
+				frameRegion:SetTexture(nil);
+			elseif (frameRegion:GetObjectType() == "FontString") then
+				local font, size = frameRegion:GetFont();
+				frameRegion:SetFont(font, BubbleFontSize, "OUTLINE");
+			end
+		end
+		frame.transparent = true;
+	end
+	if(...) then
+		SkinBubbles(...);
+	end
+end
+
+local function Update(self, elapsed)
+	self.elapsed = self.elapsed + elapsed;
+	if (self.elapsed > 0.1) then
+		self:Hide();
+		SkinBubbles(WorldFrame:GetChildren());
+	end
+end
+
 local function HandleEvents(self, event, ...)
     if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
         if(Conf_StyleChat) then
@@ -143,11 +186,34 @@ local function HandleEvents(self, event, ...)
             OverrideGlobalStrings();
 		end
     end
+
+	if(event == "CHAT_MSG_SAY" or event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_MONSTER_SAY" or event == "CHAT_MSG_YELL" or event == "CHAT_MSG_PARTY_LEADER" or event == "CHAT_MSG_MONSTER_YELL" or event == "CHAT_MSG_MONSTER_PARTY") then
+		local count = WorldFrame:GetNumChildren();
+		if(count ~= children) then
+			children = count;
+			self.elapsed = 0;
+			if (not self:IsShown()) then
+				self:Show();
+			end
+		end
+	end
 end
 
 local function Init()
     ChatFrame:SetScript("OnEvent", HandleEvents);
     ChatFrame:RegisterEvent("ADDON_LOADED");
+
+	ChatBubbles:Hide();
+	ChatBubbles.elapsed = 0;
+	ChatBubbles:SetScript("OnUpdate", Update);
+	ChatBubbles:SetScript("OnEvent", HandleEvents);
+	ChatBubbles:RegisterEvent("CHAT_MSG_SAY");
+	ChatBubbles:RegisterEvent("CHAT_MSG_PARTY");
+	ChatBubbles:RegisterEvent("CHAT_MSG_MONSTER_SAY");
+	ChatBubbles:RegisterEvent("CHAT_MSG_YELL");
+	ChatBubbles:RegisterEvent("CHAT_MSG_PARTY_LEADER");
+	ChatBubbles:RegisterEvent("CHAT_MSG_MONSTER_YELL");
+	ChatBubbles:RegisterEvent("CHAT_MSG_MONSTER_PARTY");
 end
 
 -- End of file, call Init
