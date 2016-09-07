@@ -15,7 +15,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
+    if(Conf_ChatArrows ~= Config.panel.chatArrows:GetChecked() or Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -45,6 +45,7 @@ local function SetDefaults_Primary()
     Config.panel.killFeed:SetChecked(true);
     Config.panel.objectiveTracker:SetChecked(true);
     Config.panel.healthWarning:SetChecked(true);
+    Config.panel.chatArrows:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -67,6 +68,7 @@ local function LoadConfig_Primary()
     Config.panel.killFeed:SetChecked(Conf_KillFeed);
     Config.panel.objectiveTracker:SetChecked(Conf_ObjectiveTracker);
     Config.panel.healthWarning:SetChecked(Conf_HealthUpdate);
+    Config.panel.chatArrows:SetChecked(Conf_ChatArrows);
 end
 
 -- Applies any changes
@@ -90,6 +92,7 @@ local function ApplyChanges_Primary()
         Conf_KillFeed = Config.panel.killFeed:GetChecked();
         Conf_ObjectiveTracker = Config.panel.objectiveTracker:GetChecked();
         Conf_HealthUpdate = Config.panel.healthWarning:GetChecked();
+        Conf_ChatArrows = Config.panel.chatArrows:GetChecked();
         ReloadUI();
     end
 end
@@ -114,6 +117,7 @@ local function CheckFirstLoad()
     if (Conf_KillFeed == nil) then Conf_KillFeed = true end
     if (Conf_ObjectiveTracker == nil) then Conf_ObjectiveTracker = true end
     if (Conf_HealthUpdate == nil) then Conf_HealthUpdate = true end
+    if (Conf_ChatArrows == nil) then Conf_ChatArrows = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -230,6 +234,13 @@ local function BuildWindow_Primary()
     Config.panel.styleChat:SetPoint("TOPLEFT", 330, -110);
     _G[Config.panel.styleChat:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.styleChat:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Style Chat"]);
+
+    -- Chat Arrows Checkbox
+    Config.panel.chatArrows = CreateFrame("CheckButton", "ChatArrowsCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.chatArrows:ClearAllPoints();
+    Config.panel.chatArrows:SetPoint("TOPLEFT", 330, -140);
+    _G[Config.panel.chatArrows:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.chatArrows:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Hide Chat Arrows"]);
     --[[
         Chat Config Ends
     ]]
@@ -240,20 +251,20 @@ local function BuildWindow_Primary()
     -- Action Bars Header
     Config.panel.actionBarsHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
     Config.panel.actionBarsHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
-    Config.panel.actionBarsHeader:SetPoint( "TOPLEFT", 375, -160 );
+    Config.panel.actionBarsHeader:SetPoint( "TOPLEFT", 375, -190 );
     Config.panel.actionBarsHeader:SetText("|cffffff00 - "..ImpBlizz["Action Bars"].." - ");
 
     -- Show Bar Art Checkbox
     Config.panel.barArt = CreateFrame("CheckButton", "ArtCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.barArt:ClearAllPoints();
-    Config.panel.barArt:SetPoint("TOPLEFT", 330, -190);
+    Config.panel.barArt:SetPoint("TOPLEFT", 330, -220);
     _G[Config.panel.barArt:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.barArt:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Art"]);
 
     -- Show Bar Art Checkbox
     Config.panel.rangeIndicator = CreateFrame("CheckButton", "RangeCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.rangeIndicator:ClearAllPoints();
-    Config.panel.rangeIndicator:SetPoint("TOPLEFT", 330, -220);
+    Config.panel.rangeIndicator:SetPoint("TOPLEFT", 330, -250);
     _G[Config.panel.rangeIndicator:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.rangeIndicator:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Out of Range Indicator"]);
     --[[
@@ -266,41 +277,41 @@ local function BuildWindow_Primary()
     -- Combat Bars Header
     Config.panel.combatHeader = Config.panel:CreateFontString(nil, "OVERLAY", "GameFontNormal");
     Config.panel.combatHeader:SetFont(Font, HeaderFontSize, "OUTLINE");
-    Config.panel.combatHeader:SetPoint( "TOPLEFT", 375, -270 );
+    Config.panel.combatHeader:SetPoint( "TOPLEFT", 375, -300 );
     Config.panel.combatHeader:SetText("|cffffff00 - "..ImpBlizz["Combat"].." - ");
 
     -- Casting Bar Timer Checkbox
     Config.panel.castingBar = CreateFrame("CheckButton", "CastingCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.castingBar:ClearAllPoints();
-    Config.panel.castingBar:SetPoint("TOPLEFT", 330, -300);
+    Config.panel.castingBar:SetPoint("TOPLEFT", 330, -330);
     _G[Config.panel.castingBar:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.castingBar:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Casting Bar Timer"]);
 
     -- Class Icon Checkbox
     Config.panel.classIcon = CreateFrame("CheckButton", "ClassIconCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.classIcon:ClearAllPoints();
-    Config.panel.classIcon:SetPoint("TOPLEFT", 330, -330);
+    Config.panel.classIcon:SetPoint("TOPLEFT", 330, -360);
     _G[Config.panel.classIcon:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.classIcon:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Class Icon"]);
 
     -- CLass Colours Checkbox
     Config.panel.classColours = CreateFrame("CheckButton", "ClassColoursCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.classColours:ClearAllPoints();
-    Config.panel.classColours:SetPoint("TOPLEFT", 330, -360);
+    Config.panel.classColours:SetPoint("TOPLEFT", 330, -390);
     _G[Config.panel.classColours:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.classColours:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Class Colours"]);
 
     -- Portrait Spam Checkbox
     Config.panel.portraitSpam = CreateFrame("CheckButton", "PortraitSpamCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.portraitSpam:ClearAllPoints();
-    Config.panel.portraitSpam:SetPoint("TOPLEFT", 330, -390);
+    Config.panel.portraitSpam:SetPoint("TOPLEFT", 330, -420);
     _G[Config.panel.portraitSpam:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.portraitSpam:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Hide Portrait Spam"]);
 
     -- Health Warnings Checkbox
     Config.panel.healthWarning = CreateFrame("CheckButton", "healthWarningCheckBox", Config.panel, "UICheckButtonTemplate");
     Config.panel.healthWarning:ClearAllPoints();
-    Config.panel.healthWarning:SetPoint("TOPLEFT", 330, -420);
+    Config.panel.healthWarning:SetPoint("TOPLEFT", 330, -450);
     _G[Config.panel.healthWarning:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.healthWarning:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Health Warnings"]);
     --[[

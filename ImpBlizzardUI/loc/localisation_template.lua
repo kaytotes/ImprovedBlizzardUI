@@ -48,14 +48,15 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Display System Statistics"] = "";
     ImpBlizz["Display Player Co-Ordinates"] = "";
     ImpBlizz["Display Art"] = "";
-    ImpBlizz["Auto-Hide Quest Tracker"] = ""
-    ImpBlizz["Highlight Killing Blows"] = ""
-    ImpBlizz["PvP"] = ""
-    ImpBlizz["Minify Blizzard Strings"] = ""
-    ImpBlizz["Style Chat"] = ""
-    ImpBlizz["Action Bars"] = ""
-    ImpBlizz["Casting Bar Timer"] = ""
-    ImpBlizz["Out of Range Indicator"] = ""
-    ImpBlizz["Hide Portrait Spam"] = ""
+    ImpBlizz["Auto-Hide Quest Tracker"] = "";
+    ImpBlizz["Highlight Killing Blows"] = "";
+    ImpBlizz["PvP"] = "";
+    ImpBlizz["Minify Blizzard Strings"] = "";
+    ImpBlizz["Style Chat"] = "";
+    ImpBlizz["Hide Chat Arrows"] = "";
+    ImpBlizz["Action Bars"] = "";
+    ImpBlizz["Casting Bar Timer"] = "";
+    ImpBlizz["Out of Range Indicator"] = "";
+    ImpBlizz["Hide Portrait Spam"] = "";
 
 end

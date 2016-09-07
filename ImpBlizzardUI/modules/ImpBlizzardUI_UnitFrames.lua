@@ -33,7 +33,7 @@ local function AdjustUnitFrames()
         ModifyFrame(FocusFrame, "TOPLEFT", nil, 300, -200, 1.25); -- Focus Frame
 
         -- Party Frames
-        ModifyFrame(PartyMemberFrame1, "LEFT", nil, 100, 125, 1.6); -- Move the first one (Others are children)
+        ModifyFrame(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6); -- Move the first one (Others are children)
         for i = 2, 4 do _G["PartyMemberFrame"..i]:SetScale(1.6); end -- Resize the other children
 
         -- Boss Frames
