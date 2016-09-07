@@ -11,7 +11,7 @@ local Core = CreateFrame("Frame", "ImpCore", UIParent); -- Create the Core frame
 -- Get Font references
 local DamageFont = "Interface\\Addons\\ImpBlizzardUI\\media\\damage.ttf";
 local MenuFont = "Interface\\Addons\\ImpBlizzardUI\\media\\impfont.ttf";
-local CoreFont = "Fonts\\FRIZQT__.TTF";
+local CoreFont = "Interface\\Addons\\ImpBlizzardUI\\media\\impfont.ttf";
 
 -- Development Grid
 local DevGrid;
@@ -223,7 +223,7 @@ local function PerformanceFrame_Init()
 
 	-- Text positioning
 	PerformanceFrame.text:SetPoint("CENTER", 0, 0);
-	PerformanceFrame.text:SetFont(CoreFont, 16, "OUTLINE");
+	PerformanceFrame.text:SetFont(CoreFont, 16, "THINOUTLINE");
 
 	PerformanceFrame:SetScript("OnUpdate", PerformanceFrame_Tick);
 end
