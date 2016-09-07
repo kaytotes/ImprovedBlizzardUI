@@ -1,4 +1,6 @@
--- Possible Locales - deDE, esES, esMX, frFR, koKR, zhCN, zhTW
+--[[
+	Missing: Hide Chat Arrows
+]]
 
 local _, ImpBlizz = ...;
 

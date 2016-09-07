@@ -100,7 +100,7 @@ local function BuildChat()
         -- Change Chat Tabs
         local chatTab = _G[chatWindowName.."Tab"];
         local tabFont = chatTab:GetFontString();
-        tabFont:SetFont(STANDARD_TEXT_FONT, 12, "THINOUTLINE");
+        tabFont:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", 12, "THINOUTLINE");
         tabFont:SetShadowOffset( 1, -1 );
         tabFont:SetShadowColor( 0, 0, 0, 0.6 );
 
@@ -114,8 +114,11 @@ local function BuildChat()
         chatTab:SetAlpha( 1.0 );
 
         -- Stop Chat Arrows Coming Back
-        _G[chatWindowName.."ButtonFrame"]:Hide();
-        _G[chatWindowName.."ButtonFrame"]:HookScript("OnShow", _G[chatWindowName.."ButtonFrame"].Hide);
+		if(Conf_ChatArrows) then
+			_G[chatWindowName.."ButtonFrame"]:Hide();
+			_G[chatWindowName.."ButtonFrame"]:HookScript("OnShow", _G[chatWindowName.."ButtonFrame"].Hide);
+		end
+
 
         -- Skin Edit Text Box
         _G[chatWindowName.."EditBoxLeft"]:Hide();
