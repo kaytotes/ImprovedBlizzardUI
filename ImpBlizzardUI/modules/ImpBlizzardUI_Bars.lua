@@ -143,8 +143,8 @@ local function AdjustActionBars()
 
         offset = shownBars * 10;
 
-        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 93 + offset, nil); -- Bottom Right Action Bar
-        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 50 + offset, nil); -- Bottom Left Action Bar
+        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 92 + offset, nil); -- Bottom Right Action Bar
+        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 49 + offset, nil); -- Bottom Left Action Bar
 
         -- Adjust and reposition the stance bar based on the above
         if(MultiBarBottomLeft:IsShown()) then
