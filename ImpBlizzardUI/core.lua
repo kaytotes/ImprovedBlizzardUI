@@ -247,9 +247,9 @@ local function DrawDevGrid()
 		for columns = 0, cellSizeX do
 			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
 			if( columns == cellSizeX / 2 ) then -- Half Way Line
-				line:SetTexture(1, 0, 0, 0.5 );
+				line:SetColorTexture(1, 0, 0, 0.5 );
 			else
-				line:SetTexture(0, 0, 0, 0.5 );
+				line:SetColorTexture(0, 0, 0, 0.5 );
 			end
 			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', columns * screenWidth - 1, 0);
 			line:SetPoint('BOTTOMRIGHT', DevGrid, 'BOTTOMLEFT', columns * screenWidth + 1, 0);
@@ -257,9 +257,9 @@ local function DrawDevGrid()
 		for rows = 0, cellSizeY do
 			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
 			if( rows == cellSizeY / 2 ) then -- Half Way Line
-				line:SetTexture(1, 0, 0, 0.5 );
+				line:SetColorTexture(1, 0, 0, 0.5 );
 			else
-				line:SetTexture(0, 0, 0, 0.5 );
+				line:SetColorTexture(0, 0, 0, 0.5 );
 			end
 			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', 0, -rows * screenHeight + 1);
 			line:SetPoint('BOTTOMRIGHT', DevGrid, 'TOPRIGHT', 0, -rows * screenHeight - 1)
@@ -271,7 +271,7 @@ end
 local function HandleCommands(input)
     local command = string.lower(input);
 
-    if(command == "DevGrid") then
+    if(command == "devgrid") then
         DrawDevGrid();
     end
 end
