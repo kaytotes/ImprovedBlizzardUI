@@ -17,6 +17,7 @@ Localized for enGB / enUS / deDE (ben2k1690) / ruRU (A few strings missing). See
 * Added a performance counter above the Minimap
 * Buffs repositioned and tweaked.
 * Casting Bar Repositioned
+* Swapped the default Class Order Hall bar with a custom replacement.
 
 ### Unit Frames
 
@@ -50,6 +51,7 @@ Localized for enGB / enUS / deDE (ben2k1690) / ruRU (A few strings missing). See
 * Removed chat tab backgrounds
 * Removed some chat buttons
 * Increased the font size range
+* Styled Chat Bubbles
 
 ### Miscellaneous
 
