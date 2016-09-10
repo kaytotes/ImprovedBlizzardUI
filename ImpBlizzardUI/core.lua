@@ -247,9 +247,9 @@ local function DrawDevGrid()
 		for columns = 0, cellSizeX do
 			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
 			if( columns == cellSizeX / 2 ) then -- Half Way Line
-				line:SetTexture(1, 0, 0, 0.5 );
+				line:SetColorTexture(1, 0, 0, 0.5 );
 			else
-				line:SetTexture(0, 0, 0, 0.5 );
+				line:SetColorTexture(0, 0, 0, 0.5 );
 			end
 			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', columns * screenWidth - 1, 0);
 			line:SetPoint('BOTTOMRIGHT', DevGrid, 'BOTTOMLEFT', columns * screenWidth + 1, 0);
@@ -257,9 +257,9 @@ local function DrawDevGrid()
 		for rows = 0, cellSizeY do
 			local line = DevGrid:CreateTexture(nil, 'BACKGROUND');
 			if( rows == cellSizeY / 2 ) then -- Half Way Line
-				line:SetTexture(1, 0, 0, 0.5 );
+				line:SetColorTexture(1, 0, 0, 0.5 );
 			else
-				line:SetTexture(0, 0, 0, 0.5 );
+				line:SetColorTexture(0, 0, 0, 0.5 );
 			end
 			line:SetPoint('TOPLEFT', DevGrid, 'TOPLEFT', 0, -rows * screenHeight + 1);
 			line:SetPoint('BOTTOMRIGHT', DevGrid, 'TOPRIGHT', 0, -rows * screenHeight - 1)
@@ -271,7 +271,7 @@ end
 local function HandleCommands(input)
     local command = string.lower(input);
 
-    if(command == "DevGrid") then
+    if(command == "grid") then
         DrawDevGrid();
     end
 end
@@ -346,15 +346,82 @@ local function HandleEvents(self, event, unit)
 	end
 end
 
-function FixOrderHall()
-	LoadAddOn("Blizzard_OrderHallUI"); -- So the order hall bar can be adjusted
+local function RefreshOrderHallInfo()
+	-- Refresh Currency
+	local currency = C_Garrison.GetCurrencyTypes(LE_GARRISON_TYPE_7_0)
+	local name, amount, texture = GetCurrencyInfo(currency);
+	Core.OrderBar.resourcesText:SetText("|T"..texture..":12:12:0:0:60:60:4:60:4:60|t".." "..amount);
 
+	-- Refresh Troops etc
+	local troopText = "";
+	local info = C_Garrison.GetClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0);
+	for i, troop in ipairs(info) do
+		troopText = troopText.."|T".. troop.icon ..":12:12:0:0:60:60:4:60:4:60|t ";
+		troopText = troopText.. troop.count .. "/".. troop.limit.."    ";
+	end
+	Core.OrderBar.troopsText:SetText(troopText);
+end
+
+-- Builds the replacement order hall bar
+local function BuildOrderHallBar()
+	-- Set the Position
+	Core.OrderBar:SetFrameStrata("BACKGROUND");
+	Core.OrderBar:SetWidth(32);
+	Core.OrderBar:SetHeight(32);
+	Core.OrderBar:SetPoint("TOP", 0, 0);
+
+	-- Create the Location Text and Assign Font
+	Core.OrderBar.locationText = Core.OrderBar:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+	Core.OrderBar.locationText:SetPoint("CENTER", 0, 0);
+	Core.OrderBar.locationText:SetFont(CoreFont, 16, "THINOUTLINE");
+
+	-- Tweak Location Colour
+	local classColour = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+	classColour = format("|cff%02x%02x%02x", classColour.r*255, classColour.g*255, classColour.b*255)
+
+	-- Get the name of the current order hall and set it with class colouring
+	Core.OrderBar.locationText:SetText(classColour.._G["ORDER_HALL_"..select(2, UnitClass("player"))]);
+
+	-- Create the Order Hall Resources Text and Assign a Font
+	Core.OrderBar.resourcesText = Core.OrderBar:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+	Core.OrderBar.resourcesText:SetPoint("CENTER", -200, 0);
+	Core.OrderBar.resourcesText:SetFont(CoreFont, 16, "THINOUTLINE");
+
+	-- Create the Order Hall Resources Text and Assign a Font
+	Core.OrderBar.troopsText = Core.OrderBar:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+	Core.OrderBar.troopsText:SetPoint("CENTER", 200, 0);
+	Core.OrderBar.troopsText:SetFont(CoreFont, 16, "THINOUTLINE");
+end
+
+-- Event Handler for the Class Order Hall Bar
+local function OrderHallEvents(self, event, ...)
 	-- Stop the Order Hall bar from ever showing
-	local OrderHall = OrderHallCommandBar;
-	OrderHall:UnregisterAllEvents();
-	OrderHall:SetScript("OnShow", OrderHall.Hide);
-	OrderHall:Hide();
-	UIParent:UnregisterEvent("UNIT_AURA");
+	if (event == "ADDON_LOADED" and ... == "Blizzard_OrderHallUI") then
+		local OrderHall = OrderHallCommandBar;
+		OrderHall:UnregisterAllEvents();
+		OrderHall:SetScript("OnShow", OrderHall.Hide);
+		OrderHall:Hide();
+		GarrisonLandingPageTutorialBox:SetClampedToScreen(true);
+		self:UnregisterEvent("ADDON_LOADED");
+	end
+
+	-- Check if we're in the order hall
+	if event == "UNIT_AURA" or event == "PLAYER_ENTERING_WORLD" then
+		-- Hide Order Hall Bar if we're not in the Order Hall
+		self:SetShown(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0))
+
+		if C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0) then
+			-- Trigger a refresh
+			C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
+
+			RefreshOrderHallInfo();
+		end
+	end
+
+	-- Refresh Information
+	if(event == "CURRENCY_DISPLAY_UPDATE" or event == "GARRISON_TALENT_COMPLETE" or event == "GARRISON_TALENT_UPDATE" or event == "UNIT_PHASE" or event == "GARRISON_FOLLOWER_CATEGORIES_UPDATED" or event == "GARRISON_FOLLOWER_ADDED" or event == "GARRISON_FOLLOWER_REMOVED") then
+		RefreshOrderHallInfo();
+	end
 end
 
 -- Initialises the Core module and its relevant submodules
@@ -363,8 +430,6 @@ local function Init()
     SlashCmdList["IMPBLIZZ"] = HandleCommands; -- Set up the slash commands handler
 
 	AFKCamera_Init();
-
-	FixOrderHall();
 
     Core:SetScript("OnEvent", HandleEvents); -- Set the Event Handler
 
@@ -378,6 +443,21 @@ local function Init()
 
 	CreateCoords();
 	PerformanceFrame_Init();
+
+	-- Set up the Class Order Hall Bar
+	Core.OrderBar = CreateFrame("Frame", "OrderBar", UIParent);
+	BuildOrderHallBar();
+	Core.OrderBar:SetScript("OnEvent", OrderHallEvents);
+	Core.OrderBar:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
+	Core.OrderBar:RegisterEvent("GARRISON_FOLLOWER_CATEGORIES_UPDATED");
+	Core.OrderBar:RegisterEvent("GARRISON_FOLLOWER_ADDED");
+	Core.OrderBar:RegisterEvent("GARRISON_FOLLOWER_REMOVED");
+	Core.OrderBar:RegisterEvent("GARRISON_TALENT_UPDATE");
+	Core.OrderBar:RegisterEvent("GARRISON_TALENT_COMPLETE");
+	Core.OrderBar:RegisterUnitEvent("UNIT_AURA", "player");
+	Core.OrderBar:RegisterUnitEvent("UNIT_PHASE", "player");
+	Core.OrderBar:RegisterEvent("PLAYER_ENTERING_WORLD");
+	Core.OrderBar:RegisterEvent("ADDON_LOADED");
 
     -- Init Finished
     print("|cffffff00Improved Blizzard UI " .. GetAddOnMetadata("ImpBlizzardUI", "Version") .. " Initialised");
