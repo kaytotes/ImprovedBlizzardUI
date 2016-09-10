@@ -58,5 +58,6 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Casting Bar Timer"] = "";
     ImpBlizz["Out of Range Indicator"] = "";
     ImpBlizz["Hide Portrait Spam"] = "";
+    ImpBlizz["Style Chat Bubbles"] = "";
 
 end

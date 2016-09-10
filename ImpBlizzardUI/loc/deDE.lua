@@ -1,5 +1,5 @@
 --[[
-	Missing: Hide Chat Arrows
+	Missing: Style Chat Bubbles, Hide Chat Arrows
 ]]
 
 local _, ImpBlizz = ...;

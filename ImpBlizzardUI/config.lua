@@ -15,7 +15,7 @@ local HeaderFontSize = 16;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_ChatArrows ~= Config.panel.chatArrows:GetChecked() or Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
+    if(Conf_ChatBubbles ~= Config.panel.chatBubbles:GetChecked() or Conf_ChatArrows ~= Config.panel.chatArrows:GetChecked() or Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -46,6 +46,7 @@ local function SetDefaults_Primary()
     Config.panel.objectiveTracker:SetChecked(true);
     Config.panel.healthWarning:SetChecked(true);
     Config.panel.chatArrows:SetChecked(true);
+    Config.panel.chatBubbles:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -69,6 +70,7 @@ local function LoadConfig_Primary()
     Config.panel.objectiveTracker:SetChecked(Conf_ObjectiveTracker);
     Config.panel.healthWarning:SetChecked(Conf_HealthUpdate);
     Config.panel.chatArrows:SetChecked(Conf_ChatArrows);
+    Config.panel.chatBubbles:SetChecked(Conf_ChatBubbles);
 end
 
 -- Applies any changes
@@ -93,6 +95,7 @@ local function ApplyChanges_Primary()
         Conf_ObjectiveTracker = Config.panel.objectiveTracker:GetChecked();
         Conf_HealthUpdate = Config.panel.healthWarning:GetChecked();
         Conf_ChatArrows = Config.panel.chatArrows:GetChecked();
+        Conf_ChatBubbles = Config.panel.chatBubbles:GetChecked();
         ReloadUI();
     end
 end
@@ -118,6 +121,7 @@ local function CheckFirstLoad()
     if (Conf_ObjectiveTracker == nil) then Conf_ObjectiveTracker = true end
     if (Conf_HealthUpdate == nil) then Conf_HealthUpdate = true end
     if (Conf_ChatArrows == nil) then Conf_ChatArrows = true end
+    if (Conf_ChatBubbles == nil) then Conf_ChatBubbles = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -241,6 +245,13 @@ local function BuildWindow_Primary()
     Config.panel.chatArrows:SetPoint("TOPLEFT", 330, -140);
     _G[Config.panel.chatArrows:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.chatArrows:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Hide Chat Arrows"]);
+
+    -- Chat Bubbles Checkbox
+    Config.panel.chatBubbles = CreateFrame("CheckButton", "ChatBubblesCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.chatBubbles:ClearAllPoints();
+    Config.panel.chatBubbles:SetPoint("TOPLEFT", 330, -170);
+    _G[Config.panel.chatBubbles:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.chatBubbles:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Style Chat Bubbles"]);
     --[[
         Chat Config Ends
     ]]
