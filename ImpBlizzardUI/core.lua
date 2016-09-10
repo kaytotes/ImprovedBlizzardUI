@@ -271,7 +271,7 @@ end
 local function HandleCommands(input)
     local command = string.lower(input);
 
-    if(command == "devgrid") then
+    if(command == "grid") then
         DrawDevGrid();
     end
 end
