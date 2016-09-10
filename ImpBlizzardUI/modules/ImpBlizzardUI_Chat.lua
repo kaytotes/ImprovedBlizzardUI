@@ -158,7 +158,7 @@ local function SkinBubbles(frame, ...)
 				frameRegion:SetTexture(nil);
 			elseif (frameRegion:GetObjectType() == "FontString") then
 				local font, size = frameRegion:GetFont();
-				frameRegion:SetFont(font, BubbleFontSize, "OUTLINE");
+				frameRegion:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", BubbleFontSize, "OUTLINE");
 			end
 		end
 		frame.transparent = true;
@@ -171,10 +171,13 @@ end
 local function Update(self, elapsed)
 	self.elapsed = self.elapsed + elapsed;
 	if (self.elapsed > 0.1) then
-		self:Hide();
-		SkinBubbles(WorldFrame:GetChildren());
+		if(Conf_ChatBubbles) then
+			self:Hide();
+			SkinBubbles(WorldFrame:GetChildren());
+		end
 	end
 end
+
 
 local function HandleEvents(self, event, ...)
     if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
@@ -188,12 +191,14 @@ local function HandleEvents(self, event, ...)
     end
 
 	if(event == "CHAT_MSG_SAY" or event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_MONSTER_SAY" or event == "CHAT_MSG_YELL" or event == "CHAT_MSG_PARTY_LEADER" or event == "CHAT_MSG_MONSTER_YELL" or event == "CHAT_MSG_MONSTER_PARTY") then
-		local count = WorldFrame:GetNumChildren();
-		if(count ~= children) then
-			children = count;
-			self.elapsed = 0;
-			if (not self:IsShown()) then
-				self:Show();
+		if(Conf_ChatBubbles) then
+			local count = WorldFrame:GetNumChildren();
+			if(count ~= children) then
+				children = count;
+				self.elapsed = 0;
+				if (not self:IsShown()) then
+					self:Show();
+				end
 			end
 		end
 	end
