@@ -36,7 +36,6 @@ local function AdjustExperienceBars()
     MainMenuExpBar:SetWidth(512);
     ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
     ExhaustionTick:Hide(); -- Hide Exhaustion Tick
-    ExhaustionTick:HookScript("OnShow", ExhaustionTick.Hide); -- Make sure it never comes back
     ExhaustionLevelFillBar:SetVertexColor(0.0, 0.0, 0.0, 0.0);
     for i = 1, 19 do -- Remove EXP Dividers
         if _G["MainMenuXPBarDiv"..i] then _G["MainMenuXPBarDiv"..i]:Hide() end
@@ -378,7 +377,7 @@ hooksecurefunc("MainMenuBar_UpdateExperienceBars", MainMenuBar_UpdateExperienceB
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", MainMenuBarVehicleLeaveButton_Update_Hook);
 hooksecurefunc( BuffFrame, "SetPoint", function(frame) frame:ClearAllPoints(); BarFrame.buffPoint(BuffFrame, "TOPRIGHT", -175, -22); end);
 hooksecurefunc( BuffFrame, "SetScale", function(frame) BarFrame.buffScale(BuffFrame, 1.4); end)
-
+ExhaustionTick:HookScript("OnShow", ExhaustionTick.Hide); -- Make sure it never comes back
 -- Credit : BlizzBugsSuck (Shefki, Phanx) - http://www.wowinterface.com/downloads/info17002-BlizzBugsSuck.html
 -- Fix InterfaceOptionsFrame_OpenToCategory not actually opening the category (and not even scrolling to it) Used by the MicroMenu
 -- Confirmed still broken in 7.0.3.21973 (7.0.3)
