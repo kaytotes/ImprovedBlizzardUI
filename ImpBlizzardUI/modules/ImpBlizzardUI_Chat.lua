@@ -12,6 +12,8 @@ local children = -1;
 local FontSize = 15;
 local BubbleFontSize = 15;
 
+local Font = "Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf";
+
 -- Overrides a bunch of Blizzard strings
 local function OverrideGlobalStrings()
     -- Local Player Loot
@@ -83,7 +85,7 @@ local function BuildChat()
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
       --Edit Box Font
-    ChatFontNormal:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", FontSize, "THINOUTLINE");
+    ChatFontNormal:SetFont(Font, FontSize, "THINOUTLINE");
     ChatFontNormal:SetShadowOffset(1,-1);
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
@@ -98,14 +100,14 @@ local function BuildChat()
         _G["ChatFrame"..i]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
 
         -- Change Chat Text
-        _G["ChatFrame"..i]:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", size, "THINOUTLINE");
+        _G["ChatFrame"..i]:SetFont(Font, size, "THINOUTLINE");
         _G["ChatFrame"..i]:SetShadowOffset( 1, -1 );
         _G["ChatFrame"..i]:SetShadowColor( 0, 0, 0, 0.6 );
 
         -- Change Chat Tabs
         local chatTab = _G[chatWindowName.."Tab"];
         local tabFont = chatTab:GetFontString();
-        tabFont:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", 12, "THINOUTLINE");
+        tabFont:SetFont(Font, 12, "THINOUTLINE");
         tabFont:SetShadowOffset( 1, -1 );
         tabFont:SetShadowColor( 0, 0, 0, 0.6 );
 
@@ -158,7 +160,7 @@ local function SkinBubbles(frame, ...)
 				frameRegion:SetTexture(nil);
 			elseif (frameRegion:GetObjectType() == "FontString") then
 				local font, size = frameRegion:GetFont();
-				frameRegion:SetFont("Interface\\AddOns\\ImpBlizzardUI\\media\\impfont.ttf", BubbleFontSize, "OUTLINE");
+				frameRegion:SetFont(Font, BubbleFontSize, "OUTLINE");
 			end
 		end
 		frame.transparent = true;
