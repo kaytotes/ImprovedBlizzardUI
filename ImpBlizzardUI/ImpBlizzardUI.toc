@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70100
 ## Title: Improved Blizzard UI
 ## Notes: General Improvements to the Default Blizzard UI
 ## Version: 1.3.1
