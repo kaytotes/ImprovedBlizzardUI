@@ -79,8 +79,9 @@ local function BuildChat()
     -- Hide Buttons
     ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide);
     ChatFrameMenuButton:Hide();
-    FriendsMicroButton:HookScript("OnShow", FriendsMicroButton.Hide);
-    FriendsMicroButton:Hide();
+	local button = QuickJoinToastButton or FriendsMicroButton;
+	button:HookScript("OnShow", button.Hide);
+	button:Hide();
     BNToastFrame:SetClampedToScreen(true);
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
@@ -98,11 +99,6 @@ local function BuildChat()
         _G["ChatFrame"..i]:SetClampRectInsets( 0, 0, 0, 0 );
         _G["ChatFrame"..i]:SetMinResize( 100, 50 );
         _G["ChatFrame"..i]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
-
-        -- Change Chat Text
-        _G["ChatFrame"..i]:SetFont(Font, size, "THINOUTLINE");
-        _G["ChatFrame"..i]:SetShadowOffset( 1, -1 );
-        _G["ChatFrame"..i]:SetShadowColor( 0, 0, 0, 0.6 );
 
         -- Change Chat Tabs
         local chatTab = _G[chatWindowName.."Tab"];
@@ -136,6 +132,11 @@ local function BuildChat()
         _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
         _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0);
         _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0);
+
+		-- Change Chat Text
+		_G["ChatFrame"..i]:SetFont(Font, size, "THINOUTLINE");
+		_G["ChatFrame"..i]:SetShadowOffset( 1, -1 );
+		_G["ChatFrame"..i]:SetShadowColor( 0, 0, 0, 0.6 );
     end
 end
 

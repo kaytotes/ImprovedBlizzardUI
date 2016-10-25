@@ -30,10 +30,14 @@ local function CoordsFrame_Tick(self, elapsed)
 	CoordsFrame.elapsed = CoordsFrame.elapsed + elapsed; -- Increment the tick timer
 	if(CoordsFrame.elapsed >= CoordsFrame.delay) then -- Matched tick delay?
 		if(Conf_ShowCoords) then -- Update the Co-ords frame
-			if(Minimap:IsVisible()) then
-				local x, y = GetPlayerMapPosition("player");
-				if(x ~= 0 and y ~= 0) then
-					CoordsFrame.text:SetFormattedText("(%d:%d)", x * 100, y * 100);
+			-- 7.1 Restricted this so it only works in the outside world. Lame.
+			local inInstance, _ = IsInInstance();
+			if(inInstance ~= true) then
+				if(Minimap:IsVisible()) then
+					local x, y = GetPlayerMapPosition("player");
+					if(x ~= 0 and y ~= 0) then
+						CoordsFrame.text:SetFormattedText("(%d:%d)", x * 100, y * 100);
+					end
 				end
 			end
 		end
