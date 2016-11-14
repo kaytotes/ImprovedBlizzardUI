@@ -70,6 +70,17 @@ local function OverrideGlobalStrings()
 	ERR_SKILL_UP_SI = "|cffFFFF00+ |cff00FFFF%s Skill |cffFFFF00(%d)";
 end
 
+-- Removes the screen clamp for chat windows
+local function FixBounds()
+	-- Loop Through Chat Windows
+	for i = 1, NUM_CHAT_WINDOWS do
+		-- Allow Moving Anywhere
+		_G["ChatFrame"..i]:SetClampRectInsets( 0, 0, 0, 0 );
+		_G["ChatFrame"..i]:SetMinResize( 100, 50 );
+		_G["ChatFrame"..i]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
+	end
+end
+
 local function BuildChat()
     -- Add More Font Sizes
     for i = 1, 13 do
@@ -95,10 +106,7 @@ local function BuildChat()
         local chatWindowName = _G["ChatFrame"..i]:GetName();
 		local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
 
-        -- Allow Moving Anywhere
-        _G["ChatFrame"..i]:SetClampRectInsets( 0, 0, 0, 0 );
-        _G["ChatFrame"..i]:SetMinResize( 100, 50 );
-        _G["ChatFrame"..i]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
+        FixBounds();
 
         -- Change Chat Tabs
         local chatTab = _G[chatWindowName.."Tab"];
@@ -183,15 +191,19 @@ end
 
 
 local function HandleEvents(self, event, ...)
-    if(event == "PLAYER_LOGIN" or (event == "ADDON_LOADED" and ... == "ImpBlizzardUI")) then
-        if(Conf_StyleChat) then
-            BuildChat();
-        end
+    if(event == "PLAYER_LOGIN") then
+		FixBounds();
+    end
+
+	if(event == "ADDON_LOADED") then
+		if(Conf_StyleChat) then
+			BuildChat();
+		end
 
 		if(Conf_MinifyGlobals) then
-            OverrideGlobalStrings();
+			OverrideGlobalStrings();
 		end
-    end
+	end
 
 	if(event == "CHAT_MSG_SAY" or event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_MONSTER_SAY" or event == "CHAT_MSG_YELL" or event == "CHAT_MSG_PARTY_LEADER" or event == "CHAT_MSG_MONSTER_YELL" or event == "CHAT_MSG_MONSTER_PARTY") then
 		if(Conf_ChatBubbles) then
