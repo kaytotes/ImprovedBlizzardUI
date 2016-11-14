@@ -183,7 +183,7 @@ end
 
 
 local function HandleEvents(self, event, ...)
-    if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
+    if(event == "PLAYER_LOGIN" or (event == "ADDON_LOADED" and ... == "ImpBlizzardUI")) then
         if(Conf_StyleChat) then
             BuildChat();
         end
@@ -222,6 +222,7 @@ local function Init()
 	ChatBubbles:RegisterEvent("CHAT_MSG_PARTY_LEADER");
 	ChatBubbles:RegisterEvent("CHAT_MSG_MONSTER_YELL");
 	ChatBubbles:RegisterEvent("CHAT_MSG_MONSTER_PARTY");
+	ChatBubbles:RegisterEvent("PLAYER_LOGIN");
 end
 
 -- End of file, call Init
