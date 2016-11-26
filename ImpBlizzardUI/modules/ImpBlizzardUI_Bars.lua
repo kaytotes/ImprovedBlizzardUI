@@ -228,20 +228,35 @@ local function UpdateMicroMenuList(newLevel)
     BarFrame.microMenuList = {}; -- Create the array
 
     -- Add Stuff to it
-    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Character"], func = function() ToggleCharacter( "PaperDollFrame" ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
-    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Spellbook"], func = function() ToggleFrame(SpellBookFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Character"], func = function() securecall(ToggleCharacter, "PaperDollFrame") end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Spellbook"], func = function() securecall(ToggleFrame, SpellBookFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });
     if(newLevel >= 10) then
-        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Talents"], func = function() ToggleTalentFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' });
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Talents"], func = function()
+            if (not PlayerTalentFrame) then
+                    LoadAddOn('Blizzard_TalentUI')
+                end
+                if (not GlyphFrame) then
+                    LoadAddOn('Blizzard_GlyphUI')
+                end
+                securecall(ToggleFrame, PlayerTalentFrame)
+            end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' });
     end
-    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Achievements"], func = function() ToggleAchievementFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', });
-    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Quest Log"], func = function() ToggleFrame( WorldMapFrame )end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' });
-    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Guild"], func = function() ToggleGuildFrame( 1 ) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Achievements"], func = function() securecall(ToggleAchievementFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Quest Log"], func = function() securecall(ToggleFrame, WorldMapFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Guild"], func = function()
+        if (IsTrialAccount()) then
+            UIErrorsFrame:AddMessage(ERR_RESTRICTED_ACCOUNT, 1, 0, 0)
+        else
+            securecall(ToggleGuildFrame)
+        end
+    end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' });
     if(newLevel >= 15) then
-        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Group Finder"], func = function() PVEFrame_ToggleFrame() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' });
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Group Finder"], func = function() securecall(PVEFrame_ToggleFrame, 'GroupFinderFrame') end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' });
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["PvP"], func = function() securecall(PVEFrame_ToggleFrame, 'PVPUIFrame', HonorFrame) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
     end
-    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Collections"], func = function() ToggleCollectionsJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' });
+    table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Collections"], func = function() securecall(ToggleCollectionsJournal) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' });
     if(newLevel >= 15) then
-        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Adventure Guide"].."     ", func = function() ToggleEncounterJournal() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
+        table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Adventure Guide"].."     ", func = function() securecall(ToggleEncounterJournal) end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
     end
     table.insert(BarFrame.microMenuList, {text = "|cffFFFFFF"..ImpBlizz["Swap Bags"], func = function() ToggleBagBar() end, notCheckable = true, fontObject = BarFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' });
     table.insert(BarFrame.microMenuList, {text = "|cff00FFFF"..ImpBlizz["ImpBlizzardUI"], func = function() InterfaceOptionsFrame_OpenToCategory("Improved Blizzard UI") end, notCheckable = true, fontObject = BarFrame.menuFont });
