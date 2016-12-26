@@ -7,24 +7,6 @@ local _, ImpBlizz = ...;
 
 local PvPFrame = CreateFrame("Frame", nil, UIParent);
 
--- Health Warning Update Tick (Could this be a little resource intensive?)
-local function HealthWarning_Update()
-    local healthPercentage = UnitHealth("player") / UnitHealthMax("player");
-
-    -- Only shows if not dead
-    if(healthPercentage >= 0.01) then
-        if(healthPercentage <= 0.50 and healthPercentage > 0.25) then
-            PvPFrame.onScreenDisplay:AddMessage( ImpBlizz["HP < 50% !"], 0, 1, 1, 53, 3 );
-            return;
-        elseif(healthPercentage < 0.25) then
-            PvPFrame.onScreenDisplay:AddMessage(ImpBlizz["HP < 25% !!!"], 1, 0, 0, 53, 3);
-            return;
-        end
-    end
-
-    return;
-end
-
 -- Writes a Kill Feed message. Works out factions and colours text appropriately
 local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName)
     if(Conf_KillFeed) then
@@ -77,13 +59,7 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName)
     end
 end
 
-local function BuildHealthWarning()
-    if(Conf_HealthUpdate) then
-        PvPFrame.healthUpdater = CreateFrame("Frame", nil, UIParent);
-        PvPFrame.healthUpdater:SetScript("OnUpdate", HealthWarning_Update);
-        PvPFrame.healthUpdater.storedHealth = 0;
-    end
-end
+
 
 -- Builds the BG / Arena kill feed.
 local function BuildKillFeed()
@@ -130,10 +106,6 @@ local function HandleEvents(self, event, ...)
         end
     end
 
-    if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
-        BuildHealthWarning();
-    end
-
     local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _ = ...; -- Get all the variables we need
     local _, instanceType = IsInInstance();
 
@@ -176,7 +148,6 @@ end
 
 -- Sets up everything
 local function Init()
-
     BuildOnScreenDisplay();
     BuildKillFeed();
 

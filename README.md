@@ -30,6 +30,7 @@ Localized for enGB / enUS / deDE (ben2k1690) / ruRU (A few strings missing). See
 
 * Cast timer added to Casting Bar
 * Low Health Warnings
+* Interrupt Announcements
 
 ### PvP
 
