@@ -137,7 +137,11 @@ local function BuildChat()
 
         _G[chatWindowName.."EditBox"]:SetAltArrowKeyMode(false);
         _G[chatWindowName.."EditBox"]:ClearAllPoints();
-        _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
+		if(chatWindowName == "ChatFrame2") then -- Kind hacky. Fixes positioning of its a combat log entry
+			_G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,44);
+		else
+        	_G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
+		end
         _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0);
         _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0);
 
