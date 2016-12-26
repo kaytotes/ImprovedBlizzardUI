@@ -34,7 +34,7 @@ local function AdjustExperienceBars()
     -- Adjust all fillable bars eg Honor, Exp, Artifact Power
     -- Adjust Exp Bar
     MainMenuExpBar:SetWidth(512);
-    ModifyBasicFrame(MainMenuExpBar, "TOP", nil, -256, 0, nil); -- Move it
+    ModifyBasicFrame(MainMenuExpBar, "TOP", nil, 0, 0, nil); -- Move it
     ExhaustionTick:Hide(); -- Hide Exhaustion Tick
     ExhaustionLevelFillBar:SetVertexColor(0.0, 0.0, 0.0, 0.0);
     for i = 1, 19 do -- Remove EXP Dividers
@@ -61,7 +61,7 @@ local function AdjustExperienceBars()
     else
         offset = 0;
     end -- Tweak position based on exp bar being visible
-    ModifyBasicFrame(ArtifactWatchBar, "TOP", nil, -256, offset + 3, nil); -- Move it
+    ModifyBasicFrame(ArtifactWatchBar, "TOP", nil, 0, offset + 3, nil); -- Move it
 
     -- Adjust Honor Bar
     HonorWatchBar:SetWidth(512);
@@ -80,7 +80,7 @@ local function AdjustExperienceBars()
     elseif(MainMenuExpBar:IsShown() ~= true and ArtifactWatchBar:IsShown()) then
         offset = 10;
     end
-    ModifyBasicFrame(HonorWatchBar, "TOP", nil, -256, offset + 3, nil); -- Move it
+    ModifyBasicFrame(HonorWatchBar, "TOP", nil, 0, offset + 3, nil); -- Move it
 
     -- Tweak and Adjust Reputation Bar
     ReputationWatchBar.StatusBar:SetWidth(512);
@@ -107,7 +107,7 @@ local function AdjustExperienceBars()
     else
         offset = 0;
     end
-    ModifyBasicFrame(ReputationWatchBar, "TOP", nil, -256, 2 + offset, nil); -- Move it
+    ModifyBasicFrame(ReputationWatchBar, "TOP", nil, 0, 2 + offset, nil); -- Move it
 end
 
 -- Does the bulk of the tweaking to the primary action bars
@@ -116,10 +116,17 @@ local function AdjustActionBars()
     local offset = 0;
 
     if(InCombatLockdown() == false) then
-        ModifyFrame(MainMenuBar, "BOTTOM", nil, 256, 0, 1.1); -- Main Action Bar
-        MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 34, 0); -- Right End Cap
+        ModifyFrame(MainMenuBar, "BOTTOM", nil, 0, 0, 1.1); -- Main Action Bar
         ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil); -- Bag Bar
         ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
+
+        MainMenuBar:SetWidth(512);
+
+        -- Tweak Art Positions
+        MainMenuBarTexture0:SetPoint("CENTER", MainMenuBarArtFrame, -128, 0);
+        MainMenuBarTexture1:SetPoint("CENTER", MainMenuBarArtFrame, 128, 0);
+        MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 290, 0);
+        MainMenuBarLeftEndCap:SetPoint("CENTER", MainMenuBarArtFrame, -290, 0);
 
         AdjustExperienceBars();
 
@@ -142,8 +149,8 @@ local function AdjustActionBars()
 
         offset = shownBars * 10;
 
-        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, -256, 92 + offset, nil); -- Bottom Right Action Bar
-        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, -256, 49 + offset, nil); -- Bottom Left Action Bar
+        ModifyFrame(MultiBarBottomRight, "BOTTOM", nil, 0, 92 + offset, nil); -- Bottom Right Action Bar
+        ModifyFrame(MultiBarBottomLeft, "BOTTOM", nil, 0, 49 + offset, nil); -- Bottom Left Action Bar
 
         -- Adjust and reposition the stance bar based on the above
         if(MultiBarBottomLeft:IsShown()) then
@@ -175,7 +182,7 @@ local function AdjustActionBars()
         ActionBarUpButton:Hide();
 
         -- Vehicle Leave Button
-        ModifyBasicFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -600, 40, nil);
+        ModifyBasicFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -350, 40, nil);
 
         -- Adjust and reposition the pet bar based on the above
         if(MultiBarBottomRight:IsShown()) then
