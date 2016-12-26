@@ -30,7 +30,7 @@ local function AdjustUnitFrames()
         ModifyFrame(PlayerFrame, "CENTER", nil, -265, -150, 1.40); -- Player Frame
         ModifyFrame(TargetFrame, "CENTER", nil, 265, -150, 1.40); -- Target Frame
         TargetFrame.buffsOnTop = true;
-        ModifyFrame(FocusFrame, "LEFT", nil, 200, -215, 1.25); -- Focus Frame
+        ModifyFrame(FocusFrame, "LEFT", nil, 260, -215, 1.25); -- Focus Frame
 
         -- Party Frames
         ModifyFrame(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6); -- Move the first one (Others are children)
