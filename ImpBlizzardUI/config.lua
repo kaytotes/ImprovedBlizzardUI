@@ -15,7 +15,7 @@ local HeaderFontSize = 13;
 
 -- Simply checks if any of the options have changed. This is basically a huge if statement
 local function ConfigChanged()
-    if(Conf_ChatBubbles ~= Config.panel.chatBubbles:GetChecked() or Conf_ChatArrows ~= Config.panel.chatArrows:GetChecked() or Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
+    if(Conf_Interrupts ~= Config.panel.interrupts:GetChecked() or Conf_ChatBubbles ~= Config.panel.chatBubbles:GetChecked() or Conf_ChatArrows ~= Config.panel.chatArrows:GetChecked() or Conf_HealthUpdate ~= Config.panel.healthWarning:GetChecked() or Conf_ObjectiveTracker ~= Config.panel.objectiveTracker:GetChecked() or Conf_KillFeed ~= Config.panel.killFeed:GetChecked() or Conf_KillingBlow ~= Config.panel.killingBlow:GetChecked() or Conf_HideSpam ~= Config.panel.portraitSpam:GetChecked() or Conf_ClassColours ~= Config.panel.classColours:GetChecked() or Conf_ClassIcon ~= Config.panel.classIcon:GetChecked() or Conf_CastingTimer ~= Config.panel.castingBar:GetChecked() or Conf_OutOfRange ~= Config.panel.rangeIndicator:GetChecked() or Conf_ShowArt ~= Config.panel.barArt:GetChecked() or Conf_AutoRepair ~= Config.panel.autoRepair:GetChecked() or Conf_GuildBankRepair ~= Config.panel.guildRepair:GetChecked() or Conf_SellGreys ~= Config.panel.sellGreys:GetChecked() or Conf_AFKCamera ~= Config.panel.afkCamera:GetChecked() or Conf_ShowCoords ~= Config.panel.playerCoords:GetChecked() or Conf_ShowStats ~= Config.panel.systemStats:GetChecked() or Conf_MinifyGlobals ~= Config.panel.minifyStrings:GetChecked() or Conf_StyleChat ~= Config.panel.styleChat:GetChecked()) then
         return true;
     else
         return false;
@@ -47,6 +47,7 @@ local function SetDefaults_Primary()
     Config.panel.healthWarning:SetChecked(true);
     Config.panel.chatArrows:SetChecked(true);
     Config.panel.chatBubbles:SetChecked(true);
+    Config.panel.interrupts:SetChecked(true);
 end
 
 -- Loads the already set config options for the Primary window
@@ -71,6 +72,7 @@ local function LoadConfig_Primary()
     Config.panel.healthWarning:SetChecked(Conf_HealthUpdate);
     Config.panel.chatArrows:SetChecked(Conf_ChatArrows);
     Config.panel.chatBubbles:SetChecked(Conf_ChatBubbles);
+    Config.panel.interrupts:SetChecked(Conf_Interrupts);
 end
 
 -- Applies any changes
@@ -96,6 +98,7 @@ local function ApplyChanges_Primary()
         Conf_HealthUpdate = Config.panel.healthWarning:GetChecked();
         Conf_ChatArrows = Config.panel.chatArrows:GetChecked();
         Conf_ChatBubbles = Config.panel.chatBubbles:GetChecked();
+        Conf_Interrupts = Config.panel.interrupts:GetChecked();
         ReloadUI();
     end
 end
@@ -122,6 +125,7 @@ local function CheckFirstLoad()
     if (Conf_HealthUpdate == nil) then Conf_HealthUpdate = true end
     if (Conf_ChatArrows == nil) then Conf_ChatArrows = true end
     if (Conf_ChatBubbles == nil) then Conf_ChatBubbles = true end
+    if (Conf_Interrupts == nil) then Conf_Interrupts = true end
 end
 
 -- Event Handler, Only used for detecting when the addon has finished initialising and trigger config loading
@@ -325,6 +329,13 @@ local function BuildWindow_Primary()
     Config.panel.healthWarning:SetPoint("TOPLEFT", 365, -370);
     _G[Config.panel.healthWarning:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
     _G[Config.panel.healthWarning:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Display Health Warnings"]);
+
+    -- Announce Interrupts Checkbox
+    Config.panel.interrupts = CreateFrame("CheckButton", "interruptsCheckBox", Config.panel, "UICheckButtonTemplate");
+    Config.panel.interrupts:ClearAllPoints();
+    Config.panel.interrupts:SetPoint("TOPLEFT", 365, -395);
+    _G[Config.panel.interrupts:GetName().."Text"]:SetFont(Font, CheckBoxFontSize, "OUTLINE");
+    _G[Config.panel.interrupts:GetName().."Text"]:SetText("|cffFFFFFF - "..ImpBlizz["Announce Interrupts"]);
     --[[
         Combat Bar Config Ends
     ]]
