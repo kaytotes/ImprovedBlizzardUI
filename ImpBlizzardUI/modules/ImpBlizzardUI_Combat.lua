@@ -47,6 +47,14 @@ end
 
 -- Handle the Blizzard API Events
 local function HandleEvents(self, event, ...)
+    local _, eventType, _, sourceGUID, _, _, _, _, destName, _, _, sourceID, _, _, spellID, spellName, spellSchool = ...;
+
+    if (eventType == "SPELL_INTERRUPT" and (sourceGUID == UnitGUID("player") or sourceGUID == UnitGUID("pet"))) then
+        local message = "Interrupted %sl on %t";
+        message = message:gsub("%%t", destName):gsub("%%sl", GetSpellLink(spellID));
+        SendChatMessage(message, "SAY");
+    end
+
     if(event == "ADDON_LOADED" and ... == "ImpBlizzardUI") then
         BuildHealthWarning();
     end
