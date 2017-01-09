@@ -130,6 +130,33 @@ function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, type)
     end
 end
 
+-- Smooth healthbar colorize
+-- Reimplimentation of HealthBar_OnValueChanged from HealtBar.lua
+function HealthBar_OnValueChanged_Hook(self, value, smooth)
+	if ( not value ) then
+		return;
+	end
+	local r, g, b;
+	local min, max = self:GetMinMaxValues();
+	if ( (value < min) or (value > max) ) then
+		return;
+	end
+	if ( (max - min) > 0 ) then
+		value = (value - min) / (max - min);
+	else
+		value = 0;
+	end
+	if(value > 0.5) then
+		r = (1.0 - value) * 2;
+		g = 1.0;
+	else
+		r = 1.0;
+		g = value * 2;
+	end
+	b = 0.0;
+	self:SetStatusBarColor(r, g, b);
+end
+
 -- Sets up Event Handlers etc
 local function Init()
     UnitFrames:SetScript("OnEvent", HandleEvents);
@@ -146,6 +173,7 @@ local function Init()
 end
 
 hooksecurefunc("CombatFeedback_OnCombatEvent", CombatFeedback_OnCombatEvent_Hook);
+hooksecurefunc("HealthBar_OnValueChanged", HealthBar_OnValueChanged_Hook);
 
 -- End of file, call Init
 Init();
