@@ -133,28 +133,38 @@ end
 -- Smooth healthbar colorize
 -- Reimplimentation of HealthBar_OnValueChanged from HealtBar.lua
 function HealthBar_OnValueChanged_Hook(self, value, smooth)
-	if ( not value ) then
-		return;
-	end
-	local r, g, b;
-	local min, max = self:GetMinMaxValues();
-	if ( (value < min) or (value > max) ) then
-		return;
-	end
-	if ( (max - min) > 0 ) then
-		value = (value - min) / (max - min);
-	else
-		value = 0;
-	end
-	if(value > 0.5) then
-		r = (1.0 - value) * 2;
-		g = 1.0;
-	else
-		r = 1.0;
-		g = value * 2;
-	end
-	b = 0.0;
-	self:SetStatusBarColor(r, g, b);
+    if(Conf_HealthBarColor) then
+        -- checking if value is there
+        if ( not value ) then
+            return;
+        end
+
+        local r, g, b;
+        local min, max = self:GetMinMaxValues();
+        
+        -- out of bounds checking
+        if ( (value < min) or (value > max) ) then
+            return;
+        end
+        -- setting value to range from 0 to 1 regarding the current value in proportion to max/min
+        if ( (max - min) > 0 ) then
+            value = (value - min) / (max - min);
+        else
+            value = 0;
+        end
+        if(value > 0.5) then
+            -- over 50% -> bar changes from green to yellow
+            r = (1.0 - value) * 2;
+            g = 1.0;
+        else
+            -- unter 50% -> bar changes from yellow to red
+            r = 1.0;
+            g = value * 2;
+        end
+        b = 0.0;
+        -- set the color to the Statusbar
+        self:SetStatusBarColor(r, g, b);
+    end
 end
 
 -- Sets up Event Handlers etc
