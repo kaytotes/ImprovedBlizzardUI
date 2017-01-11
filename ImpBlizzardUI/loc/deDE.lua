@@ -1,5 +1,5 @@
 --[[
-	Missing: Style Chat Bubbles, Hide Chat Arrows, Announce Interrupts
+	Missing: Colourize Health Bars, Style Chat Bubbles, Hide Chat Arrows, Announce Interrupts
 ]]
 
 local _, ImpBlizz = ...;

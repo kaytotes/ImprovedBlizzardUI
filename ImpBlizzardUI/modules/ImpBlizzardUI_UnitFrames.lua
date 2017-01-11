@@ -131,7 +131,8 @@ function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, type)
 end
 
 -- Smooth healthbar colorize
--- Reimplimentation of HealthBar_OnValueChanged from HealtBar.lua
+-- Reimplimentation of HealthBar_OnValueChanged from HealthBar.lua
+-- Credit: Marakuja
 function HealthBar_OnValueChanged_Hook(self, value, smooth)
     if(Conf_HealthBarColor) then
         -- checking if value is there
@@ -141,7 +142,7 @@ function HealthBar_OnValueChanged_Hook(self, value, smooth)
 
         local r, g, b;
         local min, max = self:GetMinMaxValues();
-        
+
         -- out of bounds checking
         if ( (value < min) or (value > max) ) then
             return;
