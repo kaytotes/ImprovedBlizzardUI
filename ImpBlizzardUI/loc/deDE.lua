@@ -12,7 +12,7 @@ if(GetLocale() == "deDE") then
     ImpBlizz["Guild"] = "Gilde";
     ImpBlizz["Group Finder"] = "Dungeonbrowser";
     ImpBlizz["Collections"] = "Sammlungen";
-    ImpBlizz["Dungeon Journal"] = "Abenteuerführer";
+    ImpBlizz["Adventure Guide"] = "Abenteuerführer";
     ImpBlizz["Swap Bags"] = "Taschenanzeige wechseln";
     ImpBlizz["ImpBlizzardUI"] = "ImpBlizzardUI Einstellungen"
     ImpBlizz["Log Out"] = "Ausloggen";
