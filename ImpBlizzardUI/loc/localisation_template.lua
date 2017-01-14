@@ -13,9 +13,9 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Guild"] = "";
     ImpBlizz["Group Finder"] = "";
     ImpBlizz["Collections"] = "";
-    ImpBlizz["Dungeon Journal"] = "";
+    ImpBlizz["Adventure Guide"] = "";
     ImpBlizz["Swap Bags"] = "";
-    ImpBlizz["ImpBlizzardUI"] = ""
+    ImpBlizz["ImpBlizzardUI"] = "";
     ImpBlizz["Log Out"] = "";
     ImpBlizz["Force Exit"] = "";
 
@@ -35,6 +35,9 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Combat"] = "";
     ImpBlizz["Miscellaneous"] = "";
     ImpBlizz["User Interface"] = "";
+    ImpBlizz["PvP"] = ""; -- is used for Micro Menu ~and~ for Options Header
+    ImpBlizz["Action Bars"] = "";
+    ImpBlizz["Chat"] = "";
 
     -- Config Options
     ImpBlizz["Display Class Icon"] = "";
@@ -50,14 +53,14 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Display Art"] = "";
     ImpBlizz["Auto-Hide Quest Tracker"] = "";
     ImpBlizz["Highlight Killing Blows"] = "";
-    ImpBlizz["PvP"] = "";
     ImpBlizz["Minify Blizzard Strings"] = "";
     ImpBlizz["Style Chat"] = "";
     ImpBlizz["Hide Chat Arrows"] = "";
-    ImpBlizz["Action Bars"] = "";
     ImpBlizz["Casting Bar Timer"] = "";
     ImpBlizz["Out of Range Indicator"] = "";
     ImpBlizz["Hide Portrait Spam"] = "";
     ImpBlizz["Style Chat Bubbles"] = "";
+    ImpBlizz["Announce Interrupts"] = "";
+    ImpBlizz["Colourize Health Bars"] ="";
 
 end
