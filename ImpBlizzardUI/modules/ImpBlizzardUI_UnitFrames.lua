@@ -82,17 +82,44 @@ local function BuildClassIcon()
     end
 end
 
+-- Sets the class color on the Player frame name background
+local function BuildUnitFrameClassColor()
+    if(Conf_ClassColours) then
+        UnitFrames.PlayerFrameNameBackground = CreateFrame("FRAME", "PlayerFrameNameBackground", PlayerFrame);
+        UnitFrames.PlayerFrameNameBackground:SetFrameStrata("LOW");
+
+        -- Set Frame directly behind PlayerFrameName because there is no backgroundframe
+        UnitFrames.PlayerFrameNameBackground:SetWidth(PlayerFrameHealthBar:GetWidth()) --119
+        UnitFrames.PlayerFrameNameBackground:SetHeight(PlayerName:GetHeight()*1.8) -- ca. 21.5
+        UnitFrames.PlayerFrameNameBackground:SetPoint("TOPLEFT", "PlayerFrame", "TOPLEFT", 106, -22)
+
+        -- Create Texture for the frame
+        UnitFrames.PlayerFrameNameBackground.t = UnitFrames.PlayerFrameNameBackground:CreateTexture(nil, "BORDER")
+        UnitFrames.PlayerFrameNameBackground.t:SetAllPoints()
+        UnitFrames.PlayerFrameNameBackground.t:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-LevelBackground")
+
+        -- change color of the texture
+        local c = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+        UnitFrames.PlayerFrameNameBackground.t:SetVertexColor(c.r, c.g, c.b)
+    end
+end
+
 -- Updates the class colours on the Target and Focus frames
+-- edit Marakuja: Only color the Background if unit is a player and no npc
 local function UpdateClassColours()
     if(Conf_ClassColours) then
-        local class = RAID_CLASS_COLORS[select(2, UnitClass("target"))];
-        if(class ~= nil) then
-            TargetFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        if UnitIsPlayer("target") then
+            local class = RAID_CLASS_COLORS[select(2, UnitClass("target"))];
+            if(class ~= nil) then
+                TargetFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+            end
         end
 
-        local class = RAID_CLASS_COLORS[select(2, UnitClass("focus"))];
-        if(class ~= nil) then
-            FocusFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+        if UnitIsPlayer("focus") then
+            local class = RAID_CLASS_COLORS[select(2, UnitClass("focus"))];
+            if(class ~= nil) then
+                FocusFrameNameBackground:SetVertexColor(class.r, class.g, class.b);
+            end
         end
     end
 end
@@ -104,6 +131,7 @@ local function HandleEvents(self, event, ...)
 
     if(event == "PLAYER_ENTERING_WORLD") then
         AdjustUnitFrames();
+        BuildUnitFrameClassColor();
     end
 
     if(event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE") then
