@@ -53,7 +53,7 @@ local function HandleEvents(self, event, ...)
         if(Conf_Interrupts) then
             local message = "Interrupted %sl on %t";
             message = message:gsub("%%t", destName):gsub("%%sl", GetSpellLink(spellID));
-            SendChatMessage(message, "SAY");
+            SendChatMessage(message, IsInGroup(2) and "INSTANCE_CHAT" or IsInRaid() and "RAID" or IsInGroup() and "PARTY" or "SAY");
         end
     end
 
