@@ -128,6 +128,8 @@ local function AdjustActionBars()
         MainMenuBarRightEndCap:SetPoint("CENTER", MainMenuBarArtFrame, 290, 0);
         MainMenuBarLeftEndCap:SetPoint("CENTER", MainMenuBarArtFrame, -290, 0);
 
+        ModifyFrame(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil);
+
         AdjustExperienceBars();
 
         local shownBars = 0;
