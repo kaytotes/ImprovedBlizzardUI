@@ -30,7 +30,8 @@ local function AdjustUnitFrames()
         ModifyFrame(PlayerFrame, "CENTER", nil, -265, -150, 1.40); -- Player Frame
         ModifyFrame(TargetFrame, "CENTER", nil, 265, -150, 1.40); -- Target Frame
         TargetFrame.buffsOnTop = true;
-        ModifyFrame(FocusFrame, "LEFT", nil, 260, -215, 1.25); -- Focus Frame
+
+        ModifyFrame(FocusFrame, "LEFT", PlayerFrame, -175, -45, 1.25); -- Focus Frame
 
         -- Party Frames
         ModifyFrame(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6); -- Move the first one (Others are children)
@@ -210,6 +211,10 @@ local function Init()
     UnitFrames:RegisterEvent("GROUP_ROSTER_UPDATE");
     UnitFrames:RegisterEvent("PLAYER_FOCUS_CHANGED");
 end
+
+hooksecurefunc("FocusFrame_SetSmallSize", function(self) --we call this so when the frame updates it doesn't randomly change itself even though you don't change the size of the frame
+    ModifyFrame(FocusFrame, "LEFT", PlayerFrame, -175, -45, 1.25); -- Focus Frame
+end)
 
 hooksecurefunc("CombatFeedback_OnCombatEvent", CombatFeedback_OnCombatEvent_Hook);
 hooksecurefunc("HealthBar_OnValueChanged", HealthBar_OnValueChanged_Hook);
