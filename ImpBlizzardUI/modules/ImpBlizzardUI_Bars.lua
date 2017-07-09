@@ -28,6 +28,13 @@ local function ModifyBasicFrame(frame, anchor, parent, posX, posY, scale)
     if(scale ~= nil) then frame:SetScale(scale) end
 end
 
+-- Move the talking head frame up slightly so it doesn't clip with the bottom right action bar
+local function MoveTalkingHeadFrame()
+    TalkingHeadFrame.ignoreFramePositionManager = true;
+    TalkingHeadFrame:ClearAllPoints();
+    TalkingHeadFrame:SetPoint("BOTTOM", 0, 145);
+end
+
 local function AdjustExperienceBars()
     offset = 0;
 
@@ -160,6 +167,9 @@ local function AdjustActionBars()
         end
         if(MultiBarBottomRight:IsShown()) then
             ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 110 + offset, 1);
+            if(Conf_MoveTalkingHead) then
+                MoveTalkingHeadFrame();
+            end
         end
         if(MultiBarBottomLeft:IsShown() ~= true and MultiBarBottomRight:IsShown() ~= true) then
             ModifyFrame(StanceBarFrame, "TOPLEFT", nil, 0, 20 + offset, 1);

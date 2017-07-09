@@ -62,5 +62,6 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Style Chat Bubbles"] = "";
     ImpBlizz["Announce Interrupts"] = "";
     ImpBlizz["Colourize Health Bars"] ="";
+    ImpBlizz["Move Talking Head Frame"] ="";
 
 end
