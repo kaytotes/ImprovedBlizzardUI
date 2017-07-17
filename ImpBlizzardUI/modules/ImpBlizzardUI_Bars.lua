@@ -32,7 +32,7 @@ end
 local function MoveTalkingHeadFrame()
     TalkingHeadFrame.ignoreFramePositionManager = true;
     TalkingHeadFrame:ClearAllPoints();
-    TalkingHeadFrame:SetPoint("BOTTOM", 0, 145);
+    TalkingHeadFrame:SetPoint("BOTTOM", 0, 155);
 end
 
 local function AdjustExperienceBars()
