@@ -14,6 +14,7 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Group Finder"] = "";
     ImpBlizz["Collections"] = "";
     ImpBlizz["Adventure Guide"] = "";
+    ImpBlizz["Shop"] = "";
     ImpBlizz["Swap Bags"] = "";
     ImpBlizz["ImpBlizzardUI"] = "";
     ImpBlizz["Log Out"] = "";
