@@ -391,9 +391,9 @@ local function BuildOrderHallBar()
 	Core.OrderBar.resourcesText:SetPoint("CENTER", -200, 0);
 	Core.OrderBar.resourcesText:SetFont(CoreFont, 16, "THINOUTLINE");
 
-	-- Create the Order Hall Resources Text and Assign a Font
+	-- Create the Order Hall Troops Text and Assign a Font
 	Core.OrderBar.troopsText = Core.OrderBar:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-	Core.OrderBar.troopsText:SetPoint("CENTER", 200, 0);
+	Core.OrderBar.troopsText:SetPoint("CENTER", 300, 0);
 	Core.OrderBar.troopsText:SetFont(CoreFont, 16, "THINOUTLINE");
 end
 
