@@ -17,8 +17,6 @@ if(GetLocale() == "localeHere") then
     ImpBlizz["Shop"] = "";
     ImpBlizz["Swap Bags"] = "";
     ImpBlizz["ImpBlizzardUI"] = "";
-    ImpBlizz["Log Out"] = "";
-    ImpBlizz["Force Exit"] = "";
 
     -- Merchant
     ImpBlizz["Items Repaired from Guild Bank"] = "";

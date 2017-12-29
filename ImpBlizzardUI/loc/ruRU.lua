@@ -19,8 +19,6 @@ if( GetLocale() == "ruRU" )then
 	ImpBlizz["Adventure Guide"] = "Руководство Приключения";
 	ImpBlizz["Shop"] = "Лавка";
 	ImpBlizz["Swap Bags"] = "Переместить сумки";
-	ImpBlizz["Log Out"] = "Выход из мира";
-	ImpBlizz["Force Exit"] = "Выход из игры";
 
 	-- Merchant
 	ImpBlizz["Items Repaired from Guild Bank"] = "Вещи починены с помощью гильдейского банка";

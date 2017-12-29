@@ -16,8 +16,6 @@ if(GetLocale() == "deDE") then
     ImpBlizz["Shop"] = "Geschäft";
     ImpBlizz["Swap Bags"] = "Taschenanzeige wechseln";
     ImpBlizz["ImpBlizzardUI"] = "ImpBlizzardUI Einstellungen"
-    ImpBlizz["Log Out"] = "Ausloggen";
-    ImpBlizz["Force Exit"] = "Spiel verlassen";
 
     -- Merchant
     ImpBlizz["Items Repaired from Guild Bank"] = "Items mit der Gildenbank repariert";

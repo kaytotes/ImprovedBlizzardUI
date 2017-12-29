@@ -5,7 +5,7 @@ Improved Blizzard UI is an attempt to improve the default Blizzard interface. Th
 
 Only 1920x1080 and 2560x1440 are supported / tested out of the box so some other resolutions may need tweaks.
 
-Localized for enGB / enUS / deDE (ben2k1690) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
+Localized for enGB / enUS / deDE (ben2k1690) / ptBr (cyberdisarray) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
 
 # Features
 
