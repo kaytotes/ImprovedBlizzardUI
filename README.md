@@ -7,6 +7,13 @@ Only 1920x1080 and 2560x1440 are supported / tested out of the box so some other
 
 Localized for enGB / enUS / deDE (ben2k1690) / ptBr (cyberdisarray) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
 
+# Setup
+
+* Install ImprovedBlizzardUI like any other addon.
+* Ensure that the UI Scale option under **System** / **Advanced** is unchecked for correct scaling.
+
+![screenshot_1](https://user-images.githubusercontent.com/7526918/34448419-03557f4e-ece5-11e7-9058-3c0db94720a3.png)
+
 # Features
 
 ### User Interface
