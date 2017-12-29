@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Title: Improved Blizzard UI
 ## Notes: General Improvements to the Default Blizzard UI
-## Version: 1.8.3
+## Version: 1.9.0
 ## Author: Kaytotes
 ## SavedVariables: Conf_Interrupts, Conf_ChatArrows, Conf_ClassIcon, Conf_ClassColours, Conf_HealthUpdate, Conf_ObjectiveTracker, Conf_KillingBlow, Conf_KillFeed, Conf_HideSpam, Conf_CastingTimer, Conf_AutoRepair, Conf_GuildBankRepair, Conf_SellGreys, Conf_AFKCamera, Conf_ShowCoords, Conf_ShowStats, Conf_StyleChat, Conf_MinifyGlobals, Conf_ShowArt, Conf_OutOfRange, Conf_HealthBarColor, Conf_MoveTalkingHead
 ## Dependencies: Blizzard_TalkingHeadUI
@@ -9,6 +9,7 @@
 loc.lua
 loc\ruRU.lua
 loc\deDE.lua
+loc\ptBR.lua
 
 config.lua
 core.lua
