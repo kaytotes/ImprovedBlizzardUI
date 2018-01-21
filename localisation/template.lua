@@ -1,6 +1,6 @@
 
-local _, Loc = ...;
+local _, IBUI = ...;
 
 if (GetLocale() == 'LOCALE') then
-    Loc['Blah'] = '';
+    IBUI['Blah'] = '';
 end

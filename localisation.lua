@@ -4,7 +4,7 @@
     Notes: Actual Localised data is kept in the ImpBlizzardUI/loc/*.lua files
 ]]
 
-local addonName, Loc = ...; -- Every .lua file gets passed a private table so we'll use that to store the localisation stuff
+local _, IBUI = ...; -- Every .lua file gets passed a private table so we'll use that to store the localisation stuff
 
 --[[
     Called if no matching localisation template can be found for the key.
@@ -14,8 +14,10 @@ local addonName, Loc = ...; -- Every .lua file gets passed a private table so we
     @ param string key The key thats required in English
     @ return string
 ]]
-local function getLocalisation(Loc, key)
-    return key;
+local function getLocalisation(IBUI, key)
+    local value = tostring(key);
+	IBUI[key] = value;
+	return value;
 end
 
-setmetatable(Loc, {__index=getLocalisation});
+setmetatable(IBUI, {__index=getLocalisation});
