@@ -1,0 +1,12 @@
+## Interface: 70300
+## Title: Improved Blizzard UI
+## Notes: A variety of improvements to the default Blizzard UI
+## Version: 2.0.0
+## Author: Kaytotes
+## Dependencies: Blizzard_TalkingHeadUI
+
+# Localisation Files
+localisation.lua
+
+config.lua
+core.lua
