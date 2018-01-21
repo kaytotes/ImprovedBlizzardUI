@@ -4,9 +4,19 @@
 ## Version: 2.0.0
 ## Author: Kaytotes
 ## Dependencies: Blizzard_TalkingHeadUI
+## OptionalDeps: Wasabi
+## SavedVariables: ImprovedBlizzardUIDB
+
+# Libs
+libs\LibStub\LibStub.lua
+libs\Wasabi\embed.xml
 
 # Localisation Files
 localisation.lua
 
 config.lua
+
+# Modules
+modules\misc\afkcamera.lua
+
 core.lua
