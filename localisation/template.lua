@@ -9,6 +9,15 @@ if (GetLocale() == 'LOCALE') then
     Loc['Enable AFK Mode'] = '';
     Loc['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.'] = '';
 
+    Loc['Auto Repair'] = '';
+    Loc['Automatically repairs your armour when you visit a merchant that can repair.'] = '';
+    Loc['Items Repaired'] = '';
+
+    
+    Loc['Use Guild Bank For Repairs'] = '';
+    Loc['When automatically repairing allow the use of Guild Bank funds.'] = '';
+    Loc['Items Repaired from Guild Bank'] = '';
+
     Loc['Chat'] = '';
 
     Loc['Style Chat'] = '';

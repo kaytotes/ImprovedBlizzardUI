@@ -5,6 +5,9 @@ local defaults = {
 
     styleChat = true,
     overrideBlizzardStrings = true,
+
+    autoRepair = true,
+    guildRepair = true,
 };
 
 --[[
@@ -42,9 +45,19 @@ options:Initialize(function(self)
     afkMode:SetText(Loc['Enable AFK Mode']);
     AddTooltip(afkMode, Loc['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.']);
 
+    local autoRepair = self:CreateCheckButton('autoRepair');
+    autoRepair:SetPoint('TOPLEFT', afkMode, 'BOTTOMLEFT', 0, 0)
+    autoRepair:SetText(Loc['Auto Repair']);
+    AddTooltip(autoRepair, Loc['Automatically repairs your armour when you visit a merchant that can repair.']);
+
+    local guildRepair = self:CreateCheckButton('guildRepair');
+    guildRepair:SetPoint('TOPLEFT', autoRepair, 'BOTTOMLEFT', 0, 0)
+    guildRepair:SetText(Loc['Use Guild Bank For Repairs']);
+    AddTooltip(guildRepair, Loc['When automatically repairing allow the use of Guild Bank funds.']);
+
     -- Chat Category
     local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', afkMode, 'BOTTOMLEFT', 0, -8)
+    chatTitle:SetPoint('TOPLEFT', guildRepair, 'BOTTOMLEFT', 0, -8)
     chatTitle:SetText(Loc['Chat']);
 
     local styleChat = self:CreateCheckButton('styleChat');

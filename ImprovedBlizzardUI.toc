@@ -21,3 +21,4 @@ config.lua
 # Modules
 modules\misc\afkcamera.lua
 modules\misc\chat.lua
+modules\misc\autorepair.lua
