@@ -2,11 +2,10 @@
     modules\misc\afkcamera.lua
     After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.
 ]]
-
-local AFKCamera;
+local addonName, Loc = ...;
 
 -- Set Up AFK Camera
-AFKCamera = CreateFrame('Frame', nil, WorldFrame);
+local AFKCamera = CreateFrame('Frame', nil, WorldFrame);
 AFKCamera:SetAllPoints();
 AFKCamera:SetAlpha(0);
 AFKCamera.width, AFKCamera.height = AFKCamera:GetSize();
