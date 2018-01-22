@@ -1,3 +1,7 @@
+--[[
+    modules\misc\autorepair.lua
+    Automatically repairs your armour when you visit a merchant that can repair.
+]]
 local addonName, Loc = ...;
 
 local RepairFrame = CreateFrame('Frame', nil, UIParent);

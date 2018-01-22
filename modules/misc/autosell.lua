@@ -1,3 +1,7 @@
+--[[
+    modules\misc\autosell.lua
+    Automatically sells any grey items that are in your inventory.
+]]
 local addonName, Loc = ...;
 
 local AutoSellFrame = CreateFrame('Frame', nil, UIParent);

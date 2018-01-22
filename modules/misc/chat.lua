@@ -1,3 +1,7 @@
+--[[
+    modules\misc\chat.lua
+    Styles the Blizzard Chat frame to better match the rest of the UI.
+]]
 local addonName, Loc = ...;
 
 local ChatFrame = CreateFrame('Frame', nil, UIParent);
