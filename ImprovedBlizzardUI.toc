@@ -14,9 +14,10 @@ libs\Wasabi\embed.xml
 # Localisation Files
 localisation.lua
 
+core.lua
+
 config.lua
 
 # Modules
 modules\misc\afkcamera.lua
-
-core.lua
+modules\misc\chat.lua

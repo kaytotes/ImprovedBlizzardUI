@@ -2,6 +2,9 @@ local addonName, Loc = ...;
 
 local defaults = {
     afkMode = true,
+
+    styleChat = true,
+    overrideBlizzardStrings = true,
 };
 
 --[[
@@ -34,9 +37,27 @@ options:Initialize(function(self)
     miscTitle:SetPoint('TOPLEFT', 10, -50)
     miscTitle:SetText(Loc['Miscellaneous']);
 
-    -- AFK Mode Config
     local afkMode = self:CreateCheckButton('afkMode');
     afkMode:SetPoint('TOPLEFT', miscTitle, 'BOTTOMLEFT', 0, -8)
     afkMode:SetText(Loc['Enable AFK Mode']);
     AddTooltip(afkMode, Loc['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.']);
+
+    -- Chat Category
+    local chatTitle = self:CreateTitle();
+    chatTitle:SetPoint('TOPLEFT', afkMode, 'BOTTOMLEFT', 0, -8)
+    chatTitle:SetText(Loc['Chat']);
+
+    local styleChat = self:CreateCheckButton('styleChat');
+    styleChat:SetPoint('TOPLEFT', chatTitle, 'BOTTOMLEFT', 0, -8)
+    styleChat:SetText(Loc['Style Chat']);
+    AddTooltip(styleChat, Loc['Tweaks X, Y, Z']);
+
+    local overrideBlizzardStrings = self:CreateCheckButton('overrideBlizzardStrings');
+    overrideBlizzardStrings:SetPoint('TOPLEFT', styleChat, 'BOTTOMLEFT', 0, 0);
+    overrideBlizzardStrings:SetText(Loc['Minify Blizzard Strings']);
+    AddTooltip(overrideBlizzardStrings, Loc['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.']);
+end);
+
+options:On('Okay', function(self)
+    ReloadUI();
 end);
