@@ -162,14 +162,14 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUI') then
+    if (event == 'ADDON_LOADED' and (... == 'ImprovedBlizzardUI' or ... == 'Blizzard_CombatLog')) then
         if (ImprovedBlizzardUIDB.styleChat) then
             StyleChat();
         end
 
         if (ImprovedBlizzardUIDB.overrideBlizzardStrings) then
             OverrideStrings();
-        end
+		end
     end
 end
 
