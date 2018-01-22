@@ -69,7 +69,7 @@ options:Initialize(function(self)
     local styleChat = self:CreateCheckButton('styleChat');
     styleChat:SetPoint('TOPLEFT', chatTitle, 'BOTTOMLEFT', 0, -8)
     styleChat:SetText(Loc['Style Chat']);
-    AddTooltip(styleChat, Loc['Tweaks X, Y, Z']);
+    AddTooltip(styleChat, Loc['Styles the Blizzard Chat frame to better match the rest of the UI.']);
 
     local overrideBlizzardStrings = self:CreateCheckButton('overrideBlizzardStrings');
     overrideBlizzardStrings:SetPoint('TOPLEFT', styleChat, 'BOTTOMLEFT', 0, 0);

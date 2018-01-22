@@ -24,7 +24,7 @@ if (GetLocale() == 'LOCALE') then
     Loc['Chat'] = '';
 
     Loc['Style Chat'] = '';
-    Loc['Tweaks X, Y, Z'] = '';
+    Loc['Styles the Blizzard Chat frame to better match the rest of the UI'] = '';
 
     Loc['Minify Blizzard Strings'] = '';
     Loc['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'] = '';
