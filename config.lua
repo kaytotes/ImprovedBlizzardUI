@@ -8,6 +8,7 @@ local defaults = {
 
     autoRepair = true,
     guildRepair = true,
+    autoSell = true,
 };
 
 --[[
@@ -55,9 +56,14 @@ options:Initialize(function(self)
     guildRepair:SetText(Loc['Use Guild Bank For Repairs']);
     AddTooltip(guildRepair, Loc['When automatically repairing allow the use of Guild Bank funds.']);
 
+    local autoSell = self:CreateCheckButton('autoSell');
+    autoSell:SetPoint('TOPLEFT', guildRepair, 'BOTTOMLEFT', 0, 0)
+    autoSell:SetText(Loc['Auto Sell Trash']);
+    AddTooltip(autoSell, Loc['Automatically sells any grey items that are in your inventory.']);
+
     -- Chat Category
     local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', guildRepair, 'BOTTOMLEFT', 0, -8)
+    chatTitle:SetPoint('TOPLEFT', autoSell, 'BOTTOMLEFT', 0, -8)
     chatTitle:SetText(Loc['Chat']);
 
     local styleChat = self:CreateCheckButton('styleChat');

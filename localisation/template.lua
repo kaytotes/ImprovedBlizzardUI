@@ -13,10 +13,13 @@ if (GetLocale() == 'LOCALE') then
     Loc['Automatically repairs your armour when you visit a merchant that can repair.'] = '';
     Loc['Items Repaired'] = '';
 
-    
     Loc['Use Guild Bank For Repairs'] = '';
     Loc['When automatically repairing allow the use of Guild Bank funds.'] = '';
     Loc['Items Repaired from Guild Bank'] = '';
+
+    Loc['Auto Sell Trash'] = '';
+    Loc['Automatically sells any grey items that are in your inventory.']
+    Loc['Sold Trash Items'] = '';
 
     Loc['Chat'] = '';
 
