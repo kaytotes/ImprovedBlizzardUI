@@ -5,7 +5,7 @@
 ## Author: Kaytotes
 ## Dependencies: Blizzard_TalkingHeadUI
 ## OptionalDeps: Wasabi
-## SavedVariables: ImprovedBlizzardUIDB
+## SavedVariables: PrimaryDB, ActionBarDB
 
 # Libs
 libs\LibStub\LibStub.lua

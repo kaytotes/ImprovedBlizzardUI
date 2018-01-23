@@ -29,7 +29,7 @@ local function AddTooltip(frame, text)
     frame:SetScript('OnLeave', GameTooltip_Hide);
 end
 
-local options = LibStub('Wasabi'):New(addonName, 'ImprovedBlizzardUIDB', defaults);
+local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
 options:AddSlash('/ibui');
 options:AddSlash('/improvedblizzardui');
 

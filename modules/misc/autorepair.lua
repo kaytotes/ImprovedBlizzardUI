@@ -15,10 +15,10 @@ local RepairFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'MERCHANT_SHOW' and CanMerchantRepair() and ImprovedBlizzardUIDB.autoRepair) then
+    if (event == 'MERCHANT_SHOW' and CanMerchantRepair() and PrimaryDB.autoRepair) then
         local repCost, _ = GetRepairAllCost();
 
-        if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost and ImprovedBlizzardUIDB.guildRepair) then
+        if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost and PrimaryDB.guildRepair) then
             if(repCost > 0) then
                 RepairAllItems(true);
                 print('|cffffff00'..Loc['Items Repaired from Guild Bank']..': '..GetCoinTextureString(repCost));

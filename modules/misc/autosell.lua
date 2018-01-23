@@ -15,7 +15,7 @@ local AutoSellFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if( event == 'MERCHANT_SHOW' and ImprovedBlizzardUIDB.autoSell) then
+    if( event == 'MERCHANT_SHOW' and PrimaryDB.autoSell) then
 		local copper = 0;
 		for bags = 0, 4 do
 			for slot = 1, GetContainerNumSlots( bags ) do

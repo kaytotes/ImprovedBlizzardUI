@@ -15,7 +15,7 @@ local HealthFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if ( event == 'UNIT_HEALTH' and ... == 'player' and ImprovedBlizzardUIDB.healthWarnings) then
+    if ( event == 'UNIT_HEALTH' and ... == 'player' and PrimaryDB.healthWarnings) then
         local hp = UnitHealth('player') / UnitHealthMax('player');
 
         if ( hp > 0.50 ) then
