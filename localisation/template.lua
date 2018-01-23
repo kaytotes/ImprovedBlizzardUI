@@ -54,4 +54,10 @@ if (GetLocale() == 'LOCALE') then
     Loc['Displays a five second warning when Player Health is less than 50% and 25%.'] = '';
     Loc['HP < 50% !'] = '';
     Loc['HP < 25% !!!'] = '';
+
+    Loc['Action Bars'] = '';
+    Loc['Cast Bar'] = '';
+    Loc['Casting Bar Timer'] = '';
+    Loc['Adds a timer in seconds above the Casting Bar.'] = '';
+    Loc['Casting Bar Scale'] = '';
 end

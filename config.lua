@@ -11,6 +11,9 @@ local defaults = {
     autoSell = true,
 
     healthWarnings = true,
+
+    barTimer = true,
+    castingScale = 1.1,
 };
 
 --[[
@@ -89,6 +92,34 @@ options:Initialize(function(self)
     AddTooltip(healthWarnings, Loc['Displays a five second warning when Player Health is less than 50% and 25%.']);
 end);
 
+local actionBarOptions = options:CreateChild(Loc['Action Bars'], 'ActionBarDB', defaults);
+
+actionBarOptions:Initialize(function(self)
+    local title = self:CreateTitle();
+    title:SetPoint('TOPLEFT', 190, -10);
+    title:SetText("Improved Blizzard UI - v"..GetAddOnMetadata("ImprovedBlizzardUI", "Version"));
+
+    -- Cast Bar
+    local castBarTitle = self:CreateTitle();
+    castBarTitle:SetPoint('TOPLEFT', 10, -50)
+    castBarTitle:SetText(Loc['Cast Bar']);
+
+    local barTimer = self:CreateCheckButton('barTimer');
+    barTimer:SetPoint('TOPLEFT', castBarTitle, 'BOTTOMLEFT', 0, -8)
+    barTimer:SetText(Loc['Casting Bar Timer']);
+    AddTooltip(barTimer, Loc['Adds a timer in seconds above the Casting Bar.']);
+
+    local castingScale = self:CreateSlider('castingScale');
+	castingScale:SetPoint('TOPLEFT', barTimer, 'BOTTOMLEFT', 4, 0);
+	castingScale:SetRange(0.1, 2.0);
+    castingScale:SetStep(0.1);
+    AddTooltip(castingScale, Loc['Casting Bar Scale']);
+end);
+
 options:On('Okay', function(self)
+    ReloadUI();
+end);
+
+actionBarOptions:On('Okay', function(self)
     ReloadUI();
 end);

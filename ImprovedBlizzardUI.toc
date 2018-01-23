@@ -28,3 +28,5 @@ modules\misc\autorepair.lua
 modules\misc\autosell.lua
 
 modules\combat\healthwarning.lua
+
+modules\frames\castbar.lua
