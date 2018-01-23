@@ -9,6 +9,8 @@ local defaults = {
     autoRepair = true,
     guildRepair = true,
     autoSell = true,
+
+    healthWarnings = true,
 };
 
 --[[
@@ -75,6 +77,16 @@ options:Initialize(function(self)
     overrideBlizzardStrings:SetPoint('TOPLEFT', styleChat, 'BOTTOMLEFT', 0, 0);
     overrideBlizzardStrings:SetText(Loc['Minify Blizzard Strings']);
     AddTooltip(overrideBlizzardStrings, Loc['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.']);
+
+    -- Combat Category
+    local combatTitle = self:CreateTitle();
+    combatTitle:SetPoint('TOPLEFT', overrideBlizzardStrings, 'BOTTOMLEFT', 0, -8)
+    combatTitle:SetText(Loc['Combat']);
+
+    local healthWarnings = self:CreateCheckButton('healthWarnings');
+    healthWarnings:SetPoint('TOPLEFT', combatTitle, 'BOTTOMLEFT', 0, -8)
+    healthWarnings:SetText(Loc['Display Health Warnings']);
+    AddTooltip(healthWarnings, Loc['Displays a five second warning when Player Health is less than 50% and 25%.']);
 end);
 
 options:On('Okay', function(self)

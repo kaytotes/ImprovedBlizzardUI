@@ -46,4 +46,12 @@ if (GetLocale() == 'LOCALE') then
 
     Loc['Minify Blizzard Strings'] = '';
     Loc['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'] = '';
+
+    -- Combat Strings
+    Loc['Combat'] = '';
+
+    Loc['Display Health Warnings'] = '';
+    Loc['Displays a five second warning when Player Health is less than 50% and 25%.'] = '';
+    Loc['HP < 50% !'] = '';
+    Loc['HP < 25% !!!'] = '';
 end

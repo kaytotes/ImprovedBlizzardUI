@@ -1,22 +1,10 @@
 --[[
-    
+    modules\combat\healthwarning.lua
+    Displays a five second warning when Player Health is less than 50% and 25%.
 ]]
 local addonName, Loc = ...;
 
 local HealthFrame = CreateFrame('Frame', nil, UIParent);
-
-local function HealthFrame_Update()
-    if ( UnitIsDeadOrGhost('player') ) then return; end -- Ignore if the Player is dead
-
-    local hp = UnitHealth('player') / UnitHealthMax('player'); -- Get the players health as a percentage
-
-    if ( hp <= 0.50 ) then
-        Imp_OSD:AddMessage( Loc['HP < 50% !'], 0, 1, 1, 53, 3 );
-        return;
-    end
-
-    return;
-end
 
 --[[
     Handles the WoW API Events Registered Below
@@ -27,7 +15,7 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if ( event == 'UNIT_HEALTH' and ... == 'player') then
+    if ( event == 'UNIT_HEALTH' and ... == 'player' and ImprovedBlizzardUIDB.healthWarnings) then
         local hp = UnitHealth('player') / UnitHealthMax('player');
 
         if ( hp > 0.50 ) then
