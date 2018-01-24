@@ -11,9 +11,6 @@ local defaults = {
     autoSell = true,
 
     healthWarnings = true,
-
-    barTimer = true,
-    castingScale = 1.1,
 };
 
 --[[
@@ -92,9 +89,21 @@ options:Initialize(function(self)
     AddTooltip(healthWarnings, Loc['Displays a five second warning when Player Health is less than 50% and 25%.']);
 end);
 
-local actionBarOptions = options:CreateChild(Loc['Action Bars'], 'ActionBarDB', defaults);
+local frameDefaults = {
+    barTimer = true,
+    castingScale = 1.1,
 
-actionBarOptions:Initialize(function(self)
+    playerX = -265,
+    playerY = -150,
+    playerScale = 1.2,
+    stylePlayer = true,
+    playerClassColours = true,
+    playerPortraitSpam = true,
+};
+
+local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
+
+framesOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
     title:SetText("Improved Blizzard UI - v"..GetAddOnMetadata("ImprovedBlizzardUI", "Version"));
@@ -114,12 +123,34 @@ actionBarOptions:Initialize(function(self)
 	castingScale:SetRange(0.1, 2.0);
     castingScale:SetStep(0.1);
     AddTooltip(castingScale, Loc['Casting Bar Scale']);
+
+    -- Player Frame
+    local playerFrame = self:CreateTitle();
+    playerFrame:SetPoint('TOPLEFT', castingScale, 'BOTTOMLEFT', 0, -24)
+    playerFrame:SetText(Loc['Player Frame']);
+
+    local stylePlayer = self:CreateCheckButton('stylePlayer');
+    stylePlayer:SetPoint('TOPLEFT', playerFrame, 'BOTTOMLEFT', 0, -8)
+    stylePlayer:SetText(Loc['Style Frame']);
+    AddTooltip(stylePlayer, Loc['Tweaks textures and sizes of Player Frame components.']);
+
+    local playerClassColours = self:CreateCheckButton('playerClassColours');
+    playerClassColours:SetPoint('TOPLEFT', stylePlayer, 'BOTTOMLEFT', 0, 0)
+    playerClassColours:SetText(Loc['Display Class Colours']);
+    AddTooltip(playerClassColours, Loc['Colours your Health bar to match the current class.']);
+
+    local playerPortraitSpam = self:CreateCheckButton('playerPortraitSpam');
+    playerPortraitSpam:SetPoint('TOPLEFT', playerClassColours, 'BOTTOMLEFT', 0, 0)
+    playerPortraitSpam:SetText(Loc['Hide Portrait Spam']);
+    AddTooltip(playerPortraitSpam, Loc['Hides the damage text that appears over the Player portrait when damaged or healed.']);
+
+    local playerScale = self:CreateSlider('playerScale');
+	playerScale:SetPoint('TOPLEFT', playerPortraitSpam, 'BOTTOMLEFT', 4, 0);
+	playerScale:SetRange(0.1, 2.0);
+    playerScale:SetStep(0.1);
+    AddTooltip(playerScale, Loc['Player Frame Scale']);
 end);
 
 options:On('Okay', function(self)
-    ReloadUI();
-end);
-
-actionBarOptions:On('Okay', function(self)
     ReloadUI();
 end);

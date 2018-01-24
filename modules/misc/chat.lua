@@ -95,7 +95,7 @@ local function StyleChat()
 end
 
 --[[
-    Trips down a bunch of Blizzard Global Strings
+    Trims down a bunch of Blizzard Global Strings
 
     @ return void
 ]]

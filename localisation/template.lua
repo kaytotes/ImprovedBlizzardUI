@@ -55,7 +55,8 @@ if (GetLocale() == 'LOCALE') then
     Loc['HP < 50% !'] = '';
     Loc['HP < 25% !!!'] = '';
 
-    Loc['Action Bars'] = '';
+    Loc['Frames'] = '';
+    
     Loc['Cast Bar'] = '';
     Loc['Casting Bar Timer'] = '';
     Loc['Adds a timer in seconds above the Casting Bar.'] = '';

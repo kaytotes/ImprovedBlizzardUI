@@ -5,7 +5,7 @@
 ## Author: Kaytotes
 ## Dependencies: Blizzard_TalkingHeadUI
 ## OptionalDeps: Wasabi
-## SavedVariables: PrimaryDB, ActionBarDB
+## SavedVariables: PrimaryDB, FramesDB
 
 # Libs
 libs\LibStub\LibStub.lua
@@ -15,9 +15,6 @@ libs\Wasabi\embed.xml
 localisation.lua
 
 core.lua
-
-# Helpers
-helpers\osd.lua
 
 config.lua
 
@@ -30,3 +27,4 @@ modules\misc\autosell.lua
 modules\combat\healthwarning.lua
 
 modules\frames\castbar.lua
+modules\frames\player.lua
