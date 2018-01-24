@@ -67,12 +67,12 @@ PlayerUnitFrame:RegisterEvent('UNIT_HEALTH');
 -- Hook Blizzard Functions
 hooksecurefunc("CombatFeedback_OnCombatEvent", CombatFeedback_OnCombatEvent_Hook);
 hooksecurefunc("UnitFrameHealthBar_Update", function(self)
-    if (FramesDB.playerClassColours) then
+    if (FramesDB.playerClassColours and self.unit == 'player') then
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
 hooksecurefunc("HealthBar_OnValueChanged", function(self)
-    if (FramesDB.playerClassColours) then
+    if (FramesDB.playerClassColours and self.unit == 'player') then
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
