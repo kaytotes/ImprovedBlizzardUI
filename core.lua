@@ -16,7 +16,7 @@ Imp_OSD:SetFont(ImpFont, 26, "OUTLINE");
 
 
 function Imp.ApplyClassColours(statusBar, unit)
-    if ( UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusBar.unit and UnitClass(unit) ) then
+    if ( UnitIsConnected(unit) and unit == statusBar.unit and UnitClass(unit) ) then
         local _, class = UnitClass(unit);
         local c = RAID_CLASS_COLORS[class];
         statusBar:SetStatusBarColor(c.r, c.g, c.b );

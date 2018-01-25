@@ -93,12 +93,15 @@ local frameDefaults = {
     barTimer = true,
     castingScale = 1.1,
 
-    playerX = -265,
-    playerY = -150,
-    playerScale = 1.2,
-    stylePlayer = true,
+    primaryOffsetX = 265,
+    primaryOffsetY = 150,
+    primaryScale = 1.2,
+    stylePrimaryFrames = true,
     playerClassColours = true,
     playerPortraitSpam = true,
+
+    targetBuffsOnTop = true,
+    targetClassColours = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -108,9 +111,53 @@ framesOptions:Initialize(function(self)
     title:SetPoint('TOPLEFT', 190, -10);
     title:SetText("Improved Blizzard UI - v"..GetAddOnMetadata("ImprovedBlizzardUI", "Version"));
 
+    local globalTitle = self:CreateTitle();
+    globalTitle:SetPoint('TOPLEFT', 10, -50)
+    globalTitle:SetText(Loc['Primary']);
+
+    local stylePrimaryFrames = self:CreateCheckButton('stylePrimaryFrames');
+    stylePrimaryFrames:SetPoint('TOPLEFT', globalTitle, 'BOTTOMLEFT', 0, -8)
+    stylePrimaryFrames:SetText(Loc['Style Unit Frames']);
+    AddTooltip(stylePrimaryFrames, Loc['Tweaks textures and structure of Unit Frames']);
+
+    local primaryScale = self:CreateSlider('primaryScale');
+    primaryScale:SetPoint('TOPLEFT', stylePrimaryFrames, 'BOTTOMLEFT', 4, 0);
+    primaryScale:SetRange(0.1, 2.0);
+    primaryScale:SetStep(0.1);
+    AddTooltip(primaryScale, Loc['Player and Target Frame Scale']);
+
+    -- Player Frame
+    local playerFrame = self:CreateTitle();
+    playerFrame:SetPoint('TOPLEFT', primaryScale, 'BOTTOMLEFT', 0, -24)
+    playerFrame:SetText(Loc['Player Frame']);
+
+    local playerClassColours = self:CreateCheckButton('playerClassColours');
+    playerClassColours:SetPoint('TOPLEFT', playerFrame, 'BOTTOMLEFT', 0, -8)
+    playerClassColours:SetText(Loc['Display Class Colours']);
+    AddTooltip(playerClassColours, Loc['Colours your Health bar to match the current class.']);
+
+    local playerPortraitSpam = self:CreateCheckButton('playerPortraitSpam');
+    playerPortraitSpam:SetPoint('TOPLEFT', playerClassColours, 'BOTTOMLEFT', 0, 0)
+    playerPortraitSpam:SetText(Loc['Hide Portrait Spam']);
+    AddTooltip(playerPortraitSpam, Loc['Hides the damage text that appears over the Player portrait when damaged or healed.']);
+
+    local targetFrame = self:CreateTitle();
+    targetFrame:SetPoint('TOPLEFT', playerPortraitSpam, 'BOTTOMLEFT', 0, -10)
+    targetFrame:SetText(Loc['Target Frame']);
+
+    local targetClassColours = self:CreateCheckButton('targetClassColours');
+    targetClassColours:SetPoint('TOPLEFT', targetFrame, 'BOTTOMLEFT', 0, -8)
+    targetClassColours:SetText(Loc['Display Class Colours']);
+    AddTooltip(targetClassColours, Loc['Colours Target Health bar to match their class.']);
+
+    local targetBuffsOnTop = self:CreateCheckButton('targetBuffsOnTop');
+    targetBuffsOnTop:SetPoint('TOPLEFT', targetClassColours, 'BOTTOMLEFT', 0, 0)
+    targetBuffsOnTop:SetText(Loc['Buffs On Top']);
+    AddTooltip(targetBuffsOnTop, Loc['Displays the Targets Buffs above the Unit Frame.']);
+
     -- Cast Bar
     local castBarTitle = self:CreateTitle();
-    castBarTitle:SetPoint('TOPLEFT', 10, -50)
+    castBarTitle:SetPoint('TOPLEFT', targetBuffsOnTop, 'BOTTOMLEFT', 0, -10)
     castBarTitle:SetText(Loc['Cast Bar']);
 
     local barTimer = self:CreateCheckButton('barTimer');
@@ -123,32 +170,6 @@ framesOptions:Initialize(function(self)
 	castingScale:SetRange(0.1, 2.0);
     castingScale:SetStep(0.1);
     AddTooltip(castingScale, Loc['Casting Bar Scale']);
-
-    -- Player Frame
-    local playerFrame = self:CreateTitle();
-    playerFrame:SetPoint('TOPLEFT', castingScale, 'BOTTOMLEFT', 0, -24)
-    playerFrame:SetText(Loc['Player Frame']);
-
-    local stylePlayer = self:CreateCheckButton('stylePlayer');
-    stylePlayer:SetPoint('TOPLEFT', playerFrame, 'BOTTOMLEFT', 0, -8)
-    stylePlayer:SetText(Loc['Style Frame']);
-    AddTooltip(stylePlayer, Loc['Tweaks textures and sizes of Player Frame components.']);
-
-    local playerClassColours = self:CreateCheckButton('playerClassColours');
-    playerClassColours:SetPoint('TOPLEFT', stylePlayer, 'BOTTOMLEFT', 0, 0)
-    playerClassColours:SetText(Loc['Display Class Colours']);
-    AddTooltip(playerClassColours, Loc['Colours your Health bar to match the current class.']);
-
-    local playerPortraitSpam = self:CreateCheckButton('playerPortraitSpam');
-    playerPortraitSpam:SetPoint('TOPLEFT', playerClassColours, 'BOTTOMLEFT', 0, 0)
-    playerPortraitSpam:SetText(Loc['Hide Portrait Spam']);
-    AddTooltip(playerPortraitSpam, Loc['Hides the damage text that appears over the Player portrait when damaged or healed.']);
-
-    local playerScale = self:CreateSlider('playerScale');
-	playerScale:SetPoint('TOPLEFT', playerPortraitSpam, 'BOTTOMLEFT', 4, 0);
-	playerScale:SetRange(0.1, 2.0);
-    playerScale:SetStep(0.1);
-    AddTooltip(playerScale, Loc['Player Frame Scale']);
 end);
 
 options:On('Okay', function(self)

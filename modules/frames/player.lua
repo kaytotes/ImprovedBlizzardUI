@@ -35,13 +35,13 @@ local function HandleEvents (self, event, ...)
         -- Position
         PlayerFrame:SetMovable(true);
         PlayerFrame:ClearAllPoints();
-        PlayerFrame:SetPoint('CENTER', FramesDB.playerX, FramesDB.playerY);
-        PlayerFrame:SetScale(FramesDB.playerScale);
+        PlayerFrame:SetPoint('CENTER', -FramesDB.primaryOffsetX, -FramesDB.primaryOffsetY);
+        PlayerFrame:SetScale(FramesDB.primaryScale);
         PlayerFrame:SetUserPlaced(true);
         PlayerFrame:SetMovable(false);
         
         -- Style Frame
-        if (FramesDB.stylePlayer) then
+        if (FramesDB.stylePrimaryFrames) then
             PlayerFrameHealthBar:SetWidth(119);
             PlayerFrameHealthBar:SetHeight(29);
             PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);

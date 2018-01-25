@@ -61,4 +61,6 @@ if (GetLocale() == 'LOCALE') then
     Loc['Casting Bar Timer'] = '';
     Loc['Adds a timer in seconds above the Casting Bar.'] = '';
     Loc['Casting Bar Scale'] = '';
+
+    Loc['Primary'] = '';
 end
