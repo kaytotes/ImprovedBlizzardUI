@@ -118,7 +118,7 @@ framesOptions:Initialize(function(self)
     local stylePrimaryFrames = self:CreateCheckButton('stylePrimaryFrames');
     stylePrimaryFrames:SetPoint('TOPLEFT', globalTitle, 'BOTTOMLEFT', 0, -8)
     stylePrimaryFrames:SetText(Loc['Style Unit Frames']);
-    AddTooltip(stylePrimaryFrames, Loc['Tweaks textures and structure of Unit Frames']);
+    AddTooltip(stylePrimaryFrames, Loc['Tweaks textures and structure of Unit Frames.']);
 
     local primaryScale = self:CreateSlider('primaryScale');
     primaryScale:SetPoint('TOPLEFT', stylePrimaryFrames, 'BOTTOMLEFT', 4, 0);

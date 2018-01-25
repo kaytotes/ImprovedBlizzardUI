@@ -56,11 +56,27 @@ if (GetLocale() == 'LOCALE') then
     Loc['HP < 25% !!!'] = '';
 
     Loc['Frames'] = '';
+
+    Loc['Primary'] = '';
+
+    Loc['Style Unit Frames'] = '';
+    Loc['Tweaks textures and structure of Unit Frames.'] = '';
+    Loc['Player and Target Frame Scale'] = '';
     
+    Loc['Player Frame'] = '';
+    Loc['Display Class Colours'] = '';
+    Loc['Colours your Health bar to match the current class.'] = '';
+    
+    Loc['Hide Portrait Spam'] = '';
+    Loc['Hides the damage text that appears over the Player portrait when damaged or healed.'] = '';
+    
+    Loc['Target Frame'] = '';
+    Loc['Colours Target Health bar to match their class.'] = '';
+    Loc['Buffs On Top'] = '';
+    Loc['Displays the Targets Buffs above the Unit Frame.'] = '';
+
     Loc['Cast Bar'] = '';
     Loc['Casting Bar Timer'] = '';
     Loc['Adds a timer in seconds above the Casting Bar.'] = '';
     Loc['Casting Bar Scale'] = '';
-
-    Loc['Primary'] = '';
 end

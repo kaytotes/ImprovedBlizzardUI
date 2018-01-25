@@ -7,6 +7,11 @@ local addonName, Loc = ...;
 
 local TargetUnitFrame = CreateFrame('Frame', nil, UIParent);  
 
+--[[
+    Handles the actual styling and scaling of the Target frame.
+
+    @ return void
+]]
 local function StyleTargetFrame()
     
     if (FramesDB.stylePrimaryFrames == false) then return; end
@@ -89,6 +94,7 @@ end
 TargetUnitFrame:SetScript('OnEvent', HandleEvents);
 TargetUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
 
+-- Hook a bunch of Blizzard functions
 hooksecurefunc("TargetFrame_CheckDead", StyleTargetFrame);
 hooksecurefunc("TargetFrame_Update", StyleTargetFrame);
 hooksecurefunc("TargetFrame_CheckFaction", StyleTargetFrame);
