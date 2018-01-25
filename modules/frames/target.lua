@@ -64,7 +64,12 @@ local function StyleTargetFrame()
     TargetFrameTextureFrameName:SetTextColor(r, g, b, a);
 
     TargetFrame.healthbar:SetWidth(119);
-	TargetFrame.healthbar.lockColor = true;
+    TargetFrame.healthbar.lockColor = true;
+
+    if ( TargetFrame.totFrame ) then
+        TargetFrameToTTextureFrameName:SetFont(file, 11, flags);
+        TargetFrameToTTextureFrameName:SetTextColor(r, g, b, a);
+    end
 end
 
 --[[
@@ -94,9 +99,17 @@ end
 TargetUnitFrame:SetScript('OnEvent', HandleEvents);
 TargetUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
 
+function TargetofTargetHealthCheck_Hook(self)
+    if (FramesDB.targetOfTargetClassColours) then
+        Imp.ApplyClassColours(self.healthbar, self.healthbar.unit);
+    end
+end
+
 -- Hook a bunch of Blizzard functions
 hooksecurefunc("TargetFrame_CheckDead", StyleTargetFrame);
 hooksecurefunc("TargetFrame_Update", StyleTargetFrame);
 hooksecurefunc("TargetFrame_CheckFaction", StyleTargetFrame);
 hooksecurefunc("TargetFrame_CheckClassification", StyleTargetFrame);
 hooksecurefunc("TargetofTarget_Update", StyleTargetFrame);
+
+hooksecurefunc("TargetofTargetHealthCheck", TargetofTargetHealthCheck_Hook);

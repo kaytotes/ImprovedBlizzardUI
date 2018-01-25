@@ -102,6 +102,7 @@ local frameDefaults = {
 
     targetBuffsOnTop = true,
     targetClassColours = true,
+    targetOfTargetClassColours = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -155,9 +156,18 @@ framesOptions:Initialize(function(self)
     targetBuffsOnTop:SetText(Loc['Buffs On Top']);
     AddTooltip(targetBuffsOnTop, Loc['Displays the Targets Buffs above the Unit Frame.']);
 
+    local targetOfTargetFrame = self:CreateTitle();
+    targetOfTargetFrame:SetPoint('TOPLEFT', targetBuffsOnTop, 'BOTTOMLEFT', 0, -10)
+    targetOfTargetFrame:SetText(Loc['Target of Target Frame']);
+
+    local targetOfTargetClassColours = self:CreateCheckButton('targetOfTargetClassColours');
+    targetOfTargetClassColours:SetPoint('TOPLEFT', targetOfTargetFrame, 'BOTTOMLEFT', 0, -8)
+    targetOfTargetClassColours:SetText(Loc['Display Class Colours']);
+    AddTooltip(targetOfTargetClassColours, Loc['Colours Target of Target Health bar to match their class.']);
+
     -- Cast Bar
     local castBarTitle = self:CreateTitle();
-    castBarTitle:SetPoint('TOPLEFT', targetBuffsOnTop, 'BOTTOMLEFT', 0, -10)
+    castBarTitle:SetPoint('TOPLEFT', targetOfTargetClassColours, 'BOTTOMLEFT', 0, -10)
     castBarTitle:SetText(Loc['Cast Bar']);
 
     local barTimer = self:CreateCheckButton('barTimer');

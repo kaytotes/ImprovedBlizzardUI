@@ -75,6 +75,9 @@ if (GetLocale() == 'LOCALE') then
     Loc['Buffs On Top'] = '';
     Loc['Displays the Targets Buffs above the Unit Frame.'] = '';
 
+    Loc['Target of Target Frame'] = '';
+    Loc['Colours Target of Target Health bar to match their class.'] = '';
+
     Loc['Cast Bar'] = '';
     Loc['Casting Bar Timer'] = '';
     Loc['Adds a timer in seconds above the Casting Bar.'] = '';
