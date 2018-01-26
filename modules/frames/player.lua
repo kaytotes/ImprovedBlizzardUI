@@ -7,8 +7,6 @@ local addonName, Loc = ...;
 
 local PlayerUnitFrame = CreateFrame('Frame', nil, UIParent);  
 
-local isPlayerHidden = false;
-
 --[[
     Whenever the Portrait Damage text appears instantly override it
 
@@ -24,6 +22,12 @@ local function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, typ
     end
 end
 
+--[[
+    Hides the Player Frame when you are out of combat, have no target and are at full health.
+
+    @ param boolean $hide Should we hide the frame
+    @ return void
+]]
 local function HidePlayer(hide)
     if (InCombatLockdown() == false and FramesDB.playerHideOOC) then
         if (hide and UnitHealth('player') == UnitHealthMax('player') and UnitExists("target") == false) then
@@ -74,11 +78,7 @@ local function HandleEvents (self, event, ...)
 
     if (event == 'PLAYER_REGEN_DISABLED') then
         HidePlayer(false);
-    elseif (event == 'PLAYER_REGEN_ENABLED') then
-        HidePlayer(true);
-    end
-
-    if (event == 'UNIT_HEALTH') then
+    elseif (event == 'PLAYER_REGEN_ENABLED' or event == 'UNIT_HEALTH') then
         HidePlayer(true);
     end
 
