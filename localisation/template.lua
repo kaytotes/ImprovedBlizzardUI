@@ -69,7 +69,9 @@ if (GetLocale() == 'LOCALE') then
     
     Loc['Hide Portrait Spam'] = '';
     Loc['Hides the damage text that appears over the Player portrait when damaged or healed.'] = '';
-    
+    Loc['Hide Out of Combat'] = '';
+    Loc['Hides the Player Frame when you are out of combat, have no target and are at full health.'] = '';
+
     Loc['Target Frame'] = '';
     Loc['Colours Target Health bar to match their class.'] = '';
     Loc['Buffs On Top'] = '';

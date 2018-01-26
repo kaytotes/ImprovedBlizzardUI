@@ -7,6 +7,8 @@ local addonName, Loc = ...;
 
 local PlayerUnitFrame = CreateFrame('Frame', nil, UIParent);  
 
+local isPlayerHidden = false;
+
 --[[
     Whenever the Portrait Damage text appears instantly override it
 
@@ -19,6 +21,16 @@ local PlayerUnitFrame = CreateFrame('Frame', nil, UIParent);
 local function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, type)
     if(FramesDB.playerPortraitSpam) then
         self.feedbackText:SetText(" ");
+    end
+end
+
+local function HidePlayer(hide)
+    if (InCombatLockdown() == false and FramesDB.playerHideOOC) then
+        if (hide and UnitHealth('player') == UnitHealthMax('player') and UnitExists("target") == false) then
+            PlayerFrame:Hide();
+        else
+            PlayerFrame:Show();
+        end
     end
 end
 
@@ -39,6 +51,8 @@ local function HandleEvents (self, event, ...)
         PlayerFrame:SetScale(FramesDB.primaryScale);
         PlayerFrame:SetUserPlaced(true);
         PlayerFrame:SetMovable(false);
+
+        HidePlayer(true);
         
         -- Style Frame
         if (FramesDB.stylePrimaryFrames) then
@@ -57,12 +71,33 @@ local function HandleEvents (self, event, ...)
             PlayerName:SetTextColor(r, g, b, a);
         end
     end
+
+    if (event == 'PLAYER_REGEN_DISABLED') then
+        HidePlayer(false);
+    elseif (event == 'PLAYER_REGEN_ENABLED') then
+        HidePlayer(true);
+    end
+
+    if (event == 'UNIT_HEALTH') then
+        HidePlayer(true);
+    end
+
+    if (event == 'PLAYER_TARGET_CHANGED') then
+        if (UnitExists("target")) then
+            HidePlayer(false);
+        else
+            HidePlayer(true);
+        end
+    end
 end
 
 -- Register the Modules Events
 PlayerUnitFrame:SetScript('OnEvent', HandleEvents);
 PlayerUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
 PlayerUnitFrame:RegisterEvent('UNIT_HEALTH');
+PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_DISABLED');
+PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
+PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
 
 -- Hook Blizzard Functions
 hooksecurefunc("CombatFeedback_OnCombatEvent", CombatFeedback_OnCombatEvent_Hook);

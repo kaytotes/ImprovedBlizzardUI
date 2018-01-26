@@ -96,9 +96,11 @@ local frameDefaults = {
     primaryOffsetX = 265,
     primaryOffsetY = 150,
     primaryScale = 1.2,
+
     stylePrimaryFrames = true,
     playerClassColours = true,
     playerPortraitSpam = true,
+    playerHideOOC = true,
 
     targetBuffsOnTop = true,
     targetClassColours = true,
@@ -142,8 +144,13 @@ framesOptions:Initialize(function(self)
     playerPortraitSpam:SetText(Loc['Hide Portrait Spam']);
     AddTooltip(playerPortraitSpam, Loc['Hides the damage text that appears over the Player portrait when damaged or healed.']);
 
+    local playerHideOOC = self:CreateCheckButton('playerHideOOC');
+    playerHideOOC:SetPoint('TOPLEFT', playerPortraitSpam, 'BOTTOMLEFT', 0, 0)
+    playerHideOOC:SetText(Loc['Hide Out of Combat']);
+    AddTooltip(playerHideOOC, Loc['Hides the Player Frame when you are out of combat, have no target and are at full health.']);
+
     local targetFrame = self:CreateTitle();
-    targetFrame:SetPoint('TOPLEFT', playerPortraitSpam, 'BOTTOMLEFT', 0, -10)
+    targetFrame:SetPoint('TOPLEFT', playerHideOOC, 'BOTTOMLEFT', 0, -10)
     targetFrame:SetText(Loc['Target Frame']);
 
     local targetClassColours = self:CreateCheckButton('targetClassColours');
