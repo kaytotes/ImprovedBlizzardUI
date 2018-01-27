@@ -80,6 +80,11 @@ if (GetLocale() == 'LOCALE') then
     Loc['Target of Target Frame'] = '';
     Loc['Colours Target of Target Health bar to match their class.'] = '';
 
+    Loc['Focus Frame'] = '';
+    Loc['Colours Focus Health bar to match their class.'] = '';
+
+    Loc['Action Bars'] = '';
+
     Loc['Cast Bar'] = '';
     Loc['Casting Bar Timer'] = '';
     Loc['Adds a timer in seconds above the Casting Bar.'] = '';

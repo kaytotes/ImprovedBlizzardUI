@@ -90,9 +90,6 @@ options:Initialize(function(self)
 end);
 
 local frameDefaults = {
-    barTimer = true,
-    castingScale = 1.1,
-
     primaryOffsetX = 265,
     primaryOffsetY = 150,
     primaryScale = 1.2,
@@ -105,6 +102,8 @@ local frameDefaults = {
     targetBuffsOnTop = true,
     targetClassColours = true,
     targetOfTargetClassColours = true,
+
+    focusClassColours = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -172,9 +171,32 @@ framesOptions:Initialize(function(self)
     targetOfTargetClassColours:SetText(Loc['Display Class Colours']);
     AddTooltip(targetOfTargetClassColours, Loc['Colours Target of Target Health bar to match their class.']);
 
+    local focusFrame = self:CreateTitle();
+    focusFrame:SetPoint('TOPLEFT', targetOfTargetClassColours, 'BOTTOMLEFT', 0, -10)
+    focusFrame:SetText(Loc['Focus Frame']);
+
+    local focusFrameClassColours = self:CreateCheckButton('focusFrameClassColours');
+    focusFrameClassColours:SetPoint('TOPLEFT', focusFrame, 'BOTTOMLEFT', 0, -8)
+    focusFrameClassColours:SetText(Loc['Display Class Colours']);
+    AddTooltip(focusFrameClassColours, Loc['Colours Focus Health bar to match their class.']);
+
+end);
+
+local barDefaults = {
+    barTimer = true,
+    castingScale = 1.1,
+};
+
+local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults);
+
+barOptions:Initialize(function(self)
+    local title = self:CreateTitle();
+    title:SetPoint('TOPLEFT', 190, -10);
+    title:SetText("Improved Blizzard UI - v"..GetAddOnMetadata("ImprovedBlizzardUI", "Version"));
+
     -- Cast Bar
     local castBarTitle = self:CreateTitle();
-    castBarTitle:SetPoint('TOPLEFT', targetOfTargetClassColours, 'BOTTOMLEFT', 0, -10)
+    castBarTitle:SetPoint('TOPLEFT', 10, -50);
     castBarTitle:SetText(Loc['Cast Bar']);
 
     local barTimer = self:CreateCheckButton('barTimer');
@@ -183,10 +205,11 @@ framesOptions:Initialize(function(self)
     AddTooltip(barTimer, Loc['Adds a timer in seconds above the Casting Bar.']);
 
     local castingScale = self:CreateSlider('castingScale');
-	castingScale:SetPoint('TOPLEFT', barTimer, 'BOTTOMLEFT', 4, 0);
-	castingScale:SetRange(0.1, 2.0);
+    castingScale:SetPoint('TOPLEFT', barTimer, 'BOTTOMLEFT', 4, 0);
+    castingScale:SetRange(0.1, 2.0);
     castingScale:SetStep(0.1);
     AddTooltip(castingScale, Loc['Casting Bar Scale']);
+
 end);
 
 options:On('Okay', function(self)

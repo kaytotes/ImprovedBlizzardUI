@@ -40,7 +40,7 @@ end);
 ]]
 local function HandleEvents (self, event, ...)
     if (event == 'ADDON_LOADED') then -- Add Config
-        if (FramesDB.barTimer) then
+        if (BarsDB.barTimer) then
             CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil);
             CastingBarFrame.timer:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE");
             CastingBarFrame.timer:SetPoint("TOP", CastingBarFrame, "BOTTOM", 0, 35);
@@ -50,7 +50,7 @@ local function HandleEvents (self, event, ...)
         CastingBarFrame:SetMovable(true);
         CastingBarFrame:ClearAllPoints();
         CastingBarFrame:SetPoint('CENTER', 0, -175);
-        CastingBarFrame:SetScale(FramesDB.castingScale);
+        CastingBarFrame:SetScale(BarsDB.castingScale);
         CastingBarFrame:SetUserPlaced(true);
         CastingBarFrame:SetMovable(false);
     end    

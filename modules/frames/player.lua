@@ -70,8 +70,8 @@ local function HandleEvents (self, event, ...)
             local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
             local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
-            PlayerName:SetFont(file, 11, flags);
-            PlayerFrameHealthBarTextLeft:SetFont(file, 11, flags);
+            PlayerName:SetFont(ImpFont, 11, flags);
+            PlayerFrameHealthBarTextLeft:SetFont(ImpFont, 11, flags);
             PlayerName:SetTextColor(r, g, b, a);
         end
     end

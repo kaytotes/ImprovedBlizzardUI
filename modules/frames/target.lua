@@ -113,3 +113,14 @@ hooksecurefunc("TargetFrame_CheckClassification", StyleTargetFrame);
 hooksecurefunc("TargetofTarget_Update", StyleTargetFrame);
 
 hooksecurefunc("TargetofTargetHealthCheck", TargetofTargetHealthCheck_Hook);
+
+hooksecurefunc("UnitFrameHealthBar_Update", function(self)
+    if (FramesDB.targetOfTargetClassColours and self.unit == 'target') then
+        Imp.ApplyClassColours(self, self.unit);
+    end
+end);
+hooksecurefunc("HealthBar_OnValueChanged", function(self)
+    if (FramesDB.targetOfTargetClassColours and self.unit == 'target') then
+        Imp.ApplyClassColours(self, self.unit);
+    end
+end);
