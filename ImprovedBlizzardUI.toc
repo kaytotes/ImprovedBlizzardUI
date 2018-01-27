@@ -26,7 +26,8 @@ modules\misc\autosell.lua
 
 modules\combat\healthwarning.lua
 
-modules\frames\castbar.lua
 modules\frames\player.lua
 modules\frames\target.lua
 modules\frames\focus.lua
+
+modules\bars\castbar.lua

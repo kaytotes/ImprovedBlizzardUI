@@ -1,5 +1,5 @@
 --[[
-    modules\frames\castbar.lua
+    modules\bars\castbar.lua
     Repositions and scales the Castbar as well as adding a timer
 ]]
 local addonName, Loc = ...;
