@@ -14,6 +14,11 @@ local CastingFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 CastingBarFrame:HookScript('OnUpdate', function(self, elapsed)
+
+    if (FramesDB.stylePrimaryFrames) then
+        CastingBarFrame.Text:SetFont(ImpFont, 12, "OUTLINE");
+    end
+
     if not self.timer then return end
 
     if (self.updateDelay and self.updateDelay < elapsed) then
@@ -42,7 +47,7 @@ local function HandleEvents (self, event, ...)
     if (event == 'ADDON_LOADED') then -- Add Config
         if (BarsDB.barTimer) then
             CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil);
-            CastingBarFrame.timer:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE");
+            CastingBarFrame.timer:SetFont(ImpFont, 12, "OUTLINE");
             CastingBarFrame.timer:SetPoint("TOP", CastingBarFrame, "BOTTOM", 0, 35);
             CastingBarFrame.updateDelay = 0.1;
         end
@@ -53,6 +58,10 @@ local function HandleEvents (self, event, ...)
         CastingBarFrame:SetScale(BarsDB.castingScale);
         CastingBarFrame:SetUserPlaced(true);
         CastingBarFrame:SetMovable(false);
+
+        if (FramesDB.stylePrimaryFrames) then
+            CastingBarFrame.Text:SetFont(ImpFont, 12, "OUTLINE");
+        end
     end    
 end
 
