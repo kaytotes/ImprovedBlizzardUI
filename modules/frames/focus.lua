@@ -72,7 +72,7 @@ local function SetPosition()
     -- Position
     FocusFrame:SetMovable(true);
     FocusFrame:ClearAllPoints();
-    FocusFrame:SetPoint("RIGHT", PlayerFrame, 'TOP', 70, 8)
+    FocusFrame:SetPoint("RIGHT", PlayerFrame, 'TOP', 70, 50)
     FocusFrame:SetScale(FramesDB.primaryScale - 0.3);
     FocusFrame:SetUserPlaced(true);
     FocusFrame:SetMovable(false);
