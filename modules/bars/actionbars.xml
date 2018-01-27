@@ -1,0 +1,30 @@
+<Ui>
+    <Frame name="ActionBarArt" parent="MainMenuBar">
+        <Size x="1024" y="128" />
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="20" y="-11" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture" file="Interface/Addons/ImprovedBlizzardUI/media/ActionBarArt" />
+            </Layer>
+        </Layers>
+    </Frame>
+    <Frame name="XPBarBackground" parent="MainMenuBar" frameStrata="LOW">
+        <Size x="600" y="10" />
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="20" y="-11" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture" file="Interface/ChatFrame/ChatFrameBackground" setAllPoints="true">
+                    <Color r="0" g="0" b="0" a=".75" />
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

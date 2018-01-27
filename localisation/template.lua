@@ -89,4 +89,8 @@ if (GetLocale() == 'LOCALE') then
     Loc['Casting Bar Timer'] = '';
     Loc['Adds a timer in seconds above the Casting Bar.'] = '';
     Loc['Casting Bar Scale'] = '';
+
+    Loc['Out of Range Indicator'] = '';
+    Loc['When an Ability is not usable due to range the entire Button is highlighted Red.'] = '';
+    Loc['Action Bar Scale'] = '';
 end

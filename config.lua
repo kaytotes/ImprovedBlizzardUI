@@ -179,12 +179,15 @@ framesOptions:Initialize(function(self)
     focusFrameClassColours:SetPoint('TOPLEFT', focusFrame, 'BOTTOMLEFT', 0, -8)
     focusFrameClassColours:SetText(Loc['Display Class Colours']);
     AddTooltip(focusFrameClassColours, Loc['Colours Focus Health bar to match their class.']);
-
 end);
 
 local barDefaults = {
     barTimer = true,
     castingScale = 1.1,
+
+    displayArt = true,
+    outOfRange = true,
+    barsScale = 1.0,
 };
 
 local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults);
@@ -210,6 +213,20 @@ barOptions:Initialize(function(self)
     castingScale:SetStep(0.1);
     AddTooltip(castingScale, Loc['Casting Bar Scale']);
 
+    local actionBarsTitle = self:CreateTitle();
+    actionBarsTitle:SetPoint('TOPLEFT', castingScale, 'BOTTOMLEFT', 0, -24);
+    actionBarsTitle:SetText(Loc['Action Bars']);
+
+    local outOfRange = self:CreateCheckButton('outOfRange');
+    outOfRange:SetPoint('TOPLEFT', actionBarsTitle, 'BOTTOMLEFT', 0, -8);
+    outOfRange:SetText(Loc['Out of Range Indicator']);
+    AddTooltip(outOfRange, Loc['When an Ability is not usable due to range the entire Button is highlighted Red.']);
+
+    local barsScale = self:CreateSlider('barsScale');
+    barsScale:SetPoint('TOPLEFT', outOfRange, 'BOTTOMLEFT', 4, 0);
+    barsScale:SetRange(0.1, 2.0);
+    barsScale:SetStep(0.1);
+    AddTooltip(barsScale, Loc['Action Bar Scale']);
 end);
 
 options:On('Okay', function(self)
