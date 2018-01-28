@@ -68,7 +68,7 @@ ActionBars.bagsVisible = false;
     @ return void
 ]]
 local function HideMicroMenu()
-	Imp.ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil);
+	Imp.ModifyFrame(CharacterMicroButton, "BOTTOMLEFT", UIParent, 5000, 2, nil);
 end
 
 --[[
@@ -111,7 +111,7 @@ local function AdjustActionBars()
 		Imp.ModifyFrame(MainMenuBar, "BOTTOM", nil, 0, 10, BarsDB.barsScale); -- Main Action Bar
 		Imp.ModifyBasicFrame(MainMenuBarPageNumber, "TOPRIGHT", ActionBarDownButton, 6, -1, nil);
         Imp.ModifyFrame(MainMenuBarBackpackButton, "BOTTOMRIGHT", UIParent, -1, -300, nil); -- Bag Bar
-		Imp.ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
+		--Imp.ModifyFrame(CharacterMicroButton, "BOTTOMRIGHT", UIParent, 0, 5000, nil); -- Micro Menu
 
 		Imp.ModifyFrame(MultiBarBottomLeft, "TOP", MainMenuBar, 1, 36, nil);
 		Imp.ModifyFrame(MultiBarBottomRight, "TOP", MainMenuBar, 1, 78, nil);
@@ -200,6 +200,7 @@ local function HandleEvents (self, event, ...)
     if(event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED") then
 		AdjustActionBars();
 		AdjustExperienceBars();
+		HideMicroMenu();
 	end
 	
 	if(event == "UNIT_EXITED_VEHICLE") then
@@ -208,9 +209,9 @@ local function HandleEvents (self, event, ...)
         end
     end
 
-    if(event == "PLAYER_FLAGS_CHANGED") then
-        HideMicroMenu();
-    end
+    if(event == "PET_BATTLE_OPENING_START" or event == "PET_BATTLE_OPENING_DONE") then
+        Imp.ModifyFrame(CharacterMicroButton, "TOPLEFT", MicroButtonFrame, -11, 28, nil);
+	end
 end
 
 -- Register the Modules Events
@@ -222,6 +223,8 @@ ActionBars:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
 ActionBars:RegisterEvent("UNIT_EXITED_VEHICLE");
 ActionBars:RegisterEvent("PLAYER_LEVEL_UP");
 ActionBars:RegisterEvent("ADDON_LOADED");
+ActionBars:RegisterEvent("PET_BATTLE_OPENING_START");
+ActionBars:RegisterEvent("PET_BATTLE_OPENING_DONE");
 
 -- Blizzard Function Hooks
 hooksecurefunc("MoveMicroButtons", HideMicroMenu);
