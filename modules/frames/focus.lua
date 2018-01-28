@@ -13,36 +13,36 @@ end
 local function StyleFocusFrame()
     if (FramesDB.stylePrimaryFrames == false) then return; end
 
-    if(UnitExists("focus") == false) then return; end
+    if(UnitExists('focus') == false) then return; end
 
     local unitClassification = UnitClassification(TargetFrame.unit);
 
     -- Set Sizes
-    if ( unitClassification == "minus" ) then -- The NPC's that display a "small" unit frame
+    if ( unitClassification == 'minus' ) then -- The NPC's that display a 'small' unit frame
         FocusFrame.healthbar:SetHeight(12);
-        FocusFrame.healthbar:SetPoint("TOPLEFT",7,-41);
-        FocusFrame.healthbar.TextString:SetPoint("CENTER",-50,4);
-        FocusFrame.deadText:SetPoint("CENTER",-50,4);
-        FocusFrame.Background:SetPoint("TOPLEFT",7,-41);
+        FocusFrame.healthbar:SetPoint('TOPLEFT',7,-41);
+        FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,4);
+        FocusFrame.deadText:SetPoint('CENTER',-50,4);
+        FocusFrame.Background:SetPoint('TOPLEFT',7,-41);
     else
         FocusFrame.healthbar:SetHeight(29);
-        FocusFrame.healthbar:SetPoint("TOPLEFT",7,-22);
-        FocusFrame.healthbar.TextString:SetPoint("CENTER",-50,6);
-        FocusFrame.deadText:SetPoint("CENTER",-50,6);
+        FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+        FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+        FocusFrame.deadText:SetPoint('CENTER',-50,6);
         FocusFrame.nameBackground:Hide();
-        FocusFrame.Background:SetPoint("TOPLEFT",7,-22);
+        FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
     end
 
     -- Add Dragons etc if needed
     local frameTexture;
-    if ( unitClassification == "worldboss" or unitClassification == "elite" ) then
-		frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite";
-	elseif ( unitClassification == "rareelite" ) then
-		frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite";
-	elseif ( unitClassification == "rare" ) then
-        frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare";
+    if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
+	elseif ( unitClassification == 'rareelite' ) then
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite';
+	elseif ( unitClassification == 'rare' ) then
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare';
     else
-        frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame";
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
 	end
 
     FocusFrame.borderTexture:SetTexture(frameTexture);
@@ -72,7 +72,7 @@ local function SetPosition()
     -- Position
     FocusFrame:SetMovable(true);
     FocusFrame:ClearAllPoints();
-    FocusFrame:SetPoint("RIGHT", PlayerFrame, 'TOP', 70, 50)
+    FocusFrame:SetPoint('RIGHT', PlayerFrame, 'TOP', 70, 50)
     FocusFrame:SetScale(FramesDB.primaryScale - 0.3);
     FocusFrame:SetUserPlaced(true);
     FocusFrame:SetMovable(false);
@@ -106,19 +106,19 @@ end
 FocusUnitFrame:SetScript('OnEvent', HandleEvents);
 FocusUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
 
-hooksecurefunc("FocusFrame_UpdateBuffsOnTop", SetBuffs);
-hooksecurefunc("FocusFrame_SetSmallSize", FocusFrame_SetSmallSize_Hook);
-hooksecurefunc("TargetFrame_CheckDead", StyleFocusFrame);
-hooksecurefunc("TargetFrame_Update", StyleFocusFrame);
-hooksecurefunc("TargetFrame_CheckFaction", StyleFocusFrame);
-hooksecurefunc("TargetFrame_CheckClassification", StyleFocusFrame);
+hooksecurefunc('FocusFrame_UpdateBuffsOnTop', SetBuffs);
+hooksecurefunc('FocusFrame_SetSmallSize', FocusFrame_SetSmallSize_Hook);
+hooksecurefunc('TargetFrame_CheckDead', StyleFocusFrame);
+hooksecurefunc('TargetFrame_Update', StyleFocusFrame);
+hooksecurefunc('TargetFrame_CheckFaction', StyleFocusFrame);
+hooksecurefunc('TargetFrame_CheckClassification', StyleFocusFrame);
 
-hooksecurefunc("UnitFrameHealthBar_Update", function(self)
+hooksecurefunc('UnitFrameHealthBar_Update', function(self)
     if (FramesDB.focusFrameClassColours and self.unit == 'focus') then
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
-hooksecurefunc("HealthBar_OnValueChanged", function(self)
+hooksecurefunc('HealthBar_OnValueChanged', function(self)
     if (FramesDB.focusFrameClassColours and self.unit == 'focus') then
         Imp.ApplyClassColours(self, self.unit);
     end

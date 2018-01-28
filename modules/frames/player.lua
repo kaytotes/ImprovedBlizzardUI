@@ -18,7 +18,7 @@ local PlayerUnitFrame = CreateFrame('Frame', nil, UIParent);
 ]]
 local function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, type)
     if(FramesDB.playerPortraitSpam) then
-        self.feedbackText:SetText(" ");
+        self.feedbackText:SetText(' ');
     end
 end
 
@@ -30,7 +30,7 @@ end
 ]]
 local function HidePlayer(hide)
     if (InCombatLockdown() == false and FramesDB.playerHideOOC) then
-        if (hide and UnitHealth('player') == UnitHealthMax('player') and UnitExists("target") == false) then
+        if (hide and UnitHealth('player') == UnitHealthMax('player') and UnitExists('target') == false) then
             PlayerFrame:Hide();
         else
             PlayerFrame:Show();
@@ -83,7 +83,7 @@ local function HandleEvents (self, event, ...)
     end
 
     if (event == 'PLAYER_TARGET_CHANGED') then
-        if (UnitExists("target")) then
+        if (UnitExists('target')) then
             HidePlayer(false);
         else
             HidePlayer(true);
@@ -100,13 +100,13 @@ PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
 
 -- Hook Blizzard Functions
-hooksecurefunc("CombatFeedback_OnCombatEvent", CombatFeedback_OnCombatEvent_Hook);
-hooksecurefunc("UnitFrameHealthBar_Update", function(self)
+hooksecurefunc('CombatFeedback_OnCombatEvent', CombatFeedback_OnCombatEvent_Hook);
+hooksecurefunc('UnitFrameHealthBar_Update', function(self)
     if (FramesDB.playerClassColours and self.unit == 'player') then
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
-hooksecurefunc("HealthBar_OnValueChanged", function(self)
+hooksecurefunc('HealthBar_OnValueChanged', function(self)
     if (FramesDB.playerClassColours and self.unit == 'player') then
         Imp.ApplyClassColours(self, self.unit);
     end

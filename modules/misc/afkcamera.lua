@@ -23,13 +23,13 @@ local function ToggleSpin(spin)
 
     if (spin) then
         -- Refresh and Set the Player Model anims
-        AFKCamera.playerModel:SetUnit("player");
+        AFKCamera.playerModel:SetUnit('player');
         AFKCamera.playerModel:SetAnimation(0);
         AFKCamera.playerModel:SetRotation(math.rad(-15));
         AFKCamera.playerModel:SetCamDistanceScale(1.2);
 
         -- Refresh and Set the Pet Model anims
-        AFKCamera.petModel:SetUnit("pet");
+        AFKCamera.petModel:SetUnit('pet');
         AFKCamera.petModel:SetAnimation(0);
         AFKCamera.petModel:SetRotation(math.rad(45));
         AFKCamera.petModel:SetCamDistanceScale(1.7);

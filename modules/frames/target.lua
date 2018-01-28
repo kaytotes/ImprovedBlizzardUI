@@ -19,31 +19,31 @@ local function StyleTargetFrame()
     local unitClassification = UnitClassification(TargetFrame.unit);
 
     -- Set Sizes
-    if ( unitClassification == "minus" ) then -- The NPC's that display a "small" unit frame
+    if ( unitClassification == 'minus' ) then -- The NPC's that display a 'small' unit frame
         TargetFrame.healthbar:SetHeight(12);
-        TargetFrame.healthbar:SetPoint("TOPLEFT",7,-41);
-        TargetFrame.healthbar.TextString:SetPoint("CENTER",-50,4);
-        TargetFrame.deadText:SetPoint("CENTER",-50,4);
-        TargetFrame.Background:SetPoint("TOPLEFT",7,-41);
+        TargetFrame.healthbar:SetPoint('TOPLEFT',7,-41);
+        TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,4);
+        TargetFrame.deadText:SetPoint('CENTER',-50,4);
+        TargetFrame.Background:SetPoint('TOPLEFT',7,-41);
     else
         TargetFrame.healthbar:SetHeight(29);
-        TargetFrame.healthbar:SetPoint("TOPLEFT",7,-22);
-        TargetFrame.healthbar.TextString:SetPoint("CENTER",-50,6);
-        TargetFrame.deadText:SetPoint("CENTER",-50,6);
+        TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+        TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+        TargetFrame.deadText:SetPoint('CENTER',-50,6);
         TargetFrame.nameBackground:Hide();
-        TargetFrame.Background:SetPoint("TOPLEFT",7,-22);
+        TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
     end
 
     -- Add Dragons etc if needed
     local frameTexture;
-    if ( unitClassification == "worldboss" or unitClassification == "elite" ) then
-		frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite";
-	elseif ( unitClassification == "rareelite" ) then
-		frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite";
-	elseif ( unitClassification == "rare" ) then
-        frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare";
+    if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
+	elseif ( unitClassification == 'rareelite' ) then
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite';
+	elseif ( unitClassification == 'rare' ) then
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare';
     else
-        frameTexture = "Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame";
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
 	end
 
     TargetFrame.borderTexture:SetTexture(frameTexture);
@@ -106,20 +106,20 @@ function TargetofTargetHealthCheck_Hook(self)
 end
 
 -- Hook a bunch of Blizzard functions
-hooksecurefunc("TargetFrame_CheckDead", StyleTargetFrame);
-hooksecurefunc("TargetFrame_Update", StyleTargetFrame);
-hooksecurefunc("TargetFrame_CheckFaction", StyleTargetFrame);
-hooksecurefunc("TargetFrame_CheckClassification", StyleTargetFrame);
-hooksecurefunc("TargetofTarget_Update", StyleTargetFrame);
+hooksecurefunc('TargetFrame_CheckDead', StyleTargetFrame);
+hooksecurefunc('TargetFrame_Update', StyleTargetFrame);
+hooksecurefunc('TargetFrame_CheckFaction', StyleTargetFrame);
+hooksecurefunc('TargetFrame_CheckClassification', StyleTargetFrame);
+hooksecurefunc('TargetofTarget_Update', StyleTargetFrame);
 
-hooksecurefunc("TargetofTargetHealthCheck", TargetofTargetHealthCheck_Hook);
+hooksecurefunc('TargetofTargetHealthCheck', TargetofTargetHealthCheck_Hook);
 
-hooksecurefunc("UnitFrameHealthBar_Update", function(self)
+hooksecurefunc('UnitFrameHealthBar_Update', function(self)
     if (FramesDB.targetOfTargetClassColours and self.unit == 'target') then
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
-hooksecurefunc("HealthBar_OnValueChanged", function(self)
+hooksecurefunc('HealthBar_OnValueChanged', function(self)
     if (FramesDB.targetOfTargetClassColours and self.unit == 'target') then
         Imp.ApplyClassColours(self, self.unit);
     end
