@@ -1,18 +1,5 @@
 local addonName, Loc = ...;
 
-local defaults = {
-    afkMode = true,
-
-    styleChat = true,
-    overrideBlizzardStrings = true,
-
-    autoRepair = true,
-    guildRepair = true,
-    autoSell = true,
-
-    healthWarnings = true,
-};
-
 --[[
     Adds a Tooltip to a Frame
 
@@ -28,6 +15,20 @@ local function AddTooltip(frame, text)
     end);
     frame:SetScript('OnLeave', GameTooltip_Hide);
 end
+
+local defaults = {
+    afkMode = true,
+
+    styleChat = true,
+    overrideBlizzardStrings = true,
+
+    autoRepair = true,
+    guildRepair = true,
+    autoSell = true,
+
+    healthWarnings = true,
+    announceInterrupts = true,
+};
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
 options:AddSlash('/ibui');
@@ -87,6 +88,11 @@ options:Initialize(function(self)
     healthWarnings:SetPoint('TOPLEFT', combatTitle, 'BOTTOMLEFT', 0, -8)
     healthWarnings:SetText(Loc['Display Health Warnings']);
     AddTooltip(healthWarnings, Loc['Displays a five second warning when Player Health is less than 50% and 25%.']);
+
+    local announceInterrupts = self:CreateCheckButton('announceInterrupts');
+    announceInterrupts:SetPoint('TOPLEFT', healthWarnings, 'BOTTOMLEFT', 0, 0)
+    announceInterrupts:SetText(Loc['Announce Interrupts']);
+    AddTooltip(announceInterrupts, Loc['When you interrupt a target your character announces this to an appropriate sound channel.']);
 end);
 
 local frameDefaults = {

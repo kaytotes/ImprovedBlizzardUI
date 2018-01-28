@@ -25,6 +25,7 @@ modules\misc\autorepair.lua
 modules\misc\autosell.lua
 
 modules\combat\healthwarning.lua
+modules\combat\interrupts.lua
 
 modules\frames\player.lua
 modules\frames\target.lua

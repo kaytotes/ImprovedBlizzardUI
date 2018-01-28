@@ -101,4 +101,7 @@ if (GetLocale() == 'LOCALE') then
     Loc['Show Right 2 Bar Text'] = '';
     
     Loc['Action Bar Scale'] = '';
+
+    Loc['Announce Interrupts'] = '';
+    Loc['When you interrupt a target your character announces this to an appropriate sound channel.'] = '';
 end
