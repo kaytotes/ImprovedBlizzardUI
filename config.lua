@@ -188,6 +188,12 @@ local barDefaults = {
     displayArt = true,
     outOfRange = true,
     barsScale = 1.0,
+
+    showMainText = true,
+    showBottomLeftText = true,
+    showBottomRightText = true,
+    showLeftText = true,
+    showRightText = true,
 };
 
 local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults);
@@ -222,8 +228,33 @@ barOptions:Initialize(function(self)
     outOfRange:SetText(Loc['Out of Range Indicator']);
     AddTooltip(outOfRange, Loc['When an Ability is not usable due to range the entire Button is highlighted Red.']);
 
+    local showMainText = self:CreateCheckButton('showMainText');
+    showMainText:SetPoint('TOPLEFT', outOfRange, 'BOTTOMLEFT', 0, 0);
+    showMainText:SetText(Loc['Show Main Action Bar Text']);
+    AddTooltip(showMainText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
+
+    local showBottomLeftText = self:CreateCheckButton('showBottomLeftText');
+    showBottomLeftText:SetPoint('TOPLEFT', showMainText, 'BOTTOMLEFT', 0, 0);
+    showBottomLeftText:SetText(Loc['Show Bottom Left Bar Text']);
+    AddTooltip(showBottomLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
+
+    local showBottomRightText = self:CreateCheckButton('showBottomRightText');
+    showBottomRightText:SetPoint('TOPLEFT', showBottomLeftText, 'BOTTOMLEFT', 0, 0);
+    showBottomRightText:SetText(Loc['Show Bottom Right Bar Text']);
+    AddTooltip(showBottomRightText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
+
+    local showRightText = self:CreateCheckButton('showRightText');
+    showRightText:SetPoint('TOPLEFT', showBottomRightText, 'BOTTOMLEFT', 0, 0);
+    showRightText:SetText(Loc['Show Right 1 Bar Text']);
+    AddTooltip(showRightText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
+
+    local showLeftText = self:CreateCheckButton('showLeftText');
+    showLeftText:SetPoint('TOPLEFT', showRightText, 'BOTTOMLEFT', 0, 0);
+    showLeftText:SetText(Loc['Show Right 2 Bar Text']);
+    AddTooltip(showLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
+
     local barsScale = self:CreateSlider('barsScale');
-    barsScale:SetPoint('TOPLEFT', outOfRange, 'BOTTOMLEFT', 4, 0);
+    barsScale:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 4, 0);
     barsScale:SetRange(0.1, 2.0);
     barsScale:SetStep(0.1);
     AddTooltip(barsScale, Loc['Action Bar Scale']);

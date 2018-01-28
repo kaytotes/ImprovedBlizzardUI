@@ -92,5 +92,13 @@ if (GetLocale() == 'LOCALE') then
 
     Loc['Out of Range Indicator'] = '';
     Loc['When an Ability is not usable due to range the entire Button is highlighted Red.'] = '';
+    
+    Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'] = '';
+    Loc['Show Main Action Bar Text'] = '';
+    Loc['Show Bottom Left Bar Text'] = '';
+    Loc['Show Bottom Right Bar Text'] = '';
+    Loc['Show Right 1 Bar Text'] = '';
+    Loc['Show Right 2 Bar Text'] = '';
+    
     Loc['Action Bar Scale'] = '';
 end

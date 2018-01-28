@@ -3,7 +3,7 @@
 ]]
 local addonName, Loc = ...;
 
-local ActionBars = CreateFrame('Frame', nil, UIParent);  
+local ActionBars = CreateFrame('Frame', nil, UIParent);
 
 -- Destroy the frames that we aren't using
 Imp.DestroyFrame(ReputationWatchBar);
@@ -85,6 +85,22 @@ local function AdjustExperienceBars()
 end
 
 --[[
+    Handles the hiding of Macro and Hotkey text from each button on an Action Bar
+
+	@params string $actionBar The string name of the actionbar buttons, assumes 12 exist
+	@params bool $show Whether or not the text should be shown
+    @ return void
+]]
+local function StyleButtons(actionBar, show)
+	for i = 1, 12 do 
+		if (show == false) then
+			_G[actionBar..i.."HotKey"]:SetAlpha(0);
+			_G[actionBar..i.."Name"]:SetAlpha(0);
+		end
+	end
+end
+
+--[[
     Repositions and scales essentially all of the action bars
 
     @ return void
@@ -122,7 +138,14 @@ local function AdjustActionBars()
         _G["StanceBarMiddle"]:SetTexture(nil);
         _G["StanceBarRight"]:SetTexture(nil);
         _G["SlidingActionBarTexture"..0]:SetTexture(nil);
-        _G["SlidingActionBarTexture"..1]:SetTexture(nil);
+		_G["SlidingActionBarTexture"..1]:SetTexture(nil);
+		
+		-- Style the Action Buttons
+		StyleButtons("ActionButton", BarsDB.showMainText);
+		StyleButtons("MultiBarBottomLeftButton", BarsDB.showBottomLeftText);
+		StyleButtons("MultiBarBottomRightButton", BarsDB.showBottomRightText);
+		StyleButtons("MultiBarLeftButton", BarsDB.showLeftText);
+		StyleButtons("MultiBarRightButton", BarsDB.showRightText);
 		
 		Imp.ModifyBasicFrame(MainMenuBarVehicleLeaveButton, "LEFT", MainMenuBar, 0, 0, nil);
 	end
