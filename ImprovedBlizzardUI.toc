@@ -34,3 +34,4 @@ modules\frames\focus.lua
 modules\bars\castbar.lua
 modules\bars\actionbars.lua
 modules\bars\actionbars.xml
+modules\bars\orderhall.lua
