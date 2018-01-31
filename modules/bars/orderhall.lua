@@ -15,7 +15,7 @@ OrderHallFrame:SetPoint("TOP", 0, 0);
 -- Create the Location Text and Assign Font
 OrderHallFrame.locationText = OrderHallFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 OrderHallFrame.locationText:SetPoint("CENTER", 0, 0);
-OrderHallFrame.locationText:SetFont(ImpFont, 16, "THINOUTLINE");
+OrderHallFrame.locationText:SetFont(ImpFont, 14, "THINOUTLINE");
 
 -- Tweak Location Colour
 local classColour = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
@@ -27,12 +27,12 @@ OrderHallFrame.locationText:SetText(classColour.._G["ORDER_HALL_"..select(2, Uni
 -- Create the Order Hall Resources Text and Assign a Font
 OrderHallFrame.resourcesText = OrderHallFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 OrderHallFrame.resourcesText:SetPoint("CENTER", -200, 0);
-OrderHallFrame.resourcesText:SetFont(ImpFont, 16, "THINOUTLINE");
+OrderHallFrame.resourcesText:SetFont(ImpFont, 14, "THINOUTLINE");
 
 -- Create the Order Hall Troops Text and Assign a Font
 OrderHallFrame.troopsText = OrderHallFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal");
 OrderHallFrame.troopsText:SetPoint("CENTER", 300, 0);
-OrderHallFrame.troopsText:SetFont(ImpFont, 16, "THINOUTLINE");
+OrderHallFrame.troopsText:SetFont(ImpFont, 14, "THINOUTLINE");
 
 local function RefreshInfo()
     -- Refresh Currency
