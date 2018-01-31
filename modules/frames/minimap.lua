@@ -53,7 +53,12 @@ local function HandleEvents (self, event, ...)
         -- Move and Scale the entire Minimap frame
         MinimapCluster:ClearAllPoints();
         MinimapCluster:SetScale(1.00);
-        MinimapCluster:SetPoint("TOPRIGHT", -15, -25);
+        
+        if (FramesDB.showPerformance) then
+            MinimapCluster:SetPoint("TOPRIGHT", -15, -20);
+        else
+            MinimapCluster:SetPoint("TOPRIGHT", -15, -15);
+        end
 
         if (FramesDB.replaceZoom) then
             MinimapZoomIn:Hide();

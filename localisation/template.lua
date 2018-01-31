@@ -109,6 +109,9 @@ if (GetLocale() == 'LOCALE') then
     Loc['Display Player Co-Ordinates'] = '';
     Loc['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'] = '';
 
+    Loc['Display System Statistics'] = '';
+    Loc['Displays FPS and Latency above the Mini Map.'] = '';
+
     Loc['Replace Zoom Functionality'] = '';
     Loc['Hides the Zoom Buttons and enables scroll wheel zooming.'] = '';
 end

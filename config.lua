@@ -113,6 +113,7 @@ local frameDefaults = {
 
     showMinimapCoords = true,
     replaceZoom = true,
+    showPerformance = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -202,6 +203,11 @@ framesOptions:Initialize(function(self)
     replaceZoom:SetPoint('TOPLEFT', showMinimapCoords, 'BOTTOMLEFT', 0, 0)
     replaceZoom:SetText(Loc['Replace Zoom Functionality']);
     AddTooltip(replaceZoom, Loc['Hides the Zoom Buttons and enables scroll wheel zooming.']);
+
+    local showPerformance = self:CreateCheckButton('showPerformance');
+    showPerformance:SetPoint('TOPLEFT', replaceZoom, 'BOTTOMLEFT', 0, 0)
+    showPerformance:SetText(Loc['Display System Statistics']);
+    AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 end);
 
 local barDefaults = {
