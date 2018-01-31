@@ -147,7 +147,7 @@ local function AdjustActionBars()
 		StyleButtons('MultiBarLeftButton', BarsDB.showLeftText);
 		StyleButtons('MultiBarRightButton', BarsDB.showRightText);
 		
-		Imp.ModifyBasicFrame(MainMenuBarVehicleLeaveButton, 'LEFT', MainMenuBar, 0, 0, nil);
+		Imp.ModifyBasicFrame(MainMenuBarVehicleLeaveButton, 'LEFT', MainMenuBar, -40, -10, nil);
 	end
 end
 
