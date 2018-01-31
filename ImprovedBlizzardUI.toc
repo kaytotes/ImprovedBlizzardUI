@@ -26,6 +26,7 @@ modules\misc\autosell.lua
 
 modules\combat\healthwarning.lua
 modules\combat\interrupts.lua
+modules\combat\killingblow.lua
 
 modules\frames\player.lua
 modules\frames\target.lua

@@ -28,6 +28,8 @@ local defaults = {
 
     healthWarnings = true,
     announceInterrupts = true,
+
+    killingBlows = true,
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
@@ -93,6 +95,16 @@ options:Initialize(function(self)
     announceInterrupts:SetPoint('TOPLEFT', healthWarnings, 'BOTTOMLEFT', 0, 0)
     announceInterrupts:SetText(Loc['Announce Interrupts']);
     AddTooltip(announceInterrupts, Loc['When you interrupt a target your character announces this to an appropriate sound channel.']);
+
+    -- PvP Category
+    local pvpTitle = self:CreateTitle();
+    pvpTitle:SetPoint('TOPLEFT', announceInterrupts, 'BOTTOMLEFT', 0, -8)
+    pvpTitle:SetText(Loc['PvP']);
+
+    local killingBlows = self:CreateCheckButton('killingBlows');
+    killingBlows:SetPoint('TOPLEFT', pvpTitle, 'BOTTOMLEFT', 0, -8)
+    killingBlows:SetText(Loc['Highlight Killing Blows']);
+    AddTooltip(killingBlows, Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.']);
 end);
 
 local frameDefaults = {
