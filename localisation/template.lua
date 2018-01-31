@@ -104,4 +104,11 @@ if (GetLocale() == 'LOCALE') then
 
     Loc['Announce Interrupts'] = '';
     Loc['When you interrupt a target your character announces this to an appropriate sound channel.'] = '';
+
+    Loc['Mini Map'] = '';
+    Loc['Display Player Co-Ordinates'] = '';
+    Loc['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'] = '';
+
+    Loc['Replace Zoom Functionality'] = '';
+    Loc['Hides the Zoom Buttons and enables scroll wheel zooming.'] = '';
 end

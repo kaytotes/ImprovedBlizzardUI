@@ -110,6 +110,9 @@ local frameDefaults = {
     targetOfTargetClassColours = true,
 
     focusClassColours = true,
+
+    showMinimapCoords = true,
+    replaceZoom = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -185,6 +188,20 @@ framesOptions:Initialize(function(self)
     focusFrameClassColours:SetPoint('TOPLEFT', focusFrame, 'BOTTOMLEFT', 0, -8)
     focusFrameClassColours:SetText(Loc['Display Class Colours']);
     AddTooltip(focusFrameClassColours, Loc['Colours Focus Health bar to match their class.']);
+
+    local minimapTitle = self:CreateTitle();
+    minimapTitle:SetPoint('TOPLEFT', 250, -50)
+    minimapTitle:SetText(Loc['Mini Map']);
+
+    local showMinimapCoords = self:CreateCheckButton('showMinimapCoords');
+    showMinimapCoords:SetPoint('TOPLEFT', minimapTitle, 'BOTTOMLEFT', 0, -8)
+    showMinimapCoords:SetText(Loc['Display Player Co-Ordinates']);
+    AddTooltip(showMinimapCoords, Loc['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.']);
+
+    local replaceZoom = self:CreateCheckButton('replaceZoom');
+    replaceZoom:SetPoint('TOPLEFT', showMinimapCoords, 'BOTTOMLEFT', 0, 0)
+    replaceZoom:SetText(Loc['Replace Zoom Functionality']);
+    AddTooltip(replaceZoom, Loc['Hides the Zoom Buttons and enables scroll wheel zooming.']);
 end);
 
 local barDefaults = {

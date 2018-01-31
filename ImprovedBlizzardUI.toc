@@ -30,6 +30,7 @@ modules\combat\interrupts.lua
 modules\frames\player.lua
 modules\frames\target.lua
 modules\frames\focus.lua
+modules\frames\minimap.lua
 
 modules\bars\castbar.lua
 modules\bars\actionbars.lua
