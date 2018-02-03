@@ -10,7 +10,7 @@ Buffs.buffScale = BuffFrame.SetScale;
 
 local function MoveBuffs()
     BuffFrame:ClearAllPoints();
-    Buffs.buffPoint(BuffFrame, "TOPLEFT", MinimapCluster, -55, -2);
+    Buffs.buffPoint(BuffFrame, 'TOPLEFT', MinimapCluster, -55, -2);
     Buffs.buffScale(BuffFrame, BarsDB.buffScale);
 end
 
@@ -32,5 +32,5 @@ end
 Buffs:SetScript('OnEvent', HandleEvents);
 Buffs:RegisterEvent('PLAYER_LOGIN');
 
-hooksecurefunc( BuffFrame, "SetPoint", function(frame) MoveBuffs() end);
-hooksecurefunc( BuffFrame, "SetScale", function(frame) MoveBuffs() end)
+hooksecurefunc( BuffFrame, 'SetPoint', function(frame) MoveBuffs() end);
+hooksecurefunc( BuffFrame, 'SetScale', function(frame) MoveBuffs() end)

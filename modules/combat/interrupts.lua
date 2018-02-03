@@ -17,11 +17,11 @@ local InterruptFrame = CreateFrame('Frame', nil, UIParent);
 local function HandleEvents (self, event, ...)
     local _, eventType, _, sourceGUID, _, _, _, _, destName, _, _, sourceID, _, _, spellID, spellName, spellSchool = ...;
 
-    if (eventType == "SPELL_INTERRUPT" and (sourceGUID == UnitGUID("player") or sourceGUID == UnitGUID("pet"))) then
+    if (eventType == 'SPELL_INTERRUPT' and (sourceGUID == UnitGUID('player') or sourceGUID == UnitGUID('pet'))) then
         if(PrimaryDB.announceInterrupts) then
-            local message = "Interrupted %sl on %t";
-            message = message:gsub("%%t", destName):gsub("%%sl", GetSpellLink(spellID));
-            SendChatMessage(message, IsInGroup(2) and "INSTANCE_CHAT" or IsInRaid() and "RAID" or IsInGroup() and "PARTY" or "SAY");
+            local message = 'Interrupted %sl on %t';
+            message = message:gsub('%%t', destName):gsub('%%sl', GetSpellLink(spellID));
+            SendChatMessage(message, IsInGroup(2) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or IsInGroup() and 'PARTY' or 'SAY');
         end
     end
 end
