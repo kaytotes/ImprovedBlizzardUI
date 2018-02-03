@@ -38,6 +38,22 @@ local function HidePlayer(hide)
     end
 end
 
+local function StyleFrames()
+    PlayerFrameHealthBar:SetWidth(119);
+    PlayerFrameHealthBar:SetHeight(29);
+    PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);
+    PlayerFrameHealthBarText:SetPoint('CENTER',50,6);
+    PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-TargetingFrame');
+    PlayerStatusTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-Player-Status');
+
+    local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
+    local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+
+    PlayerName:SetFont(ImpFont, 11, flags);
+    PlayerFrameHealthBarTextLeft:SetFont(ImpFont, 11, flags);
+    PlayerName:SetTextColor(r, g, b, a);
+end
+
 --[[
     Handles the WoW API Events Registered Below
 
@@ -60,19 +76,7 @@ local function HandleEvents (self, event, ...)
         
         -- Style Frame
         if (FramesDB.stylePrimaryFrames) then
-            PlayerFrameHealthBar:SetWidth(119);
-            PlayerFrameHealthBar:SetHeight(29);
-            PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);
-            PlayerFrameHealthBarText:SetPoint('CENTER',50,6);
-            PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-TargetingFrame');
-            PlayerStatusTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-Player-Status');
-
-            local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
-            local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
-
-            PlayerName:SetFont(ImpFont, 11, flags);
-            PlayerFrameHealthBarTextLeft:SetFont(ImpFont, 11, flags);
-            PlayerName:SetTextColor(r, g, b, a);
+            StyleFrames();
         end
     end
 
@@ -89,6 +93,10 @@ local function HandleEvents (self, event, ...)
             HidePlayer(true);
         end
     end
+
+    if (event == 'UNIT_EXITED_VEHICLE' and ... == 'player') then
+        StyleFrames();
+    end
 end
 
 -- Register the Modules Events
@@ -98,6 +106,7 @@ PlayerUnitFrame:RegisterEvent('UNIT_HEALTH');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_DISABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
+PlayerUnitFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
 
 -- Hook Blizzard Functions
 hooksecurefunc('CombatFeedback_OnCombatEvent', CombatFeedback_OnCombatEvent_Hook);
