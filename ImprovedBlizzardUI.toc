@@ -31,10 +31,11 @@ modules\combat\killingblow.lua
 modules\frames\player.lua
 modules\frames\target.lua
 modules\frames\focus.lua
-modules\frames\minimap.lua
 modules\frames\performance.lua
 
 modules\bars\castbar.lua
 modules\bars\actionbars.lua
 modules\bars\actionbars.xml
 modules\bars\orderhall.lua
+
+modules\maps\minimap.lua
