@@ -121,4 +121,19 @@ if (GetLocale() == 'LOCALE') then
     Loc['PvP'] = '';
     Loc['Highlight Killing Blows'] = '';
     Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.'] = '';
+
+    Loc['Character'] = '';
+    Loc['Spellbook'] = '';
+    Loc['Talents'] = '';
+    Loc['Achievements'] = '';
+    Loc['Quest Log'] = '';
+    Loc['Guild'] = '';
+    Loc['Group Finder'] = '';
+    Loc['PvP'] = '';
+    Loc['Collections'] = '';
+    Loc['Adventure Guide'] = '';
+    Loc['Shop'] = '';
+    Loc['Swap Bags'] = '';
+    Loc['Talents now available under the Minimap Right-Click Menu!'] = '';
+    Loc['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!'] = '';
 end

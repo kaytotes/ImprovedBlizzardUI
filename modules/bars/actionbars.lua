@@ -49,27 +49,18 @@ ArtifactWatchBar.StatusBar.WatchBarTexture3:SetTexture(nil);
 
     @ return void
 ]]
-local function ToggleBagBar()
+function ToggleBagBar()
     if(ActionBars.bagsVisible) then
         -- Hide them
         Imp.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil);
         ActionBars.bagsVisible = false;
     else
         --show them
-        Imp.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -100, 0, nil);
+        Imp.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, 0, 0, nil);
         ActionBars.bagsVisible = true;
     end
 end
 ActionBars.bagsVisible = false;
-
---[[
-    Hides the Micro Menu by moving it off screen
-
-    @ return void
-]]
-local function HideMicroMenu()
-	Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
-end
 
 --[[
     Tweakes both the Experience Bar and Artifact Bar
@@ -199,26 +190,12 @@ local function HandleEvents (self, event, ...)
     if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
 		AdjustActionBars();
 		AdjustExperienceBars();
-        HideMicroMenu();
 	end
 	
 	if(event == 'UNIT_EXITED_VEHICLE') then
         if(... == 'player') then
             AdjustActionBars();
-            HideMicroMenu();
         end
-    end
-
-    if (event == 'PET_BATTLE_CLOSE') then
-        HideMicroMenu();
-    end
-
-    if(event == 'PET_BATTLE_OPENING_START' or event == 'PET_BATTLE_OPENING_DONE') then
-        Imp.ModifyFrame(CharacterMicroButton, 'TOPLEFT', MicroButtonFrame, -11, 28, nil);
-    end
-    
-    if (event == 'PLAYER_FLAGS_CHANGED') then
-        HideMicroMenu();
     end
 end
 

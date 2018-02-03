@@ -38,5 +38,6 @@ modules\bars\actionbars.lua
 modules\bars\actionbars.xml
 modules\bars\orderhall.lua
 modules\bars\buffs.lua
+modules\bars\micromenu.lua
 
 modules\maps\minimap.lua
