@@ -102,6 +102,9 @@ if (GetLocale() == 'LOCALE') then
     
     Loc['Action Bar Scale'] = '';
 
+    Loc['Buffs and Debuffs'] = '';
+    Loc['Buffs and Debuffs Scale'] = '';
+
     Loc['Announce Interrupts'] = '';
     Loc['When you interrupt a target your character announces this to an appropriate sound channel.'] = '';
 

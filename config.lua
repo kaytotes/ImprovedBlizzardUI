@@ -235,6 +235,8 @@ local barDefaults = {
     showBottomRightText = true,
     showLeftText = true,
     showRightText = true,
+
+    buffScale = 1.1,
 };
 
 local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults);
@@ -299,6 +301,16 @@ barOptions:Initialize(function(self)
     barsScale:SetRange(0.1, 2.0);
     barsScale:SetStep(0.1);
     AddTooltip(barsScale, Loc['Action Bar Scale']);
+
+    local buffsTitle = self:CreateTitle();
+    buffsTitle:SetPoint('TOPLEFT', barsScale, 'BOTTOMLEFT', 0, -24);
+    buffsTitle:SetText(Loc['Buffs and Debuffs']);
+
+    local buffScale = self:CreateSlider('buffScale');
+    buffScale:SetPoint('TOPLEFT', buffsTitle, 'BOTTOMLEFT', 4, -8);
+    buffScale:SetRange(0.1, 2.0);
+    buffScale:SetStep(0.1);
+    AddTooltip(buffScale, Loc['Buffs and Debuffs Scale']);
 end);
 
 options:On('Okay', function(self)
