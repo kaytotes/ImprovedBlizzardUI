@@ -111,7 +111,6 @@ local function AdjustActionBars()
 		Imp.ModifyFrame(MainMenuBar, 'BOTTOM', nil, 0, 10, BarsDB.barsScale); -- Main Action Bar
 		Imp.ModifyBasicFrame(MainMenuBarPageNumber, 'TOPRIGHT', ActionBarDownButton, 6, -1, nil);
         Imp.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil); -- Bag Bar
-		--Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMRIGHT', UIParent, 0, 5000, nil); -- Micro Menu
 
 		Imp.ModifyFrame(MultiBarBottomLeft, 'TOP', MainMenuBar, 1, 36, nil);
 		Imp.ModifyFrame(MultiBarBottomRight, 'TOP', MainMenuBar, 1, 78, nil);
@@ -200,13 +199,18 @@ local function HandleEvents (self, event, ...)
     if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
 		AdjustActionBars();
 		AdjustExperienceBars();
-		HideMicroMenu();
+        HideMicroMenu();
 	end
 	
 	if(event == 'UNIT_EXITED_VEHICLE') then
         if(... == 'player') then
             AdjustActionBars();
+            HideMicroMenu();
         end
+    end
+
+    if (event == 'PET_BATTLE_CLOSE') then
+        HideMicroMenu();
     end
 
     if(event == 'PET_BATTLE_OPENING_START' or event == 'PET_BATTLE_OPENING_DONE') then
@@ -225,9 +229,9 @@ ActionBars:RegisterEvent('PLAYER_LEVEL_UP');
 ActionBars:RegisterEvent('ADDON_LOADED');
 ActionBars:RegisterEvent('PET_BATTLE_OPENING_START');
 ActionBars:RegisterEvent('PET_BATTLE_OPENING_DONE');
+ActionBars:RegisterEvent('PET_BATTLE_CLOSE');
 
 -- Blizzard Function Hooks
-hooksecurefunc('MoveMicroButtons', HideMicroMenu);
 hooksecurefunc('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
 hooksecurefunc('MultiActionBar_Update', AdjustActionBars);
 hooksecurefunc('MainMenuBar_UpdateExperienceBars', MainMenuBar_UpdateExperienceBars_Hook);
