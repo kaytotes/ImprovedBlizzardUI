@@ -215,7 +215,11 @@ local function HandleEvents (self, event, ...)
 
     if(event == 'PET_BATTLE_OPENING_START' or event == 'PET_BATTLE_OPENING_DONE') then
         Imp.ModifyFrame(CharacterMicroButton, 'TOPLEFT', MicroButtonFrame, -11, 28, nil);
-	end
+    end
+    
+    if (event == 'PLAYER_FLAGS_CHANGED') then
+        HideMicroMenu();
+    end
 end
 
 -- Register the Modules Events
