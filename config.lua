@@ -25,6 +25,7 @@ local defaults = {
     autoRepair = true,
     guildRepair = true,
     autoSell = true,
+    autoScreenshot = true,
 
     toggleObjective = true,
 
@@ -81,10 +82,14 @@ options:Initialize(function(self)
     toggleObjective:SetText(Loc['Dynamic Objective Tracker']);
     AddTooltip(toggleObjective, Loc['When you enter an instanced area the Objective Tracker will automatically close.']);
 
+    local autoScreenshot = self:CreateCheckButton('autoScreenshot');
+    autoScreenshot:SetPoint('TOPLEFT', toggleObjective, 'BOTTOMLEFT', 0, 0)
+    autoScreenshot:SetText(Loc['Achievement Screenshot']);
+    AddTooltip(autoScreenshot, Loc['Automatically take a screenshot upon earning an achievement.']);
 
     -- Chat Category
     local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', toggleObjective, 'BOTTOMLEFT', 0, -8)
+    chatTitle:SetPoint('TOPLEFT', autoScreenshot, 'BOTTOMLEFT', 0, -8)
     chatTitle:SetText(Loc['Chat']);
 
     local styleChat = self:CreateCheckButton('styleChat');
