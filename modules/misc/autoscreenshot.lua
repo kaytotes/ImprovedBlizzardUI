@@ -18,7 +18,6 @@ local function HandleEvents (self, event, ...)
     if (event == 'ACHIEVEMENT_EARNED' and PrimaryDB.autoScreenshot) then
         Screenshot();
     end
-    -- Should we handle SCREENSHOT_SUCCEEDED / SCREENSHOT_FAILED, probably not our business.
 end
 
 -- Register the Modules Events
