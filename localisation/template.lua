@@ -139,4 +139,6 @@ if (GetLocale() == 'LOCALE') then
     Loc['Swap Bags'] = '';
     Loc['Talents now available under the Minimap Right-Click Menu!'] = '';
     Loc['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!'] = '';
+
+    Loc['Target'] = '';
 end

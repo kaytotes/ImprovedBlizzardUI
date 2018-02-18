@@ -1,5 +1,5 @@
 --[[
-    modules\frames\party.lua
+    modules\misc\tooltips.lua
 ]]
 local addonName, Loc = ...;
 
@@ -55,6 +55,7 @@ function OnTooltipSetUnit_Hook(self)
 	local classification = UnitClassification(unit);
 	local creatureType = UnitCreatureType(unit);
     local factionGroup = select(1, UnitFactionGroup(unit));
+    local target = unit .. "target";
 
     -- Unit Level
     local level = UnitLevel(unit);
@@ -143,6 +144,14 @@ function OnTooltipSetUnit_Hook(self)
                 line:SetFormattedText('|cff%s%s|r', Imp.RGBPercToHex(friendColor), PVP_ENABLED);
             end
 		end
+    end
+
+    -- Target of Target
+    if (UnitExists(target) and true) then
+        local name, _ = UnitName(target);
+        local colour = Imp.GetClassColour(target);
+
+        GameTooltip:AddLine(format("%s: %s", Loc['Target'], name), colour.r, colour.g, colour.b);
     end
 
     -- Update Health Bar
