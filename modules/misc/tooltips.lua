@@ -23,6 +23,15 @@ local guildColour = {
     b = 1
 };
 
+local unitClassification = {
+    trivial = Loc['Trivial'],
+    normal =  Loc['Normal'],
+    rare = Loc['Rare'],
+    elite = Loc['Elite'],
+    rareelite = Loc['Rare Elite'],
+    worldboss = Loc['World Boss'],
+};
+
 --	Disable fade-out effect
 GameTooltip.FadeOut = GameTooltip.Hide;
 
@@ -136,8 +145,8 @@ function OnTooltipSetUnit_Hook(self)
 			local line = _G['GameTooltipTextLeft'..i];
             if not line or not line:GetText() then break end
             
-			if (level and line:GetText():find('^'..LEVEL) or (creatureType and line:GetText():find('^'..creatureType))) then
-				line:SetFormattedText('|cff%s%s %s|r |cff%s%s|r', Imp.RGBPercToHex(levelColor), level, classification, Imp.RGBPercToHex(friendColor), creatureType or 'Unknown');
+            if (level and line:GetText():find('^'..LEVEL) or (creatureType and line:GetText():find('^'..creatureType))) then
+                line:SetFormattedText('|cff%s%s %s|r |cff%s%s|r', Imp.RGBPercToHex(levelColor), level, unitClassification[classification], Imp.RGBPercToHex(friendColor), creatureType or 'Unknown');
             end
             
             if (line:GetText():find('^'..PVP_ENABLED)) then

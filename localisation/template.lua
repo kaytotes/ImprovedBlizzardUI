@@ -141,4 +141,10 @@ if (GetLocale() == 'LOCALE') then
     Loc['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!'] = '';
 
     Loc['Target'] = '';
+    Loc['Trivial'] = '';
+    Loc['Normal'] = '';
+    Loc['Rare'] = '';
+    Loc['Elite'] = '';
+    Loc['Rare Elite'] = '';
+    Loc['World Boss'] = '';
 end
