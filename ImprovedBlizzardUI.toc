@@ -23,6 +23,7 @@ modules\misc\afkcamera.lua
 modules\misc\chat.lua
 modules\misc\autorepair.lua
 modules\misc\autosell.lua
+modules\misc\questtracker.lua
 
 modules\combat\healthwarning.lua
 modules\combat\interrupts.lua
@@ -32,6 +33,7 @@ modules\frames\player.lua
 modules\frames\target.lua
 modules\frames\focus.lua
 modules\frames\performance.lua
+modules\frames\party.lua
 
 modules\bars\castbar.lua
 modules\bars\actionbars.lua

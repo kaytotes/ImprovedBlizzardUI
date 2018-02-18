@@ -85,17 +85,13 @@ local function HandleEvents (self, event, ...)
         end
     end
 
-    if (event == 'PET_BATTLE_CLOSE') then
+    if (event == 'PET_BATTLE_CLOSE' or event == 'PLAYER_FLAGS_CHANGED' or event == 'CINEMATIC_STOP') then
         HideMicroMenu();
     end
 
     if(event == 'PET_BATTLE_OPENING_START' or event == 'PET_BATTLE_OPENING_DONE') then
         Imp.ModifyFrame(CharacterMicroButton, 'TOPLEFT', MicroButtonFrame, -11, 28, nil);
     end
-    
-    if (event == 'PLAYER_FLAGS_CHANGED') then
-        HideMicroMenu();
-    end  
 
     if(event == 'PLAYER_LEVEL_UP') then
         local newLevel, _, _, _, _, _, _, _, _ = ...;
@@ -120,6 +116,7 @@ MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_START');
 MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_DONE');
 MicroMenuFrame:RegisterEvent('PET_BATTLE_CLOSE');
 MicroMenuFrame:RegisterEvent('PLAYER_LEVEL_UP');
+MicroMenuFrame:RegisterEvent('CINEMATIC_STOP');
 
 Minimap:SetScript('OnMouseUp', function(self, btn)
     if btn == 'RightButton' then

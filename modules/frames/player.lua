@@ -50,7 +50,19 @@ local function StyleFrames()
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
     PlayerName:SetFont(ImpFont, 11, flags);
-    PlayerFrameHealthBarTextLeft:SetFont(ImpFont, 11, flags);
+    -- 10
+    PlayerFrameHealthBarText:SetFont(ImpFont, 10, flags);
+    PlayerFrameHealthBarTextLeft:SetFont(ImpFont, 10, flags);
+    PlayerFrameHealthBarTextRight:SetFont(ImpFont, 10, flags);
+
+    PlayerFrameManaBarText:SetFont(ImpFont, 10, flags);
+    PlayerFrameManaBarTextLeft:SetFont(ImpFont, 10, flags);
+    PlayerFrameManaBarTextRight:SetFont(ImpFont, 10, flags);
+
+    PlayerFrameAlternateManaBarText:SetFont(ImpFont, 10, flags);
+    PlayerFrameAlternateManaBar.RightText:SetFont(ImpFont, 10, flags);
+    PlayerFrameAlternateManaBar.LeftText:SetFont(ImpFont, 10, flags);
+
     PlayerName:SetTextColor(r, g, b, a);
 end
 

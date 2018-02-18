@@ -60,6 +60,11 @@ local function HandleEvents (self, event, ...)
             MinimapCluster:SetPoint('TOPRIGHT', -15, -15);
         end
 
+        local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
+        local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+
+        MinimapZoneText:SetFont(ImpFont, 13, flags);
+
         if (FramesDB.replaceZoom) then
             MinimapZoomIn:Hide();
             MinimapZoomOut:Hide();

@@ -39,6 +39,9 @@ if (GetLocale() == 'LOCALE') then
     Loc['Automatically sells any grey items that are in your inventory.']
     Loc['Sold Trash Items'] = '';
 
+    Loc['Dynamic Objective Tracker'] = '';
+    Loc['When you enter an instanced area the Objective Tracker will automatically close.'] = '';
+
     Loc['Chat'] = '';
 
     Loc['Style Chat'] = '';

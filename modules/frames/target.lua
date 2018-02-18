@@ -59,9 +59,19 @@ local function StyleTargetFrame()
     local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
-    TargetFrameTextureFrameName:SetFont(file, 11, flags);
     TargetFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
     TargetFrameTextureFrameName:SetTextColor(r, g, b, a);
+
+    TargetFrameTextureFrameName:SetFont(ImpFont, 11, flags);
+
+    TargetFrameTextureFrameHealthBarText:SetFont(ImpFont, 10, flags);
+    TargetFrameTextureFrameHealthBarTextLeft:SetFont(ImpFont, 10, flags);
+    TargetFrameTextureFrameHealthBarTextRight:SetFont(ImpFont, 10, flags);
+    
+    TargetFrameTextureFrameManaBarText:SetFont(ImpFont, 10, flags);
+    TargetFrameTextureFrameManaBarTextLeft:SetFont(ImpFont, 10, flags);
+    TargetFrameTextureFrameManaBarTextRight:SetFont(ImpFont, 10, flags);
+
 
     TargetFrame.healthbar:SetWidth(119);
     TargetFrame.healthbar.lockColor = true;

@@ -26,6 +26,8 @@ local defaults = {
     guildRepair = true,
     autoSell = true,
 
+    toggleObjective = true,
+
     healthWarnings = true,
     announceInterrupts = true,
 
@@ -66,9 +68,15 @@ options:Initialize(function(self)
     autoSell:SetText(Loc['Auto Sell Trash']);
     AddTooltip(autoSell, Loc['Automatically sells any grey items that are in your inventory.']);
 
+    local toggleObjective = self:CreateCheckButton('toggleObjective');
+    toggleObjective:SetPoint('TOPLEFT', autoSell, 'BOTTOMLEFT', 0, 0)
+    toggleObjective:SetText(Loc['Dynamic Objective Tracker']);
+    AddTooltip(toggleObjective, Loc['When you enter an instanced area the Objective Tracker will automatically close.']);
+
+
     -- Chat Category
     local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', autoSell, 'BOTTOMLEFT', 0, -8)
+    chatTitle:SetPoint('TOPLEFT', toggleObjective, 'BOTTOMLEFT', 0, -8)
     chatTitle:SetText(Loc['Chat']);
 
     local styleChat = self:CreateCheckButton('styleChat');
