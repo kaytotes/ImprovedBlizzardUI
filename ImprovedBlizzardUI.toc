@@ -24,6 +24,7 @@ modules\misc\chat.lua
 modules\misc\autorepair.lua
 modules\misc\autosell.lua
 modules\misc\questtracker.lua
+modules\misc\tooltips.lua
 
 modules\combat\healthwarning.lua
 modules\combat\interrupts.lua
