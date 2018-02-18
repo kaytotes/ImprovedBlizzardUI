@@ -32,6 +32,14 @@ local defaults = {
     announceInterrupts = true,
 
     killingBlows = true,
+
+    anchorMouse = true,
+    styleTooltips = true,
+    guildColour = 'ffff87ff',
+    hostileBorder = true,
+    nameClassColours = true,
+    tooltipToT = true,
+    tooltipClassHealth = true,
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
@@ -113,6 +121,45 @@ options:Initialize(function(self)
     killingBlows:SetPoint('TOPLEFT', pvpTitle, 'BOTTOMLEFT', 0, -8)
     killingBlows:SetText(Loc['Highlight Killing Blows']);
     AddTooltip(killingBlows, Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.']);
+
+    -- Tooltips Category
+    local tooltipsTitle = self:CreateTitle();
+    tooltipsTitle:SetPoint('TOPLEFT', 250, -50);
+    tooltipsTitle:SetText(Loc['Tooltips']);
+
+    local anchorMouse = self:CreateCheckButton('anchorMouse');
+    anchorMouse:SetPoint('TOPLEFT', tooltipsTitle, 'BOTTOMLEFT', 0, -8)
+    anchorMouse:SetText(Loc['Anchor To Mouse']);
+    AddTooltip(anchorMouse, Loc['The Tooltip will always display at the mouse location.']);
+    
+    local styleTooltips = self:CreateCheckButton('styleTooltips');
+    styleTooltips:SetPoint('TOPLEFT', anchorMouse, 'BOTTOMLEFT', 0, 0)
+    styleTooltips:SetText(Loc['Style Tooltips']);
+    AddTooltip(styleTooltips, Loc['Adjusts the Fonts and behavior of the default Tooltips.']);
+
+    local hostileBorder = self:CreateCheckButton('hostileBorder');
+    hostileBorder:SetPoint('TOPLEFT', styleTooltips, 'BOTTOMLEFT', 0, 0)
+    hostileBorder:SetText(Loc['Hostile Border']);
+    AddTooltip(hostileBorder, Loc['Colours the Border of the Tooltip based on the hostility of the target.']);
+
+    local nameClassColours = self:CreateCheckButton('nameClassColours');
+    nameClassColours:SetPoint('TOPLEFT', hostileBorder, 'BOTTOMLEFT', 0, 0)
+    nameClassColours:SetText(Loc['Class Coloured Name']);
+    AddTooltip(nameClassColours, Loc['Colours the name of the Target to match their Class.']);
+
+    local tooltipToT = self:CreateCheckButton('tooltipToT');
+    tooltipToT:SetPoint('TOPLEFT', nameClassColours, 'BOTTOMLEFT', 0, 0)
+    tooltipToT:SetText(Loc['Show Target of Target']);
+    AddTooltip(tooltipToT, Loc['Displays who / what the unit is targeting. Coloured by Class.']);
+
+    local tooltipClassHealth = self:CreateCheckButton('tooltipClassHealth');
+    tooltipClassHealth:SetPoint('TOPLEFT', tooltipToT, 'BOTTOMLEFT', 0, 0)
+    tooltipClassHealth:SetText(Loc['Class Colour Health Bar']);
+    AddTooltip(tooltipClassHealth, Loc['Colours the Tooltip Health Bar by Class.']);
+
+    local guildColour = self:CreateColorPicker('guildColour')
+	guildColour:SetPoint('TOPLEFT', tooltipClassHealth, 'BOTTOMLEFT', 5, -3)
+    guildColour:SetText(Loc['Guild Colour'])
 end);
 
 local frameDefaults = {

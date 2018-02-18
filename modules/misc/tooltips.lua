@@ -17,12 +17,6 @@ local backgroundColour = {
     b = 0
 };
 
-local guildColour = {
-    r = 1,
-    g = 0.53,
-    b = 1
-};
-
 local unitClassification = {
     trivial = Loc['Trivial'],
     normal =  Loc['Normal'],
@@ -41,10 +35,9 @@ end
 
 function OnTooltipSetUnit_Hook(self)
     -- Quit if needed
-    if (true == false) then return end
+    if (PrimaryDB.styleTooltips == false) then return end
+    if (self:IsForbidden()) then return end
     
-	if (self:IsForbidden()) then return end
-
     -- Get the Unit
     local name, unit = self:GetUnit()
 	if (not unit) then
@@ -102,7 +95,7 @@ function OnTooltipSetUnit_Hook(self)
     self:SetBackdropColor(backgroundColour.r, backgroundColour.g, backgroundColour.b);
 
     -- Hostility Border
-    if (true) then
+    if (PrimaryDB.hostileBorder) then
         self:SetBackdropBorderColor(friendColor.r, friendColor.g, friendColor.b);
     else
         self:SetBackdropBorderColor(borderColour.r, borderColour.g, borderColour.b);
@@ -114,14 +107,14 @@ function OnTooltipSetUnit_Hook(self)
 
     if (UnitIsPlayer(unit)) then
         -- Class Coloured
-        if (true) then
+        if (PrimaryDB.nameClassColours) then
             GameTooltipTextLeft1:SetFormattedText('|cff%s%s|r %s', Imp.RGBPercToHex(Imp.GetClassColour(unit)), UnitName(unit), AFKStatus(unit));
         else
             GameTooltipTextLeft1:SetFormattedText('%s%s', UnitName(unit), AFKStatus(unit));
         end
         
         if (guild) then
-            GameTooltipTextLeft2:SetFormattedText('|cff%s%s|r', Imp.RGBPercToHex(guildColour), guild);
+            GameTooltipTextLeft2:SetFormattedText('|cff%s%s|r', Imp.ARGBToHex(PrimaryDB.guildColour), guild);
             GameTooltipTextLeft3:SetFormattedText('|cff%s%s|r |cff%s%s|r', Imp.RGBPercToHex(levelColor), level, Imp.RGBPercToHex(friendColor), race);
         else
             GameTooltip:AddLine('', 1, 1, 1);
@@ -156,7 +149,7 @@ function OnTooltipSetUnit_Hook(self)
     end
 
     -- Target of Target
-    if (UnitExists(target) and true) then
+    if (UnitExists(target) and PrimaryDB.tooltipToT) then
         local name, _ = UnitName(target);
         local colour = Imp.GetClassColour(target);
 
@@ -176,7 +169,7 @@ function OnTooltipSetUnit_Hook(self)
 	GameTooltipStatusBar:SetHeight(5);
     GameTooltipStatusBar:SetStatusBarTexture('Interface\\TargetingFrame\\UI-StatusBar');
 
-    if (true) then
+    if (PrimaryDB.tooltipClassHealth) then
         Imp.ApplyClassColours(GameTooltipStatusBar, unit);
     end
     
@@ -192,7 +185,7 @@ end
 GameTooltip:HookScript('OnTooltipSetUnit', OnTooltipSetUnit_Hook)
 
 hooksecurefunc('GameTooltip_SetDefaultAnchor', function(self, parent)
-    if (true) then
+    if (PrimaryDB.anchorMouse) then
         self:SetOwner(parent, 'ANCHOR_CURSOR');
     end
 end)

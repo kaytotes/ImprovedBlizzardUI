@@ -147,4 +147,25 @@ if (GetLocale() == 'LOCALE') then
     Loc['Elite'] = '';
     Loc['Rare Elite'] = '';
     Loc['World Boss'] = '';
+
+    Loc['Tooltips'] = '';
+    Loc['Anchor To Mouse'] = '';
+    Loc['The Tooltip will always display at the mouse location.'] = '';
+
+    Loc['Style Tooltips'] = '';
+    Loc['Adjusts the Fonts and behavior of the default Tooltips.'] = '';
+    
+    Loc['Guild Colour'] = '';
+
+    Loc['Hostile Border'] = '';
+    Loc['Colours the Border of the Tooltip based on the hostility of the target.'] = '';
+
+    Loc['Class Coloured Name'] = '';
+    Loc['Colours the name of the Target to match their Class.'] = '';
+
+    Loc['Show Target of Target'] = '';
+    Loc['Displays who / what the unit is targeting. Coloured by Class.'] = '';
+    
+    Loc['Class Colour Health Bar'] = '';
+    Loc['Colours the Tooltip Health Bar by Class.'] = '';
 end
