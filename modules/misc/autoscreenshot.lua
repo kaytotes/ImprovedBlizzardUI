@@ -16,7 +16,9 @@ local AutoScreenshotFrame = CreateFrame('Frame', nil, UIParent);
 ]]
 local function HandleEvents (self, event, ...)
     if (event == 'ACHIEVEMENT_EARNED' and PrimaryDB.autoScreenshot) then
-        Screenshot();
+        AutoScreenshotFrame:UnregisterEvent('ACHIEVEMENT_EARNED');
+        C_Timer.After(1, Screenshot);
+        C_Timer.After(4, function() AutoScreenshotFrame:RegisterEvent('ACHIEVEMENT_EARNED') end);
     end
 end
 
