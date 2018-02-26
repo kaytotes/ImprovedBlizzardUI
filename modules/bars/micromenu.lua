@@ -5,6 +5,8 @@ local addonName, Loc = ...;
 
 local MicroMenuFrame = CreateFrame('Frame', nil, UIParent);
 
+local worldMapChanged = false;
+
 -- Micro Menu that replaces the removed action bar based one. Spawns on right click of minimamp
 MicroMenuFrame.microMenu = CreateFrame('Frame', 'RightClickMenu', UIParent, 'UIDropDownMenuTemplate');
 MicroMenuFrame.menuFont = CreateFont('menuFont');
@@ -19,6 +21,14 @@ MicroMenuFrame.bagsVisible = false;
 ]]
 local function HideMicroMenu()
 	Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
+end
+
+
+local function MicroMenu_Tick()
+    if ( (worldMapChanged) and not WorldMapFrame:IsVisible() ) then
+        HideMicroMenu();
+        worldMapChanged = false;
+    end
 end
 
 --[[
@@ -77,7 +87,11 @@ local function HandleEvents (self, event, ...)
     if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
         HideMicroMenu();
         UpdateMicroMenuList(UnitLevel('player'));
-	end
+    end
+    
+    if (( event == 'WORLD_MAP_UPDATE') and WorldMapFrame:IsVisible()) then
+        worldMapChanged = true;
+    end
 	
 	if(event == 'UNIT_EXITED_VEHICLE') then
         if(... == 'player') then
@@ -117,7 +131,9 @@ MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_DONE');
 MicroMenuFrame:RegisterEvent('PET_BATTLE_CLOSE');
 MicroMenuFrame:RegisterEvent('PLAYER_LEVEL_UP');
 MicroMenuFrame:RegisterEvent('CINEMATIC_STOP');
+MicroMenuFrame:RegisterEvent('WORLD_MAP_UPDATE');
 
+MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
 Minimap:SetScript('OnMouseUp', function(self, btn)
     if btn == 'RightButton' then
         EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, 'cursor', 0, 0, 'MENU', 3);

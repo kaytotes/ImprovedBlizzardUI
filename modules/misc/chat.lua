@@ -100,6 +100,7 @@ end
     @ return void
 ]]
 local function OverrideStrings()
+
     -- Local Player Loot
 	CURRENCY_GAINED = '|cffFFFF00+ %s';
 	CURRENCY_GAINED_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)';
@@ -129,6 +130,7 @@ local function OverrideStrings()
 	LOOT_ITEM_PUSHED = '%s |cffFFFF00+ %s';
 	LOOT_ITEM_PUSHED_MULTIPLE = '%s |cffFFFF00+ %s |cffFFFF00(%d)';
 	CREATED_ITEM = '%s |cffFFFF00+ %s';
+	TRADESKILL_LOG_THIRDPERSON = '%s |cffFFFF00+ %s';
 	CREATED_ITEM_MULTIPLE = '%s |cffFFFF00+ %s |cffFFFF00(%d)';
 
 	-- Chat Channels
@@ -162,7 +164,7 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'ADDON_LOADED' and (... == 'ImprovedBlizzardUI' or ... == 'Blizzard_CombatLog')) then
+    if (event == 'ADDON_LOADED' or event == 'PLAYER_ENTERING_WORLD' or evemt == 'PLAYER_LOGIN') then
         if (PrimaryDB.styleChat) then
             StyleChat();
         end
@@ -170,9 +172,11 @@ local function HandleEvents (self, event, ...)
         if (PrimaryDB.overrideBlizzardStrings) then
             OverrideStrings();
 		end
-    end
+	end
 end
 
 -- Register the Modules Events
 ChatFrame:SetScript('OnEvent', HandleEvents);
 ChatFrame:RegisterEvent('ADDON_LOADED');
+ChatFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
+ChatFrame:RegisterEvent('PLAYER_LOGIN');
