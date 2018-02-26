@@ -18,6 +18,7 @@ local backgroundColour = {
 };
 
 local unitClassification = {
+    minus = Loc['Trivial'],
     trivial = Loc['Trivial'],
     normal =  Loc['Normal'],
     rare = Loc['Rare'],
