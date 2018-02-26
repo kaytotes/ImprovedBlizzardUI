@@ -25,6 +25,7 @@ modules\misc\autorepair.lua
 modules\misc\autosell.lua
 modules\misc\questtracker.lua
 modules\misc\tooltips.lua
+modules\misc\autoscreenshot.lua
 
 modules\combat\healthwarning.lua
 modules\combat\interrupts.lua

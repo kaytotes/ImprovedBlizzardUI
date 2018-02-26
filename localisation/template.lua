@@ -168,4 +168,7 @@ if (GetLocale() == 'LOCALE') then
     
     Loc['Class Colour Health Bar'] = '';
     Loc['Colours the Tooltip Health Bar by Class.'] = '';
+
+    Loc['Achievement Screenshot'] = '';
+    Loc['Automatically take a screenshot upon earning an achievement.'] = '';
 end
