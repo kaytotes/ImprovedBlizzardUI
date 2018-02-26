@@ -19,20 +19,12 @@ local function StyleTargetFrame()
     local unitClassification = UnitClassification(TargetFrame.unit);
 
     -- Set Sizes
-    if ( unitClassification == 'minus' ) then -- The NPC's that display a 'small' unit frame
-        TargetFrame.healthbar:SetHeight(12);
-        TargetFrame.healthbar:SetPoint('TOPLEFT',7,-41);
-        TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,4);
-        TargetFrame.deadText:SetPoint('CENTER',-50,4);
-        TargetFrame.Background:SetPoint('TOPLEFT',7,-41);
-    else
-        TargetFrame.healthbar:SetHeight(29);
-        TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-        TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
-        TargetFrame.deadText:SetPoint('CENTER',-50,6);
-        TargetFrame.nameBackground:Hide();
-        TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
-    end
+    TargetFrame.healthbar:SetHeight(29);
+    TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+    TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    TargetFrame.deadText:SetPoint('CENTER',-50,6);
+    TargetFrame.nameBackground:Hide();
+    TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
 
     -- Add Dragons etc if needed
     local frameTexture;
