@@ -19,7 +19,7 @@ AFKCamera.hidden = true;
 ]]
 local function ToggleSpin(spin)
     -- If the configuration is off or the player is in combat then just do nothing
-    if (PrimaryDB.afkMode == false) then return; end
+    if (PrimaryDB.afkMode == false or InCombatLockdown()) then return; end
 
     if (spin) then
         -- Refresh and Set the Player Model anims
