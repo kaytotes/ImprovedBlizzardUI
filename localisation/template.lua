@@ -171,4 +171,37 @@ if (GetLocale() == 'LOCALE') then
 
     Loc['Achievement Screenshot'] = '';
     Loc['Automatically take a screenshot upon earning an achievement.'] = '';
+
+    Loc['Kill Feed'] = '';
+
+    Loc['Enable Kill Feed'] = '';
+    Loc['Displays a feed of the last 5 kills that occur around you when in Instances and optionally out in the World.'] = '';
+
+    Loc['Show In World'] = '';
+    Loc['Displays the Kill Feed when solo in the world.'] = '';
+
+    Loc['Show In Dungeons'] = '';
+    Loc['Displays the Kill Feed when in 5 man Dungeons.'] = '';
+
+    Loc['Show In Raids'] = '';
+    Loc['Displays the Kill Feed when in Raids.'] = '';
+
+    Loc['Show In PvP'] = '';
+    Loc['Displays the Kill Feed when in Instanced PvP (Arenas and Battlegrounds).'] = '';
+
+    Loc['Show Casted Spell'] = '';
+    Loc['Show the Spell that caused a death.'] = '';
+
+    Loc['Show Damage'] = '';
+    Loc['Show how much damage the Creature or Player took.'] = '';
+
+    Loc['Hide When Inactive'] = '';
+    Loc['Hides the Kill Feed after no new events have occured for a short period.'] = '';
+
+    Loc['Font Size'] = '';
+    Loc['Kill Feed Spacing'] = '';
+
+    Loc[' killed '] = '';
+    Loc['with'] = '';
+    Loc['Melee'] = '';
 end

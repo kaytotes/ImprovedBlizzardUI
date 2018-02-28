@@ -158,4 +158,18 @@ function Imp.ARGBToHex(hex)
     return hex:sub(3);
 end
 
+--[[
+    Converts a number to a string with comma values
+
+    @ param int $number The number we're converting
+    @
+    @ return string
+]]
+function Imp.formatNum(number)
+    local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
+    int = int:reverse():gsub("(%d%d%d)", "%1,")
+
+    return minus .. int:reverse():gsub("^,", "") .. fraction
+end
+
 print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialised');

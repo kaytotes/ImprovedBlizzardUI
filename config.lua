@@ -186,6 +186,16 @@ local frameDefaults = {
     showMinimapCoords = true,
     replaceZoom = true,
     showPerformance = true,
+
+    killFeed = true,
+    showInWorld = false,
+    showInDungeons = true,
+    showInRaids = true,
+    showInPvP = true,
+    showSpell = true,
+    showDamage = true,
+    inactiveFade = true,
+    fontSize = 17,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -257,10 +267,10 @@ framesOptions:Initialize(function(self)
     focusFrame:SetPoint('TOPLEFT', targetOfTargetClassColours, 'BOTTOMLEFT', 0, -10)
     focusFrame:SetText(Loc['Focus Frame']);
 
-    local focusFrameClassColours = self:CreateCheckButton('focusFrameClassColours');
-    focusFrameClassColours:SetPoint('TOPLEFT', focusFrame, 'BOTTOMLEFT', 0, -8)
-    focusFrameClassColours:SetText(Loc['Display Class Colours']);
-    AddTooltip(focusFrameClassColours, Loc['Colours Focus Health bar to match their class.']);
+    local focusClassColours = self:CreateCheckButton('focusClassColours');
+    focusClassColours:SetPoint('TOPLEFT', focusFrame, 'BOTTOMLEFT', 0, -8)
+    focusClassColours:SetText(Loc['Display Class Colours']);
+    AddTooltip(focusClassColours, Loc['Colours Focus Health bar to match their class.']);
 
     local minimapTitle = self:CreateTitle();
     minimapTitle:SetPoint('TOPLEFT', 250, -50)
@@ -280,6 +290,56 @@ framesOptions:Initialize(function(self)
     showPerformance:SetPoint('TOPLEFT', replaceZoom, 'BOTTOMLEFT', 0, 0)
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
+
+    local killFeedTitle = self:CreateTitle();
+    killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
+    killFeedTitle:SetText(Loc['Kill Feed']);
+
+    local killFeed = self:CreateCheckButton('killFeed');
+    killFeed:SetPoint('TOPLEFT', killFeedTitle, 'BOTTOMLEFT', 0, -8)
+    killFeed:SetText(Loc['Enable Kill Feed']);
+    AddTooltip(killFeed, Loc['Displays a feed of the last 5 kills that occur around you when in Instances and optionally out in the World.']);
+
+    local showInWorld = self:CreateCheckButton('showInWorld');
+    showInWorld:SetPoint('TOPLEFT', killFeed, 'BOTTOMLEFT', 0, 0)
+    showInWorld:SetText(Loc['Show In World']);
+    AddTooltip(showInWorld, Loc['Displays the Kill Feed when solo in the world.']);
+
+    local showInDungeons = self:CreateCheckButton('showInDungeons');
+    showInDungeons:SetPoint('TOPLEFT', showInWorld, 'BOTTOMLEFT', 0, 0)
+    showInDungeons:SetText(Loc['Show In Dungeons']);
+    AddTooltip(showInDungeons, Loc['Displays the Kill Feed when in 5 man Dungeons.']);
+
+    local showInRaids = self:CreateCheckButton('showInRaids');
+    showInRaids:SetPoint('TOPLEFT', showInDungeons, 'BOTTOMLEFT', 0, 0)
+    showInRaids:SetText(Loc['Show In Raids']);
+    AddTooltip(showInRaids, Loc['Displays the Kill Feed when in Raids.']);
+
+    local showInPvP = self:CreateCheckButton('showInPvP');
+    showInPvP:SetPoint('TOPLEFT', showInRaids, 'BOTTOMLEFT', 0, 0)
+    showInPvP:SetText(Loc['Show In PvP']);
+    AddTooltip(showInPvP, Loc['Displays the Kill Feed when in Instanced PvP (Arenas and Battlegrounds).']);
+
+    local showSpell = self:CreateCheckButton('showSpell');
+    showSpell:SetPoint('TOPLEFT', showInPvP, 'BOTTOMLEFT', 0, 0)
+    showSpell:SetText(Loc['Show Casted Spell']);
+    AddTooltip(showSpell, Loc['Show the Spell that caused a death.']);
+
+    local showDamage = self:CreateCheckButton('showDamage');
+    showDamage:SetPoint('TOPLEFT', showSpell, 'BOTTOMLEFT', 0, 0)
+    showDamage:SetText(Loc['Show Damage']);
+    AddTooltip(showDamage, Loc['Show how much damage the Creature or Player took.']);
+
+    local inactiveFade = self:CreateCheckButton('inactiveFade');
+    inactiveFade:SetPoint('TOPLEFT', showDamage, 'BOTTOMLEFT', 0, 0)
+    inactiveFade:SetText(Loc['Hide When Inactive']);
+    AddTooltip(inactiveFade, Loc['Hides the Kill Feed after no new events have occured for a short period.']);
+
+    local fontSize = self:CreateSlider('fontSize');
+    fontSize:SetPoint('TOPLEFT', inactiveFade, 'BOTTOMLEFT', 4, -10);
+    fontSize:SetRange(10, 30);
+    fontSize:SetStep(1);
+    AddTooltip(fontSize, Loc['Font Size']);
 end);
 
 local barDefaults = {

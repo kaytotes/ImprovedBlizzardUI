@@ -36,6 +36,7 @@ modules\frames\target.lua
 modules\frames\focus.lua
 modules\frames\performance.lua
 modules\frames\party.lua
+modules\frames\killfeed.lua
 
 modules\bars\castbar.lua
 modules\bars\actionbars.lua
