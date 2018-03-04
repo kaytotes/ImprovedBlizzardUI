@@ -45,8 +45,7 @@ local defaults = {
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
-options:AddSlash('/ibui');
-options:AddSlash('/improvedblizzardui');
+options:AddSlash('/imp');
 
 options:Initialize(function(self)
     local title = self:CreateTitle();

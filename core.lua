@@ -218,4 +218,4 @@ function Imp.formatNum(number)
     return minus .. int:reverse():gsub("^,", "") .. fraction
 end
 
-print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialised');
+print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialised.');
