@@ -325,7 +325,72 @@ local function StyleComparison(self)
             line:SetFont(ImpFont, fontSize, 'OUTLINE');
         end
     end
-    Tooltip_Small:SetFont(ImpFont, fontSize, 'NONE');
+    Tooltip_Small:SetFont(ImpFont, fontSize, 'OUTLINE');
+end
+
+local function StylePvPRewardItem(self)
+    if (not self) then return end
+
+    local name = self:GetName();
+    local lines = self:NumLines();
+
+    for i = 1, lines do
+        local line = _G[name..'TextLeft'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+        
+        -- Right Text
+        local line = _G[name..'TextRight'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+    end
+end
+
+local function StylePvPRewardTooltip(self)
+    self.RewardString:SetFont(ImpFont, fontSize, 'OUTLINE');
+    self.Honor:SetFont(ImpFont, fontSize, 'OUTLINE');
+    self.XP:SetFont(ImpFont, fontSize, 'OUTLINE');
+
+    self.ItemTooltip.Text:SetFont(ImpFont, fontSize, 'OUTLINE');
+
+    self.ItemTooltip.Tooltip:HookScript('OnTooltipSetItem', StylePvPRewardItem);
+end
+
+local function StylePvPConquestTooltip(self)
+    local paddingX = 30; --counts both sides
+    local paddingY = 70;
+
+    self.Title:SetFont(ImpFont, fontSize, 'OUTLINE');
+
+    self.WeeklyLabel:SetFont(ImpFont, fontSize, 'OUTLINE');
+    self.WeeklyBest:SetFont(ImpFont, fontSize, 'OUTLINE');
+	self.WeeklyGamesWon:SetFont(ImpFont, fontSize, 'OUTLINE');
+	self.WeeklyGamesPlayed:SetFont(ImpFont, fontSize, 'OUTLINE');
+    
+    self.SeasonLabel:SetFont(ImpFont, fontSize, 'OUTLINE');
+	self.SeasonBest:SetFont(ImpFont, fontSize, 'OUTLINE');
+	self.SeasonWon:SetFont(ImpFont, fontSize, 'OUTLINE');
+    self.SeasonGamesPlayed:SetFont(ImpFont, fontSize, 'OUTLINE');
+    
+    
+    local width = max(
+        self.Title:GetStringWidth(),
+        self.WeeklyLabel:GetStringWidth(),
+        self.WeeklyBest:GetStringWidth(),
+        self.WeeklyGamesWon:GetStringWidth(),
+        self.WeeklyGamesPlayed:GetStringWidth(),
+        self.SeasonLabel:GetStringWidth(),
+        self.SeasonBest:GetStringWidth(),
+        self.SeasonWon:GetStringWidth(),
+        self.SeasonGamesPlayed:GetStringWidth()
+    );
+    
+    local height = fontSize * 9;
+
+    self:SetWidth(width + paddingX);
+    self:SetHeight(height + paddingY);
 end
 
 --[[
@@ -338,6 +403,21 @@ end
 local function HandleEvents (self, event, ...)
     if (event == 'PLAYER_ENTERING_WORLD' or event == 'ADDON_LOADED') then
         fontSize = PrimaryDB.tooltipFontSize;
+    end
+
+    if (event == 'ADDON_LOADED' and ... == 'Blizzard_PVPUI') then
+        fontSize = PrimaryDB.tooltipFontSize;
+        StylePvPRewardTooltip(PVPRewardTooltip);
+
+        PVPRewardTooltip:HookScript('OnShow', function ()
+            StylePvPRewardTooltip(PVPRewardTooltip);
+        end);
+
+        ConquestTooltip:HookScript('OnShow', function ()
+            StylePvPConquestTooltip(ConquestTooltip);
+        end);
+
+        
     end
 end
 
