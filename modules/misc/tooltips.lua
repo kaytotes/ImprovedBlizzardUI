@@ -5,6 +5,8 @@ local addonName, Loc = ...;
 
 local TooltipFrame = CreateFrame('Frame', nil, UIParent);
 
+local fontSize = 12;
+
 local borderColour = {
     r = 0.8,
     g = 0.8,
@@ -34,7 +36,53 @@ local function AFKStatus(unit)
     return UnitIsAFK(unit) and '|cffAAAAAA<AFK>|r ' or UnitIsDND(unit) and '|cffAAAAAA<DND>|r ' or '';
 end
 
-function OnTooltipSetUnit_Hook(self)
+local function UpdateGameTooltipFonts(tooltip)
+    local lines = tooltip:NumLines();
+
+    for i = 1, lines do
+        -- Left Text
+        local line = _G['GameTooltipTextLeft'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+        
+        -- Right Text
+        local line = _G['GameTooltipTextRight'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Money Prefix 
+        local line = _G['GameTooltipMoneyFrame'..i..'PrefixText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Gold
+        local line = _G['GameTooltipMoneyFrame'..i..'GoldButtonText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Silver
+        local line = _G['GameTooltipMoneyFrame'..i..'SilverButtonText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Copper
+        local line = _G['GameTooltipMoneyFrame'..i..'CopperButtonText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+    end
+
+    Tooltip_Small:SetFont(ImpFont, fontSize, 'NONE');
+end
+
+
+
+local function GameTooltip_OnTooltipSetUnit_Hook(self)
     -- Quit if needed
     if (PrimaryDB.styleTooltips == false) then return end
     if (self:IsForbidden()) then return end
@@ -173,20 +221,146 @@ function OnTooltipSetUnit_Hook(self)
     if (PrimaryDB.tooltipClassHealth) then
         Imp.ApplyClassColours(GameTooltipStatusBar, unit);
     end
-    
-    -- Lastly, Set Fonts
-    for i = 1, 20 do
-		local line = _G['GameTooltipTextLeft'..i];
-        if not line then break end
 
-        line:SetFont(ImpFont, 13, 'OUTLINE');
-	end
+    UpdateGameTooltipFonts(self);
 end
 
-GameTooltip:HookScript('OnTooltipSetUnit', OnTooltipSetUnit_Hook)
+local function GameTooltip_OnTooltipSetItem_Hook(self)
+    local _, item = self:GetItem();
+
+    if (item) then
+        local _, _, rarity = GetItemInfo(item);
+        if (rarity) then
+            self:SetBackdropBorderColor(GetItemQualityColor(rarity));
+        end
+    end
+
+    UpdateGameTooltipFonts(self);
+end
+
+local function UpdateItemRefTooltipFonts(self)
+    local lines = self:NumLines();
+
+    -- Set Fonts
+    for i = 1, lines do
+        -- Left Text
+        local line = _G['ItemRefTooltipTextLeft'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+        
+        -- Right Text
+        local line = _G['ItemRefTooltipTextRight'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Prefix 
+        local line = _G['ItemRefTooltipMoneyFrame'..i..'PrefixText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Gold
+        local line = _G['ItemRefTooltipMoneyFrame'..i..'GoldButtonText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Silver
+        local line = _G['ItemRefTooltipMoneyFrame'..i..'SilverButtonText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+
+        -- Copper
+        local line = _G['ItemRefTooltipMoneyFrame'..i..'CopperButtonText'];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+    end
+
+    Tooltip_Small:SetFont(ImpFont, fontSize, 'NONE');
+end
+
+local function ItemRefTooltip_OnTooltipSetItem_Hook(self)
+    local _, item = self:GetItem();
+
+    if (item) then
+        local _, _, rarity = GetItemInfo(item);
+        if (rarity) then
+            self:SetBackdropBorderColor(GetItemQualityColor(rarity));
+        end
+    end
+
+    UpdateItemRefTooltipFonts(self);
+end
+
+local function StyleComparison(self)
+    -- Quit if needed
+    if (PrimaryDB.styleTooltips == false) then return end
+
+    local _, item = self:GetItem();
+
+    if (item) then
+        local _, _, rarity = GetItemInfo(item);
+        if (rarity) then
+            self:SetBackdropBorderColor(GetItemQualityColor(rarity));
+        end
+    end
+
+    local name = self:GetName();
+
+    local lines = self:NumLines();
+
+    for i = 1, lines do
+        local line = _G[name..'TextLeft'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+        
+        -- Right Text
+        local line = _G[name..'TextRight'..i];
+        if (line ~= nil) then
+            line:SetFont(ImpFont, fontSize, 'OUTLINE');
+        end
+    end
+    Tooltip_Small:SetFont(ImpFont, fontSize, 'NONE');
+end
+
+--[[
+    Handles the WoW API Events Registered Below
+    @ param Frame $self The Frame that is handling the event 
+    @ param string $event The WoW API Event that has been triggered
+    @ param arg $... The arguments of the Event
+    @ return void
+]]
+local function HandleEvents (self, event, ...)
+    if (event == 'PLAYER_ENTERING_WORLD' or event == 'ADDON_LOADED') then
+        fontSize = PrimaryDB.tooltipFontSize;
+    end
+end
+
+GameTooltip:HookScript('OnTooltipSetUnit', GameTooltip_OnTooltipSetUnit_Hook)
+GameTooltip:HookScript('OnTooltipSetItem', GameTooltip_OnTooltipSetItem_Hook);
+GameTooltip:HookScript('OnTooltipSetSpell', UpdateGameTooltipFonts);
+ItemRefTooltip:HookScript('OnTooltipSetItem', ItemRefTooltip_OnTooltipSetItem_Hook);
+ShoppingTooltip1:HookScript('OnShow', StyleComparison);
+ShoppingTooltip2:HookScript('OnShow', StyleComparison);
+ItemRefShoppingTooltip1:HookScript('OnShow', StyleComparison);
+ItemRefShoppingTooltip1:HookScript('OnShow', StyleComparison);
+
+hooksecurefunc('GameTooltip_ShowCompareItem', function (self)
+    StyleComparison(self);
+end);
 
 hooksecurefunc('GameTooltip_SetDefaultAnchor', function(self, parent)
     if (PrimaryDB.anchorMouse) then
         self:SetOwner(parent, 'ANCHOR_CURSOR');
     end
-end)
+end);
+
+-- Register the Modules Events
+TooltipFrame:SetScript('OnEvent', HandleEvents);
+TooltipFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
+TooltipFrame:RegisterEvent('ADDON_LOADED');

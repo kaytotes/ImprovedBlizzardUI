@@ -41,6 +41,7 @@ local defaults = {
     nameClassColours = true,
     tooltipToT = true,
     tooltipClassHealth = true,
+    tooltipFontSize = 12,
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
@@ -54,46 +55,46 @@ options:Initialize(function(self)
 
     -- Miscellaneous Category
     local miscTitle = self:CreateTitle();
-    miscTitle:SetPoint('TOPLEFT', 10, -50)
+    miscTitle:SetPoint('TOPLEFT', 10, -50);
     miscTitle:SetText(Loc['Miscellaneous']);
 
     local afkMode = self:CreateCheckButton('afkMode');
-    afkMode:SetPoint('TOPLEFT', miscTitle, 'BOTTOMLEFT', 0, -8)
+    afkMode:SetPoint('TOPLEFT', miscTitle, 'BOTTOMLEFT', 0, -8);
     afkMode:SetText(Loc['Enable AFK Mode']);
     AddTooltip(afkMode, Loc['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.']);
 
     local autoRepair = self:CreateCheckButton('autoRepair');
-    autoRepair:SetPoint('TOPLEFT', afkMode, 'BOTTOMLEFT', 0, 0)
+    autoRepair:SetPoint('TOPLEFT', afkMode, 'BOTTOMLEFT', 0, 0);
     autoRepair:SetText(Loc['Auto Repair']);
     AddTooltip(autoRepair, Loc['Automatically repairs your armour when you visit a merchant that can repair.']);
 
     local guildRepair = self:CreateCheckButton('guildRepair');
-    guildRepair:SetPoint('TOPLEFT', autoRepair, 'BOTTOMLEFT', 0, 0)
+    guildRepair:SetPoint('TOPLEFT', autoRepair, 'BOTTOMLEFT', 0, 0);
     guildRepair:SetText(Loc['Use Guild Bank For Repairs']);
     AddTooltip(guildRepair, Loc['When automatically repairing allow the use of Guild Bank funds.']);
 
     local autoSell = self:CreateCheckButton('autoSell');
-    autoSell:SetPoint('TOPLEFT', guildRepair, 'BOTTOMLEFT', 0, 0)
+    autoSell:SetPoint('TOPLEFT', guildRepair, 'BOTTOMLEFT', 0, 0);
     autoSell:SetText(Loc['Auto Sell Trash']);
     AddTooltip(autoSell, Loc['Automatically sells any grey items that are in your inventory.']);
 
     local toggleObjective = self:CreateCheckButton('toggleObjective');
-    toggleObjective:SetPoint('TOPLEFT', autoSell, 'BOTTOMLEFT', 0, 0)
+    toggleObjective:SetPoint('TOPLEFT', autoSell, 'BOTTOMLEFT', 0, 0);
     toggleObjective:SetText(Loc['Dynamic Objective Tracker']);
     AddTooltip(toggleObjective, Loc['When you enter an instanced area the Objective Tracker will automatically close.']);
 
     local autoScreenshot = self:CreateCheckButton('autoScreenshot');
-    autoScreenshot:SetPoint('TOPLEFT', toggleObjective, 'BOTTOMLEFT', 0, 0)
+    autoScreenshot:SetPoint('TOPLEFT', toggleObjective, 'BOTTOMLEFT', 0, 0);
     autoScreenshot:SetText(Loc['Achievement Screenshot']);
     AddTooltip(autoScreenshot, Loc['Automatically take a screenshot upon earning an achievement.']);
 
     -- Chat Category
     local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', autoScreenshot, 'BOTTOMLEFT', 0, -8)
+    chatTitle:SetPoint('TOPLEFT', autoScreenshot, 'BOTTOMLEFT', 0, -8);
     chatTitle:SetText(Loc['Chat']);
 
     local styleChat = self:CreateCheckButton('styleChat');
-    styleChat:SetPoint('TOPLEFT', chatTitle, 'BOTTOMLEFT', 0, -8)
+    styleChat:SetPoint('TOPLEFT', chatTitle, 'BOTTOMLEFT', 0, -8);
     styleChat:SetText(Loc['Style Chat']);
     AddTooltip(styleChat, Loc['Styles the Blizzard Chat frame to better match the rest of the UI.']);
 
@@ -104,26 +105,26 @@ options:Initialize(function(self)
 
     -- Combat Category
     local combatTitle = self:CreateTitle();
-    combatTitle:SetPoint('TOPLEFT', overrideBlizzardStrings, 'BOTTOMLEFT', 0, -8)
+    combatTitle:SetPoint('TOPLEFT', overrideBlizzardStrings, 'BOTTOMLEFT', 0, -8);
     combatTitle:SetText(Loc['Combat']);
 
     local healthWarnings = self:CreateCheckButton('healthWarnings');
-    healthWarnings:SetPoint('TOPLEFT', combatTitle, 'BOTTOMLEFT', 0, -8)
+    healthWarnings:SetPoint('TOPLEFT', combatTitle, 'BOTTOMLEFT', 0, -8);
     healthWarnings:SetText(Loc['Display Health Warnings']);
     AddTooltip(healthWarnings, Loc['Displays a five second warning when Player Health is less than 50% and 25%.']);
 
     local announceInterrupts = self:CreateCheckButton('announceInterrupts');
-    announceInterrupts:SetPoint('TOPLEFT', healthWarnings, 'BOTTOMLEFT', 0, 0)
+    announceInterrupts:SetPoint('TOPLEFT', healthWarnings, 'BOTTOMLEFT', 0, 0);
     announceInterrupts:SetText(Loc['Announce Interrupts']);
     AddTooltip(announceInterrupts, Loc['When you interrupt a target your character announces this to an appropriate sound channel.']);
 
     -- PvP Category
     local pvpTitle = self:CreateTitle();
-    pvpTitle:SetPoint('TOPLEFT', announceInterrupts, 'BOTTOMLEFT', 0, -8)
+    pvpTitle:SetPoint('TOPLEFT', announceInterrupts, 'BOTTOMLEFT', 0, -8);
     pvpTitle:SetText(Loc['PvP']);
 
     local killingBlows = self:CreateCheckButton('killingBlows');
-    killingBlows:SetPoint('TOPLEFT', pvpTitle, 'BOTTOMLEFT', 0, -8)
+    killingBlows:SetPoint('TOPLEFT', pvpTitle, 'BOTTOMLEFT', 0, -8);
     killingBlows:SetText(Loc['Highlight Killing Blows']);
     AddTooltip(killingBlows, Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.']);
 
@@ -133,38 +134,44 @@ options:Initialize(function(self)
     tooltipsTitle:SetText(Loc['Tooltips']);
 
     local anchorMouse = self:CreateCheckButton('anchorMouse');
-    anchorMouse:SetPoint('TOPLEFT', tooltipsTitle, 'BOTTOMLEFT', 0, -8)
+    anchorMouse:SetPoint('TOPLEFT', tooltipsTitle, 'BOTTOMLEFT', 0, -8);
     anchorMouse:SetText(Loc['Anchor To Mouse']);
     AddTooltip(anchorMouse, Loc['The Tooltip will always display at the mouse location.']);
     
     local styleTooltips = self:CreateCheckButton('styleTooltips');
-    styleTooltips:SetPoint('TOPLEFT', anchorMouse, 'BOTTOMLEFT', 0, 0)
+    styleTooltips:SetPoint('TOPLEFT', anchorMouse, 'BOTTOMLEFT', 0, 0);
     styleTooltips:SetText(Loc['Style Tooltips']);
     AddTooltip(styleTooltips, Loc['Adjusts the Fonts and behavior of the default Tooltips.']);
 
     local hostileBorder = self:CreateCheckButton('hostileBorder');
-    hostileBorder:SetPoint('TOPLEFT', styleTooltips, 'BOTTOMLEFT', 0, 0)
+    hostileBorder:SetPoint('TOPLEFT', styleTooltips, 'BOTTOMLEFT', 0, 0);
     hostileBorder:SetText(Loc['Hostile Border']);
     AddTooltip(hostileBorder, Loc['Colours the Border of the Tooltip based on the hostility of the target.']);
 
     local nameClassColours = self:CreateCheckButton('nameClassColours');
-    nameClassColours:SetPoint('TOPLEFT', hostileBorder, 'BOTTOMLEFT', 0, 0)
+    nameClassColours:SetPoint('TOPLEFT', hostileBorder, 'BOTTOMLEFT', 0, 0);
     nameClassColours:SetText(Loc['Class Coloured Name']);
     AddTooltip(nameClassColours, Loc['Colours the name of the Target to match their Class.']);
 
     local tooltipToT = self:CreateCheckButton('tooltipToT');
-    tooltipToT:SetPoint('TOPLEFT', nameClassColours, 'BOTTOMLEFT', 0, 0)
+    tooltipToT:SetPoint('TOPLEFT', nameClassColours, 'BOTTOMLEFT', 0, 0);
     tooltipToT:SetText(Loc['Show Target of Target']);
     AddTooltip(tooltipToT, Loc['Displays who / what the unit is targeting. Coloured by Class.']);
 
     local tooltipClassHealth = self:CreateCheckButton('tooltipClassHealth');
-    tooltipClassHealth:SetPoint('TOPLEFT', tooltipToT, 'BOTTOMLEFT', 0, 0)
+    tooltipClassHealth:SetPoint('TOPLEFT', tooltipToT, 'BOTTOMLEFT', 0, 0);
     tooltipClassHealth:SetText(Loc['Class Colour Health Bar']);
     AddTooltip(tooltipClassHealth, Loc['Colours the Tooltip Health Bar by Class.']);
 
-    local guildColour = self:CreateColorPicker('guildColour')
-	guildColour:SetPoint('TOPLEFT', tooltipClassHealth, 'BOTTOMLEFT', 5, -3)
-    guildColour:SetText(Loc['Guild Colour'])
+    local guildColour = self:CreateColorPicker('guildColour');
+	guildColour:SetPoint('TOPLEFT', tooltipClassHealth, 'BOTTOMLEFT', 5, -3);
+    guildColour:SetText(Loc['Guild Colour']);
+
+    local tooltipFontSize = self:CreateSlider('tooltipFontSize');
+    tooltipFontSize:SetPoint('TOPLEFT', guildColour, 'BOTTOMLEFT', 4, -10);
+    tooltipFontSize:SetRange(7, 20);
+    tooltipFontSize:SetStep(1);
+    AddTooltip(tooltipFontSize, Loc['Font Size']);
 end);
 
 local frameDefaults = {
