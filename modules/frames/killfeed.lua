@@ -159,9 +159,11 @@ local function HandleEvents (self, event, ...)
 
     local _, instanceType = IsInInstance();
 
-    if (not (FramesDB.showInWorld and instanceType == 'none') or (FramesDB.showInDungeons and instanceType == 'party') or (FramesDB.showInRaids and instanceType == 'raid') or (FramesDB.showInPvP and (instanceType == 'pvp' or instanceType == 'arena'))) then
-        return;
-    end
+    -- Bail out based on config options
+    if (instanceType == 'none' and FramesDB.showInWorld == false) then return end
+    if (instanceType == 'party' and FramesDB.showInDungeons == false) then return end
+    if (instanceType == 'raid' and FramesDB.showInRaids == false) then return end
+    if ((instanceType == 'pvp' or instanceType == 'arena') and FramesDB.showInPvP == false) then return end
 
     -- Check for kills and update the Kill Feed
     if( event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "RANGE_DAMAGE" )then
