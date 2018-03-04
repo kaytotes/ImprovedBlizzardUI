@@ -5,14 +5,60 @@ Imp = CreateFrame('Frame', nil, UIParent);
 ImpFont = 'Interface\\AddOns\\ImprovedBlizzardUI\\media\\impfont.ttf';
 
 -- Build the On Screen Display
-Imp_OSD = CreateFrame( 'MessageFrame', nil, UIParent );
-Imp_OSD:SetPoint('LEFT');
-Imp_OSD:SetPoint('RIGHT');
-Imp_OSD:SetHeight(29);
-Imp_OSD:SetInsertMode('TOP');
-Imp_OSD:SetFrameStrata('HIGH');
-Imp_OSD:SetFadeDuration(1);
-Imp_OSD:SetFont(ImpFont, 26, 'OUTLINE');
+Imp_OSD = CreateFrame('Frame', nil, UIParent);
+Imp_OSD.text = Imp_OSD:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
+Imp_OSD:SetWidth(32);
+Imp_OSD:SetHeight(32);
+Imp_OSD:SetFrameStrata('BACKGROUND');
+Imp_OSD:SetPoint('CENTER', 0, 75);
+Imp_OSD.text:SetPoint('CENTER', 0, 0);
+Imp_OSD.text:SetFont(ImpFont, 26, 'OUTLINE');
+Imp_OSD.hidden = true;
+Imp_OSD.fadeTimer = nil;
+
+-- Initialise the fadein / out anims
+Imp_OSD.fadeInAnim = Imp_OSD:CreateAnimationGroup();
+Imp_OSD.fadeIn = Imp_OSD.fadeInAnim:CreateAnimation('Alpha');
+Imp_OSD.fadeIn:SetDuration(0.20);
+Imp_OSD.fadeIn:SetFromAlpha(0);
+Imp_OSD.fadeIn:SetToAlpha(1);
+Imp_OSD.fadeIn:SetOrder(1);
+
+Imp_OSD.fadeInAnim:SetScript('OnFinished', function() 
+    Imp_OSD:SetAlpha(1);
+    Imp_OSD.hidden = false;
+end);
+
+Imp_OSD.fadeOutAnim = Imp_OSD:CreateAnimationGroup();
+Imp_OSD.fadeOut = Imp_OSD.fadeOutAnim:CreateAnimation('Alpha');
+Imp_OSD.fadeOut:SetDuration(0.20);
+Imp_OSD.fadeOut:SetFromAlpha(1);
+Imp_OSD.fadeOut:SetToAlpha(0);
+Imp_OSD.fadeOut:SetOrder(1);
+
+Imp_OSD.fadeOutAnim:SetScript('OnFinished', function() 
+    Imp_OSD:SetAlpha(0);
+    Imp_OSD.hidden = true;
+    Imp_OSD.text:SetText('');
+end);
+
+function Imp_OSD.AddMessage(message, r, g, b, duration)
+    Imp_OSD.text:SetText(message);
+    Imp_OSD.text:SetTextColor(r, g, b, 1.0);
+
+    if (Imp_OSD.hidden) then
+        Imp_OSD.fadeInAnim:Play();
+    end
+
+    if ( Imp_OSD.fadeTimer ~= nil ) then
+        Imp_OSD.fadeTimer:Cancel();
+    end
+
+    -- Set Fade Timer
+    Imp_OSD.fadeTimer = C_Timer.NewTimer(duration, function()
+        Imp_OSD.fadeOutAnim:Play();
+    end);
+end
 
 --[[
     Applies the unit's class colour to the status bar that is passed in

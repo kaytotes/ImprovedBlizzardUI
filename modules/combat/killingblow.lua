@@ -21,7 +21,7 @@ local function HandleEvents (self, event, ...)
     if(event == 'PARTY_KILL') then
         if(instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) then -- Only run in a BG
             if(sourceGUID == UnitGUID('player') and PrimaryDB.killingBlows) then
-                Imp_OSD:AddMessage( Loc['Killing Blow!'], 1, 1, 0, 53, 3.0 );
+                Imp_OSD.AddMessage( Loc['Killing Blow!'], 1, 1, 0, 2.0 );
             end
         end
     end

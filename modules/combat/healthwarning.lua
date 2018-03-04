@@ -23,12 +23,12 @@ local function HandleEvents (self, event, ...)
         end
 
         if ( hp <= 0.50 and hp > 0.25 and HealthFrame.canShowHalf) then
-            Imp_OSD:AddMessage( Loc['HP < 50% !'], 0, 1, 1, 53, 5.0 );
+            Imp_OSD.AddMessage( Loc['HP < 50% !'], 0, 1, 1, 5.0 );
             HealthFrame.canShowHalf = false;
             HealthFrame.canShowQuarter = true;
             return;
         elseif(hp < 0.25 and HealthFrame.canShowQuarter) then
-            Imp_OSD:AddMessage( Loc['HP < 25% !!!'], 1, 0, 0, 53, 5.0 );
+            Imp_OSD.AddMessage( Loc['HP < 25% !!!'], 1, 0, 0, 5.0 );
             HealthFrame.canShowHalf = true;
             HealthFrame.canShowQuarter = false;
             return;
