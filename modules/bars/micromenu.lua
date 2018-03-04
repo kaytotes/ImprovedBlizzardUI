@@ -133,6 +133,10 @@ MicroMenuFrame:RegisterEvent('PLAYER_LEVEL_UP');
 MicroMenuFrame:RegisterEvent('CINEMATIC_STOP');
 MicroMenuFrame:RegisterEvent('WORLD_MAP_UPDATE');
 
+hooksecurefunc('WorldMap_ToggleSizeDown', function()
+    HideMicroMenu();
+end);
+
 MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
 Minimap:SetScript('OnMouseUp', function(self, btn)
     if btn == 'RightButton' then
