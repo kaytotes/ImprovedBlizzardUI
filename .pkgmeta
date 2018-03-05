@@ -13,3 +13,6 @@ externals:
   libs/Wasabi:
     url: git://github.com/p3lim-wow/Wasabi
     tag: latest
+
+ignore:
+    - README.md
