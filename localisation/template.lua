@@ -125,6 +125,9 @@ if (GetLocale() == 'LOCALE') then
     Loc['Highlight Killing Blows'] = '';
     Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.'] = '';
 
+    Loc['Automatic Ressurection'] = '';
+    Loc['When you die in a Battleground you are automatically ressurected.'] = '';
+
     Loc['Character'] = '';
     Loc['Spellbook'] = '';
     Loc['Talents'] = '';

@@ -30,6 +30,7 @@ modules\misc\autoscreenshot.lua
 modules\combat\healthwarning.lua
 modules\combat\interrupts.lua
 modules\combat\killingblow.lua
+modules\combat\ressurect.lua
 
 modules\frames\player.lua
 modules\frames\target.lua

@@ -33,6 +33,7 @@ local defaults = {
     announceInterrupts = true,
 
     killingBlows = true,
+    autoRes = true,
 
     anchorMouse = true,
     styleTooltips = true,
@@ -126,6 +127,11 @@ options:Initialize(function(self)
     killingBlows:SetPoint('TOPLEFT', pvpTitle, 'BOTTOMLEFT', 0, -8);
     killingBlows:SetText(Loc['Highlight Killing Blows']);
     AddTooltip(killingBlows, Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.']);
+
+    local autoRes = self:CreateCheckButton('autoRes');
+    autoRes:SetPoint('TOPLEFT', killingBlows, 'BOTTOMLEFT', 0, 0);
+    autoRes:SetText(Loc['Automatic Ressurection']);
+    AddTooltip(autoRes, Loc['When you die in a Battleground you are automatically ressurected.']);
 
     -- Tooltips Category
     local tooltipsTitle = self:CreateTitle();
