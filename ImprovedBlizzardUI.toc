@@ -47,3 +47,4 @@ modules\bars\buffs.lua
 modules\bars\micromenu.lua
 
 modules\maps\minimap.lua
+modules\maps\dungeons.lua

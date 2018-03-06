@@ -121,6 +121,11 @@ if (GetLocale() == 'LOCALE') then
     Loc['Replace Zoom Functionality'] = '';
     Loc['Hides the Zoom Buttons and enables scroll wheel zooming.'] = '';
 
+    Loc['World Map'] = '';
+
+    Loc['Show Instance Portals'] = '';
+    Loc['Displays the location of old world Raids and Dungeons.'] = '';
+
     Loc['PvP'] = '';
     Loc['Highlight Killing Blows'] = '';
     Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.'] = '';

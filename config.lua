@@ -208,6 +208,8 @@ local frameDefaults = {
     showDamage = true,
     inactiveFade = true,
     fontSize = 17,
+
+    showMapDungeons = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -303,8 +305,19 @@ framesOptions:Initialize(function(self)
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 
+    -- World Map Title
+    local worldMapTitle = self:CreateTitle();
+    worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24)
+    worldMapTitle:SetText(Loc['World Map']);
+
+    local showMapDungeons = self:CreateCheckButton('showMapDungeons');
+    showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8)
+    showMapDungeons:SetText(Loc['Show Instance Portals']);
+    AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
+
+    -- Kill Feed Title
     local killFeedTitle = self:CreateTitle();
-    killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
+    killFeedTitle:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, -10);
     killFeedTitle:SetText(Loc['Kill Feed']);
 
     local killFeed = self:CreateCheckButton('killFeed');
