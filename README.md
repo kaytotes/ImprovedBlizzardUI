@@ -5,8 +5,6 @@ Improved Blizzard UI is an attempt to improve the World of Warcraft interface by
 
 This has been customized to out of the box be how I personally like my UI set up however there is extensive configuration available in game by using `/imp`. This interface is primarily tested at 2560x1400 but should largely work at any resolution.
 
-Localized for enGB / enUS / deDE (ben2k1690) / ptBr (cyberdisarray) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
-
 # Project Development Setup
 
 To get a working installation of Improved Blizzard UI you must first clone the repository to a directory of your choosing. From there `cd` into the `.release` directory.
