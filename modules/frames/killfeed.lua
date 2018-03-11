@@ -54,7 +54,11 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spell
     local killerString, killedString, killerFaction, killedFaction;
 
     -- Work out who killed someone and what faction
+    print(sourceName);
     killerFaction, _ = UnitFactionGroup( sourceName );
+    
+    if (killerFaction ~= nil) then print(killerFaction) end
+
     if( killerFaction == playerFaction ) then -- Killer on our Faction
         if( playerFaction == "Horde" ) then
             killerString = format("|cffFE2E2E%s|r", sourceName ); -- Print Red

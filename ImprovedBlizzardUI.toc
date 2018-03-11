@@ -48,3 +48,4 @@ modules\bars\micromenu.lua
 
 modules\maps\minimap.lua
 modules\maps\dungeons.lua
+modules\maps\coords.lua

@@ -126,6 +126,9 @@ if (GetLocale() == 'LOCALE') then
     Loc['Show Instance Portals'] = '';
     Loc['Displays the location of old world Raids and Dungeons.'] = '';
 
+    Loc['Show Cursor Co-ordinates'] = '';
+    Loc['Displays the world location of where you are highlighting.'] = '';
+
     Loc['PvP'] = '';
     Loc['Highlight Killing Blows'] = '';
     Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.'] = '';

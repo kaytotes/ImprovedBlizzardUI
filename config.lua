@@ -210,6 +210,7 @@ local frameDefaults = {
     fontSize = 17,
 
     showMapDungeons = true,
+    showCursorCoords = true,
 };
 
 local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
@@ -301,62 +302,67 @@ framesOptions:Initialize(function(self)
     AddTooltip(replaceZoom, Loc['Hides the Zoom Buttons and enables scroll wheel zooming.']);
 
     local showPerformance = self:CreateCheckButton('showPerformance');
-    showPerformance:SetPoint('TOPLEFT', replaceZoom, 'BOTTOMLEFT', 0, 0)
+    showPerformance:SetPoint('TOPLEFT', replaceZoom, 'BOTTOMLEFT', 0, 0);
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 
     -- World Map Title
     local worldMapTitle = self:CreateTitle();
-    worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24)
+    worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
     worldMapTitle:SetText(Loc['World Map']);
 
     local showMapDungeons = self:CreateCheckButton('showMapDungeons');
-    showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8)
+    showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
     showMapDungeons:SetText(Loc['Show Instance Portals']);
     AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
 
+    local showCursorCoords = self:CreateCheckButton('showCursorCoords');
+    showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
+    showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
+    AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
+
     -- Kill Feed Title
     local killFeedTitle = self:CreateTitle();
-    killFeedTitle:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, -10);
+    killFeedTitle:SetPoint('TOPLEFT', showCursorCoords, 'BOTTOMLEFT', 0, -10);
     killFeedTitle:SetText(Loc['Kill Feed']);
 
     local killFeed = self:CreateCheckButton('killFeed');
-    killFeed:SetPoint('TOPLEFT', killFeedTitle, 'BOTTOMLEFT', 0, -8)
+    killFeed:SetPoint('TOPLEFT', killFeedTitle, 'BOTTOMLEFT', 0, -8);
     killFeed:SetText(Loc['Enable Kill Feed']);
     AddTooltip(killFeed, Loc['Displays a feed of the last 5 kills that occur around you when in Instances and optionally out in the World.']);
 
     local showInWorld = self:CreateCheckButton('showInWorld');
-    showInWorld:SetPoint('TOPLEFT', killFeed, 'BOTTOMLEFT', 0, 0)
+    showInWorld:SetPoint('TOPLEFT', killFeed, 'BOTTOMLEFT', 0, 0);
     showInWorld:SetText(Loc['Show In World']);
     AddTooltip(showInWorld, Loc['Displays the Kill Feed when solo in the world.']);
 
     local showInDungeons = self:CreateCheckButton('showInDungeons');
-    showInDungeons:SetPoint('TOPLEFT', showInWorld, 'BOTTOMLEFT', 0, 0)
+    showInDungeons:SetPoint('TOPLEFT', showInWorld, 'BOTTOMLEFT', 0, 0);
     showInDungeons:SetText(Loc['Show In Dungeons']);
     AddTooltip(showInDungeons, Loc['Displays the Kill Feed when in 5 man Dungeons.']);
 
     local showInRaids = self:CreateCheckButton('showInRaids');
-    showInRaids:SetPoint('TOPLEFT', showInDungeons, 'BOTTOMLEFT', 0, 0)
+    showInRaids:SetPoint('TOPLEFT', showInDungeons, 'BOTTOMLEFT', 0, 0);
     showInRaids:SetText(Loc['Show In Raids']);
     AddTooltip(showInRaids, Loc['Displays the Kill Feed when in Raids.']);
 
     local showInPvP = self:CreateCheckButton('showInPvP');
-    showInPvP:SetPoint('TOPLEFT', showInRaids, 'BOTTOMLEFT', 0, 0)
+    showInPvP:SetPoint('TOPLEFT', showInRaids, 'BOTTOMLEFT', 0, 0);
     showInPvP:SetText(Loc['Show In PvP']);
     AddTooltip(showInPvP, Loc['Displays the Kill Feed when in Instanced PvP (Arenas and Battlegrounds).']);
 
     local showSpell = self:CreateCheckButton('showSpell');
-    showSpell:SetPoint('TOPLEFT', showInPvP, 'BOTTOMLEFT', 0, 0)
+    showSpell:SetPoint('TOPLEFT', showInPvP, 'BOTTOMLEFT', 0, 0);
     showSpell:SetText(Loc['Show Casted Spell']);
     AddTooltip(showSpell, Loc['Show the Spell that caused a death.']);
 
     local showDamage = self:CreateCheckButton('showDamage');
-    showDamage:SetPoint('TOPLEFT', showSpell, 'BOTTOMLEFT', 0, 0)
+    showDamage:SetPoint('TOPLEFT', showSpell, 'BOTTOMLEFT', 0, 0);
     showDamage:SetText(Loc['Show Damage']);
     AddTooltip(showDamage, Loc['Show how much damage the Creature or Player took.']);
 
     local inactiveFade = self:CreateCheckButton('inactiveFade');
-    inactiveFade:SetPoint('TOPLEFT', showDamage, 'BOTTOMLEFT', 0, 0)
+    inactiveFade:SetPoint('TOPLEFT', showDamage, 'BOTTOMLEFT', 0, 0);
     inactiveFade:SetText(Loc['Hide When Inactive']);
     AddTooltip(inactiveFade, Loc['Hides the Kill Feed after no new events have occured for a short period.']);
 
