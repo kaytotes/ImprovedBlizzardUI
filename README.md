@@ -1,81 +1,138 @@
-ImprovedBlizzardUI
-==================
+Improved Blizzard UI
+====================
 
-Improved Blizzard UI is an attempt to improve the default Blizzard interface. This has been customized to how I personally like my UI set up. There is some very basic configuration in game but things like positioning and scale of items still needs modifying directly in the LUA.
+Improved Blizzard UI is an attempt to improve the World of Warcraft interface by styling frames, implementing additional functionality and restructuring / hiding existing elements.
 
-Only 1920x1080 and 2560x1440 are supported / tested out of the box so some other resolutions may need tweaks.
+This has been customized to out of the box be how I personally like my UI set up however there is extensive configuration available in game by using `/imp`. This interface is primarily tested at 2560x1400 but should largely work at any resolution.
 
 Localized for enGB / enUS / deDE (ben2k1690) / ptBr (cyberdisarray) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
 
-# Project Setup
+# Project Development Setup
 
-To get a working installation of ImprovedBlizzardUI you must first clone the repository to a directory of your choosing. From there `cd` into the `.release` directory.
+To get a working installation of Improved Blizzard UI you must first clone the repository to a directory of your choosing. From there `cd` into the `.release` directory.
 
 Execute `./release.sh`
 
 After a short while a configured and ready to go version of ImprovedBlizzardUI including a .zip file will be present in the `.release` directory.
 
-# Addon Setup
+# Addon Installation
 
-* Install ImprovedBlizzardUI like any other addon.
-* Ensure that the UI Scale option under **System** / **Advanced** is unchecked for correct scaling.
-
-![screenshot_1](https://user-images.githubusercontent.com/7526918/34448419-03557f4e-ece5-11e7-9058-3c0db94720a3.png)
+* To install Improved Blizzard UI place the folder into `World of Warcraft//Interface//Addons` as you would any other addon.
+* Once installed if need be customize your installation with `/imp`.
 
 # Features
 
-### User Interface
+## Miscellaneous
 
-* Slightly adjusted position and scale of the Minimap
-* Removed Minimap zoom buttons and replaced with mouse wheel scrolling
-* Added Player co-ordinates to the Minimap
-* Added a performance counter above the Minimap
-* Buffs repositioned and tweaked.
-* Casting Bar Repositioned
-* Swapped the default Class Order Hall bar with a custom replacement.
+* AFK 'Hero Mode' Camera View.
+* Automatic Repair (From Guild Bank If Available).
+* Automatic Trash Item Sale
+* Dynamic Objective Tracker (Hides when entering Instanced Content).
+* Automatic Achievement Screenshot.
+* Replacement Order Hall Bar.
 
-### Unit Frames
+## Unit Frames
 
-* Player Frame, Target Frame, Focus Frame, Party Frames, Boss Frames and Arena Frames position and scale adjusted.
-* Portrait Damage Spam Hidden
-* Class Coloured Target and Focus Frames
-* Added a Class Icon alongside Target Frame
+### Player Frame
 
-### Combat
+* Moved and Re-Scaled.
+* Larger Health Bar.
+* Scaleable.
+* Class Coloured Health Bar.
+* Hidden Portrait Text Spam.
+* Hidden when out of Combat (Without Target / Low Health).
+* Improved Fonts.
 
-* Cast timer added to Casting Bar
-* Low Health Warnings
-* Interrupt Announcements
+### Target Frame
 
-### PvP
+* Moved and Re-Scaled.
+* Larger Health Bar.
+* Scaleable.
+* Class Coloured Health Bar.
+* Improved Fonts.
+* Buffs on Top.
 
-* Killing Blow Indicator
-* PvP Kill Feed
-* Auto-Hiding Quest Tracker
-* Leave Queue button hidden on the PvP Queue popup
+### Target of Target
 
-### Action Bars
+* Improved Fonts.
+* Scaleable.
+* Class Coloured Health Bar.
 
-* Action Bars (Main, Left, Right, Stance, Pet) minified and styled.
-* Range / Out of Mana colours on all icons
-* Replaced the Micro Menu with a Minimap Dropdown (On Right Click)
-* Stripped unneccesary textures
+### Focus Frame
 
-### Chat
-* Minified numerous Blizzard strings (Loot Gained, Chat Channels etc)
-* Replaced chat Font
-* Removed chat tab backgrounds
-* Removed some chat buttons
-* Increased the font size range
-* Styled Chat Bubbles
+* Moved and Re-Scaled.
+* Larger Health Bar.
+* Improved Fonts.
+* Class Coloured Health Bar.
 
-### Miscellaneous
+### Party Frames
 
-* Automatically repairs damaged equipment utilising the Guild Bank where possible.
-* Automatically sells grey quality loot when at an appropriate vendor.
-* "Hero View" AFK Camera system.
-* Positioning grid overlay with `/impblizz grid`
+* Moved and Re-Scaled.
+* Improved Fonts.
 
-## Git jiggy with it
+## Action Bars
 
-ImpBlizzardUI is on Github. Pull requests are welcomed to help correct issues or suggest new features. This is also how new localisations will be submitted, a template is available in ImpBlizzardUI/loc/localization_template.lua feel free to fill it in and submit a pull request with your new / updated locale. You will be credited.
+* Interface from Battle for Azeroth Recreated and Improved.
+* Customizable Scale.
+* Out of Range Indicator.
+* Customizable Texts.
+* Casting Bar Repositioned and Scaled.
+* Improved Fonts.
+* Scaleable Buffs and Debuffs.
+* Micro Menu and Bags Hidden (Show with Mini Map Menu).
+
+## Mini Map
+
+* Moved and Re-Scaled.
+* Player Co-Ordinates.
+* System Performance Statistics.
+* Scroll Wheel Zoom.
+* Improved Fonts.
+* Right Click Micro Menu.
+
+## World Map
+
+* Old World Instance / Raid Portals.
+* Cursor World Co-Ordinates.
+
+## Tooltips
+
+* Anchored to Mouse.
+* Styled Tooltips.
+* Unit Hostility Border.
+* Coloured Unit Guild Name, Level, Faction and Race.
+* Target of Target.
+* Class Coloured Health Bar and Name.
+* Customizable Font Size.
+* Improved Font.
+* Item Rarity Border.
+
+## Chat
+
+* Improved Chat Font.
+* Shortened Blizzard Strings (Loot, Exp Gain, Profession Levels etc).
+
+## Combat
+
+* Low Health Warnings (50% and 25%).
+* Interrupt Announcements.
+* Instanced Content Player Kill Feed.
+
+## PvP
+
+* Highlighted Killing Blows.
+* Instant Battleground Ressurection.
+
+# Improved Blizzard UI needs you!
+
+Improved Blizzard UI is on [Github](https://github.com/kaytotes/ImprovedBlizzardUI) and this is where all issues should be reported. New Feature requests are always welcome as are pull requests.
+
+Localisation help is currently needed most. New Localisation templates can be submitted via Github pull requests. The template for these is available in `localisation/template.lua`.
+
+# Recommended Addons
+
+Improved Blizzard UI works best with the following addons.
+
+* [Baud Bag](https://www.curseforge.com/wow/addons/baud-bag)
+* [Storyline](https://wow.curseforge.com/projects/storyline)
+* [DynamicCam](https://wow.curseforge.com/projects/dynamiccam)
