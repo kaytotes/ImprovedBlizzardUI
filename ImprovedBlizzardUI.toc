@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Title: Improved Blizzard UI
 ## Notes: A variety of improvements to the default Blizzard UI
-## Version: 2.0.0
+## Version: @project-version@
 ## Author: Kaytotes
 ## Dependencies: Blizzard_TalkingHeadUI
 ## OptionalDeps: Wasabi
