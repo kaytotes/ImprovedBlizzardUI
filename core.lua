@@ -218,4 +218,10 @@ function Imp.formatNum(number)
     return minus .. int:reverse():gsub("^,", "") .. fraction
 end
 
-print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialised.');
+local version = GetAddOnMetadata('ImprovedBlizzardUI', 'Version');
+
+if (version == '@project-version@') then
+    version = 'Development Build';
+end
+
+print('|cffffff00Improved Blizzard UI ' .. version .. ' Initialised.');
