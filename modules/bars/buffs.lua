@@ -1,5 +1,6 @@
 --[[
     modules\bars\buffs.lua
+    Moves and scales the Buff / Debuff Frames
 ]]
 local addonName, Loc = ...;
 
@@ -8,6 +9,10 @@ local Buffs = CreateFrame('Frame', nil, UIParent);
 Buffs.buffPoint = BuffFrame.SetPoint;
 Buffs.buffScale = BuffFrame.SetScale;
 
+--[[
+    Moves the Buff Frame Itself
+    @ return void
+]]
 local function MoveBuffs()
     BuffFrame:ClearAllPoints();
     Buffs.buffPoint(BuffFrame, 'TOPLEFT', MinimapCluster, -55, -2);

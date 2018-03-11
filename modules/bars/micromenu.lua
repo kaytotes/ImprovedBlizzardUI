@@ -1,5 +1,6 @@
 --[[
     modules\bars\micromenu.lua
+    Hides the MicroMenu frame when not in a Vehicle or Pet Battle and replaces it with a right click menu.
 ]]
 local addonName, Loc = ...;
 
@@ -23,7 +24,10 @@ local function HideMicroMenu()
 	Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
 end
 
-
+--[[
+    Checks for the world map on update as when this closes Blizzard moves the micromenu
+    @ return void
+]]
 local function MicroMenu_Tick()
     if ( (worldMapChanged) and not WorldMapFrame:IsVisible() ) then
         HideMicroMenu();

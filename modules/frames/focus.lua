@@ -1,15 +1,23 @@
 --[[
     modules\frames\party.lua
-    
+    Styling and Repositioning of the Focus Frame
 ]]
 local addonName, Loc = ...;
 
 local FocusUnitFrame = CreateFrame('Frame', nil, UIParent);  
 
+--[[
+    Set the Buffs on top of the Frame
+    @ return void
+]]
 local function SetBuffs()
     FocusFrame.buffsOnTop = true;
 end
 
+--[[
+    Apply textures and fonts
+    @ return void
+]]
 local function StyleFocusFrame()
     if (FramesDB.stylePrimaryFrames == false) then return; end
 
@@ -68,6 +76,10 @@ local function StyleFocusFrame()
     SetBuffs();
 end
 
+--[[
+    Moves the Focus Frame
+    @ return void
+]]
 local function SetPosition()
     -- Position
     FocusFrame:SetMovable(true);
@@ -78,6 +90,10 @@ local function SetPosition()
     FocusFrame:SetMovable(false);
 end
 
+--[[
+    Don't allow rescaling
+    @ return void
+]]
 local function FocusFrame_SetSmallSize_Hook(toggle)
     SetPosition();
     StyleFocusFrame();

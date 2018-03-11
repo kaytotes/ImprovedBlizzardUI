@@ -1,5 +1,6 @@
 --[[
     modules\frames\party.lua
+    Repositions and Styles the Party Frame
 ]]
 local addonName, Loc = ...;
 

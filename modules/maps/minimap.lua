@@ -1,5 +1,7 @@
 --[[
     modules\frames\minimap.lua
+    Slightly repositions and scales the Minimap frame.
+    Adds Coords.
 ]]
 local addonName, Loc = ...;
 

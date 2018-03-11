@@ -1,5 +1,6 @@
 --[[
     modules\misc\tooltips.lua
+    Numerous tweaks and changes to the Tooltips Frames
 ]]
 local addonName, Loc = ...;
 

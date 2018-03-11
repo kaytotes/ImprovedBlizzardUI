@@ -1,5 +1,6 @@
 --[[
     modules\frames\killfeed.lua
+    Displays a feed of kills in the top left showing who has been killed and by what.
 ]]
 local addonName, Loc = ...;
 
@@ -54,10 +55,7 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spell
     local killerString, killedString, killerFaction, killedFaction;
 
     -- Work out who killed someone and what faction
-    print(sourceName);
     killerFaction, _ = UnitFactionGroup( sourceName );
-    
-    if (killerFaction ~= nil) then print(killerFaction) end
 
     if( killerFaction == playerFaction ) then -- Killer on our Faction
         if( playerFaction == "Horde" ) then

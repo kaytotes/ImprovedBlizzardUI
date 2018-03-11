@@ -1,5 +1,6 @@
 --[[
     modules\bars\actionbars.lua
+    Handles setting up the primary Bottom Left, Top Left, Top Right Bars
 ]]
 local addonName, Loc = ...;
 

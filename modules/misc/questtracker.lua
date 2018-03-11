@@ -1,5 +1,6 @@
 --[[
     modules\misc\questtracker.lua
+    Hides the quest tracker when a player enters an instance.
 ]]
 local addonName, Loc = ...;
 

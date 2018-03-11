@@ -1,6 +1,6 @@
 --[[
     modules\bars\orderhall.lua
-    
+    A complete replacement for the Blizzard Order Hall Bar
 ]]
 local addonName, Loc = ...;
 
@@ -34,6 +34,10 @@ OrderHallFrame.troopsText = OrderHallFrame:CreateFontString(nil, 'OVERLAY', 'Gam
 OrderHallFrame.troopsText:SetPoint('CENTER', 300, 0);
 OrderHallFrame.troopsText:SetFont(ImpFont, 14, 'THINOUTLINE');
 
+--[[
+    Gathers data and refreshes the Order Hall text
+    @ return void
+]]
 local function RefreshInfo()
     -- Refresh Currency
     local currency = C_Garrison.GetCurrencyTypes(LE_GARRISON_TYPE_7_0)

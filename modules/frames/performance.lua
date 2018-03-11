@@ -1,5 +1,6 @@
 --[[
-    modules\frames\performance.lua
+	modules\frames\performance.lua
+	An FPS and Latency monitor above the minimap
 ]]
 local addonName, Loc = ...;
 
@@ -17,6 +18,10 @@ PerformanceFrame:SetPoint('TOP', 10, 25);
 PerformanceFrame.text:SetPoint('CENTER', 0, 0);
 PerformanceFrame.text:SetFont(ImpFont, 14, 'THINOUTLINE');
 
+--[[
+    Refresh and update frame
+    @ return void
+]]
 local function PerformanceFrame_Tick(self, elapsed)
 	PerformanceFrame.elapsed = PerformanceFrame.elapsed + elapsed; -- Increment Timer
 	if(PerformanceFrame.elapsed >= PerformanceFrame.delay) then
