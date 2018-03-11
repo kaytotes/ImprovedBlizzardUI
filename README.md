@@ -7,7 +7,15 @@ Only 1920x1080 and 2560x1440 are supported / tested out of the box so some other
 
 Localized for enGB / enUS / deDE (ben2k1690) / ptBr (cyberdisarray) / ruRU (A few strings missing). See end of page for information if you would like to help localise.
 
-# Setup
+# Project Setup
+
+To get a working installation of ImprovedBlizzardUI you must first clone the repository to a directory of your choosing. From there `cd` into the `.release` directory.
+
+Execute `./release.sh`
+
+After a short while a configured and ready to go version of ImprovedBlizzardUI including a .zip file will be present in the `.release` directory.
+
+# Addon Setup
 
 * Install ImprovedBlizzardUI like any other addon.
 * Ensure that the UI Scale option under **System** / **Advanced** is unchecked for correct scaling.
