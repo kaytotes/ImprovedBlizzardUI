@@ -103,7 +103,7 @@ local function HandleEvents (self, event, ...)
         end
     end
 
-    if (event == 'PET_BATTLE_CLOSE' or event == 'PLAYER_FLAGS_CHANGED' or event == 'CINEMATIC_STOP') then
+    if (event == 'PET_BATTLE_CLOSE' or event == 'PLAYER_FLAGS_CHANGED' or event == 'CINEMATIC_STOP' or event == 'CINEMATIC_START') then
         HideMicroMenu();
     end
 
@@ -134,8 +134,15 @@ MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_START');
 MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_DONE');
 MicroMenuFrame:RegisterEvent('PET_BATTLE_CLOSE');
 MicroMenuFrame:RegisterEvent('PLAYER_LEVEL_UP');
+MicroMenuFrame:RegisterEvent('CINEMATIC_START');
 MicroMenuFrame:RegisterEvent('CINEMATIC_STOP');
 MicroMenuFrame:RegisterEvent('WORLD_MAP_UPDATE');
+
+-- Fixes Micro Menu showing when the player intentionally cancels a cinematic
+-- This feels hacky as hell
+UIParent:HookScript('OnShow', function()
+    HideMicroMenu();
+end);
 
 hooksecurefunc('WorldMap_ToggleSizeDown', function()
     HideMicroMenu();
