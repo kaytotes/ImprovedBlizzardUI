@@ -45,6 +45,7 @@ modules\bars\actionbars.xml
 modules\bars\orderhall.lua
 modules\bars\buffs.lua
 modules\bars\micromenu.lua
+modules\bars\extraactionbutton.lua
 
 modules\maps\minimap.lua
 modules\maps\dungeons.lua
