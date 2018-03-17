@@ -55,7 +55,16 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spell
     local killerString, killedString, killerFaction, killedFaction;
 
     -- Work out who killed someone and what faction
-    killerFaction, _ = UnitFactionGroup( sourceName );
+    if (UnitIsPlayer(sourceName)) then
+        killerFaction, _ = UnitFactionGroup( sourceName );
+    else
+        if (playerFaction == 'Horde') then
+            killerFaction = 'Alliance';
+        else
+            killerFaction = 'Horde';
+        end
+    end
+    
 
     if( killerFaction == playerFaction ) then -- Killer on our Faction
         if( playerFaction == "Horde" ) then
