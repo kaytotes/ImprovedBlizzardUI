@@ -301,6 +301,8 @@ local function StyleComparison(self)
     -- Quit if needed
     if (PrimaryDB.styleTooltips == false) then return end
 
+    if (self == nil) then return end
+
     local _, item = self:GetItem();
 
     if (item) then
