@@ -7,6 +7,9 @@
 ## OptionalDeps: Wasabi
 ## SavedVariables: PrimaryDB, FramesDB, BarsDB
 
+## X-Curse-Project-ID: 103336
+## X-WoWI-ID: 23299
+
 # Libs
 libs\LibStub\LibStub.lua
 libs\Wasabi\embed.xml
