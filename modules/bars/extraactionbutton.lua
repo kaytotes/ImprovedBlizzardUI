@@ -7,7 +7,7 @@ local addonName, Loc = ...;
 local ExtraButtonFrame = CreateFrame('Frame', nil, UIParent);
 
 ExtraActionButton1:HookScript('OnShow', function() 
-    if(MultiBarBottomRight:IsShown()) then
+    if(MultiBarBottomRight:IsShown() and InCombatLockdown() == false) then
         ExtraActionButton1:SetPoint('CENTER', 0, 100);
     end
 end)
