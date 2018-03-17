@@ -33,6 +33,11 @@ local function MicroMenu_Tick()
         HideMicroMenu();
         worldMapChanged = false;
     end
+
+    -- Blanket attempt to only show micro menu when in pet battle or vehicle.
+    if (not UnitHasVehicleUI('player') and not C_PetBattles.IsInBattle() and InCombatLockdown() == false) then
+        HideMicroMenu();
+    end
 end
 
 --[[
