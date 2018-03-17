@@ -54,6 +54,8 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spell
     local playerFaction, _ = UnitFactionGroup( "player" );
     local killerString, killedString, killerFaction, killedFaction;
 
+    if (sourceName == nil or destName == nil) then return end
+
     -- Work out who killed someone and what faction
     if (UnitIsPlayer(sourceName)) then
         killerFaction, _ = UnitFactionGroup( sourceName );
