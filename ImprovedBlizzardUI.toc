@@ -1,0 +1,56 @@
+## Interface: 70300
+## Title: Improved Blizzard UI
+## Notes: A variety of improvements to the default Blizzard UI
+## Version: @project-version@
+## Author: Kaytotes
+## Dependencies: Blizzard_TalkingHeadUI
+## OptionalDeps: Wasabi
+## SavedVariables: PrimaryDB, FramesDB, BarsDB
+
+## X-Curse-Project-ID: 103336
+## X-WoWI-ID: 23299
+
+# Libs
+libs\LibStub\LibStub.lua
+libs\Wasabi\embed.xml
+
+# Localisation Files
+localisation.lua
+
+core.lua
+
+config.lua
+
+# Modules
+modules\misc\afkcamera.lua
+modules\misc\chat.lua
+modules\misc\autorepair.lua
+modules\misc\autosell.lua
+modules\misc\questtracker.lua
+modules\misc\tooltips.lua
+modules\misc\autoscreenshot.lua
+
+modules\combat\healthwarning.lua
+modules\combat\interrupts.lua
+modules\combat\killingblow.lua
+modules\combat\ressurect.lua
+
+modules\frames\player.lua
+modules\frames\target.lua
+modules\frames\focus.lua
+modules\frames\performance.lua
+modules\frames\party.lua
+modules\frames\killfeed.lua
+modules\frames\talkinghead.lua
+
+modules\bars\castbar.lua
+modules\bars\actionbars.lua
+modules\bars\actionbars.xml
+modules\bars\orderhall.lua
+modules\bars\buffs.lua
+modules\bars\micromenu.lua
+modules\bars\extraactionbutton.lua
+
+modules\maps\minimap.lua
+modules\maps\dungeons.lua
+modules\maps\coords.lua
