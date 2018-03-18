@@ -220,8 +220,4 @@ end
 
 local version = GetAddOnMetadata('ImprovedBlizzardUI', 'Version');
 
-if (version == '@project-version@') then
-    version = 'Development Build';
-end
-
 print('|cffffff00Improved Blizzard UI ' .. version .. ' Initialised.');
