@@ -102,6 +102,8 @@ if (GetLocale() == 'LOCALE') then
     Loc['Show Bottom Right Bar Text'] = '';
     Loc['Show Right 1 Bar Text'] = '';
     Loc['Show Right 2 Bar Text'] = '';
+    Loc['Show Art'] = '';
+    Loc['Toggling Hides the Action Bar Texture.'] = '';
     
     Loc['Action Bar Scale'] = '';
 

@@ -73,7 +73,7 @@ local function AdjustExperienceBars()
 	Imp.ModifyBasicFrame(MainMenuExpBar, 'BOTTOM', MainMenuBar, 19, -11, nil);
 	ArtifactWatchBar:SetSize(542,10);
 	ArtifactWatchBar.StatusBar:SetWidth(542);
-	Imp.ModifyBasicFrame(ArtifactWatchBar, 'BOTTOM', MainMenuBar, 19, -11, nil);
+    Imp.ModifyBasicFrame(ArtifactWatchBar, 'BOTTOM', MainMenuBar, 19, -11, nil);
 end
 
 --[[
@@ -138,7 +138,11 @@ local function AdjustActionBars()
 		StyleButtons('MultiBarLeftButton', BarsDB.showLeftText);
 		StyleButtons('MultiBarRightButton', BarsDB.showRightText);
 		
-		Imp.ModifyBasicFrame(MainMenuBarVehicleLeaveButton, 'LEFT', MainMenuBar, -40, -10, nil);
+        Imp.ModifyBasicFrame(MainMenuBarVehicleLeaveButton, 'LEFT', MainMenuBar, -40, -10, nil);
+        
+        if (BarsDB.showArt == false) then
+            ActionBarArt:Hide();
+        end
 	end
 end
 
