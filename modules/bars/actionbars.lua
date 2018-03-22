@@ -74,6 +74,10 @@ local function AdjustExperienceBars()
 	ArtifactWatchBar:SetSize(542,10);
 	ArtifactWatchBar.StatusBar:SetWidth(542);
     Imp.ModifyBasicFrame(ArtifactWatchBar, 'BOTTOM', MainMenuBar, 19, -11, nil);
+
+    if (UnitLevel('player') >= 100 and UnitLevel('player') < 110 and HasArtifactEquipped('player')) then
+        Imp.DestroyFrame(ArtifactWatchBar);
+    end
 end
 
 --[[
