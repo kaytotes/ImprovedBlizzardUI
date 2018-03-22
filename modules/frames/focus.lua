@@ -23,7 +23,7 @@ local function StyleFocusFrame()
 
     if(UnitExists('focus') == false) then return; end
 
-    local unitClassification = UnitClassification(TargetFrame.unit);
+    local unitClassification = UnitClassification(FocusFrame.unit);
 
     -- Set Sizes
     if ( unitClassification == 'minus' ) then -- The NPC's that display a 'small' unit frame
@@ -55,7 +55,7 @@ local function StyleFocusFrame()
 
     FocusFrame.borderTexture:SetTexture(frameTexture);
 
-    if (FramesDB.focusFrameClassColours) then
+    if (FramesDB.focusClassColours) then
         Imp.ApplyClassColours(FocusFrame.healthbar, FocusFrame.healthbar.unit);
     end
 
