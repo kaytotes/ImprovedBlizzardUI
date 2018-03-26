@@ -49,12 +49,25 @@ KillFeedFrame.fadeOutAnim:SetScript('OnFinished', function()
     KillFeedFrame.recentKills = { " ", " ", " ", " ", " " };
 end);
 
+local lastGUID;
+
 -- Writes a Kill Feed message. Works out factions and colours text appropriately
 local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spellName, amount)
     local playerFaction, _ = UnitFactionGroup( "player" );
     local killerString, killedString, killerFaction, killedFaction;
 
     if (sourceName == nil or destName == nil) then return end
+
+    -- Stop repeat events occuring for different spells but the same enemy.
+    if (lastGUID == nil) then
+        lastGUID = destGUID;
+    else
+        if (lastGUID == destGUID) then
+            return
+        else
+            lastGUID = destGUID;
+        end
+    end
 
     -- Work out who killed someone and what faction
     if (UnitIsPlayer(sourceName)) then
