@@ -73,6 +73,14 @@ local function StyleFocusFrame()
         FocusFrameTextureFramePVPIcon:Hide();
     end
 
+    -- Style Font
+    if(FocusFrameToT:IsShown()) then
+        local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
+        local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+        FocusFrameToTTextureFrameName:SetFont(ImpFont, 11, flags);
+        FocusFrameToTTextureFrameName:SetTextColor(r, g, b, a);
+    end
+
     SetBuffs();
 end
 
@@ -84,7 +92,7 @@ local function SetPosition()
     -- Position
     FocusFrame:SetMovable(true);
     FocusFrame:ClearAllPoints();
-    FocusFrame:SetPoint('RIGHT', PlayerFrame, 'TOP', 70, 50)
+    FocusFrame:SetPoint('RIGHT', PlayerFrame, 'TOP', 150, 90)
     FocusFrame:SetScale(FramesDB.primaryScale - 0.3);
     FocusFrame:SetUserPlaced(true);
     FocusFrame:SetMovable(false);
