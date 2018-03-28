@@ -39,6 +39,9 @@ local function HidePlayer(hide)
 end
 
 local function StyleFrames()
+
+    if (FramesDB.stylePrimaryFrames == false) then return end
+
     PlayerFrameHealthBar:SetWidth(119);
     PlayerFrameHealthBar:SetHeight(29);
     PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);
