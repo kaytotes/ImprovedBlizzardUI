@@ -26,20 +26,12 @@ local function StyleFocusFrame()
     local unitClassification = UnitClassification(FocusFrame.unit);
 
     -- Set Sizes
-    if ( unitClassification == 'minus' ) then -- The NPC's that display a 'small' unit frame
-        FocusFrame.healthbar:SetHeight(12);
-        FocusFrame.healthbar:SetPoint('TOPLEFT',7,-41);
-        FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,4);
-        FocusFrame.deadText:SetPoint('CENTER',-50,4);
-        FocusFrame.Background:SetPoint('TOPLEFT',7,-41);
-    else
-        FocusFrame.healthbar:SetHeight(29);
-        FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-        FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
-        FocusFrame.deadText:SetPoint('CENTER',-50,6);
-        FocusFrame.nameBackground:Hide();
-        FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
-    end
+    FocusFrame.healthbar:SetHeight(29);
+    FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+    FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    FocusFrame.deadText:SetPoint('CENTER',-50,6);
+    FocusFrame.nameBackground:Hide();
+    FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
 
     -- Add Dragons etc if needed
     local frameTexture;
@@ -75,8 +67,6 @@ local function StyleFocusFrame()
 
     -- Style Font
     if(FocusFrameToT:IsShown()) then
-        local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
-        local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
         FocusFrameToTTextureFrameName:SetFont(ImpFont, 11, flags);
         FocusFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
@@ -132,10 +122,14 @@ FocusUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
 
 hooksecurefunc('FocusFrame_UpdateBuffsOnTop', SetBuffs);
 hooksecurefunc('FocusFrame_SetSmallSize', FocusFrame_SetSmallSize_Hook);
-hooksecurefunc('TargetFrame_CheckDead', StyleFocusFrame);
-hooksecurefunc('TargetFrame_Update', StyleFocusFrame);
-hooksecurefunc('TargetFrame_CheckFaction', StyleFocusFrame);
-hooksecurefunc('TargetFrame_CheckClassification', StyleFocusFrame);
+
+FocusFrame:HookScript('OnShow', function()
+    StyleFocusFrame();
+end);
+
+FocusFrame:HookScript('OnUpdate', function()
+    StyleFocusFrame();
+end)
 
 hooksecurefunc('UnitFrameHealthBar_Update', function(self)
     if (FramesDB.focusFrameClassColours and self.unit == 'focus') then
