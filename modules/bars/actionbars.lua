@@ -114,19 +114,39 @@ local function AdjustActionBars()
 		-- Adjust Stancebar and Pet Bar
 		if(MultiBarBottomLeft:IsShown()) then
 			Imp.ModifyFrame(StanceBarFrame, 'TOPLEFT', MainMenuBar, -4, 69, nil);	
-			Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -107, 71, nil);
+            Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -107, 71, nil);
+            
+            if (StanceBarFrame:IsShown()) then
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 119, nil);	
+            else
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 69, nil);	
+            end
 		end
 		
 		if(MultiBarBottomRight:IsShown()) then
 			Imp.ModifyFrame(StanceBarFrame, 'TOPLEFT', MainMenuBar, -4, 111, nil);
-			Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -107, 113, nil);
+            Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -107, 113, nil);
+
+            if (StanceBarFrame:IsShown()) then
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 157, nil);	
+            else
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 113, nil);	
+            end
 		end
 		
 		if(MultiBarBottomLeft:IsShown() ~= true and MultiBarBottomRight:IsShown() ~= true) then
 			Imp.ModifyFrame(StanceBarFrame, 'TOPLEFT', MainMenuBar, 0, 30, nil);		
-			Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -107, 30, nil);
+            Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -107, 30, nil);
+            
+            if (StanceBarFrame:IsShown()) then
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 77, nil);
+            else
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 30, nil);
+            end
 		end
 
+        PossessBackground1:SetTexture(nil);
+        PossessBackground2:SetTexture(nil);
 		MainMenuBarTexture2:SetTexture(nil);
         MainMenuBarTexture3:SetTexture(nil);
         _G['StanceBarLeft']:SetTexture(nil);
