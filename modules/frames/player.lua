@@ -67,6 +67,9 @@ local function StyleFrames()
     PlayerFrameAlternateManaBar.LeftText:SetFont(ImpFont, 10, flags);
 
     PlayerName:SetTextColor(r, g, b, a);
+
+    PetName:SetFont(ImpFont, 11, flags);
+    PetName:SetTextColor(r, g, b, a);
 end
 
 --[[
