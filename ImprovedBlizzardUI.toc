@@ -16,6 +16,7 @@ libs\Wasabi\embed.xml
 
 # Localisation Files
 localisation.lua
+localisation\locale-deDE.lua
 
 core.lua
 
