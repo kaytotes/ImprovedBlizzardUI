@@ -53,4 +53,4 @@ modules\bars\extraactionbutton.lua
 
 #modules\maps\minimap.lua
 #modules\maps\dungeons.lua
-modules\maps\coords.lua
+#modules\maps\coords.lua
