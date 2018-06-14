@@ -11,7 +11,7 @@ externals:
     url: git://github.com/kaytotes/LibStub
     tag: latest
   libs/Wasabi:
-    url: git://github.com/p3lim-wow/Wasabi
+    url: git://github.com/kaytotes/Wasabi
     tag: latest
 
 ignore:
