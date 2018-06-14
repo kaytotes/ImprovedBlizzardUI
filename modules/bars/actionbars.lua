@@ -22,10 +22,15 @@ function ToggleBagBar()
         ActionBars.bagsVisible = true;
     end
 end
-ActionBars.bagsVisible = false;
 
+--[[
+    Handles most of the actual adjustment.
+
+    @ return void
+]]
 local function AdjustActionBars()
-	if (InCombatLockdown() == false) then
+    if (InCombatLockdown() == false) then
+        ActionBars.bagsVisible = true;
 		ToggleBagBar();
 	end
 end
@@ -66,13 +71,14 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
+    if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
         AdjustActionBars();
 	end
 end
 
 -- Register the Modules Events
 ActionBars:SetScript('OnEvent', HandleEvents);
+ActionBars:RegisterEvent('PLAYER_LOGIN');
 ActionBars:RegisterEvent('PLAYER_ENTERING_WORLD');
 ActionBars:RegisterEvent('PLAYER_TALENT_UPDATE');
 ActionBars:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED');
