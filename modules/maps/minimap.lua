@@ -30,10 +30,10 @@ local function CoordsFrame_Tick(self, elapsed)
 			local inInstance, _ = IsInInstance();
 			if(inInstance ~= true) then
 				if(Minimap:IsVisible()) then
-					local x, y = GetPlayerMapPosition('player');
-					if(x ~= 0 and y ~= 0) then
-						CoordsFrame.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
-					end
+					-- local x, y = GetPlayerMapPosition('player');
+					-- if(x ~= 0 and y ~= 0) then
+					-- 	CoordsFrame.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
+					-- end
 				end
 			end
 		end

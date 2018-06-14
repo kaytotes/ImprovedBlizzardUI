@@ -51,6 +51,6 @@ modules\bars\buffs.lua
 modules\bars\micromenu.lua
 modules\bars\extraactionbutton.lua
 
-#modules\maps\minimap.lua
+modules\maps\minimap.lua
 #modules\maps\dungeons.lua
 #modules\maps\coords.lua
