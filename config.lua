@@ -378,7 +378,6 @@ local barDefaults = {
     barTimer = true,
     castingScale = 1.1,
 
-    displayArt = true,
     outOfRange = true,
     barsScale = 1.0,
 
@@ -431,13 +430,8 @@ barOptions:Initialize(function(self)
     actionBarsTitle:SetPoint('TOPLEFT', focusBarTimer, 'BOTTOMLEFT', 0, -24);
     actionBarsTitle:SetText(Loc['Action Bars']);
 
-    local showArt = self:CreateCheckButton('showArt');
-    showArt:SetPoint('TOPLEFT', actionBarsTitle, 'BOTTOMLEFT', 0, -8);
-    showArt:SetText(Loc['Show Art']);
-    AddTooltip(showArt, Loc['Toggling Hides the Action Bar Texture.']);
-
     local outOfRange = self:CreateCheckButton('outOfRange');
-    outOfRange:SetPoint('TOPLEFT', showArt, 'BOTTOMLEFT', 0, 0);
+    outOfRange:SetPoint('TOPLEFT', actionBarsTitle, 'BOTTOMLEFT', 0, -8);
     outOfRange:SetText(Loc['Out of Range Indicator']);
     AddTooltip(outOfRange, Loc['When an Ability is not usable due to range the entire Button is highlighted Red.']);
 
