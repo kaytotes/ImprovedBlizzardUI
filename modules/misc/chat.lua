@@ -35,7 +35,7 @@ local function StyleChat()
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
     -- Change Edit Box Font
-    ChatFontNormal:SetFont(ImpFont, 15, 'THINOUTLINE');
+    ChatFontNormal:SetFont(ImpFont, 12, 'THINOUTLINE');
     ChatFontNormal:SetShadowOffset(1,-1);
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
