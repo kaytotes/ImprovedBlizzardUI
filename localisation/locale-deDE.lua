@@ -106,8 +106,6 @@ if (GetLocale() == 'deDE') then
     Loc['Show Bottom Right Bar Text'] = 'Zeige unteren rechten Leistentext';
     Loc['Show Right 1 Bar Text'] = 'Zeige Rechte Leiste 1 Text';
     Loc['Show Right 2 Bar Text'] = 'Zeige Rechte Leiste 2 Text';
-    Loc['Show Art'] = 'Zeige Texturen';
-    Loc['Toggling Hides the Action Bar Texture.'] = 'Versteckt die Hauptleistentexturen.';
     
     Loc['Action Bar Scale'] = 'Aktionsleisten Skalierung';
 

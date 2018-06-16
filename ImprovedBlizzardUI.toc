@@ -44,8 +44,7 @@ modules\frames\party.lua
 modules\frames\talkinghead.lua
 
 modules\bars\castbar.lua
-#modules\bars\actionbars.lua
-#modules\bars\actionbars.xml
+modules\bars\actionbars.lua
 modules\bars\orderhall.lua
 modules\bars\buffs.lua
 modules\bars\micromenu.lua
