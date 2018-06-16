@@ -376,6 +376,8 @@ end);
 local barDefaults = {
     showArt = true,
     barTimer = true,
+    targetBarTimer = true,
+    focusBarTimer = true,
     castingScale = 1.1,
 
     outOfRange = true,
