@@ -31,7 +31,7 @@ end
 local function AdjustActionBars()
     if (InCombatLockdown() == false) then
         ActionBars.bagsVisible = true;
-		ToggleBagBar();
+        ToggleBagBar();
 	end
 end
 
