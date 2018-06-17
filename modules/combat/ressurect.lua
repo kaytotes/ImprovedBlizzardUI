@@ -7,6 +7,16 @@ local addonName, Loc = ...;
 local ResFrame = CreateFrame('Frame', nil, UIParent);
 
 --[[
+    Replacement of the old function that blizzard deprecated
+
+    @ return bool
+]]
+function HasSoulstone()
+	local options = GetSortedSelfResurrectOptions();
+	return options and options[1] and options[1].name;
+end
+
+--[[
     Handles the WoW API Events Registered Below
 
     @ param Frame $self The Frame that is handling the event 
