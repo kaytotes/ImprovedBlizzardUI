@@ -74,9 +74,9 @@ local function AdjustActionBars(rightMultiBarShowing)
             Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -124, 77, nil);
             
             if (StanceBarFrame:IsShown()) then
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 118, nil);	
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 118, nil);	
             else
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 68, nil);	
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 78, nil);	
             end
 		end
 		
@@ -85,9 +85,9 @@ local function AdjustActionBars(rightMultiBarShowing)
             Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -124, 121, nil);
 
             if (StanceBarFrame:IsShown()) then
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 165, nil);	
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 165, nil);	
             else
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, -4, 121, nil);	
+                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 121, nil);	
             end
 		end
 		
