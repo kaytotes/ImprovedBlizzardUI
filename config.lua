@@ -306,24 +306,24 @@ framesOptions:Initialize(function(self)
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 
-    -- World Map Title
-    local worldMapTitle = self:CreateTitle();
-    worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
-    worldMapTitle:SetText(Loc['World Map']);
+    -- -- World Map Title
+    -- local worldMapTitle = self:CreateTitle();
+    -- worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
+    -- worldMapTitle:SetText(Loc['World Map']);
 
-    local showMapDungeons = self:CreateCheckButton('showMapDungeons');
-    showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
-    showMapDungeons:SetText(Loc['Show Instance Portals']);
-    AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
+    -- local showMapDungeons = self:CreateCheckButton('showMapDungeons');
+    -- showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
+    -- showMapDungeons:SetText(Loc['Show Instance Portals']);
+    -- AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
 
-    local showCursorCoords = self:CreateCheckButton('showCursorCoords');
-    showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
-    showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
-    AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
+    -- local showCursorCoords = self:CreateCheckButton('showCursorCoords');
+    -- showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
+    -- showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
+    -- AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
 
     -- Kill Feed Title
     local killFeedTitle = self:CreateTitle();
-    killFeedTitle:SetPoint('TOPLEFT', showCursorCoords, 'BOTTOMLEFT', 0, -10);
+    killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
     killFeedTitle:SetText(Loc['Kill Feed']);
 
     local killFeed = self:CreateCheckButton('killFeed');
