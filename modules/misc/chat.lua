@@ -164,7 +164,7 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'ADDON_LOADED' or event == 'PLAYER_ENTERING_WORLD' or evemt == 'PLAYER_LOGIN') then
+    if (event == 'ADDON_LOADED' or event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN') then
         if (PrimaryDB.styleChat) then
             StyleChat();
         end
