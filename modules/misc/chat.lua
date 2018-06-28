@@ -27,7 +27,9 @@ end
 local function StyleChat()
     -- Hide Battle.net Social Button and Toasts
     ChatFrameMenuButton:HookScript('OnShow', ChatFrameMenuButton.Hide);
-    ChatFrameMenuButton:Hide();
+	ChatFrameMenuButton:Hide();
+	ChatFrameChannelButton:HookScript('OnShow', ChatFrameMenuButton.Hide);
+	ChatFrameChannelButton:Hide();
 	local button = QuickJoinToastButton or FriendsMicroButton;
 	button:HookScript('OnShow', button.Hide);
 	button:Hide();
