@@ -143,6 +143,8 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spell
 
     if ( fadeTimer ~= nil ) then
         fadeTimer:Cancel();
+        KillFeedFrame:SetAlpha(1);
+        KillFeedFrame.hidden = false;
     end
 
     -- Set Fade Timer
