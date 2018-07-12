@@ -83,8 +83,6 @@ end
 ]]
 local function HandleEvents (self, event, ...)
     if (event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN' or event == 'ADDON_LOADED') then
-
-        print(event);
         -- Position
         PlayerFrame:SetMovable(true);
         PlayerFrame:ClearAllPoints();
@@ -93,14 +91,10 @@ local function HandleEvents (self, event, ...)
         PlayerFrame:SetUserPlaced(true);
         PlayerFrame:SetMovable(false);
 
-        print(PlayerFrameHealthBar:GetHeight());
-        print(PlayerStatusTexture:GetTexture());
-
         HidePlayer(true);
         
         -- Style Frame
         if (FramesDB.stylePrimaryFrames) then
-            print('Style Frames');
             StyleFrames();
         end
 
