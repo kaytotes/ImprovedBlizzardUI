@@ -41,6 +41,7 @@ end
 local function StyleFrames()
 
     if (FramesDB.stylePrimaryFrames == false) then return end
+    if (InCombatLockdown() == true) then return end
 
     PlayerFrameHealthBar:SetWidth(119);
     PlayerFrameHealthBar:SetHeight(29);
@@ -81,7 +82,9 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_ENTERING_WORLD') then
+    if (event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN' or event == 'ADDON_LOADED') then
+
+        print(event);
         -- Position
         PlayerFrame:SetMovable(true);
         PlayerFrame:ClearAllPoints();
@@ -90,12 +93,19 @@ local function HandleEvents (self, event, ...)
         PlayerFrame:SetUserPlaced(true);
         PlayerFrame:SetMovable(false);
 
+        print(PlayerFrameHealthBar:GetHeight());
+        print(PlayerStatusTexture:GetTexture());
+
         HidePlayer(true);
         
         -- Style Frame
         if (FramesDB.stylePrimaryFrames) then
+            print('Style Frames');
             StyleFrames();
         end
+
+        print(PlayerFrameHealthBar:GetHeight());
+        print(PlayerStatusTexture:GetTexture());
     end
 
     if (event == 'PLAYER_REGEN_DISABLED') then
@@ -120,11 +130,13 @@ end
 -- Register the Modules Events
 PlayerUnitFrame:SetScript('OnEvent', HandleEvents);
 PlayerUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
+PlayerUnitFrame:RegisterEvent('PLAYER_LOGIN');
 PlayerUnitFrame:RegisterEvent('UNIT_HEALTH');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_DISABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
 PlayerUnitFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
+PlayerUnitFrame:RegisterEvent('ADDON_LOADED');
 
 -- Hook Blizzard Functions
 hooksecurefunc('CombatFeedback_OnCombatEvent', CombatFeedback_OnCombatEvent_Hook);
@@ -138,3 +150,5 @@ hooksecurefunc('HealthBar_OnValueChanged', function(self)
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
+
+hooksecurefunc('PlayerFrame_Update', StyleFrames);
