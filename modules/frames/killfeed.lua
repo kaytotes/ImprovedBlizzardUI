@@ -182,7 +182,6 @@ local function HandleEvents (self, event, ...)
     end
 
     if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
-        local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _, _, spellName, _, amount, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
         local _, instanceType = IsInInstance();
 
@@ -192,28 +191,22 @@ local function HandleEvents (self, event, ...)
         if (instanceType == 'raid' and FramesDB.showInRaids == false) then return end
         if ((instanceType == 'pvp' or instanceType == 'arena') and FramesDB.showInPvP == false) then return end
 
+        local timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, _, _, _, _, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
+
         -- Check for kills and update the Kill Feed
         if( event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "RANGE_DAMAGE" )then
-            local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, overkill = CombatLogGetCurrentEventInfo();
+            _, _, _, _, _, _, _, _, _, _, _, _, spellName, _, amount, overkill, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
-            if (overkill == nil) then 
-                overkill = 0 
-            end
-
-            if( overkill >= 0 )then
+            if (overkill >= 0) then
                 KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spellName, amount);
             end
         end
         
         -- Melee Damage
         if( event == "SWING_DAMAGE" )then
-            local _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, overkill = CombatLogGetCurrentEventInfo();
+            _, _, _, _, _, _, _, _, _, _, _, amount, overkill, _, _, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
-            if (overkill == nil) then 
-                overkill = 0 
-            end
-
-            if( overkill >= 0 )then
+            if (overkill >= 0) then
                 KillFeed_Update(sourceGUID, sourceName, destGUID, destName, nil, amount);
             end
         end
