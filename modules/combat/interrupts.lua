@@ -15,7 +15,7 @@ local InterruptFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _, _, spellName, _, amount, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
+    local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, _, spellName, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
     if (event == 'SPELL_INTERRUPT' and (sourceGUID == UnitGUID('player') or sourceGUID == UnitGUID('pet'))) then
         if(PrimaryDB.announceInterrupts) then
