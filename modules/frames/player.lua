@@ -97,9 +97,6 @@ local function HandleEvents (self, event, ...)
         if (FramesDB.stylePrimaryFrames) then
             StyleFrames();
         end
-
-        print(PlayerFrameHealthBar:GetHeight());
-        print(PlayerStatusTexture:GetTexture());
     end
 
     if (event == 'PLAYER_REGEN_DISABLED') then
