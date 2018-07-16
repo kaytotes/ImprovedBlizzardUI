@@ -1,5 +1,17 @@
 # Improved Blizzard UI Changelog
 
+2.2.0 - German localisation (Credit @Marakuja)
+2.2.0 - Pet Name Font Change
+2.2.0 - Fixed an issue with the Possesion Bar placement
+2.1.0 - Better Player Frame Config Check
+2.1.0 - Removed unit classification from focus frame.
+2.1.0 - Added timers to Target and Focus cast bars (Credit @xMarok )
+2.0.4 - Tweaked position of Focus Frame and also correctly set font.
+2.0.3 - Kill Artifact Bar When Leveling.
+2.0.3 - Correctly get Focus Frame Unit Classification.
+2.0.3 - Correctly display Focus Frame Class Colours.
+2.0.2 - Added a config for hiding art
+2.0.1 - Removed Dev Build Print
 2.0.0 - Ground Up Rewrite. Too many changes to list.
 1.9.0 - Added ptBR localisation
 1.8.3 - Removed Logout and Force Quit options as they are now protected.

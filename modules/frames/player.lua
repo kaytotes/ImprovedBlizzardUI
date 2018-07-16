@@ -39,6 +39,10 @@ local function HidePlayer(hide)
 end
 
 local function StyleFrames()
+
+    if (FramesDB.stylePrimaryFrames == false) then return end
+    if (InCombatLockdown() == true) then return end
+
     PlayerFrameHealthBar:SetWidth(119);
     PlayerFrameHealthBar:SetHeight(29);
     PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);
@@ -64,6 +68,9 @@ local function StyleFrames()
     PlayerFrameAlternateManaBar.LeftText:SetFont(ImpFont, 10, flags);
 
     PlayerName:SetTextColor(r, g, b, a);
+
+    PetName:SetFont(ImpFont, 11, flags);
+    PetName:SetTextColor(r, g, b, a);
 end
 
 --[[
@@ -75,7 +82,7 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_ENTERING_WORLD') then
+    if (event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN' or event == 'ADDON_LOADED') then
         -- Position
         PlayerFrame:SetMovable(true);
         PlayerFrame:ClearAllPoints();
@@ -114,11 +121,13 @@ end
 -- Register the Modules Events
 PlayerUnitFrame:SetScript('OnEvent', HandleEvents);
 PlayerUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
+PlayerUnitFrame:RegisterEvent('PLAYER_LOGIN');
 PlayerUnitFrame:RegisterEvent('UNIT_HEALTH');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_DISABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
 PlayerUnitFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
+PlayerUnitFrame:RegisterEvent('ADDON_LOADED');
 
 -- Hook Blizzard Functions
 hooksecurefunc('CombatFeedback_OnCombatEvent', CombatFeedback_OnCombatEvent_Hook);
@@ -132,3 +141,5 @@ hooksecurefunc('HealthBar_OnValueChanged', function(self)
         Imp.ApplyClassColours(self, self.unit);
     end
 end);
+
+hooksecurefunc('PlayerFrame_Update', StyleFrames);

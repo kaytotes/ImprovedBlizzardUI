@@ -15,7 +15,7 @@ local KillingBlowFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)  
-    local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _ = ...; -- Get all the variables we need
+    local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _, _, spellName, _, amount, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
     local _, instanceType = IsInInstance();
 
     if(event == 'PARTY_KILL') then
