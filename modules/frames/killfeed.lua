@@ -143,6 +143,8 @@ local function KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spell
 
     if ( fadeTimer ~= nil ) then
         fadeTimer:Cancel();
+        KillFeedFrame:SetAlpha(1);
+        KillFeedFrame.hidden = false;
     end
 
     -- Set Fade Timer
@@ -181,29 +183,34 @@ local function HandleEvents (self, event, ...)
         end
     end
 
-    local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _, _, spellName, _, amount, _, _, _, _, _, _ = ...; -- Get all the variables we need
+    if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
 
-    local _, instanceType = IsInInstance();
+        local _, instanceType = IsInInstance();
 
-    -- Bail out based on config options
-    if (instanceType == 'none' and FramesDB.showInWorld == false) then return end
-    if (instanceType == 'party' and FramesDB.showInDungeons == false) then return end
-    if (instanceType == 'raid' and FramesDB.showInRaids == false) then return end
-    if ((instanceType == 'pvp' or instanceType == 'arena') and FramesDB.showInPvP == false) then return end
+        -- Bail out based on config options
+        if (instanceType == 'none' and FramesDB.showInWorld == false) then return end
+        if (instanceType == 'party' and FramesDB.showInDungeons == false) then return end
+        if (instanceType == 'raid' and FramesDB.showInRaids == false) then return end
+        if ((instanceType == 'pvp' or instanceType == 'arena') and FramesDB.showInPvP == false) then return end
 
-    -- Check for kills and update the Kill Feed
-    if( event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "RANGE_DAMAGE" )then
-        local _, _, _, _, overkill, _, _, _, _, _, _, _ = select(12, ...);
-        if( overkill >= 0 )then
-            KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spellName, amount);
+        local timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, _, _, _, _, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
+
+        -- Check for kills and update the Kill Feed
+        if( event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "RANGE_DAMAGE" )then
+            _, _, _, _, _, _, _, _, _, _, _, _, spellName, _, amount, overkill, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
+
+            if (overkill >= 0) then
+                KillFeed_Update(sourceGUID, sourceName, destGUID, destName, spellName, amount);
+            end
         end
-    end
-    
-    -- Melee Damage
-    if( event == "SWING_DAMAGE" )then
-        local _, overkill = select(12, ... );
-        if( overkill >= 0 )then
-            KillFeed_Update(sourceGUID, sourceName, destGUID, destName, nil, amount);
+        
+        -- Melee Damage
+        if( event == "SWING_DAMAGE" )then
+            _, _, _, _, _, _, _, _, _, _, _, amount, overkill, _, _, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
+
+            if (overkill >= 0) then
+                KillFeed_Update(sourceGUID, sourceName, destGUID, destName, nil, amount);
+            end
         end
     end
 end
@@ -215,4 +222,3 @@ KillFeedFrame:RegisterEvent("PLAYER_LOGIN");
 KillFeedFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 KillFeedFrame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND");
 KillFeedFrame:RegisterEvent("ADDON_LOADED");
-KillFeedFrame:RegisterEvent("PARTY_KILL");

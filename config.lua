@@ -306,24 +306,24 @@ framesOptions:Initialize(function(self)
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 
-    -- World Map Title
-    local worldMapTitle = self:CreateTitle();
-    worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
-    worldMapTitle:SetText(Loc['World Map']);
+    -- -- World Map Title
+    -- local worldMapTitle = self:CreateTitle();
+    -- worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
+    -- worldMapTitle:SetText(Loc['World Map']);
 
-    local showMapDungeons = self:CreateCheckButton('showMapDungeons');
-    showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
-    showMapDungeons:SetText(Loc['Show Instance Portals']);
-    AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
+    -- local showMapDungeons = self:CreateCheckButton('showMapDungeons');
+    -- showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
+    -- showMapDungeons:SetText(Loc['Show Instance Portals']);
+    -- AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
 
-    local showCursorCoords = self:CreateCheckButton('showCursorCoords');
-    showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
-    showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
-    AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
+    -- local showCursorCoords = self:CreateCheckButton('showCursorCoords');
+    -- showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
+    -- showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
+    -- AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
 
     -- Kill Feed Title
     local killFeedTitle = self:CreateTitle();
-    killFeedTitle:SetPoint('TOPLEFT', showCursorCoords, 'BOTTOMLEFT', 0, -10);
+    killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
     killFeedTitle:SetText(Loc['Kill Feed']);
 
     local killFeed = self:CreateCheckButton('killFeed');
@@ -376,9 +376,10 @@ end);
 local barDefaults = {
     showArt = true,
     barTimer = true,
+    targetBarTimer = true,
+    focusBarTimer = true,
     castingScale = 1.1,
 
-    displayArt = true,
     outOfRange = true,
     barsScale = 1.0,
 
@@ -431,13 +432,8 @@ barOptions:Initialize(function(self)
     actionBarsTitle:SetPoint('TOPLEFT', focusBarTimer, 'BOTTOMLEFT', 0, -24);
     actionBarsTitle:SetText(Loc['Action Bars']);
 
-    local showArt = self:CreateCheckButton('showArt');
-    showArt:SetPoint('TOPLEFT', actionBarsTitle, 'BOTTOMLEFT', 0, -8);
-    showArt:SetText(Loc['Show Art']);
-    AddTooltip(showArt, Loc['Toggling Hides the Action Bar Texture.']);
-
     local outOfRange = self:CreateCheckButton('outOfRange');
-    outOfRange:SetPoint('TOPLEFT', showArt, 'BOTTOMLEFT', 0, 0);
+    outOfRange:SetPoint('TOPLEFT', actionBarsTitle, 'BOTTOMLEFT', 0, -8);
     outOfRange:SetText(Loc['Out of Range Indicator']);
     AddTooltip(outOfRange, Loc['When an Ability is not usable due to range the entire Button is highlighted Red.']);
 

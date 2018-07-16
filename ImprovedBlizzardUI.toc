@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: Improved Blizzard UI
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
@@ -11,7 +11,6 @@
 ## X-WoWI-ID: 23299
 
 # Libs
-libs\LibStub\LibStub.lua
 libs\Wasabi\embed.xml
 
 # Localisation Files
@@ -46,12 +45,11 @@ modules\frames\talkinghead.lua
 
 modules\bars\castbar.lua
 modules\bars\actionbars.lua
-modules\bars\actionbars.xml
 modules\bars\orderhall.lua
 modules\bars\buffs.lua
 modules\bars\micromenu.lua
 modules\bars\extraactionbutton.lua
 
 modules\maps\minimap.lua
-modules\maps\dungeons.lua
-modules\maps\coords.lua
+#modules\maps\dungeons.lua
+#modules\maps\coords.lua

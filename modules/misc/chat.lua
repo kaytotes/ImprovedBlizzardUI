@@ -27,7 +27,9 @@ end
 local function StyleChat()
     -- Hide Battle.net Social Button and Toasts
     ChatFrameMenuButton:HookScript('OnShow', ChatFrameMenuButton.Hide);
-    ChatFrameMenuButton:Hide();
+	ChatFrameMenuButton:Hide();
+	ChatFrameChannelButton:HookScript('OnShow', ChatFrameMenuButton.Hide);
+	ChatFrameChannelButton:Hide();
 	local button = QuickJoinToastButton or FriendsMicroButton;
 	button:HookScript('OnShow', button.Hide);
 	button:Hide();
@@ -35,7 +37,7 @@ local function StyleChat()
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
     -- Change Edit Box Font
-    ChatFontNormal:SetFont(ImpFont, 15, 'THINOUTLINE');
+    ChatFontNormal:SetFont(ImpFont, 12, 'THINOUTLINE');
     ChatFontNormal:SetShadowOffset(1,-1);
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
