@@ -306,24 +306,24 @@ framesOptions:Initialize(function(self)
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 
-    -- World Map Title
-    local worldMapTitle = self:CreateTitle();
-    worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
-    worldMapTitle:SetText(Loc['World Map']);
+    -- -- World Map Title
+    -- local worldMapTitle = self:CreateTitle();
+    -- worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
+    -- worldMapTitle:SetText(Loc['World Map']);
 
-    local showMapDungeons = self:CreateCheckButton('showMapDungeons');
-    showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
-    showMapDungeons:SetText(Loc['Show Instance Portals']);
-    AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
+    -- local showMapDungeons = self:CreateCheckButton('showMapDungeons');
+    -- showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
+    -- showMapDungeons:SetText(Loc['Show Instance Portals']);
+    -- AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
 
-    local showCursorCoords = self:CreateCheckButton('showCursorCoords');
-    showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
-    showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
-    AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
+    -- local showCursorCoords = self:CreateCheckButton('showCursorCoords');
+    -- showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
+    -- showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
+    -- AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
 
     -- Kill Feed Title
     local killFeedTitle = self:CreateTitle();
-    killFeedTitle:SetPoint('TOPLEFT', showCursorCoords, 'BOTTOMLEFT', 0, -10);
+    killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
     killFeedTitle:SetText(Loc['Kill Feed']);
 
     local killFeed = self:CreateCheckButton('killFeed');
@@ -374,10 +374,12 @@ framesOptions:Initialize(function(self)
 end);
 
 local barDefaults = {
+    showArt = true,
     barTimer = true,
+    targetBarTimer = true,
+    focusBarTimer = true,
     castingScale = 1.1,
 
-    displayArt = true,
     outOfRange = true,
     barsScale = 1.0,
 
@@ -397,24 +399,37 @@ barOptions:Initialize(function(self)
     title:SetPoint('TOPLEFT', 190, -10);
     title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
 
-    -- Cast Bar
+    -- Cast Bars
     local castBarTitle = self:CreateTitle();
     castBarTitle:SetPoint('TOPLEFT', 10, -50);
-    castBarTitle:SetText(Loc['Cast Bar']);
+    castBarTitle:SetText(Loc['Cast Bars']);
 
+    -- Player Cast Bar Timer
     local barTimer = self:CreateCheckButton('barTimer');
     barTimer:SetPoint('TOPLEFT', castBarTitle, 'BOTTOMLEFT', 0, -8)
-    barTimer:SetText(Loc['Casting Bar Timer']);
-    AddTooltip(barTimer, Loc['Adds a timer in seconds above the Casting Bar.']);
+    barTimer:SetText(Loc['Cast Bar Timer']);
+    AddTooltip(barTimer, Loc['Adds a timer in seconds above the Cast Bar.']);
 
     local castingScale = self:CreateSlider('castingScale');
     castingScale:SetPoint('TOPLEFT', barTimer, 'BOTTOMLEFT', 4, 0);
     castingScale:SetRange(0.1, 2.0);
     castingScale:SetStep(0.1);
-    AddTooltip(castingScale, Loc['Casting Bar Scale']);
+    AddTooltip(castingScale, Loc['Cast Bar Scale']);
+
+    -- Target Cast Bar Timer
+    local targetBarTimer = self:CreateCheckButton('targetBarTimer');
+    targetBarTimer:SetPoint('TOPLEFT', castingScale, 'BOTTOMLEFT', -4, -12)
+    targetBarTimer:SetText(Loc['Target Cast Bar Timer']);
+    AddTooltip(targetBarTimer, Loc["Adds a timer in seconds above the Target's Cast Bar."]);
+
+    -- Focus Cast Bar Timer
+    local focusBarTimer = self:CreateCheckButton('focusBarTimer');
+    focusBarTimer:SetPoint('TOPLEFT', targetBarTimer, 'BOTTOMLEFT', 0, 0)
+    focusBarTimer:SetText(Loc['Focus Cast Bar Timer']);
+    AddTooltip(focusBarTimer, Loc["Adds a timer in seconds above the Focus' Cast Bar."]);
 
     local actionBarsTitle = self:CreateTitle();
-    actionBarsTitle:SetPoint('TOPLEFT', castingScale, 'BOTTOMLEFT', 0, -24);
+    actionBarsTitle:SetPoint('TOPLEFT', focusBarTimer, 'BOTTOMLEFT', 0, -24);
     actionBarsTitle:SetText(Loc['Action Bars']);
 
     local outOfRange = self:CreateCheckButton('outOfRange');

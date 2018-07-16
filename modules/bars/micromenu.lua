@@ -6,8 +6,6 @@ local addonName, Loc = ...;
 
 local MicroMenuFrame = CreateFrame('Frame', nil, UIParent);
 
-local worldMapChanged = false;
-
 -- Micro Menu that replaces the removed action bar based one. Spawns on right click of minimamp
 MicroMenuFrame.microMenu = CreateFrame('Frame', 'RightClickMenu', UIParent, 'UIDropDownMenuTemplate');
 MicroMenuFrame.menuFont = CreateFont('menuFont');
@@ -21,7 +19,10 @@ MicroMenuFrame.bagsVisible = false;
     @ return void
 ]]
 local function HideMicroMenu()
-	Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
+    Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
+
+    -- Hide Art
+    MicroButtonAndBagsBar.MicroBagBar:Hide();
 end
 
 --[[
@@ -29,11 +30,6 @@ end
     @ return void
 ]]
 local function MicroMenu_Tick()
-    if ( (worldMapChanged) and not WorldMapFrame:IsVisible() ) then
-        HideMicroMenu();
-        worldMapChanged = false;
-    end
-
     -- Blanket attempt to only show micro menu when in pet battle or vehicle.
     if (not UnitHasVehicleUI('player') and not C_PetBattles.IsInBattle() and InCombatLockdown() == false) then
         HideMicroMenu();
@@ -97,10 +93,6 @@ local function HandleEvents (self, event, ...)
         HideMicroMenu();
         UpdateMicroMenuList(UnitLevel('player'));
     end
-    
-    if (( event == 'WORLD_MAP_UPDATE') and WorldMapFrame:IsVisible()) then
-        worldMapChanged = true;
-    end
 	
 	if(event == 'UNIT_EXITED_VEHICLE') then
         if(... == 'player') then
@@ -108,12 +100,8 @@ local function HandleEvents (self, event, ...)
         end
     end
 
-    if (event == 'PET_BATTLE_CLOSE' or event == 'PLAYER_FLAGS_CHANGED' or event == 'CINEMATIC_STOP' or event == 'CINEMATIC_START') then
+    if (event == 'PLAYER_FLAGS_CHANGED' or event == 'CINEMATIC_STOP' or event == 'CINEMATIC_START') then
         HideMicroMenu();
-    end
-
-    if(event == 'PET_BATTLE_OPENING_START' or event == 'PET_BATTLE_OPENING_DONE') then
-        Imp.ModifyFrame(CharacterMicroButton, 'TOPLEFT', MicroButtonFrame, -11, 28, nil);
     end
 
     if(event == 'PLAYER_LEVEL_UP') then
@@ -135,21 +123,13 @@ MicroMenuFrame:RegisterEvent('PLAYER_FLAGS_CHANGED');
 MicroMenuFrame:RegisterEvent('PLAYER_TALENT_UPDATE');
 MicroMenuFrame:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED');
 MicroMenuFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
-MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_START');
-MicroMenuFrame:RegisterEvent('PET_BATTLE_OPENING_DONE');
-MicroMenuFrame:RegisterEvent('PET_BATTLE_CLOSE');
 MicroMenuFrame:RegisterEvent('PLAYER_LEVEL_UP');
 MicroMenuFrame:RegisterEvent('CINEMATIC_START');
 MicroMenuFrame:RegisterEvent('CINEMATIC_STOP');
-MicroMenuFrame:RegisterEvent('WORLD_MAP_UPDATE');
 
 -- Fixes Micro Menu showing when the player intentionally cancels a cinematic
 -- This feels hacky as hell
 UIParent:HookScript('OnShow', function()
-    HideMicroMenu();
-end);
-
-hooksecurefunc('WorldMap_ToggleSizeDown', function()
     HideMicroMenu();
 end);
 

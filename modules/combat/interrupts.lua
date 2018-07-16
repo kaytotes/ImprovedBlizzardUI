@@ -15,12 +15,12 @@ local InterruptFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    local _, eventType, _, sourceGUID, _, _, _, _, destName, _, _, sourceID, _, _, spellID, spellName, spellSchool = ...;
+    local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, _, spellName, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
-    if (eventType == 'SPELL_INTERRUPT' and (sourceGUID == UnitGUID('player') or sourceGUID == UnitGUID('pet'))) then
+    if (event == 'SPELL_INTERRUPT' and (sourceGUID == UnitGUID('player') or sourceGUID == UnitGUID('pet'))) then
         if(PrimaryDB.announceInterrupts) then
             local message = 'Interrupted %sl on %t';
-            message = message:gsub('%%t', destName):gsub('%%sl', GetSpellLink(spellID));
+            message = message:gsub('%%t', destName):gsub('%%sl', spellName);
             SendChatMessage(message, IsInGroup(2) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or IsInGroup() and 'PARTY' or 'SAY');
         end
     end
