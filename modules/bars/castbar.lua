@@ -91,7 +91,7 @@ end);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'ADDON_LOADED') then -- Add Config
+    if (event == 'PLAYER_LOGIN') then -- Add Config
 	
         -- Player Cast Bar
         if (BarsDB.barTimer) then
@@ -132,4 +132,4 @@ end
 
 -- Register the Modules Events
 CastingFrame:SetScript('OnEvent', HandleEvents);
-CastingFrame:RegisterEvent('ADDON_LOADED');
+CastingFrame:RegisterEvent('PLAYER_LOGIN');
