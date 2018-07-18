@@ -410,17 +410,15 @@ local function HandleEvents (self, event, ...)
 
     if (event == 'ADDON_LOADED' and ... == 'Blizzard_PVPUI') then
         fontSize = PrimaryDB.tooltipFontSize;
-        StylePvPRewardTooltip(PVPRewardTooltip);
+        --StylePvPRewardTooltip(PVPRewardTooltip);
 
-        PVPRewardTooltip:HookScript('OnShow', function ()
-            StylePvPRewardTooltip(PVPRewardTooltip);
-        end);
+        -- PVPRewardTooltip:HookScript('OnShow', function ()
+        --     StylePvPRewardTooltip(PVPRewardTooltip);
+        -- end);
 
-        ConquestTooltip:HookScript('OnShow', function ()
-            StylePvPConquestTooltip(ConquestTooltip);
-        end);
-
-        
+        -- ConquestTooltip:HookScript('OnShow', function ()
+        --     StylePvPConquestTooltip(ConquestTooltip);
+        -- end);
     end
 end
 
