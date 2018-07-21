@@ -70,8 +70,6 @@ After a short while a configured and ready to go version of ImprovedBlizzardUI i
 
 ## Action Bars
 
-* Interface from Battle for Azeroth Recreated and Improved.
-* Customizable Scale.
 * Out of Range Indicator.
 * Customizable Texts.
 * Casting Bar Repositioned and Scaled.
@@ -87,11 +85,6 @@ After a short while a configured and ready to go version of ImprovedBlizzardUI i
 * Scroll Wheel Zoom.
 * Improved Fonts.
 * Right Click Micro Menu.
-
-## World Map
-
-* Old World Instance / Raid Portals.
-* Cursor World Co-Ordinates.
 
 ## Tooltips
 

@@ -34,7 +34,11 @@ local function CoordsFrame_Tick(self, elapsed)
 					if(x ~= 0 and y ~= 0) then
 						CoordsFrame.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
 					end
-				end
+                end
+            else
+                if(Minimap:IsVisible()) then
+                    CoordsFrame.text:SetText('');
+                end
 			end
 		end
 		CoordsFrame.elapsed = 0; -- Reset the timer

@@ -1,4 +1,5 @@
 local _, Loc = ...;
+local DEBUG = true;
 
 Imp = CreateFrame('Frame', nil, UIParent);
 
@@ -72,6 +73,18 @@ function Imp.ApplyClassColours(statusBar, unit)
         local _, class = UnitClass(unit);
         local c = RAID_CLASS_COLORS[class];
         statusBar:SetStatusBarColor(c.r, c.g, c.b );
+    end
+end
+
+--[[
+    Just a debug printing function.
+
+    @ param Message to be outputted
+    @ return void
+]]
+function Imp.Debug(message)
+    if (DEBUG == true) then
+        print(message);
     end
 end
 
