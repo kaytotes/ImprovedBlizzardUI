@@ -306,21 +306,6 @@ framesOptions:Initialize(function(self)
     showPerformance:SetText(Loc['Display System Statistics']);
     AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
 
-    -- -- World Map Title
-    -- local worldMapTitle = self:CreateTitle();
-    -- worldMapTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -24);
-    -- worldMapTitle:SetText(Loc['World Map']);
-
-    -- local showMapDungeons = self:CreateCheckButton('showMapDungeons');
-    -- showMapDungeons:SetPoint('TOPLEFT', worldMapTitle, 'BOTTOMLEFT', 0, -8);
-    -- showMapDungeons:SetText(Loc['Show Instance Portals']);
-    -- AddTooltip(showMapDungeons, Loc['Displays the location of old world Raids and Dungeons.']);
-
-    -- local showCursorCoords = self:CreateCheckButton('showCursorCoords');
-    -- showCursorCoords:SetPoint('TOPLEFT', showMapDungeons, 'BOTTOMLEFT', 0, 0);
-    -- showCursorCoords:SetText(Loc['Show Cursor Co-ordinates']);
-    -- AddTooltip(showCursorCoords, Loc['Displays the world location of where you are highlighting.']);
-
     -- Kill Feed Title
     local killFeedTitle = self:CreateTitle();
     killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
@@ -374,14 +359,12 @@ framesOptions:Initialize(function(self)
 end);
 
 local barDefaults = {
-    showArt = true,
     barTimer = true,
     targetBarTimer = true,
     focusBarTimer = true,
     castingScale = 1.1,
 
     outOfRange = true,
-    barsScale = 1.0,
 
     showMainText = true,
     showBottomLeftText = true,
@@ -462,14 +445,8 @@ barOptions:Initialize(function(self)
     showLeftText:SetText(Loc['Show Right 2 Bar Text']);
     AddTooltip(showLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
 
-    local barsScale = self:CreateSlider('barsScale');
-    barsScale:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 4, 0);
-    barsScale:SetRange(0.1, 2.0);
-    barsScale:SetStep(0.1);
-    AddTooltip(barsScale, Loc['Action Bar Scale']);
-
     local buffsTitle = self:CreateTitle();
-    buffsTitle:SetPoint('TOPLEFT', barsScale, 'BOTTOMLEFT', 0, -24);
+    buffsTitle:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, -24);
     buffsTitle:SetText(Loc['Buffs and Debuffs']);
 
     local buffScale = self:CreateSlider('buffScale');
