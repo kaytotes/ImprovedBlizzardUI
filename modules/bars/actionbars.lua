@@ -39,141 +39,27 @@ local function StyleButtons(actionBar, show)
 end
 
 --[[
-    Handles most of the actual adjustment.
+    Does the initial hiding of the Bag Bar.
 
     @ return void
 ]]
-local function AdjustActionBars(rightMultiBarShowing)
-    if (InCombatLockdown() == false) then
-        ActionBars.bagsVisible = true;
-        ToggleBagBar();
-
-        -- Basically force art to be the small type at all times
-        _, width, height = GetAtlasInfo("hud-MainMenuBar-small");
-		MainMenuBar:SetSize(width,height); 
-		MainMenuBarArtFrame:SetSize(width,height); 
-		MainMenuBarArtFrameBackground:SetSize(width, height); 
-		MainMenuBarArtFrameBackground.BackgroundLarge:Hide();
-		MainMenuBarArtFrameBackground.BackgroundSmall:Show(); 
-		MainMenuBarArtFrame.PageNumber:ClearAllPoints();
-        MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
-        
-        -- Move Right Bar and Make Horizontal
-        if (rightMultiBarShowing) then
-            Imp.ModifyFrame(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil);
-            Imp.ModifyFrame(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil);
-        end
-        
-        -- Vehicle Leave Button (Flight Paths etc)
-        Imp.ModifyBasicFrame(MainMenuBarVehicleLeaveButton, 'LEFT', MainMenuBar, -40, -10, nil);
-        MainMenuBarVehicleLeaveButton:SetFrameStrata('HIGH');
-
-        -- Adjust Stancebar and Pet Bar
-        if(MultiBarBottomLeft:IsShown()) then
-			Imp.ModifyFrame(StanceBarFrame, 'TOPLEFT', MainMenuBar, -4, 75, nil);	
-            Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -124, 77, nil);
-            
-            if (StanceBarFrame:IsShown()) then
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 118, nil);	
-            else
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 78, nil);	
-            end
-		end
-		
-		if(MultiBarBottomRight:IsShown()) then
-			Imp.ModifyFrame(StanceBarFrame, 'TOPLEFT', MainMenuBar, -4, 118, nil);
-            Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -124, 121, nil);
-
-            if (StanceBarFrame:IsShown()) then
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 165, nil);	
-            else
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 121, nil);	
-            end
-		end
-		
-		if(MultiBarBottomLeft:IsShown() ~= true and MultiBarBottomRight:IsShown() ~= true) then
-			Imp.ModifyFrame(StanceBarFrame, 'TOPLEFT', MainMenuBar, 0, 31, nil);		
-            Imp.ModifyFrame(PetActionButton1, 'TOP', MainMenuBar, -124, 34, nil);
-            
-            if (StanceBarFrame:IsShown()) then
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 85, nil);
-            else
-                Imp.ModifyFrame(PossessBarFrame, 'TOPLEFT', MainMenuBar, 0, 38, nil);
-            end
-        end
-
-        -- Style the Action Buttons
-		StyleButtons('ActionButton', BarsDB.showMainText);
-		StyleButtons('MultiBarBottomLeftButton', BarsDB.showBottomLeftText);
-		StyleButtons('MultiBarBottomRightButton', BarsDB.showBottomRightText);
-		StyleButtons('MultiBarLeftButton', BarsDB.showLeftText);
-        StyleButtons('MultiBarRightButton', BarsDB.showRightText);
-
-        -- Hide Textures
-        PossessBackground1:SetTexture(nil);
-        PossessBackground2:SetTexture(nil);
-        _G['StanceBarLeft']:SetTexture(nil);
-        _G['StanceBarMiddle']:SetTexture(nil);
-        _G['StanceBarRight']:SetTexture(nil);
-        _G['SlidingActionBarTexture'..0]:SetTexture(nil);
-		_G['SlidingActionBarTexture'..1]:SetTexture(nil);
-        
-        if ( StanceBarFrame ) then
-			for i=1, NUM_STANCE_SLOTS do
-				_G["StanceButton"..i]:GetNormalTexture():SetTexture(nil);
-				_G["StanceButton"..i]:GetNormalTexture():SetTexture(nil);
-			end
-		end
-	end
+local function HideBagBar()
+    ActionBars.bagsVisible = true;
+    ToggleBagBar();
 end
 
 --[[
-    When two status bars are shown (eg Rep + Exp) then hide the large texture and force the small
+    Based on config shows or hides the Action Bar Button text.
 
-	@params StatusTrackingBarManager $self TThe status bar manager
-    @params StatusBar $bar The actual bar itself
-    @params float $width The width of the status bar.
-    
     @ return void
 ]]
-hooksecurefunc(StatusTrackingBarManager, "SetDoubleBarSize", function (self, bar, width)
-    local textureHeight = self:GetInitialBarHeight(); 
-	local statusBarHeight = textureHeight - 5; 
-	
-    self.SingleBarSmallUpper:SetSize(width, statusBarHeight); 
-    self.SingleBarSmallUpper:SetPoint("CENTER", bar, 0, 4);
-    self.SingleBarSmallUpper:Show(); 
-    self.SingleBarLargeUpper:Hide();
-    
-    self.SingleBarSmall:SetSize(width, statusBarHeight); 
-    self.SingleBarSmall:SetPoint("CENTER", bar, 0, -5);
-    self.SingleBarSmall:Show(); 
-    self.SingleBarLarge:Hide(); 
-
-	bar.StatusBar:SetSize(width, statusBarHeight);  
-	bar:SetSize(width, statusBarHeight);
-end);
-
---[[
-    When one status bars are shown (eg Rep + Exp) then hide the large texture and force the small
-
-	@params StatusTrackingBarManager $self TThe status bar manager
-    @params StatusBar $bar The actual bar itself
-    @params float $width The width of the status bar.
-    
-    @ return void
-]]
-hooksecurefunc(StatusTrackingBarManager, "SetSingleBarSize", function (self, bar, width)
-	local textureHeight = self:GetInitialBarHeight();
-
-    self.SingleBarSmall:SetSize(width, textureHeight); 
-    self.SingleBarSmall:SetPoint("CENTER", bar, 0, 4);
-    self.SingleBarSmall:Show(); 
-    self.SingleBarLarge:Hide(); 
-
-	bar.StatusBar:SetSize(width, textureHeight);  
-	bar:SetSize(width, textureHeight);
-end);
+local function ApplyButtonStyles()
+    StyleButtons('ActionButton', BarsDB.showMainText);
+    StyleButtons('MultiBarBottomLeftButton', BarsDB.showBottomLeftText);
+    StyleButtons('MultiBarBottomRightButton', BarsDB.showBottomRightText);
+    StyleButtons('MultiBarLeftButton', BarsDB.showLeftText);
+    StyleButtons('MultiBarRightButton', BarsDB.showRightText);
+end
 
 --[[
     Handles the Out of Range action bar colouring
@@ -203,18 +89,6 @@ end
 hooksecurefunc('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
 
 --[[
-    Detect if Bottom Right Bar is showing
-
-	@params MainMenuBar $self The main menu bar itself
-    @params bool $rightMultiBarShowing Is the Bottom Right bar showing?
-    
-    @ return void
-]]
-hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", function (self, rightMultiBarShowing)
-    AdjustActionBars(rightMultiBarShowing);
-end);
-
---[[
     Handles the WoW API Events Registered Below
 
     @ param Frame $self The Frame that is handling the event 
@@ -223,14 +97,19 @@ end);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
-        AdjustActionBars(MultiBarBottomRight:IsShown());
-	end
+    if (event == 'PLAYER_ENTERING_WORLD') then
+        local initialLogin, reloadingUI = ...;
+
+        HideBagBar();
+        ApplyButtonStyles();
+    end
 end
 
 -- Register the Modules Events
 ActionBars:SetScript('OnEvent', HandleEvents);
-ActionBars:RegisterEvent('PLAYER_LOGIN');
 ActionBars:RegisterEvent('PLAYER_ENTERING_WORLD');
-ActionBars:RegisterEvent('PLAYER_TALENT_UPDATE');
-ActionBars:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED');
+
+hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", function (self, rightMultiBarShowing)
+    HideBagBar();
+    ApplyButtonStyles();
+end);
