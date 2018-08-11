@@ -116,6 +116,10 @@ local function HandleEvents (self, event, ...)
     if (event == 'UNIT_EXITED_VEHICLE' and ... == 'player') then
         StyleFrames();
     end
+
+    if (event == 'UNIT_ENTERED_VEHICLE' and ... == 'player') then
+        StyleFrames();
+    end
 end
 
 -- Register the Modules Events
@@ -127,6 +131,7 @@ PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_DISABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
 PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
 PlayerUnitFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
+PlayerUnitFrame:RegisterEvent('UNIT_ENTERED_VEHICLE');
 PlayerUnitFrame:RegisterEvent('ADDON_LOADED');
 
 -- Hook Blizzard Functions
