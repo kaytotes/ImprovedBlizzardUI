@@ -11,6 +11,7 @@
 ## X-WoWI-ID: 23299
 
 # Libs
+libs\LibStub\LibStub.lua
 libs\Wasabi\embed.xml
 
 # Localisation Files
