@@ -87,7 +87,12 @@ local function StyleChat()
         	_G[Window..'EditBox']:SetPoint('BOTTOM',_G[Window],'TOP',0,22);
 		end
         _G[Window..'EditBox']:SetPoint('LEFT',_G[Window],-5,0);
-        _G[Window..'EditBox']:SetPoint('RIGHT',_G[Window],10,0);
+		_G[Window..'EditBox']:SetPoint('RIGHT',_G[Window],10,0);
+		
+		-- On new characters this can be 0 somehow, if it is just override it.
+		if (size == 0) then
+			size = 13;
+		end
 
         -- Change Chat Font
         _G[Window]:SetFont(ImpFont, size, 'THINOUTLINE');
@@ -166,13 +171,25 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'ADDON_LOADED' or event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_LOGIN') then
-        if (PrimaryDB.styleChat) then
-            StyleChat();
-        end
+	if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUI') then
+		if (... == 'ImprovedBlizzardUI') then
+			if (PrimaryDB.overrideBlizzardStrings) then
+				OverrideStrings();
+			end
+	
+			if (PrimaryDB.styleChat) then
+				StyleChat();
+			end
+		end
+	end
 
+	if (event == 'PLAYER_LOGIN') then
         if (PrimaryDB.overrideBlizzardStrings) then
             OverrideStrings();
+		end
+
+		if (PrimaryDB.styleChat) then
+			StyleChat();
 		end
 	end
 end
