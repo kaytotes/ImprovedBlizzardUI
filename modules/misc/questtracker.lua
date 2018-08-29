@@ -16,7 +16,6 @@ local ObjFrame = CreateFrame('Frame', nil, UIParent);
 ]]
 local function HandleEvents (self, event, ...)
     if (event == 'PLAYER_LOGIN') then
-        print('PLAYER_LOGIN');
         isInstance, instanceType = IsInInstance();
 
         if (isInstance and instanceType ~= 'none' and PrimaryDB.toggleObjective) then
