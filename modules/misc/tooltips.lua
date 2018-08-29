@@ -38,6 +38,10 @@ local function AFKStatus(unit)
 end
 
 local function UpdateGameTooltipFonts(tooltip)
+
+    -- Quit if needed
+    if (PrimaryDB.styleTooltips == false) then return end
+    
     local lines = tooltip:NumLines();
 
     for i = 1, lines do
