@@ -4,12 +4,48 @@
 ]]
 local addonName, Loc = ...;
 
--- Set Up AFK Camera
 local AFKCamera = CreateFrame('Frame', nil, WorldFrame);
-AFKCamera:SetAllPoints();
-AFKCamera:SetAlpha(0);
-AFKCamera.width, AFKCamera.height = AFKCamera:GetSize();
-AFKCamera.hidden = true;
+
+--[[
+    Handles the creating of the various frames needed.
+
+    @ return void
+]]
+local function BuildFrames()
+    if (PrimaryDB.afkMode == false) then return; end
+
+    AFKCamera:SetAllPoints();
+    AFKCamera:SetAlpha(0);
+    AFKCamera.width, AFKCamera.height = AFKCamera:GetSize();
+    AFKCamera.hidden = true;
+
+    -- Set Up the Player Model
+    AFKCamera.playerModel = CreateFrame('PlayerModel', nil, AFKCamera);
+    AFKCamera.playerModel:SetSize(AFKCamera.height * 0.8, AFKCamera.height * 1.3);
+    AFKCamera.playerModel:SetPoint('BOTTOMRIGHT', AFKCamera.height * 0.1, -AFKCamera.height * 0.4);
+
+    -- Pet model for Hunters, Warlocks etc
+    AFKCamera.petModel = CreateFrame('playerModel', nil, AFKCamera);
+    AFKCamera.petModel:SetSize(AFKCamera.height * 0.7, AFKCamera.height);
+    AFKCamera.petModel:SetPoint('BOTTOMLEFT', AFKCamera.height * 0.05, -AFKCamera.height * 0.3);
+
+    -- Initialise the fadein / out anims
+    AFKCamera.fadeInAnim = AFKCamera:CreateAnimationGroup();
+    AFKCamera.fadeIn = AFKCamera.fadeInAnim:CreateAnimation('Alpha');
+    AFKCamera.fadeIn:SetDuration(0.5);
+    AFKCamera.fadeIn:SetFromAlpha(0);
+    AFKCamera.fadeIn:SetToAlpha(1);
+    AFKCamera.fadeIn:SetOrder(1);
+    AFKCamera.fadeInAnim:SetScript('OnFinished', function() AFKCamera:SetAlpha(1) end );
+
+    AFKCamera.fadeOutAnim = AFKCamera:CreateAnimationGroup();
+    AFKCamera.fadeOut = AFKCamera.fadeOutAnim:CreateAnimation('Alpha');
+    AFKCamera.fadeOut:SetDuration(0.5);
+    AFKCamera.fadeOut:SetFromAlpha(1);
+    AFKCamera.fadeOut:SetToAlpha(0);
+    AFKCamera.fadeOut:SetOrder(1);
+    AFKCamera.fadeOutAnim:SetScript('OnFinished', function() AFKCamera:SetAlpha(0) end );
+end
 
 --[[
     Handles turning on and off the AFK Camera
@@ -63,32 +99,7 @@ local function ToggleSpin(spin)
     end
 end
 
--- Set Up the Player Model
-AFKCamera.playerModel = CreateFrame('PlayerModel', nil, AFKCamera);
-AFKCamera.playerModel:SetSize(AFKCamera.height * 0.8, AFKCamera.height * 1.3);
-AFKCamera.playerModel:SetPoint('BOTTOMRIGHT', AFKCamera.height * 0.1, -AFKCamera.height * 0.4);
 
--- Pet model for Hunters, Warlocks etc
-AFKCamera.petModel = CreateFrame('playerModel', nil, AFKCamera);
-AFKCamera.petModel:SetSize(AFKCamera.height * 0.7, AFKCamera.height);
-AFKCamera.petModel:SetPoint('BOTTOMLEFT', AFKCamera.height * 0.05, -AFKCamera.height * 0.3);
-
--- Initialise the fadein / out anims
-AFKCamera.fadeInAnim = AFKCamera:CreateAnimationGroup();
-AFKCamera.fadeIn = AFKCamera.fadeInAnim:CreateAnimation('Alpha');
-AFKCamera.fadeIn:SetDuration(0.5);
-AFKCamera.fadeIn:SetFromAlpha(0);
-AFKCamera.fadeIn:SetToAlpha(1);
-AFKCamera.fadeIn:SetOrder(1);
-AFKCamera.fadeInAnim:SetScript('OnFinished', function() AFKCamera:SetAlpha(1) end );
-
-AFKCamera.fadeOutAnim = AFKCamera:CreateAnimationGroup();
-AFKCamera.fadeOut = AFKCamera.fadeOutAnim:CreateAnimation('Alpha');
-AFKCamera.fadeOut:SetDuration(0.5);
-AFKCamera.fadeOut:SetFromAlpha(1);
-AFKCamera.fadeOut:SetToAlpha(0);
-AFKCamera.fadeOut:SetOrder(1);
-AFKCamera.fadeOutAnim:SetScript('OnFinished', function() AFKCamera:SetAlpha(0) end );
 
 --[[
     Handles the WoW API Events Registered Below
@@ -114,6 +125,10 @@ local function HandleEvents (self, event, ...)
 			ToggleSpin(false);
 		end
     end
+
+    if (event == 'PLAYER_LOGIN') then
+        BuildFrames();
+    end
 end
 
 -- Register the Modules Events
@@ -121,3 +136,4 @@ AFKCamera:SetScript('OnEvent', HandleEvents);
 AFKCamera:RegisterEvent('PLAYER_FLAGS_CHANGED');
 AFKCamera:RegisterEvent('PLAYER_LEAVING_WORLD');
 AFKCamera:RegisterEvent('PLAYER_DEAD');
+AFKCamera:RegisterEvent('PLAYER_LOGIN');
