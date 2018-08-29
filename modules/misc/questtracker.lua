@@ -15,7 +15,8 @@ local ObjFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_ENTERING_WORLD') then
+    if (event == 'PLAYER_LOGIN') then
+        print('PLAYER_LOGIN');
         isInstance, instanceType = IsInInstance();
 
         if (isInstance and instanceType ~= 'none' and PrimaryDB.toggleObjective) then
@@ -28,4 +29,4 @@ end
 
 -- Register the Modules Events
 ObjFrame:SetScript('OnEvent', HandleEvents);
-ObjFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
+ObjFrame:RegisterEvent('PLAYER_LOGIN');
