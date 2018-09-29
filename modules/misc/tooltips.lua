@@ -38,6 +38,10 @@ local function AFKStatus(unit)
 end
 
 local function UpdateGameTooltipFonts(tooltip)
+
+    -- Quit if needed
+    if (PrimaryDB.styleTooltips == false) then return end
+    
     local lines = tooltip:NumLines();
 
     for i = 1, lines do
@@ -411,11 +415,9 @@ local function HandleEvents (self, event, ...)
     if (event == 'ADDON_LOADED' and ... == 'Blizzard_PVPUI') then
         fontSize = PrimaryDB.tooltipFontSize;
         --StylePvPRewardTooltip(PVPRewardTooltip);
-
         -- PVPRewardTooltip:HookScript('OnShow', function ()
         --     StylePvPRewardTooltip(PVPRewardTooltip);
         -- end);
-
         -- ConquestTooltip:HookScript('OnShow', function ()
         --     StylePvPConquestTooltip(ConquestTooltip);
         -- end);

@@ -6,6 +6,8 @@ local addonName, Loc = ...;
 
 local HealthFrame = CreateFrame('Frame', nil, UIParent);
 
+local config = false;
+
 --[[
     Handles the WoW API Events Registered Below
 
@@ -15,7 +17,11 @@ local HealthFrame = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if ( event == 'UNIT_HEALTH' and ... == 'player' and PrimaryDB.healthWarnings) then
+    if (event == 'PLAYER_LOGIN') then
+        config = PrimaryDB.healthWarnings;
+    end
+
+    if ( event == 'UNIT_HEALTH' and ... == 'player' and config) then
         local hp = UnitHealth('player') / UnitHealthMax('player');
 
         if ( hp > 0.50 ) then
@@ -40,5 +46,5 @@ end
 HealthFrame.canShowHalf = true;
 HealthFrame.canShowQuarter = true;
 HealthFrame:SetScript('OnEvent', HandleEvents);
-HealthFrame:RegisterEvent('ADDON_LOADED');
 HealthFrame:RegisterEvent('UNIT_HEALTH');
+HealthFrame:RegisterEvent('PLAYER_LOGIN');

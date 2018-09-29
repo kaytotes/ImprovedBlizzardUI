@@ -1687,11 +1687,6 @@ if [ -f "$topdir/.pkgmeta" ]; then
 	fi
 fi
 
-## Move LibStub - This is hacky, forgive me father for I have sinned.
-echo "Moving LibStub"
-echo ""
-mv ImprovedBlizzardUI/libs/LibStub ImprovedBlizzardUI/libs/Wasabi
-
 ###
 ### Create the final zipfile for the addon.
 ###

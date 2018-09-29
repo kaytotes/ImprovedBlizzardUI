@@ -26,20 +26,29 @@ local function CoordsFrame_Tick(self, elapsed)
 	CoordsFrame.elapsed = CoordsFrame.elapsed + elapsed; -- Increment the tick timer
 	if(CoordsFrame.elapsed >= CoordsFrame.delay) then -- Matched tick delay?
 		if(FramesDB.showMinimapCoords) then -- Update the Co-ords frame
-			-- 7.1 Restricted this so it only works in the outside world. Lame.
-			local inInstance, _ = IsInInstance();
-			if(inInstance ~= true) then
-				if(Minimap:IsVisible()) then
-					local x, y = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player"):GetXY();
-					if(x ~= 0 and y ~= 0) then
-						CoordsFrame.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
-					end
+            -- 7.1 Restricted this so it only works in the outside world. Lame.
+            local inInstance, instanceType = IsInInstance();
+
+            if (not inInstance) then
+                local map = C_Map.GetBestMapForUnit('player');
+            
+                if(map) then
+                    if(Minimap:IsVisible()) then
+                        local x, y = C_Map.GetPlayerMapPosition(map, 'player'):GetXY();
+                        if(x ~= 0 and y ~= 0) then
+                            CoordsFrame.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
+                        else
+                            CoordsFrame.text:SetText('');
+                        end
+                    end
+                else
+                    if(Minimap:IsVisible()) then
+                        CoordsFrame.text:SetText('');
+                    end
                 end
             else
-                if(Minimap:IsVisible()) then
-                    CoordsFrame.text:SetText('');
-                end
-			end
+                CoordsFrame.text:SetText('');
+            end
 		end
 		CoordsFrame.elapsed = 0; -- Reset the timer
 	end
