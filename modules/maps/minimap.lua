@@ -49,7 +49,6 @@ local function CoordsFrame_Tick(self, elapsed)
             else
                 CoordsFrame.text:SetText('');
             end
-            
 		end
 		CoordsFrame.elapsed = 0; -- Reset the timer
 	end
