@@ -1,4 +1,5 @@
 # Improved Blizzard UI Clean Changelog
+1.1.3 - Minimap Zone Text better fits the larger zone names.
 1.1.2 - Chat now uses uppercase characters for representing Guild Party, e.t.c. The text box font size is slightly increased.
 1.1.1 - Re-applied adjustments from prev versions. (Brute Force Frame Pos??, I think not.)
 1.1.0 - Merged Improved Blizzard UI Master for 8.0 Maintence Fixes

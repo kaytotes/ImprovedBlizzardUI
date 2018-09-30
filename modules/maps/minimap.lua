@@ -78,7 +78,7 @@ local function HandleEvents (self, event, ...)
         local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
         local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
         -- Set Zone Text Size & position
-        MinimapZoneText:SetFont(ImpFont, 12, flags);
+        MinimapZoneText:SetFont(ImpFont, 11, flags);
         MinimapZoneText:SetPoint('CENTER',-2,0);
 
         if (FramesDB.replaceZoom) then
