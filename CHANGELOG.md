@@ -1,7 +1,8 @@
 # Improved Blizzard UI Clean Edition Changelog
 ## 1.1.4
 * Framework added for Action Bar Art (Gryphon end-caps). It is now possible to remove the end caps from the action bar, more functions to come later!
-* ToT (Target of Target) reduced font size to improve readability of large nameplates.
+* Target Frame, reduced font size to improve readability of large nameplates. 
+* ToT Frame (Target of Target),  reduced font size to improve readability of large nameplates.
 
 ## 1.1.3 
 * Minimap Zone Frame better fits the larger zone names.
