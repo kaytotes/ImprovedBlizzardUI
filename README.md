@@ -12,4 +12,4 @@ Improved Blizzard UI Clean works best with the following addons.
 
 * [Baud Bag](https://www.curseforge.com/wow/addons/baud-bag)
 * [Storyline](https://wow.curseforge.com/projects/storyline)
-* [DynamicCam](https://wow.curseforge.com/projects/dynamiccam)
+* [DynamicCam](https://wow.curseforge.com/projects/dynamiccam) + [My TrueCam Preset](https://pastebin.com/JY12CPND)
