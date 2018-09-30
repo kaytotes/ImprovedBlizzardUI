@@ -1,8 +1,8 @@
 .vscode/settings.json
 .vscode/launch.json
-README.md
 .travis.yml
 .pkgmeta
 .release
 desktop.ini
 *.code-workspace
+ImprovedBlizzardUI.toc
