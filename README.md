@@ -1,8 +1,9 @@
-Improved Blizzard UI (Battle for Azeroth Edition)
-Clean & Immersive
+Improved Blizzard UI (Battle for Azeroth Edition) Clean & Immersive
 ====================
 
-This is a fork of https://github.com/kaytotes/ImprovedBlizzardUI updated with some changes for my personal preference for a cleaner and more immersive expierence whilst still being highly functional, along with oversight fixes & added goodies. I do keep this updated as required via mergeing as Kytotes pushes new changes which do not directly conflict to which maintains coherency between the original and this fork so don't worry this version is kept up-to date with the latest stability changes.
+This is a fork of https://github.com/kaytotes/ImprovedBlizzardUI updated & adjusted for a cleaner and more immersive expierence whilst still being as highly functional as the original.
+
+Clean Editionfixes oversights & handles my personal gripes/desires. I do keep this updated as required via mergeing whenever Kytotes pushes fixes which do not directly conflict which maintains coherency between the original and this fork so don't worry this version is kept up-to date with the latest stability changes and is just an optional flavour.
 ## PLEASE DO NOT BUG KYTOTES WITH ANY ISSUE YOU FIND IN THIS FORK!!!
 
 
