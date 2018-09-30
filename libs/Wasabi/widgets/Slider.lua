@@ -67,7 +67,7 @@ local TestString = UIParent:CreateFontString(nil, nil, 'GameFontHighlightSmall')
 local function OnTextChanged(self, ...)
 	local Slider = self:GetParent()
 	local _, max = Slider:GetMinMaxValues()
-	TestString:SetFormattedText(Slider.decimalFormat, max .. '.' .. 2e9)
+	TestString:SetFormattedText(Slider.decimalFormat, 0.00)
 	self:SetWidth(TestString:GetStringWidth() * 3)
 	self:SetText(self:GetText())
 	self:SetScript('OnTextChanged', nil)
@@ -81,7 +81,7 @@ Wasabi:RegisterWidget(widgetType, widgetVersion, function(panel, key)
 	Slider:SetScript('OnValueChanged', OnValueChanged)
 	Slider:SetScript('OnEnable', OnEnable)
 	Slider:SetScript('OnDisable', OnDisable)
-	Slider:SetObeyStepOnDrag(true)
+	--Slider:SetObeyStepOnDrag(true)
 	Slider.Min = _G[_NAME .. 'Low']
 	Slider.Max = _G[_NAME .. 'High']
 	Slider.Thumb = _G[_NAME .. 'Thumb']
