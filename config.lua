@@ -28,6 +28,7 @@ local defaults = {
     autoScreenshot = true,
 
     toggleObjective = true,
+    toggleGryphons = true,
 
     healthWarnings = true,
     announceInterrupts = true,
@@ -46,12 +47,12 @@ local defaults = {
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
-options:AddSlash('/imp');
+options:AddSlash('/showui');
 
 options:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
 
     -- Miscellaneous Category
     local miscTitle = self:CreateTitle();
@@ -218,7 +219,7 @@ local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaul
 framesOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
 
     local globalTitle = self:CreateTitle();
     globalTitle:SetPoint('TOPLEFT', 10, -50)
@@ -380,7 +381,7 @@ local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults
 barOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
 
     -- Cast Bars
     local castBarTitle = self:CreateTitle();
@@ -445,15 +446,22 @@ barOptions:Initialize(function(self)
     showLeftText:SetText(Loc['Show Right 2 Bar Text']);
     AddTooltip(showLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
 
+    local gryphonArt = self:CreateCheckButton('gryphonArt');
+    gryphonArt:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, 0);
+    gryphonArt:SetText(Loc['Show Gryphon Art']);
+    AddTooltip(gryphonArt, Loc['Disabling Hides the Gryphon Art. (PLACEHOLDER OPTION)']);
+    
+    -- Buffs and Debuffs
     local buffsTitle = self:CreateTitle();
-    buffsTitle:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, -24);
-    buffsTitle:SetText(Loc['Buffs and Debuffs']);
+    buffsTitle:SetPoint('TOPLEFT', gryphonArt, 'BOTTOMLEFT', 0, -24);
+    buffsTitle:SetText(Loc['Buffs and Debuffs Scale']);
 
     local buffScale = self:CreateSlider('buffScale');
     buffScale:SetPoint('TOPLEFT', buffsTitle, 'BOTTOMLEFT', 4, -8);
     buffScale:SetRange(0.1, 2.0);
     buffScale:SetStep(0.1);
-    AddTooltip(buffScale, Loc['Buffs and Debuffs Scale']);
+    AddTooltip(buffScale, Loc['Sets Buffs and Debuffs Scale']);
+    
 end);
 
 options:On('Okay', function(self)

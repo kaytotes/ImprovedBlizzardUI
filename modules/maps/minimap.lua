@@ -67,7 +67,7 @@ local function HandleEvents (self, event, ...)
     if (event == 'PLAYER_ENTERING_WORLD') then
         -- Move and Scale the entire Minimap frame
         MinimapCluster:ClearAllPoints();
-        MinimapCluster:SetScale(1.00);
+        MinimapCluster:SetScale(1.15); --Scale this to suit reduced zone text size.
         
         if (FramesDB.showPerformance) then
             MinimapCluster:SetPoint('TOPRIGHT', -15, -20);
@@ -77,8 +77,9 @@ local function HandleEvents (self, event, ...)
 
         local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
         local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
-
-        MinimapZoneText:SetFont(ImpFont, 13, flags);
+        -- Set Zone Text Size & position
+        MinimapZoneText:SetFont(ImpFont, 12, flags);
+        MinimapZoneText:SetPoint('CENTER',-2,0);
 
         if (FramesDB.replaceZoom) then
             MinimapZoomIn:Hide();

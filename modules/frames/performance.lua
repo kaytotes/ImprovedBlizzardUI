@@ -16,7 +16,7 @@ PerformanceFrame:SetPoint('TOP', 10, 25);
 
 -- Text positioning
 PerformanceFrame.text:SetPoint('CENTER', 0, 0);
-PerformanceFrame.text:SetFont(ImpFont, 14, 'THINOUTLINE');
+PerformanceFrame.text:SetFont(ChatFont, 13, 'OUTLINE');
 
 --[[
     Refresh and update frame
