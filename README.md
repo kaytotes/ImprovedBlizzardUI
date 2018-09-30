@@ -15,4 +15,4 @@ Improved Blizzard UI Clean works best with the following addons.
 * [DynamicCam](https://wow.curseforge.com/projects/dynamiccam) + [My TrueCam Preset](https://pastebin.com/JY12CPND)
 _________________________________________________________________________________________________________________
 ###### PLEASE DO NOT BUG KYTOTES WITH ANY ISSUE YOU FIND IN THIS FORK!!!
-*It appears Kytotes is no longer providing support for BFA (shurg)*
+*It appears Kytotes is no longer providing support for BFA (shrug)*
