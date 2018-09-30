@@ -4,7 +4,7 @@
 * ToT (Target of Target) reduced font size to improve readability of large nameplates.
 
 ## 1.1.3 
-* Minimap Zone Text better fits the larger zone names.
+* Minimap Zone Frame better fits the larger zone names.
 
 ## 1.1.2 
 * Chat now uses uppercase characters for representing Guild Party, e.t.c. The text box font size is slightly increased.
