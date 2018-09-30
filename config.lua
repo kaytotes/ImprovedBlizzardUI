@@ -28,7 +28,7 @@ local defaults = {
     autoScreenshot = true,
 
     toggleObjective = true,
-    toggleGryphons = true,
+    HideActionBarArt = false,
 
     healthWarnings = true,
     announceInterrupts = true,
@@ -47,12 +47,12 @@ local defaults = {
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
-options:AddSlash('/showui');
+options:AddSlash('/ibui');
 
 options:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
+    title:SetText('Improved Blizzard UI Clean Edition - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
 
     -- Miscellaneous Category
     local miscTitle = self:CreateTitle();
@@ -89,9 +89,14 @@ options:Initialize(function(self)
     autoScreenshot:SetText(Loc['Achievement Screenshot']);
     AddTooltip(autoScreenshot, Loc['Automatically take a screenshot upon earning an achievement.']);
 
+    local HideActionBarArt = self:CreateCheckButton('HideActionBarArt');
+    HideActionBarArt:SetPoint('TOPLEFT', autoScreenshot, 'BOTTOMLEFT', 0, 0);
+    HideActionBarArt:SetText(Loc['Hide Action Bar Art']);
+    AddTooltip(HideActionBarArt, Loc['Enabling hides the Action Bar Art (gryphons on either side).']);
+    
     -- Chat Category
     local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', autoScreenshot, 'BOTTOMLEFT', 0, -8);
+    chatTitle:SetPoint('TOPLEFT', HideActionBarArt, 'BOTTOMLEFT', 0, -8);
     chatTitle:SetText(Loc['Chat']);
 
     local styleChat = self:CreateCheckButton('styleChat');
@@ -446,14 +451,9 @@ barOptions:Initialize(function(self)
     showLeftText:SetText(Loc['Show Right 2 Bar Text']);
     AddTooltip(showLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
 
-    local gryphonArt = self:CreateCheckButton('gryphonArt');
-    gryphonArt:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, 0);
-    gryphonArt:SetText(Loc['Show Gryphon Art']);
-    AddTooltip(gryphonArt, Loc['Disabling Hides the Gryphon Art. (PLACEHOLDER OPTION)']);
-    
     -- Buffs and Debuffs
     local buffsTitle = self:CreateTitle();
-    buffsTitle:SetPoint('TOPLEFT', gryphonArt, 'BOTTOMLEFT', 0, -24);
+    buffsTitle:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, -24);
     buffsTitle:SetText(Loc['Buffs and Debuffs Scale']);
 
     local buffScale = self:CreateSlider('buffScale');

@@ -234,4 +234,4 @@ end
 
 local version = GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version');
 
-print('|cffffff00Improved Blizzard UI Clean ' .. version .. ' Initialised.');
+print('|cffffff00Improved Blizzard UI Clean Edition ' .. version .. ' Initialised.');

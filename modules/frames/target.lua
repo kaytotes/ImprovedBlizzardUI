@@ -54,7 +54,7 @@ local function StyleTargetFrame()
     TargetFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
     TargetFrameTextureFrameName:SetTextColor(r, g, b, a);
 
-    TargetFrameTextureFrameName:SetFont(ImpFont, 11, flags);
+    TargetFrameTextureFrameName:SetFont(ImpFont, 10, flags);
 
     TargetFrameTextureFrameHealthBarText:SetFont(ImpFont, 10, flags);
     TargetFrameTextureFrameHealthBarTextLeft:SetFont(ImpFont, 10, flags);
@@ -69,7 +69,7 @@ local function StyleTargetFrame()
     TargetFrame.healthbar.lockColor = true;
 
     if ( TargetFrame.totFrame ) then
-        TargetFrameToTTextureFrameName:SetFont(file, 11, flags);
+        TargetFrameToTTextureFrameName:SetFont(file, 10, flags);
         TargetFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
 end
