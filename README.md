@@ -5,7 +5,7 @@ This is a fork of https://github.com/kaytotes/ImprovedBlizzardUI updated & adjus
 
 ## Clean Edition? What gives.
 As this suggests includes fixes for oversights & handles my personal gripes/desires. I do keep this updated as required via mergeing whenever Kytotes pushes fixes which do not directly conflict too maintain coherency between the original and this fork, so don't worry this version is kept up-to date with the latest stability changes and is just an optional flavour.
-
+_________________________________________________________________________________________________________________
 
 ### Recommended Addons
 Improved Blizzard UI Clean works best with the following addons.
@@ -13,6 +13,6 @@ Improved Blizzard UI Clean works best with the following addons.
 * [DejaCharacterStats](https://www.curseforge.com/wow/addons/dejacharacterstats)
 * [Immersion](https://wow.curseforge.com/projects/immersion)
 * [DynamicCam](https://wow.curseforge.com/projects/dynamiccam) + [My TrueCam Preset](https://pastebin.com/JY12CPND)
-
+_________________________________________________________________________________________________________________
 ###### PLEASE DO NOT BUG KYTOTES WITH ANY ISSUE YOU FIND IN THIS FORK!!!
-###### It appears Kytotes is no longer providing support for BFA (shurg)
+*It appears Kytotes is no longer providing support for BFA (shurg)*
