@@ -11,9 +11,10 @@ As this suggests includes fixes for oversights & handles my personal gripes/desi
 Improved Blizzard UI Clean works best with the following addons.
 
 * [Baud Bag](https://www.curseforge.com/wow/addons/baud-bag)
-* [Storyline](https://wow.curseforge.com/projects/storyline)
+* [Immersion](https://wow.curseforge.com/projects/immersion)
 * [DynamicCam](https://wow.curseforge.com/projects/dynamiccam) + [My TrueCam Preset](https://pastebin.com/JY12CPND)
 
 
 
 ## PLEASE DO NOT BUG KYTOTES WITH ANY ISSUE YOU FIND IN THIS FORK!!!
+It appears Kytotes is no longer providing support for BFA (shurg)
