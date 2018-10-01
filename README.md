@@ -13,7 +13,7 @@ As this suggests includes fixes for oversights & handles my personal gripes/desi
 I also pull request any major fixes over to Kaytoes's original project though when or if he accepts those and pushes a new build to curse/twitch is out of my control.
 _________________________________________________________________________________________________________________
 ### Recommended Addons
-Improved Blizzard UI Clean works best with the following addons.
+Improved Blizzard UI + works best with the following addons.
 * [Baud Bag](https://www.curseforge.com/wow/addons/baud-bag)
 * [DejaCharacterStats](https://www.curseforge.com/wow/addons/dejacharacterstats)
 * [Immersion](https://wow.curseforge.com/projects/immersion)
