@@ -1,7 +1,7 @@
 Improved Blizzard UI + (Battle for Azeroth Edition)
 ===================================================================
 
-This is a fork of [the original Improved Blizzard Ui by Kaytotes]( https://github.com/kaytotes/ImprovedBlizzardUIPlus) updated & adjusted for a cleaner and more immersive expierence whilst still being as highly functional as the original.
+This is a fork of the original [ Improved Blizzard Ui]( https://github.com/kaytotes/ImprovedBlizzardUIPlus) by Kaytotes updated & adjusted for a cleaner and more immersive expierence whilst still being as highly functional as the original.
 
 Inline-style: 
 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Latest Release"
