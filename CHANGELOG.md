@@ -1,4 +1,7 @@
-# Improved Blizzard UI Clean Edition Changelog
+# Improved Blizzard UI +  Changelog
+## 1.1.5
+* Re-based Addon under new name formaly Improved Blizzard UI Clean
+
 ## 1.1.4
 * Framework added for Action Bar Art (Gryphon end-caps). It is now possible to remove the end caps from the action bar, more functions to come later!
 * Target Frame, reduced font size to improve readability of large nameplates. 
@@ -14,7 +17,7 @@
 * Re-applied adjustments from prev versions. (Brute Force Frame Pos??, I think not.)
 
 ## 1.1.0 
-Merged Improved Blizzard UI Master for 8.0 Maintence Fixes
+* Merged Kaytotes Improved Blizzard UI Master for 8.0 Maintence Fixes
 
 ## 1.0.5 
 * Framework for Gryphon Art Hide added to config menu, Proper Frame Unlock and removed hacky fix.

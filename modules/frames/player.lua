@@ -49,8 +49,8 @@ local function StyleFrames()
     PlayerFrameHealthBar:SetHeight(29);
     PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);
     PlayerFrameHealthBarText:SetPoint('CENTER',50,6);
-    PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUIClean\\media\\UI-TargetingFrame');
-    PlayerStatusTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUIClean\\media\\UI-Player-Status');
+    PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame');
+    PlayerStatusTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUIPlus\\media\\UI-Player-Status');
 
     local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
@@ -84,7 +84,7 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_LOGIN' or (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUIClean')) then
+    if (event == 'PLAYER_LOGIN' or (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUIPlus')) then
         confPlayerClassColours = FramesDB.playerClassColours;
 
         -- Position (Lets re-unlock the frame so it can be moved!)

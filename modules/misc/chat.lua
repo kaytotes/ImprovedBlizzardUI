@@ -171,8 +171,8 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-	if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUIClean') then
-		if (... == 'ImprovedBlizzardUIClean') then
+	if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUIPlus') then
+		if (... == 'ImprovedBlizzardUIPlus') then
 			if (PrimaryDB.overrideBlizzardStrings) then
 				OverrideStrings();
 			end

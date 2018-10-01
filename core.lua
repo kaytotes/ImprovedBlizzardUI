@@ -3,8 +3,8 @@ local DEBUG = true;
 
 Imp = CreateFrame('Frame', nil, UIParent);
 
-ImpFont = 'Interface\\AddOns\\ImprovedBlizzardUIClean\\media\\ui.ttf';
-ChatFont = 'Interface\\AddOns\\ImprovedBlizzardUIClean\\media\\chat.ttf';
+ImpFont = 'Interface\\AddOns\\ImprovedBlizzardUIPlus\\media\\ui.ttf';
+ChatFont = 'Interface\\AddOns\\ImprovedBlizzardUIPlus\\media\\chat.ttf';
 
 -- Build the On Screen Display
 Imp_OSD = CreateFrame('Frame', nil, UIParent);
@@ -232,6 +232,6 @@ function Imp.formatNum(number)
     return minus .. int:reverse():gsub("^,", "") .. fraction
 end
 
-local version = GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version');
+local version = GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version');
 
-print('|cffffff00Improved Blizzard UI Clean Edition ' .. version .. ' Initialised.');
+print('|cffffff00Improved Blizzard UI + ' .. version .. ' Initialised.');

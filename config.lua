@@ -52,7 +52,7 @@ options:AddSlash('/ibui');
 options:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI Clean Edition - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
+    title:SetText('Improved Blizzard UI + - v'..GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version'));
 
     -- Miscellaneous Category
     local miscTitle = self:CreateTitle();
@@ -224,7 +224,7 @@ local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaul
 framesOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
+    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version'));
 
     local globalTitle = self:CreateTitle();
     globalTitle:SetPoint('TOPLEFT', 10, -50)
@@ -386,7 +386,7 @@ local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults
 barOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIClean', 'Version'));
+    title:SetText('Improved Blizzard UI Clean - v'..GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version'));
 
     -- Cast Bars
     local castBarTitle = self:CreateTitle();
