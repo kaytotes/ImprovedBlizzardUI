@@ -4,9 +4,8 @@ Improved Blizzard UI + (Battle for Azeroth Edition)
 This is a fork of the original [Improved Blizzard Ui]( https://github.com/kaytotes/ImprovedBlizzardUIPlus) by Kaytotes 
 of which work has since ceased, and Improved Blizzard Ui Plus carries forth with improvements and continual bug fixes for future WoW Patch's
 
-Inline-style: 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Latest Release"
-[Download](https://github.com/Misunderstood-Wookiee/ImprovedBlizzardUIPlus/releases/ "Download from GitHub Releases")
+### Latest Download
+[Latest Releases](https://github.com/Misunderstood-Wookiee/ImprovedBlizzardUIPlus/releases/ "Download from GitHub Releases")
 
 
 ### Plus Edition? What gives.
