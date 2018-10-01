@@ -67,7 +67,7 @@ local function StyleFocusFrame()
 
     -- Style Font
     if(FocusFrameToT:IsShown()) then
-        FocusFrameToTTextureFrameName:SetFont(ImpFont, 11, flags);
+        FocusFrameToTTextureFrameName:SetFont(ImpFont, 10, flags);
         FocusFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
 

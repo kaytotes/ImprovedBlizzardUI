@@ -120,7 +120,7 @@ function Imp.ModifyFrame(frame, anchor, parent, posX, posY, scale)
     if(parent == nil) then frame:SetPoint(anchor, posX, posY) else frame:SetPoint(anchor, parent, posX, posY) end
     if(scale ~= nil) then frame:SetScale(scale) end
     frame:SetUserPlaced(true);
-    frame:SetMovable(false);
+    frame:SetMovable(true);
 end
 
 --[[
