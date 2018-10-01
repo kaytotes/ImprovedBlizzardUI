@@ -1,4 +1,7 @@
 # Improved Blizzard UI +  Changelog
+## 1.1.6
+* Fixed version Info showing wrong ver, Guild Colour on Tooltips are now default something more vanilla-esk.
+
 ## 1.1.5
 * Re-based Addon under new name formaly Improved Blizzard UI Clean
 

@@ -38,7 +38,7 @@ local defaults = {
 
     anchorMouse = true,
     styleTooltips = true,
-    guildColour = 'ffff87ff',
+    guildColour = 'ff76ff79',
     hostileBorder = true,
     nameClassColours = true,
     tooltipToT = true,
