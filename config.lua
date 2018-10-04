@@ -28,7 +28,7 @@ local defaults = {
     autoScreenshot = true,
 
     toggleObjective = true,
-
+    
     healthWarnings = true,
     announceInterrupts = true,
 
@@ -37,21 +37,21 @@ local defaults = {
 
     anchorMouse = true,
     styleTooltips = true,
-    guildColour = 'ffff87ff',
+    guildColour = 'ff76ff79',
     hostileBorder = true,
     nameClassColours = true,
     tooltipToT = true,
     tooltipClassHealth = true,
-    tooltipFontSize = 12,
+    tooltipFontSize = 13,
 };
 
 local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
-options:AddSlash('/imp');
+options:AddSlash('/ibui+');
 
 options:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+    title:SetText('Improved Blizzard UI + - v'..GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version'));
 
     -- Miscellaneous Category
     local miscTitle = self:CreateTitle();
@@ -135,7 +135,7 @@ options:Initialize(function(self)
 
     -- Tooltips Category
     local tooltipsTitle = self:CreateTitle();
-    tooltipsTitle:SetPoint('TOPLEFT', 250, -50);
+    tooltipsTitle:SetPoint('TOPLEFT', 300, -50);
     tooltipsTitle:SetText(Loc['Tooltips']);
 
     local anchorMouse = self:CreateCheckButton('anchorMouse');
@@ -176,7 +176,7 @@ options:Initialize(function(self)
     tooltipFontSize:SetPoint('TOPLEFT', guildColour, 'BOTTOMLEFT', 4, -10);
     tooltipFontSize:SetRange(7, 20);
     tooltipFontSize:SetStep(1);
-    AddTooltip(tooltipFontSize, Loc['Font Size']);
+    AddTooltip(tooltipFontSize, Loc['Sets Font Size for Tooltips']);
 end);
 
 local frameDefaults = {
@@ -207,7 +207,7 @@ local frameDefaults = {
     showSpell = true,
     showDamage = true,
     inactiveFade = true,
-    fontSize = 17,
+    fontSize = 15,
 
     showMapDungeons = true,
     showCursorCoords = true,
@@ -218,7 +218,7 @@ local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaul
 framesOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+    title:SetText('Improved Blizzard UI + - v'..GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version'));
 
     local globalTitle = self:CreateTitle();
     globalTitle:SetPoint('TOPLEFT', 10, -50)
@@ -288,7 +288,7 @@ framesOptions:Initialize(function(self)
     AddTooltip(focusClassColours, Loc['Colours Focus Health bar to match their class.']);
 
     local minimapTitle = self:CreateTitle();
-    minimapTitle:SetPoint('TOPLEFT', 250, -50)
+    minimapTitle:SetPoint('TOPLEFT', 300, -50)
     minimapTitle:SetText(Loc['Mini Map']);
 
     local showMinimapCoords = self:CreateCheckButton('showMinimapCoords');
@@ -355,7 +355,7 @@ framesOptions:Initialize(function(self)
     fontSize:SetPoint('TOPLEFT', inactiveFade, 'BOTTOMLEFT', 4, -10);
     fontSize:SetRange(10, 30);
     fontSize:SetStep(1);
-    AddTooltip(fontSize, Loc['Font Size']);
+    AddTooltip(fontSize, Loc['Sets Font Size for Kill Feed']);
 end);
 
 local barDefaults = {
@@ -372,6 +372,11 @@ local barDefaults = {
     showLeftText = true,
     showRightText = true,
 
+    hideMainBarBackground = false,
+    hideMainBarArrows = false,
+    hideEndCaps = false,
+    hideStanceFrame = false,
+
     buffScale = 1.1,
 };
 
@@ -380,7 +385,7 @@ local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults
 barOptions:Initialize(function(self)
     local title = self:CreateTitle();
     title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+    title:SetText('Improved Blizzard UI + - v'..GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version'));
 
     -- Cast Bars
     local castBarTitle = self:CreateTitle();
@@ -411,6 +416,7 @@ barOptions:Initialize(function(self)
     focusBarTimer:SetText(Loc['Focus Cast Bar Timer']);
     AddTooltip(focusBarTimer, Loc["Adds a timer in seconds above the Focus' Cast Bar."]);
 
+    -- Action Bars
     local actionBarsTitle = self:CreateTitle();
     actionBarsTitle:SetPoint('TOPLEFT', focusBarTimer, 'BOTTOMLEFT', 0, -24);
     actionBarsTitle:SetText(Loc['Action Bars']);
@@ -445,15 +451,42 @@ barOptions:Initialize(function(self)
     showLeftText:SetText(Loc['Show Right 2 Bar Text']);
     AddTooltip(showLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
 
+    -- Main Bar
+    local mainBarArtTitle = self:CreateTitle();
+    mainBarArtTitle:SetPoint('TOPLEFT', 300, -50)
+    mainBarArtTitle:SetText(Loc['Main Bar']);
+
+    local hideMainBarBackground = self:CreateCheckButton('hideMainBarBackground');
+    hideMainBarBackground:SetPoint('TOPLEFT', mainBarArtTitle, 'BOTTOMLEFT', 0, -8)
+    hideMainBarBackground:SetText(Loc['Hide Background']);
+    AddTooltip(hideMainBarBackground, Loc['Enabling hides the Background behind the action bar (Best used with "Remove Main Bar Arrows").']);
+
+    local hideMainBarArrows = self:CreateCheckButton('hideMainBarArrows');
+    hideMainBarArrows:SetPoint('TOPLEFT', hideMainBarBackground, 'BOTTOMLEFT', 0, 0)
+    hideMainBarArrows:SetText(Loc['Hide Arrows & Page Number']);
+    AddTooltip(hideMainBarArrows, Loc['Enabling hides the Arrows & Page Number.']);
+
+    local hideEndCaps = self:CreateCheckButton('hideEndCaps');
+    hideEndCaps:SetPoint('TOPLEFT', hideMainBarArrows, 'BOTTOMLEFT', 0, 0);
+    hideEndCaps:SetText(Loc['Hide End Caps']);
+    AddTooltip(hideEndCaps, Loc['Enabling hides the End Caps (gryphons on either side of the main bar).']);
+
+    local hideStanceFrame = self:CreateCheckButton('hideStanceFrame');
+    hideStanceFrame:SetPoint('TOPLEFT', hideEndCaps, 'BOTTOMLEFT', 0, 0);
+    hideStanceFrame:SetText(Loc['Hide Stance Frame']);
+    AddTooltip(hideStanceFrame, Loc['Enabling hides the stance frame (Rogues Stealh Button e.t.c).']);
+
+    -- Buffs and Debuffs
     local buffsTitle = self:CreateTitle();
-    buffsTitle:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, -24);
-    buffsTitle:SetText(Loc['Buffs and Debuffs']);
+    buffsTitle:SetPoint('TOPLEFT', hideStanceFrame, 'BOTTOMLEFT', 0, -24);
+    buffsTitle:SetText(Loc['Buffs and Debuffs Scale']);
 
     local buffScale = self:CreateSlider('buffScale');
     buffScale:SetPoint('TOPLEFT', buffsTitle, 'BOTTOMLEFT', 4, -8);
     buffScale:SetRange(0.1, 2.0);
     buffScale:SetStep(0.1);
-    AddTooltip(buffScale, Loc['Buffs and Debuffs Scale']);
+    AddTooltip(buffScale, Loc['Sets Buffs and Debuffs Scale']);
+    
 end);
 
 options:On('Okay', function(self)

@@ -36,13 +36,13 @@ local function StyleFocusFrame()
     -- Add Dragons etc if needed
     local frameTexture;
     if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
-		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame-Elite';
 	elseif ( unitClassification == 'rareelite' ) then
-		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite';
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame-Rare-Elite';
 	elseif ( unitClassification == 'rare' ) then
-        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare';
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame-Rare';
     else
-        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame';
 	end
 
     FocusFrame.borderTexture:SetTexture(frameTexture);
@@ -67,7 +67,7 @@ local function StyleFocusFrame()
 
     -- Style Font
     if(FocusFrameToT:IsShown()) then
-        FocusFrameToTTextureFrameName:SetFont(ImpFont, 11, flags);
+        FocusFrameToTTextureFrameName:SetFont(ImpFont, 10, flags);
         FocusFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
 
@@ -79,13 +79,9 @@ end
     @ return void
 ]]
 local function SetPosition()
-    -- Position
+    -- Position (Lets re-unlock the frame so it can be moved!)
     FocusFrame:SetMovable(true);
-    FocusFrame:ClearAllPoints();
-    FocusFrame:SetPoint('RIGHT', PlayerFrame, 'TOP', 150, 90)
-    FocusFrame:SetScale(FramesDB.primaryScale - 0.3);
-    FocusFrame:SetUserPlaced(true);
-    FocusFrame:SetMovable(false);
+    FocusFrame:SetScale(FramesDB.primaryScale - 0.15);
 end
 
 --[[

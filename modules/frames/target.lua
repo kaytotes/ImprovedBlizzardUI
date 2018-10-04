@@ -29,13 +29,13 @@ local function StyleTargetFrame()
     -- Add Dragons etc if needed
     local frameTexture;
     if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
-		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame-Elite';
 	elseif ( unitClassification == 'rareelite' ) then
-		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite';
+		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame-Rare-Elite';
 	elseif ( unitClassification == 'rare' ) then
-        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare';
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame-Rare';
     else
-        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUIPlus\\media\\UI-TargetingFrame';
 	end
 
     TargetFrame.borderTexture:SetTexture(frameTexture);
@@ -54,7 +54,7 @@ local function StyleTargetFrame()
     TargetFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
     TargetFrameTextureFrameName:SetTextColor(r, g, b, a);
 
-    TargetFrameTextureFrameName:SetFont(ImpFont, 11, flags);
+    TargetFrameTextureFrameName:SetFont(ImpFont, 10, flags);
 
     TargetFrameTextureFrameHealthBarText:SetFont(ImpFont, 10, flags);
     TargetFrameTextureFrameHealthBarTextLeft:SetFont(ImpFont, 10, flags);
@@ -69,7 +69,7 @@ local function StyleTargetFrame()
     TargetFrame.healthbar.lockColor = true;
 
     if ( TargetFrame.totFrame ) then
-        TargetFrameToTTextureFrameName:SetFont(file, 11, flags);
+        TargetFrameToTTextureFrameName:SetFont(file, 10, flags);
         TargetFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
 end
@@ -84,13 +84,9 @@ end
 ]]
 local function HandleEvents (self, event, ...)
     if (event == 'PLAYER_ENTERING_WORLD') then
-        -- Position
+        -- Position (Lets re-unlock the frame so it can be moved!)
         TargetFrame:SetMovable(true);
-        TargetFrame:ClearAllPoints();
-        TargetFrame:SetPoint('CENTER', FramesDB.primaryOffsetX, -FramesDB.primaryOffsetY);
         TargetFrame:SetScale(FramesDB.primaryScale);
-        TargetFrame:SetUserPlaced(true);
-        TargetFrame:SetMovable(false);
 
         -- Style Frame
         StyleTargetFrame();

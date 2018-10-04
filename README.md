@@ -1,131 +1,25 @@
-Improved Blizzard UI (Battle for Azeroth Edition)
-====================
+Improved Blizzard UI + (Battle for Azeroth Edition)
+===================================================
 
-### Please note that due to me no longer playing Battle for Azeroth this is not currently maintained any longer.
+This is a fork of the original [Improved Blizzard Ui]( https://github.com/kaytotes/ImprovedBlizzardUIPlus) by Kaytotes 
+of which work has since ceased for the moment, and Improved Blizzard Ui Plus carries forward with improvements and continual bug fixes for future WoW Patch's
 
-Improved Blizzard UI is an attempt to improve the World of Warcraft interface by styling frames, implementing additional functionality and restructuring / hiding existing elements.
+[Latest Releases](https://github.com/Misunderstood-Wookiee/ImprovedBlizzardUIPlus/releases/ "Download from GitHub Releases")
 
-This has been customized to out of the box be how I personally like my UI set up however there is extensive configuration available in game by using `/imp`. This interface is primarily tested at 2560x1400 but should largely work at any resolution.
+_________________________________________________________________________________________________________________
+### Plus Edition? What gives.
+As this suggests includes fixes for oversights & handles my personal gripes/desires. I do keep this updated as required via mergeing whenever Kytotes pushes fixes which do not directly conflict too maintain coherency between the original and this fork however due to Kaytots no longer providing support for BFA this version will likely be updated with better fixes, don't worry this version is still kept up-to date with the latest stability changes from Kytotos when they are made available.
 
-# Project Development Setup
+The scope of this project/addon is staying true to the original where possible without major change to how the UI functions from the original, the original addon has been my primary UI for sometime now and I literaly refuse to play without it haha.
 
-To get a working installation of Improved Blizzard UI you must first clone the repository to a directory of your choosing. From there `cd` into the `.release` directory.
-
-Execute `./release.sh`
-
-After a short while a configured and ready to go version of ImprovedBlizzardUI including a .zip file will be present in the `.release` directory.
-
-# Addon Installation
-
-* To install Improved Blizzard UI place the folder into `World of Warcraft//Interface//Addons` as you would any other addon.
-* Once installed if need be customize your installation with `/imp`.
-
-# Features
-
-## Miscellaneous
-
-* AFK 'Hero Mode' Camera View.
-* Automatic Repair (From Guild Bank If Available).
-* Automatic Trash Item Sale
-* Dynamic Objective Tracker (Hides when entering Instanced Content).
-* Automatic Achievement Screenshot.
-* Replacement Order Hall Bar.
-
-## Unit Frames
-
-### Player Frame
-
-* Moved and Re-Scaled.
-* Larger Health Bar.
-* Scaleable.
-* Class Coloured Health Bar.
-* Hidden Portrait Text Spam.
-* Hidden when out of Combat (Without Target / Low Health).
-* Improved Fonts.
-
-### Target Frame
-
-* Moved and Re-Scaled.
-* Larger Health Bar.
-* Scaleable.
-* Class Coloured Health Bar.
-* Improved Fonts.
-* Buffs on Top.
-
-### Target of Target
-
-* Improved Fonts.
-* Scaleable.
-* Class Coloured Health Bar.
-
-### Focus Frame
-
-* Moved and Re-Scaled.
-* Larger Health Bar.
-* Improved Fonts.
-* Class Coloured Health Bar.
-
-### Party Frames
-
-* Moved and Re-Scaled.
-* Improved Fonts.
-
-## Action Bars
-
-* Out of Range Indicator.
-* Customizable Texts.
-* Casting Bar Repositioned and Scaled.
-* Improved Fonts.
-* Scaleable Buffs and Debuffs.
-* Micro Menu and Bags Hidden (Show with Mini Map Menu).
-
-## Mini Map
-
-* Moved and Re-Scaled.
-* Player Co-Ordinates.
-* System Performance Statistics.
-* Scroll Wheel Zoom.
-* Improved Fonts.
-* Right Click Micro Menu.
-
-## Tooltips
-
-* Anchored to Mouse.
-* Styled Tooltips.
-* Unit Hostility Border.
-* Coloured Unit Guild Name, Level, Faction and Race.
-* Target of Target.
-* Class Coloured Health Bar and Name.
-* Customizable Font Size.
-* Improved Font.
-* Item Rarity Border.
-
-## Chat
-
-* Improved Chat Font.
-* Shortened Blizzard Strings (Loot, Exp Gain, Profession Levels etc).
-
-## Combat
-
-* Low Health Warnings (50% and 25%).
-* Interrupt Announcements.
-* Instanced Content Player Kill Feed.
-
-## PvP
-
-* Highlighted Killing Blows.
-* Instant Battleground Ressurection.
-
-# Improved Blizzard UI needs you!
-
-Improved Blizzard UI is on [Github](https://github.com/kaytotes/ImprovedBlizzardUI) and this is where all issues should be reported. New Feature requests are always welcome as are pull requests.
-
-Localisation help is currently needed most. New Localisation templates can be submitted via Github pull requests. The template for these is available in `localisation/template.lua`.
-
-# Recommended Addons
-
-Improved Blizzard UI works best with the following addons.
-
+*It appears Kytotes is no longer providing support for BFA (shrug)*
+I also pull request any major fixes over to Kaytoes's original project though when or if he accepts those and pushes a new build to curse/twitch is out of my control.
+_________________________________________________________________________________________________________________
+### Recommended Addons
+Improved Blizzard UI + works best with the following addons.
 * [Baud Bag](https://www.curseforge.com/wow/addons/baud-bag)
-* [Storyline](https://wow.curseforge.com/projects/storyline)
-* [DynamicCam](https://wow.curseforge.com/projects/dynamiccam)
+* [DejaCharacterStats](https://www.curseforge.com/wow/addons/dejacharacterstats)
+* [Immersion](https://wow.curseforge.com/projects/immersion)
+* [DynamicCam](https://wow.curseforge.com/projects/dynamiccam) + [My TrueCam Preset](https://pastebin.com/JY12CPND)
+_________________________________________________________________________________________________________________
+###### PLEASE DO NOT BUG KYTOTES WITH ANY ISSUE YOU FIND IN THIS FORK!!!
