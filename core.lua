@@ -96,12 +96,12 @@ end
     @ return array
 ]]
 function Imp.GetClassColour(unit)
-    if (UnitClass(unit)) then
-        local _, class = UnitClass(unit);
-        local c = RAID_CLASS_COLORS[class];
-        return c;
+  local _, class = UnitClass(unit)
+  if class and RAID_CLASS_COLORS[class] then
+    return RAID_CLASS_COLORS[class] or { r = 1, g = 1, b = 1 }
     end
 end
+
 
 --[[
     Helper function for moving a Blizzard frame that has a SetMoveable flag
