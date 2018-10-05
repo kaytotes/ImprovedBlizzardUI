@@ -3,7 +3,8 @@ local DEBUG = true;
 
 Imp = CreateFrame('Frame', nil, UIParent);
 
-ImpFont = 'Interface\\AddOns\\ImprovedBlizzardUI\\media\\impfont.ttf';
+ImpFont = 'Interface\\AddOns\\ImprovedBlizzardUIPlus\\media\\ui.ttf';
+ChatFont = 'Interface\\AddOns\\ImprovedBlizzardUIPlus\\media\\chat.ttf';
 
 -- Build the On Screen Display
 Imp_OSD = CreateFrame('Frame', nil, UIParent);
@@ -95,11 +96,12 @@ end
     @ return array
 ]]
 function Imp.GetClassColour(unit)
-    if (UnitClass(unit)) then
-        local _, class = UnitClass(unit);
-        local c = RAID_CLASS_COLORS[class];
-        return c;
+  local _, class = UnitClass(unit)
+  if class and RAID_CLASS_COLORS[class] then
+    return RAID_CLASS_COLORS[class]
     end
+    -- Return Default Colour table if RAID_CLASS_COLORS returns nil (just in-case)
+    return { r = 1, g = 1, b = 1 }
 end
 
 --[[
@@ -231,6 +233,6 @@ function Imp.formatNum(number)
     return minus .. int:reverse():gsub("^,", "") .. fraction
 end
 
-local version = GetAddOnMetadata('ImprovedBlizzardUI', 'Version');
+local version = GetAddOnMetadata('ImprovedBlizzardUIPlus', 'Version');
 
-print('|cffffff00Improved Blizzard UI ' .. version .. ' Initialised.');
+print('|cffffff00Improved Blizzard UI + ' .. version .. ' Initialised.');

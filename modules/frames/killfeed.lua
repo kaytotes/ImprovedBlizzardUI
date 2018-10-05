@@ -169,7 +169,7 @@ local function HandleEvents (self, event, ...)
     -- Quit out of Disabled
     if (FramesDB.killFeed == false) then return end
 
-    if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUI') then
+    if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUIPlus') then
         for i = 1, #KillFeedFrame.recentKills do
             KillFeedFrame.texts[i]:SetFont( ImpFont, FramesDB.fontSize, "OUTLINE" );
         end

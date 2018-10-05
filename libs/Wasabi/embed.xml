@@ -1,0 +1,10 @@
+<Ui>
+	<Script file='Wasabi.lua'/>
+	<Script file='widgets\Base.lua'/>
+	<Script file='widgets\FontStrings.lua'/>
+	<Script file='widgets\CheckButton.lua'/>
+	<Script file='widgets\DropDown.lua'/>
+	<Script file='widgets\Slider.lua'/>
+	<Script file='widgets\ColorPicker.lua'/>
+	<Script file='widgets\ObjectContainer.lua'/>
+</Ui>

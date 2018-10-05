@@ -37,7 +37,7 @@ local function StyleChat()
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
     -- Change Edit Box Font
-    ChatFontNormal:SetFont(ImpFont, 12, 'THINOUTLINE');
+    ChatFontNormal:SetFont(ChatFont, 14, 'THINOUTLINE');
     ChatFontNormal:SetShadowOffset(1,-1);
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
@@ -54,7 +54,7 @@ local function StyleChat()
         -- Style Tab Fonts
         local tab = _G[Window..'Tab'];
         local tabFont = tab:GetFontString();
-        tabFont:SetFont(ImpFont, 12, 'THINOUTLINE');
+        tabFont:SetFont(ChatFont, 12, 'THINOUTLINE');
         tabFont:SetShadowOffset( 1, -1 );
         tabFont:SetShadowColor( 0, 0, 0, 0.6 );
         
@@ -95,7 +95,7 @@ local function StyleChat()
 		end
 
         -- Change Chat Font
-        _G[Window]:SetFont(ImpFont, size, 'THINOUTLINE');
+        _G[Window]:SetFont(ChatFont, size, 'THINOUTLINE');
 		_G[Window]:SetShadowOffset( 1, -1 );
 		_G[Window]:SetShadowColor( 0, 0, 0, 0.6 );
     end
@@ -147,13 +147,13 @@ local function OverrideStrings()
 	CHAT_WHISPER_GET = 'w from %s ';
 	CHAT_BN_WHISPER_INFORM_GET = 'w to %s ';
 	CHAT_BN_WHISPER_GET = 'w from %s ';
-	CHAT_PARTY_GET = '|Hchannel:PARTY|hp|h %s ';
-	CHAT_PARTY_LEADER_GET =  '|Hchannel:PARTY|hpl|h %s ';
-	CHAT_PARTY_GUIDE_GET =  '|Hchannel:PARTY|hpg|h %s ';
-	CHAT_INSTANCE_CHAT_GET = '|Hchannel:Battleground|hi|h %s: ';
-	CHAT_INSTANCE_CHAT_LEADER_GET = '|Hchannel:Battleground|hil|h %s: ';
-	CHAT_GUILD_GET = '|Hchannel:GUILD|hg|h %s ';
-	CHAT_OFFICER_GET = '|Hchannel:OFFICER|ho|h %s ';
+	CHAT_PARTY_GET = '|Hchannel:PARTY|hP|h %s ';
+	CHAT_PARTY_LEADER_GET =  '|Hchannel:PARTY|hPL|h %s ';
+	CHAT_PARTY_GUIDE_GET =  '|Hchannel:PARTY|hPG|h %s ';
+	CHAT_INSTANCE_CHAT_GET = '|Hchannel:Battleground|hI|h %s: ';
+	CHAT_INSTANCE_CHAT_LEADER_GET = '|Hchannel:Battleground|hIL|h %s: ';
+	CHAT_GUILD_GET = '|Hchannel:GUILD|hG|h %s ';
+	CHAT_OFFICER_GET = '|Hchannel:OFFICER|hO|h %s ';
 	CHAT_FLAG_AFK = '[AFK] ';
 	CHAT_FLAG_DND = '[DND] ';
 	CHAT_FLAG_GM = '[GM] ';
@@ -171,8 +171,8 @@ end
     @ return void
 ]]
 local function HandleEvents (self, event, ...)
-	if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUI') then
-		if (... == 'ImprovedBlizzardUI') then
+	if (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUIPlus') then
+		if (... == 'ImprovedBlizzardUIPlus') then
 			if (PrimaryDB.overrideBlizzardStrings) then
 				OverrideStrings();
 			end
