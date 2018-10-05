@@ -1,5 +1,8 @@
 # Improved Blizzard UI +  Changelog
 
+## 1.1.8
+* Fixed bug in ToT sometimes performing an invalid operation when getting class colours.
+
 ## 1.1.7
 * Tooltip text sized increased to 13 from 12.
 * Remnants of old addon name pre v1.1.5 corrected.
