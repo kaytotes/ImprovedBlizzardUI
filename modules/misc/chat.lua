@@ -7,9 +7,6 @@ ImpUI_Chat = ImpUI:NewModule('ImpUI_Chat', 'AceEvent-3.0');
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
--- LibSharedMedia-3.0
-local LSM = LibStub('LibSharedMedia-3.0');
-
 -- The Global strings we're replacing and what they're being replaced with.
 local strings = {
     -- Local Player Loot
@@ -105,8 +102,170 @@ function ImpUI_Chat:BackupBlizzardStrings()
     end
 end
 
-function ImpUI_Chat:StyleChat()
+--[[
+	Resets the Chat to essentially the default blizzard.
+	
+    @ return void
+]]
+function ImpUI_Chat:ResetChat()
+    -- Restore Edit Box Font
+    ChatFontNormal:SetFont(LSM:Fetch('font', 'Arial Narrow'), 12);
 
+    -- Restore Battle.net Social Button and Toasts.
+	ChatFrameMenuButton:Show();
+	ChatFrameChannelButton:Show();
+	local button = QuickJoinToastButton or FriendsMicroButton;
+	button:Show();
+    BNToastFrame:SetClampedToScreen(false);
+
+    for i = 1, NUM_CHAT_WINDOWS do
+        local window = _G['ChatFrame'..i]:GetName();
+        local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
+
+        -- Restore Chat Arrows
+        _G[window..'ButtonFrame']:HookScript('OnShow', _G[window..'ButtonFrame'].Show);
+        _G[window..'ButtonFrame']:Show();
+
+        -- Restore Tab Fonts
+        local tab = _G[window..'Tab'];
+        local tabFont = tab:GetFontString();
+        tabFont:SetFont(LSM:Fetch('font', 'Friz Quadrata'), 10);
+        tabFont:SetShadowOffset( 1, -1 );
+        tabFont:SetShadowColor( 0, 0, 0, 0.99 );
+
+        -- Restore Tab Backgrounds
+        _G[window..'TabLeft']:SetTexture('Interface\\ChatFrame\\ChatFrameTab-BGLeft');
+        _G[window..'TabMiddle']:SetTexture('Interface\\ChatFrame\\ChatFrameTab-BGMid');
+        _G[window..'TabRight']:SetTexture('Interface\\ChatFrame\\ChatFrameTab-BGRight');
+        _G[window..'TabSelectedLeft']:SetTexture('Interface\\ChatFrame\\ChatFrameTab-SelectedLeft');
+        _G[window..'TabSelectedMiddle']:SetTexture('Interface\\ChatFrame\\ChatFrameTab-SelectedMid');
+        _G[window..'TabSelectedRight']:SetTexture('Interface\\ChatFrame\\ChatFrameTab-SelectedRight');
+        tab:SetAlpha( 1.0 );
+
+        -- Restore Edit Box Textures
+        _G[window..'EditBoxLeft']:Show();
+        _G[window..'EditBoxMid']:Show();
+        _G[window..'EditBoxRight']:Show();
+
+        -- Reposition Edit Box
+        _G[window..'EditBox']:ClearAllPoints();
+        _G[window..'EditBox']:SetPoint('BOTTOM',_G[window],'BOTTOM',0,-35);
+        _G[window..'EditBox']:SetPoint('LEFT',_G[window],-5,0);
+		_G[window..'EditBox']:SetPoint('RIGHT',_G[window],10,0);
+
+        -- Reset Chat Font
+        _G[window]:SetFont(LSM:Fetch('font', 'Arial Narrow'), size);
+        _G[window]:SetShadowOffset( 1, -1 );
+        _G[window]:SetShadowColor( 0, 0, 0, 0.99 );
+    end
+end
+
+--[[
+	Handles the bulk of the actual chat styling if it is enabled.
+	
+    @ return void
+]]
+function ImpUI_Chat:StyleChat()
+    if (ImpUI.db.char.styleChat == false) then return; end
+
+    local chatFont = LSM:Fetch('font', ImpUI.db.char.chatFont);
+
+    -- Change Edit Box Font
+    ChatFontNormal:SetFont(chatFont, 12, 'THINOUTLINE');
+    ChatFontNormal:SetShadowOffset(1,-1);
+    ChatFontNormal:SetShadowColor(0,0,0,0.6);
+
+    -- Hide Battle.net Social Button and Toasts
+    ChatFrameMenuButton:HookScript('OnShow', function () 
+        if (ImpUI.db.char.styleChat == true) then
+            ChatFrameMenuButton:Hide();
+        else
+            ChatFrameMenuButton:Show();
+        end
+    end);
+    ChatFrameMenuButton:Hide();
+    
+	ChatFrameChannelButton:HookScript('OnShow', function () 
+        if (ImpUI.db.char.styleChat == true) then
+            ChatFrameMenuButton:Hide();
+        else
+            ChatFrameMenuButton:Show();
+        end
+    end);
+    ChatFrameChannelButton:Hide();
+    
+    local button = QuickJoinToastButton or FriendsMicroButton;
+    
+	button:HookScript('OnShow',  function () 
+        if (ImpUI.db.char.styleChat == true) then
+            button:Hide();
+        else
+            ChatFrameMenuButton:Show();
+        end
+    end);
+    button:Hide();
+    
+    BNToastFrame:SetClampedToScreen(true);
+    BNToastFrame:SetClampRectInsets(-15,15,15,-15);
+
+    for i = 1, NUM_CHAT_WINDOWS do
+        local window = _G['ChatFrame'..i]:GetName();
+        local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
+
+        -- Stop Chat Arrows Coming Back
+		_G[window..'ButtonFrame']:Hide();
+		_G[window..'ButtonFrame']:HookScript('OnShow', _G[window..'ButtonFrame'].Hide);
+        
+        -- Style Tab Fonts
+        local tab = _G[window..'Tab'];
+        local tabFont = tab:GetFontString();
+
+        tabFont:SetFont(chatFont, 12, 'THINOUTLINE');
+        tabFont:SetShadowOffset( 1, -1 );
+        tabFont:SetShadowColor( 0, 0, 0, 0.6 );
+
+        --Hide Tab Backgrounds
+        _G[window..'TabLeft']:SetTexture( nil );
+        _G[window..'TabMiddle']:SetTexture( nil );
+        _G[window..'TabRight']:SetTexture( nil );
+        _G[window..'TabSelectedLeft']:SetTexture(nil);
+        _G[window..'TabSelectedMiddle']:SetTexture(nil);
+        _G[window..'TabSelectedRight']:SetTexture(nil);
+        tab:SetAlpha( 1.0 );
+
+        -- Skin Edit Text Box
+        _G[window..'EditBoxLeft']:Hide();
+        _G[window..'EditBoxMid']:Hide();
+        _G[window..'EditBoxRight']:Hide();
+
+        -- Position Edit Box
+        _G[window..'EditBox']:ClearAllPoints();
+
+        if(window == 'ChatFrame2') then -- Kind hacky. Fixes positioning of its a combat log entry
+			_G[window..'EditBox']:SetPoint('BOTTOM',_G[window],'TOP',0,44);
+		else
+        	_G[window..'EditBox']:SetPoint('BOTTOM',_G[window],'TOP',0,22);
+        end
+        
+        _G[window..'EditBox']:SetPoint('LEFT',_G[window],-5,0);
+		_G[window..'EditBox']:SetPoint('RIGHT',_G[window],10,0);
+
+        -- On new characters this can be 0 somehow, if it is just override it.
+		if (size == 0) then
+			size = 13;
+        end
+
+        -- Change Chat Font
+        if (ImpUI.db.char.outlineChat) then
+            _G[window]:SetFont(chatFont, size, 'OUTLINE');
+        else
+            _G[window]:SetFont(chatFont, size);
+        end
+
+        -- Set a shadow. Blizzard used to do this by default but removed it in 7.1 I believe.
+        _G[window]:SetShadowOffset( 1, -1 );
+        _G[window]:SetShadowColor( 0, 0, 0, 0.6 );
+    end
 end
 
 --[[
@@ -130,6 +289,20 @@ end
 ]]
 function ImpUI_Chat:OnEnable()
     ImpUI_Chat:OverrideStrings();
+    ImpUI_Chat:StyleChat();
+
+    -- Apply Quality of Life changes that don't need to be toggled.
+    for i = 1, NUM_CHAT_WINDOWS do
+        local window = _G['ChatFrame'..i]:GetName();
+        local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
+
+        _G[window]:SetClampRectInsets( 0, 0, 0, 0 );
+        _G[window]:SetMinResize( 100, 50 );
+        _G[window]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
+
+        -- Allow arrow keys in Edit Box
+        _G[window..'EditBox']:SetAltArrowKeyMode(false);
+    end
 end
 
 --[[

@@ -5,13 +5,10 @@ ImpUI = LibStub('AceAddon-3.0'):NewAddon('ImprovedBlizzardUI', 'AceConsole-3.0')
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 -- LibSharedMedia-3.0
-local LSM = LibStub('LibSharedMedia-3.0');
+LSM = LibStub('LibSharedMedia-3.0');
 
 -- Get Addon Version
 local version = GetAddOnMetadata('ImprovedBlizzardUI', 'Version');
-
--- Configuration Table
-local config = {};
 
 -- Configuration Options
 local options = {
@@ -83,6 +80,15 @@ local options = {
                     order = 7,
                 },
 
+                styleChat = {
+                    type = 'toggle',
+                    name = L['Style Chat'],
+                    desc = L['Styles the Blizzard Chat frame to better match the rest of the UI.'],
+                    get = 'ShouldStyleChat',
+                    set = 'SetStyleChat',
+                    order = 8,
+                },
+
                 chatFont = {
                     type = 'select',
                     name = L['Chat Font'],
@@ -91,7 +97,22 @@ local options = {
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = 'GetChatFont',
                     set = 'SetChatFont',
-                    order = 8,
+                    disabled = function () 
+                        return ImpUI.db.char.styleChat == false;
+                    end,
+                    order = 9,
+                },
+
+                outlineChat = {
+                    type = 'toggle',
+                    name = L['Outline Font'],
+                    desc = L['Applies a thin outline to text rendered in the chat windows.'],
+                    get = 'GetChatOutline',
+                    set = 'SetChatOutline',
+                    disabled = function () 
+                        return ImpUI.db.char.styleChat == false;
+                    end,
+                    order = 10,
                 },
             }
         },
@@ -107,14 +128,16 @@ local defaults = {
         guildRepair = true,
         autoSell = true,
         minifyStrings = true,
-        chatFont = 'ImprovedBlizzardUI',
+        styleChat = true,
+        chatFont = 'Improved Blizzard UI',
+        outlineChat = true,
     },
 };
 
 -- Called by Ace3 when addon is loaded.
 function ImpUI:OnInitialize()
     -- Set up Improved Blizzard UI font.
-    LSM:Register(LSM.MediaType.FONT, 'ImprovedBlizzardUI', [[Interface\AddOns\ImprovedBlizzardUI\media\ImprovedBlizzardUI.ttf]]);
+    LSM:Register(LSM.MediaType.FONT, 'Improved Blizzard UI', [[Interface\AddOns\ImprovedBlizzardUI\media\ImprovedBlizzardUI.ttf]]);
 
     -- Set up DB
     self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', defaults, true);

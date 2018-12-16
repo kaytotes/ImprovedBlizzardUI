@@ -32,7 +32,9 @@ L['Sold Trash Items'] = true;
 -- Chat
 L['Chat'] = true;
 L['Chat Font'] = true;
-L['Sets the Font used for the chat window, tabs etc'] = true;
+L['Outline Font'] = true;
+L['Applies a thin outline to text rendered in the chat windows.'] = true;
+L['Sets the font used for the chat window, tabs etc.'] = true;
 L['Style Chat'] = true;
 L['Styles the Blizzard Chat frame to better match the rest of the UI.'] = true;
 L['Minify Blizzard Strings'] = true;

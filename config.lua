@@ -66,15 +66,42 @@ function ImpUI:SetMinifyStrings(info, newValue)
     end
 end
 
+-- Get whether the chat should be styped.
+function ImpUI:ShouldStyleChat(info)
+    return self.db.char.styleChat;
+end
+
+-- Set whether the chat should be styled.
+function ImpUI:SetStyleChat(info, newValue)
+    self.db.char.styleChat = newValue;
+
+    if (newValue == true) then
+        ImpUI_Chat:StyleChat();
+    else
+        ImpUI_Chat:ResetChat();
+    end
+end
+
+-- Gets the stored Chat font.
 function ImpUI:GetChatFont(info)
-    print(self.db.char.chatFont);
     return self.db.char.chatFont;
 end
 
+-- Store the Chat font and repaint / reload if needed.
 function ImpUI:SetChatFont(info, newFont)
-    ImpUI:Print('Setting Font');
-
-    -- Repaint Stuff
-
     self.db.char.chatFont = newFont;
+
+    ImpUI_Chat:StyleChat();
+end
+
+-- Get whether the chat window font should have an outline.
+function ImpUI:GetChatOutline(info)
+    return self.db.char.outlineChat;
+end
+
+-- Set whether the chat font should have an outline.
+function ImpUI:SetChatOutline(info, newValue)
+    self.db.char.outlineChat = newValue;
+    
+    ImpUI_Chat:StyleChat();
 end
