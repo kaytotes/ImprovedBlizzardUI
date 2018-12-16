@@ -2,7 +2,14 @@
     <!-- Lib Stub -->
     <Script file="libs\LibStub\LibStub.lua"/>
 
+    <!-- Callback Handler -->
+    <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
+
     <!-- Ace3 Libs -->
-    <Include file="libs\Ace3\AceAddon-3.0\AceAddon-3.0.xml"/>
-    <Include file="libs\Ace3\AceConsole-3.0\AceConsole-3.0.xml"/>
+    <Include file="Libs\Ace3\AceAddon-3.0\AceAddon-3.0.xml"/>
+    <Include file="Libs\Ace3\AceEvent-3.0\AceEvent-3.0.xml"/>
+    <Include file="Libs\Ace3\AceDB-3.0\AceDB-3.0.xml"/>
+    <Include file="Libs\Ace3\AceConsole-3.0\AceConsole-3.0.xml"/>
+    <Include file="Libs\Ace3\AceGUI-3.0\AceGUI-3.0.xml"/>
+    <Include file="Libs\Ace3\AceConfig-3.0\AceConfig-3.0.xml"/>
 </Ui>
