@@ -54,7 +54,6 @@ end
     @ return void
 ]]
 function ImpUI_Sell:OnInitialize()
-    ImpUI:Print('ImpUI_Sell');
 end
 
 --[[
