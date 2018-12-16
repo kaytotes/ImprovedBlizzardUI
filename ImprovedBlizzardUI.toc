@@ -3,9 +3,9 @@
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
 ## Author: Kaytotes
-## Dependencies: Blizzard_TalkingHeadUI
-## OptionalDeps: Wasabi
-## SavedVariables: PrimaryDB, FramesDB, BarsDB
+# Dependencies: Blizzard_TalkingHeadUI
+# OptionalDeps: Wasabi
+# SavedVariables: PrimaryDB, FramesDB, BarsDB
 
 ## X-Curse-Project-ID: 103336
 ## X-WoWI-ID: 23299
