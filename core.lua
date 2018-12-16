@@ -15,21 +15,40 @@ local options = {
     name = 'Improved Blizzard UI - '..version,
     handler = ImpUI,
     type = 'group',
+    childGroups = "tab",
     args = {
-        enableAfkMode = {
-            type = 'toggle',
-            name = L['Enable AFK Mode'],
-            desc = 'After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.',
-            get = 'IsAFKEnabled',
-            set = 'SetAFKEnabled',
-        },
+        misc = {
+            name = L['Miscellaneous'],
+            desc = 'Blah de Blah',
+            type = 'group',
+            order = 1,
+            args = {
+                enableAfkMode = {
+                    type = 'toggle',
+                    name = L['Enable AFK Mode'],
+                    desc = 'After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.',
+                    get = 'IsAFKEnabled',
+                    set = 'SetAFKEnabled',
+                    order = 1,
+                },
+                autoScreenshot = {
+                    type = 'toggle',
+                    name = L['Achievement Screenshot'],
+                    desc = L['Automatically take a screenshot upon earning an achievement.'],
+                    get = 'IsAutoScreenshotEnabled',
+                    set = 'SetAutoScreenshot',
+                    order = 2,
+                },
+            }
+        }
     },
 };
 
 -- Configuration Defaults (Per Character DB)
 local defaults = {
     char = {
-        afkMode  = true,
+        afkMode = true,
+        autoScreenshot = true,
     },
 };
 
