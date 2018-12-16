@@ -1,4 +1,8 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
     <!-- Lib Stub -->
     <Script file="libs\LibStub\LibStub.lua"/>
+
+    <!-- Ace3 Libs -->
+    <Include file="libs\Ace3\AceAddon-3.0\AceAddon-3.0.xml"/>
+    <Include file="libs\Ace3\AceConsole-3.0\AceConsole-3.0.xml"/>
 </Ui>
