@@ -7,6 +7,14 @@ local ImpUI_AFK = ImpUI:NewModule('ImpUI_AFK', 'AceEvent-3.0');
 -- Create the AFK Frame (that everything is parented too).
 local AFKFrame = CreateFrame('Frame', nil, WorldFrame);
 
+-- Local Functions
+local CreateFrame = CreateFrame;
+local InCombatLockdown = InCombatLockdown;
+local MoveViewRightStart = MoveViewRightStart;
+local MoveViewRightStop = MoveViewRightStop;
+local UnitIsAFK = UnitIsAFK;
+local UnitIsDead = UnitIsDead;
+
 --[[
 	Handles the creating of the various frames needed.
 	

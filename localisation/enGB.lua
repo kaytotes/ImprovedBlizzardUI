@@ -23,3 +23,8 @@ L['Use Guild Bank For Repairs'] = true;
 L['When automatically repairing allow the use of Guild Bank funds.'] = true;
 L['Items Repaired from Guild Bank'] = true;
 L['Items Repaired'] = true;
+
+-- Auto Sell
+L['Auto Sell Trash'] = true;
+L['Automatically sells any grey items that are in your inventory.'] = true;
+L['Sold Trash Items'] = true;

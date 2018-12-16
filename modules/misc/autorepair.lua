@@ -1,7 +1,21 @@
+--[[
+    modules\misc\autorepair.lua
+    Automatically repairs your armour when you visit a merchant that can repair.
+]]
 local ImpUI_Repair = ImpUI:NewModule('ImpUI_Repair', 'AceEvent-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
+
+-- Local Functions
+local CanMerchantRepair = CanMerchantRepair;
+local GetRepairAllCost = GetRepairAllCost;
+local CanGuildBankRepair = CanGuildBankRepair;
+local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney;
+local GetGuildBankMoney = GetGuildBankMoney;
+local RepairAllItems = RepairAllItems;
+local GetCoinTextureString = GetCoinTextureString;
+local GetMoney = GetMoney;
 
 --[[
     If a merchant window is open check if we can repair and do so.

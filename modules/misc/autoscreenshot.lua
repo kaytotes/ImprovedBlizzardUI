@@ -1,3 +1,7 @@
+--[[
+    modules\misc\autoscreenshot.lua
+    Automatically takes a screenshot when an achievement is earned
+]]
 local ImpUI_Screenshot = ImpUI:NewModule('ImpUI_Screenshot', 'AceEvent-3.0');
 
 -- Just a toggle to stop spamming on multiple achievements.

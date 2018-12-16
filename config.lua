@@ -37,3 +37,13 @@ end
 function ImpUI:SetGuildRepairEnabled(info, newValue)
     self.db.char.guildRepair = newValue;
 end
+
+-- Get the Config for auto selling trash items.
+function ImpUI:IsAutoSellEnabled(info)
+    return self.db.char.autoSell;
+end
+
+-- Set the Config for auto selling trash items.
+function ImpUI:SetAutoSellEnabled(info, newValue)
+    self.db.char.autoSell = newValue;
+end

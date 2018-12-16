@@ -46,13 +46,21 @@ local options = {
                     set = 'SetGuildRepairEnabled',
                     order = 3,
                 },
+                autoSell = {
+                    type = 'toggle',
+                    name = L['Auto Sell Trash'],
+                    desc = L['Automatically sells any grey items that are in your inventory.'],
+                    get = 'IsAutoSellEnabled',
+                    set = 'SetAutoSellEnabled',
+                    order = 4,
+                },
                 autoScreenshot = {
                     type = 'toggle',
                     name = L['Achievement Screenshot'],
                     desc = L['Automatically take a screenshot upon earning an achievement.'],
                     get = 'IsAutoScreenshotEnabled',
                     set = 'SetAutoScreenshot',
-                    order = 4,
+                    order = 5,
                 },
             }
         }
@@ -66,6 +74,7 @@ local defaults = {
         autoScreenshot = true,
         autoRepair = true,
         guildRepair = true,
+        autoSell = true,
     },
 };
 
