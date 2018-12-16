@@ -65,3 +65,16 @@ function ImpUI:SetMinifyStrings(info, newValue)
         ImpUI_Chat:RestoreStrings();
     end
 end
+
+function ImpUI:GetChatFont(info)
+    print(self.db.char.chatFont);
+    return self.db.char.chatFont;
+end
+
+function ImpUI:SetChatFont(info, newFont)
+    ImpUI:Print('Setting Font');
+
+    -- Repaint Stuff
+
+    self.db.char.chatFont = newFont;
+end

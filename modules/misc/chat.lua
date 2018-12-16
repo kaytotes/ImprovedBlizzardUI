@@ -7,6 +7,9 @@ ImpUI_Chat = ImpUI:NewModule('ImpUI_Chat', 'AceEvent-3.0');
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
+-- LibSharedMedia-3.0
+local LSM = LibStub('LibSharedMedia-3.0');
+
 -- The Global strings we're replacing and what they're being replaced with.
 local strings = {
     -- Local Player Loot
@@ -100,6 +103,10 @@ function ImpUI_Chat:BackupBlizzardStrings()
     for string, replacement in pairs(strings) do
         backup[string] = _G[string];
     end
+end
+
+function ImpUI_Chat:StyleChat()
+
 end
 
 --[[
