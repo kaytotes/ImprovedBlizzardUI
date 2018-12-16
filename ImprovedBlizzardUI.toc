@@ -22,3 +22,4 @@ config.lua
 # Modules
 modules/misc/afkmode.lua
 modules/misc/autoscreenshot.lua
+modules/misc/autorepair.lua

@@ -19,9 +19,8 @@ local options = {
     args = {
         misc = {
             name = L['Miscellaneous'],
-            desc = 'Blah de Blah',
+            desc = L['Miscellaneous'],
             type = 'group',
-            order = 1,
             args = {
                 enableAfkMode = {
                     type = 'toggle',
@@ -31,13 +30,29 @@ local options = {
                     set = 'SetAFKEnabled',
                     order = 1,
                 },
+                autoRepair = {
+                    type = 'toggle',
+                    name = L['Auto Repair'],
+                    desc = L['Automatically repairs your armour when you visit a merchant that can repair.'],
+                    get = 'IsAutoRepairEnabled',
+                    set = 'SetAutoRepairEnabled',
+                    order = 2,
+                },
+                guildRepair = {
+                    type = 'toggle',
+                    name = L['Use Guild Bank For Repairs'],
+                    desc = L['When automatically repairing allow the use of Guild Bank funds.'],
+                    get = 'IsGuildRepairEnabled',
+                    set = 'SetGuildRepairEnabled',
+                    order = 3,
+                },
                 autoScreenshot = {
                     type = 'toggle',
                     name = L['Achievement Screenshot'],
                     desc = L['Automatically take a screenshot upon earning an achievement.'],
                     get = 'IsAutoScreenshotEnabled',
                     set = 'SetAutoScreenshot',
-                    order = 2,
+                    order = 4,
                 },
             }
         }
@@ -49,6 +64,8 @@ local defaults = {
     char = {
         afkMode = true,
         autoScreenshot = true,
+        autoRepair = true,
+        guildRepair = true,
     },
 };
 
