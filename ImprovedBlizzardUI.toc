@@ -13,5 +13,11 @@
 # Libraries
 embeds.xml
 
+# Localisation
+localisation.xml
+
 core.lua
 config.lua
+
+# Modules
+modules/misc/afkmode.lua

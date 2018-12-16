@@ -1,7 +1,9 @@
-function ImpUI:GetMessage(info)
-    return self.db.profile.message;
+-- Get the Config for the AFK Mode
+function ImpUI:IsAFKEnabled(info)
+    return self.db.char.afkMode;
 end
 
-function ImpUI:SetMessage(info, newValue)
-    self.db.profile.message = newValue;
+-- Store the Config for the AFK Mode
+function ImpUI:SetAFKEnabled(info, newValue)
+    self.db.char.afkMode = newValue;
 end
