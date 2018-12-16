@@ -17,6 +17,7 @@ local options = {
     type = 'group',
     childGroups = "tab",
     args = {
+        -- Miscellaneous Tab
         misc = {
             name = L['Miscellaneous'],
             desc = L['Miscellaneous'],
@@ -62,8 +63,24 @@ local options = {
                     set = 'SetAutoScreenshot',
                     order = 5,
                 },
+
+                -- Chat Section
+                chatHeader = {
+                    type = 'header',
+                    name = 'Chat',
+                    order = 6,
+                },
+
+                overrideStrings = {
+                    type = 'toggle',
+                    name = L['Minify Blizzard Strings'],
+                    desc = L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'],
+                    get = 'ShouldMinifyStrings',
+                    set = 'SetMinifyStrings',
+                    order = 7,
+                },
             }
-        }
+        },
     },
 };
 
@@ -75,6 +92,7 @@ local defaults = {
         autoRepair = true,
         guildRepair = true,
         autoSell = true,
+        minifyStrings = true,
     },
 };
 

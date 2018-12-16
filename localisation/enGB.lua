@@ -28,3 +28,10 @@ L['Items Repaired'] = true;
 L['Auto Sell Trash'] = true;
 L['Automatically sells any grey items that are in your inventory.'] = true;
 L['Sold Trash Items'] = true;
+
+-- Chat
+L['Chat'] = true;
+L['Style Chat'] = true;
+L['Styles the Blizzard Chat frame to better match the rest of the UI.'] = true;
+L['Minify Blizzard Strings'] = true;
+L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'] = true;

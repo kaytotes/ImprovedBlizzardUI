@@ -47,3 +47,21 @@ end
 function ImpUI:SetAutoSellEnabled(info, newValue)
     self.db.char.autoSell = newValue;
 end
+
+-- Gets the Minify Chat Messages Config.
+function ImpUI:ShouldMinifyStrings(info)
+    return self.db.char.minifyStrings;
+end
+
+-- Set the Minify Strings option and in the process restore
+-- or set the string overrides.
+function ImpUI:SetMinifyStrings(info, newValue)
+    self.db.char.minifyStrings = newValue;
+
+    if (newValue == true) then
+        ImpUI_Chat:RestoreStrings();
+        ImpUI_Chat:OverrideStrings();
+    else
+        ImpUI_Chat:RestoreStrings();
+    end
+end
