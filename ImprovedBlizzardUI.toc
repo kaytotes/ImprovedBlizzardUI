@@ -3,6 +3,9 @@
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
 ## Author: Kaytotes
+## SavedVariables: ImpUI_DB
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
 
 ## X-Curse-Project-ID: 103336
 ## X-WoWI-ID: 23299
@@ -11,3 +14,4 @@
 embeds.xml
 
 core.lua
+config.lua
