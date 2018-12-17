@@ -7,6 +7,9 @@ ImpUI_Chat = ImpUI:NewModule('ImpUI_Chat', 'AceEvent-3.0', 'AceHook-3.0');
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
+-- Local Functions
+local GetChatWindowInfo = GetChatWindowInfo;
+
 -- The Global strings we're replacing and what they're being replaced with.
 local strings = {
     -- Local Player Loot

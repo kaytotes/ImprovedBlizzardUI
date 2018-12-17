@@ -105,3 +105,13 @@ function ImpUI:SetChatOutline(info, newValue)
     
     ImpUI_Chat:StyleChat();
 end
+
+-- Get whether the health warnings should display.
+function ImpUI:ShouldDisplayHealthWarning(info)
+    return self.db.char.healthWarning;
+end
+
+-- Set whether the health warnings should display.
+function ImpUI:SetDisplayHealthWarning(info, newValue)
+    self.db.char.healthWarning = newValue;
+end

@@ -121,6 +121,15 @@ local options = {
                     name = L['Combat'],
                     order = 11,
                 },
+
+                healthWarnings = {
+                    type = 'toggle',
+                    name = L['Display Health Warnings'],
+                    desc = L['Displays a five second warning when Player Health is less than 50% and 25%.'],
+                    get = 'ShouldDisplayHealthWarning',
+                    set = 'SetDisplayHealthWarning',
+                    order = 12,
+                }
             }
         },
     },
@@ -138,6 +147,7 @@ local defaults = {
         styleChat = true,
         chatFont = 'Improved Blizzard UI',
         outlineChat = true,
+        healthWarnings = true,
     },
 };
 
