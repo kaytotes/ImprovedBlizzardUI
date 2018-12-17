@@ -2,7 +2,7 @@
     modules\misc\chat.lua
     Styles the Blizzard Chat frame to better match the rest of the UI.
 ]]
-ImpUI_Chat = ImpUI:NewModule('ImpUI_Chat', 'AceEvent-3.0');
+ImpUI_Chat = ImpUI:NewModule('ImpUI_Chat', 'AceEvent-3.0', 'AceHook-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -111,11 +111,26 @@ function ImpUI_Chat:ResetChat()
     -- Restore Edit Box Font
     ChatFontNormal:SetFont(LSM:Fetch('font', 'Arial Narrow'), 12);
 
-    -- Restore Battle.net Social Button and Toasts.
-	ChatFrameMenuButton:Show();
-	ChatFrameChannelButton:Show();
+    -- Restore Chat Channel Button
+    if (ImpUI_Chat:IsHooked(ChatFrameMenuButton, 'OnShow')) then
+        ImpUI_Chat:Unhook(ChatFrameMenuButton, 'OnShow');
+        ChatFrameMenuButton:Show();
+    end
+
+    -- Restore ChatFrameChannelButton
+    if (ImpUI_Chat:IsHooked(ChatFrameChannelButton, 'OnShow')) then
+        ImpUI_Chat:Unhook(ChatFrameChannelButton, 'OnShow');
+        ChatFrameChannelButton:Show();
+    end
+
+    -- Restore Battle.net / Social Button
 	local button = QuickJoinToastButton or FriendsMicroButton;
-	button:Show();
+    if (ImpUI_Chat:IsHooked(button, 'OnShow')) then
+        ImpUI_Chat:Unhook(button, 'OnShow');
+        button:Show();
+    end
+    
+    -- Restore Battle.net Toast
     BNToastFrame:SetClampedToScreen(false);
 
     for i = 1, NUM_CHAT_WINDOWS do
@@ -123,8 +138,10 @@ function ImpUI_Chat:ResetChat()
         local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
 
         -- Restore Chat Arrows
-        _G[window..'ButtonFrame']:HookScript('OnShow', _G[window..'ButtonFrame'].Show);
-        _G[window..'ButtonFrame']:Show();
+        if (ImpUI_Chat:IsHooked(_G[window..'ButtonFrame'], 'OnShow')) then
+            ImpUI_Chat:Unhook(_G[window..'ButtonFrame'], 'OnShow');
+            _G[window..'ButtonFrame']:Show();
+        end
 
         -- Restore Tab Fonts
         local tab = _G[window..'Tab'];
@@ -175,36 +192,20 @@ function ImpUI_Chat:StyleChat()
     ChatFontNormal:SetShadowOffset(1,-1);
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
-    -- Hide Battle.net Social Button and Toasts
-    ChatFrameMenuButton:HookScript('OnShow', function () 
-        if (ImpUI.db.char.styleChat == true) then
-            ChatFrameMenuButton:Hide();
-        else
-            ChatFrameMenuButton:Show();
-        end
-    end);
+    -- Hide Chat Channels Button
+    ImpUI_Chat:HookScript(ChatFrameMenuButton, 'OnShow', ChatFrameMenuButton.Hide);
     ChatFrameMenuButton:Hide();
-    
-	ChatFrameChannelButton:HookScript('OnShow', function () 
-        if (ImpUI.db.char.styleChat == true) then
-            ChatFrameMenuButton:Hide();
-        else
-            ChatFrameMenuButton:Show();
-        end
-    end);
+
+    -- Hide ChatFrameChannelButton
+    ImpUI_Chat:HookScript(ChatFrameChannelButton, 'OnShow', ChatFrameChannelButton.Hide);
     ChatFrameChannelButton:Hide();
-    
+
+    -- Hide Battle.net / Social Button
     local button = QuickJoinToastButton or FriendsMicroButton;
-    
-	button:HookScript('OnShow',  function () 
-        if (ImpUI.db.char.styleChat == true) then
-            button:Hide();
-        else
-            ChatFrameMenuButton:Show();
-        end
-    end);
+    ImpUI_Chat:HookScript(button, 'OnShow', button.Hide);
     button:Hide();
-    
+
+    -- Move Battle.net Toast
     BNToastFrame:SetClampedToScreen(true);
     BNToastFrame:SetClampRectInsets(-15,15,15,-15);
 
@@ -213,8 +214,8 @@ function ImpUI_Chat:StyleChat()
         local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
 
         -- Stop Chat Arrows Coming Back
+        ImpUI_Chat:HookScript(_G[window..'ButtonFrame'], 'OnShow', _G[window..'ButtonFrame'].Hide);
 		_G[window..'ButtonFrame']:Hide();
-		_G[window..'ButtonFrame']:HookScript('OnShow', _G[window..'ButtonFrame'].Hide);
         
         -- Style Tab Fonts
         local tab = _G[window..'Tab'];
