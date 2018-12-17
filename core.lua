@@ -152,8 +152,8 @@ local defaults = {
     @ return void
 ]]
 function ImpUI:OpenOptions()
-    InterfaceOptionsFrame_OpenToCategory('Improved Blizzard UI');
-    InterfaceOptionsFrame_OpenToCategory('Improved Blizzard UI');
+    InterfaceOptionsFrame_OpenToCategory(self.optionsFrame);
+    InterfaceOptionsFrame_OpenToCategory(self.optionsFrame);
 end
 
 --[[
