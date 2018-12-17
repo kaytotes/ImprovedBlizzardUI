@@ -141,7 +141,39 @@ local defaults = {
     },
 };
 
--- Called by Ace3 when addon is loaded.
+--[[
+    Opens the Improved Blizzard UI options panel.
+
+    Yes this really does call the exact same function twice. This is due to a Blizzard
+    bug that has existed ever since InterfaceOptionsFrame_OpenToCategory was put in
+    the game. Since it's been years and would take someone 2 minutes to fix, we 
+    can only assume Blizzard just doesn't care and won't ever fix it.
+	
+    @ return void
+]]
+function ImpUI:OpenOptions()
+    InterfaceOptionsFrame_OpenToCategory('Improved Blizzard UI');
+    InterfaceOptionsFrame_OpenToCategory('Improved Blizzard UI');
+end
+
+--[[
+    Handles the /imp slash command.
+
+    For now just opens options.
+	
+    @ return void
+]]
+function ImpUI:HandleSlash(input)
+    if (not input or input:trim() == '') then
+        self:OpenOptions();
+    end
+end
+
+--[[
+	Fires when the Addon is Initialised.
+	
+    @ return void
+]]
 function ImpUI:OnInitialize()
     -- Set up Improved Blizzard UI font.
     LSM:Register(LSM.MediaType.FONT, 'Improved Blizzard UI', [[Interface\AddOns\ImprovedBlizzardUI\media\ImprovedBlizzardUI.ttf]]);
@@ -154,6 +186,9 @@ function ImpUI:OnInitialize()
 
     -- Add to Blizz Config
     self.optionsFrame = LibStub('AceConfigDialog-3.0'):AddToBlizOptions('ImprovedBlizzardUI', 'Improved Blizzard UI');
+
+    -- Register Slash Command
+    self:RegisterChatCommand('imp', 'HandleSlash');
 
     -- Finally print Intialized Message.
     print('|cffffff00Improved Blizzard UI ' .. version .. ' Initialized.');
