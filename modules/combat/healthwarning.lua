@@ -7,20 +7,26 @@ local ImpUI_Health = ImpUI:NewModule('ImpUI_Health', 'AceEvent-3.0');
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
+local OSD;
+
 -- Local Functions
 local UnitHealth = UnitHealth;
 local UnitHealthMax = UnitHealthMax;
 
--- Variables
+-- Module Variables
 local canShowHalf = true;
 local canShowQuarter = true;
 
+--[[
+    Fired when a Units health changes. In this case we only care
+    about whether the Unit is a Player.
+	
+    @ return void
+]]
 function ImpUI_Health:UNIT_HEALTH(event, ...)
     if (ImpUI.db.char.healthWarning == false) then return; end
 
     if (... == 'player') then
-        ImpUI:Print('UNIT_HEALTH');
-
         local hp = UnitHealth('player') / UnitHealthMax('player');
 
         if (hp > 0.50) then
@@ -28,13 +34,13 @@ function ImpUI_Health:UNIT_HEALTH(event, ...)
         end
 
         if ( hp <= 0.50 and hp > 0.25 and canShowHalf == true) then
-            ImpUI:Print(L['HP < 50% !']);
+            OSD:AddMessage( L['HP < 50% !'], ImpUI.db.char.healthWarningFont, 26, 0, 1, 1, 5.0 );
 
             canShowHalf = false;
             canShowQuarter = true;
             return;
         elseif(hp < 0.25 and canShowQuarter == true) then
-            ImpUI:Print(L['HP < 25% !!!']);
+            OSD:AddMessage( L['HP < 25% !!!'], ImpUI.db.char.healthWarningFont, 26, 1, 0, 0, 5.0 );
 
             canShowHalf = true;
             canShowQuarter = false;
@@ -49,7 +55,6 @@ end
     @ return void
 ]]
 function ImpUI_Health:OnInitialize()
-    ImpUI:Print('ImpUI_Health');
 end
 
 --[[
@@ -58,6 +63,8 @@ end
     @ return void
 ]]
 function ImpUI_Health:OnEnable()
+    OSD = ImpUI:GetModule('ImpUI_OSD');
+
     self:RegisterEvent('UNIT_HEALTH');
 end
 

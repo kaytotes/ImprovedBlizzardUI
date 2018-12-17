@@ -115,3 +115,13 @@ end
 function ImpUI:SetDisplayHealthWarning(info, newValue)
     self.db.char.healthWarning = newValue;
 end
+
+-- Get the Health Warning Font
+function ImpUI:GetHealthWarningFont(info)
+    return self.db.char.healthWarningFont;
+end
+
+-- Set the Health Warning Font
+function ImpUI:SetHealthWarningFont(info, newFont)
+    self.db.char.healthWarningFont = newFont;
+end

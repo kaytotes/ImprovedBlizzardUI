@@ -129,7 +129,21 @@ local options = {
                     get = 'ShouldDisplayHealthWarning',
                     set = 'SetDisplayHealthWarning',
                     order = 12,
-                }
+                },
+
+                healthWarningFont = {
+                    type = 'select',
+                    name = L['Health Warning Font'],
+                    desc = L['The font used by the Health Warning On Screen Display Message'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = 'GetHealthWarningFont',
+                    set = 'SetHealthWarningFont',
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarning == false;
+                    end,
+                    order = 13,
+                },
             }
         },
     },
@@ -148,6 +162,7 @@ local defaults = {
         chatFont = 'Improved Blizzard UI',
         outlineChat = true,
         healthWarnings = true,
+        healthWarningFont = 'Improved Blizzard UI',
     },
 };
 

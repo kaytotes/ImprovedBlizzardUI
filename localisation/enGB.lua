@@ -42,7 +42,10 @@ L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat C
 
 -- Combat
 L['Combat'] = true;
+
 L['Display Health Warnings'] = true;
 L['Displays a five second warning when Player Health is less than 50% and 25%.'] = true;
+L['Health Warning Font'] = true;
+L['The font used by the Health Warning On Screen Display Message'] = true;
 L['HP < 50% !'] = true;
 L['HP < 25% !!!'] = true;
