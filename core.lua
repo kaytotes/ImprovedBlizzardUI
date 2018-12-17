@@ -22,6 +22,7 @@ local options = {
             name = L['Miscellaneous'],
             desc = L['Miscellaneous'],
             type = 'group',
+            order = 1,
             args = {
                 enableAfkMode = {
                     type = 'toggle',
@@ -114,21 +115,56 @@ local options = {
                     end,
                     order = 10,
                 },
+            }
+        },
 
-                -- Combat Section
-                combatHeader = {
+        -- Combat Tab
+        combat = {
+            name = L['Combat'],
+            desc = L['Combat'],
+            type = 'group',
+            order = 2,
+            args = {
+                -- Health Warning Section
+                healthHeader = {
                     type = 'header',
-                    name = L['Combat'],
-                    order = 11,
+                    name = L['Health Warning'],
+                    order = 1,
                 },
 
                 healthWarnings = {
                     type = 'toggle',
-                    name = L['Display Health Warnings'],
+                    name = L['Health Warnings'],
                     desc = L['Displays a five second warning when Player Health is less than 50% and 25%.'],
                     get = 'ShouldDisplayHealthWarning',
                     set = 'SetDisplayHealthWarning',
-                    order = 12,
+                    order = 2,
+                },
+
+                healthWarningHalfColour = {
+                    type = 'color',
+                    name = L['50% Colour'],
+                    desc = L['The colour of the warning that displays at 50% health.'],
+                    get = 'GetHealthWarningHalfColour',
+                    set = 'SetHealthWarningHalfColour',
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarning == false;
+                    end,
+                    hasAlpha = false,
+                    order = 3,
+                },
+
+                healthWarningQuarterColour = {
+                    type = 'color',
+                    name = L['25% Colour'],
+                    desc = L['The colour of the warning that displays at 25% health.'],
+                    get = 'GetHealthWarningQuarterColour',
+                    set = 'SetHealthWarningQuarterColour',
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarning == false;
+                    end,
+                    hasAlpha = false,
+                    order = 4,
                 },
 
                 healthWarningSize = {
@@ -144,7 +180,7 @@ local options = {
                         return ImpUI.db.char.healthWarning == false;
                     end,
                     isPercent = false,
-                    order = 13,
+                    order = 5,
                 },
 
                 healthWarningFont = {
@@ -158,34 +194,8 @@ local options = {
                     disabled = function () 
                         return ImpUI.db.char.healthWarning == false;
                     end,
-                    order = 14,
+                    order = 6,
                 },
-
-                healthWarningHalfColour = {
-                    type = 'color',
-                    name = L['50% Colour'],
-                    desc = L['The colour of the warning that displays at 50% health.'],
-                    get = 'GetHealthWarningHalfColour',
-                    set = 'SetHealthWarningHalfColour',
-                    disabled = function () 
-                        return ImpUI.db.char.healthWarning == false;
-                    end,
-                    hasAlpha = false,
-                    order = 15,
-                },
-
-                healthWarningQuarterColour = {
-                    type = 'color',
-                    name = L['25% Colour'],
-                    desc = L['The colour of the warning that displays at 25% health.'],
-                    get = 'GetHealthWarningQuarterColour',
-                    set = 'SetHealthWarningQuarterColour',
-                    disabled = function () 
-                        return ImpUI.db.char.healthWarning == false;
-                    end,
-                    hasAlpha = false,
-                    order = 16,
-                }
             }
         },
     },
