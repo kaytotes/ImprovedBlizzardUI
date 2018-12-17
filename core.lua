@@ -67,7 +67,7 @@ local options = {
                 -- Chat Section
                 chatHeader = {
                     type = 'header',
-                    name = 'Chat',
+                    name = L['Chat'],
                     order = 6,
                 },
 
@@ -113,6 +113,13 @@ local options = {
                         return ImpUI.db.char.styleChat == false;
                     end,
                     order = 10,
+                },
+
+                -- Combat Section
+                combatHeader = {
+                    type = 'header',
+                    name = L['Combat'],
+                    order = 11,
                 },
             }
         },
