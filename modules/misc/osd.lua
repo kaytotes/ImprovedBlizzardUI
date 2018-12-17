@@ -11,6 +11,12 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Variables
 local osd;
 
+--[[
+    Entry point for the rest of the addon. Parameters are pretty
+    self explanatory.
+	
+    @ return void
+]]
 function ImpUI_OSD:AddMessage(message, font, size, r, g, b, duration)
     -- Update the Font.
     osd.text:SetFont(LSM:Fetch('font', font), size, 'OUTLINE');
