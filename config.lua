@@ -125,3 +125,13 @@ end
 function ImpUI:SetHealthWarningFont(info, newFont)
     self.db.char.healthWarningFont = newFont;
 end
+
+-- Get the Health Warning Size.
+function ImpUI:GetHealthWarningSize(info)
+    return self.db.char.healthWarningSize;
+end
+
+-- Set the Health Warning Size
+function ImpUI:SetHealthWarningSize(info, newValue)
+    self.db.char.healthWarningSize = newValue;
+end;

@@ -47,5 +47,7 @@ L['Display Health Warnings'] = true;
 L['Displays a five second warning when Player Health is less than 50% and 25%.'] = true;
 L['Health Warning Font'] = true;
 L['The font used by the Health Warning On Screen Display Message'] = true;
+L['Health Warning Size'] = true;
+L['The size of the Health Warning Display.'] = true;
 L['HP < 50% !'] = true;
 L['HP < 25% !!!'] = true;

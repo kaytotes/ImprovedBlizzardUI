@@ -34,13 +34,13 @@ function ImpUI_Health:UNIT_HEALTH(event, ...)
         end
 
         if ( hp <= 0.50 and hp > 0.25 and canShowHalf == true) then
-            OSD:AddMessage( L['HP < 50% !'], ImpUI.db.char.healthWarningFont, 26, 0, 1, 1, 5.0 );
+            OSD:AddMessage( L['HP < 50% !'], ImpUI.db.char.healthWarningFont, ImpUI.db.char.healthWarningSize, 0, 1, 1, 5.0 );
 
             canShowHalf = false;
             canShowQuarter = true;
             return;
         elseif(hp < 0.25 and canShowQuarter == true) then
-            OSD:AddMessage( L['HP < 25% !!!'], ImpUI.db.char.healthWarningFont, 26, 1, 0, 0, 5.0 );
+            OSD:AddMessage( L['HP < 25% !!!'], ImpUI.db.char.healthWarningFont, ImpUI.db.char.healthWarningSize, 1, 0, 0, 5.0 );
 
             canShowHalf = true;
             canShowQuarter = false;

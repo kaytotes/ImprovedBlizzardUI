@@ -131,6 +131,22 @@ local options = {
                     order = 12,
                 },
 
+                healthWarningSize = {
+                    type = 'range',
+                    name = L['Health Warning Size'],
+                    desc = L['The size of the Health Warning Display.'],
+                    min = 8,
+                    max = 104,
+                    step = 1,
+                    get = 'GetHealthWarningSize',
+                    set = 'SetHealthWarningSize',
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarning == false;
+                    end,
+                    isPercent = false,
+                    order = 13,
+                },
+
                 healthWarningFont = {
                     type = 'select',
                     name = L['Health Warning Font'],
@@ -142,7 +158,7 @@ local options = {
                     disabled = function () 
                         return ImpUI.db.char.healthWarning == false;
                     end,
-                    order = 13,
+                    order = 14,
                 },
             }
         },
@@ -163,6 +179,7 @@ local defaults = {
         outlineChat = true,
         healthWarnings = true,
         healthWarningFont = 'Improved Blizzard UI',
+        healthWarningSize = 26,
     },
 };
 
