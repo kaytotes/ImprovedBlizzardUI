@@ -160,6 +160,32 @@ local options = {
                     end,
                     order = 14,
                 },
+
+                healthWarningHalfColour = {
+                    type = 'color',
+                    name = L['50% Colour'],
+                    desc = L['The colour of the warning that displays at 50% health.'],
+                    get = 'GetHealthWarningHalfColour',
+                    set = 'SetHealthWarningHalfColour',
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarning == false;
+                    end,
+                    hasAlpha = false,
+                    order = 15,
+                },
+
+                healthWarningQuarterColour = {
+                    type = 'color',
+                    name = L['25% Colour'],
+                    desc = L['The colour of the warning that displays at 25% health.'],
+                    get = 'GetHealthWarningQuarterColour',
+                    set = 'SetHealthWarningQuarterColour',
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarning == false;
+                    end,
+                    hasAlpha = false,
+                    order = 16,
+                }
             }
         },
     },
@@ -180,6 +206,18 @@ local defaults = {
         healthWarnings = true,
         healthWarningFont = 'Improved Blizzard UI',
         healthWarningSize = 26,
+        healthWarningHalfColour = {
+            r = 0,
+            g = 1,
+            b = 1,
+            a = 1,
+        },
+        healthWarningQuarterColour = {
+            r = 1,
+            g = 0,
+            b = 0,
+            a = 1,
+        },
     },
 };
 

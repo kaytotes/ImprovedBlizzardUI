@@ -134,4 +134,30 @@ end
 -- Set the Health Warning Size
 function ImpUI:SetHealthWarningSize(info, newValue)
     self.db.char.healthWarningSize = newValue;
-end;
+end
+
+-- Get the Health Warning 50% Colour
+function ImpUI:GetHealthWarningHalfColour(info)
+    return self.db.char.healthWarningHalfColour.r, self.db.char.healthWarningHalfColour.g, self.db.char.healthWarningHalfColour.b, self.db.char.healthWarningHalfColour.a; 
+end
+
+-- Set the Health Warning 50% Colour
+function ImpUI:SetHealthWarningHalfColour(_, r, g, b, a)
+    self.db.char.healthWarningHalfColour.r = r;
+    self.db.char.healthWarningHalfColour.g = g;
+    self.db.char.healthWarningHalfColour.b = b;
+    self.db.char.healthWarningHalfColour.a = a;
+end
+
+-- Get the Health Warning 25% Colour
+function ImpUI:GetHealthWarningQuarterColour(info)
+    return self.db.char.healthWarningQuarterColour.r, self.db.char.healthWarningQuarterColour.g, self.db.char.healthWarningQuarterColour.b, self.db.char.healthWarningQuarterColour.a; 
+end
+
+-- Set the Health Warning 25% Colour
+function ImpUI:SetHealthWarningQuarterColour(_, r, g, b, a)
+    self.db.char.healthWarningQuarterColour.r = r;
+    self.db.char.healthWarningQuarterColour.g = g;
+    self.db.char.healthWarningQuarterColour.b = b;
+    self.db.char.healthWarningQuarterColour.a = a;
+end
