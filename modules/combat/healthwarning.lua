@@ -33,13 +33,12 @@ function ImpUI_Health:UNIT_HEALTH(event, ...)
             canShowHalf = true;
         end
 
-        -- Colour and Size
-        local colour = ImpUI.db.char.healthWarningHalfColour;
         local size = ImpUI.db.char.healthWarningSize;
 
         if ( hp <= 0.50 and hp > 0.25 and canShowHalf == true) then
             -- Get font config options.
             local font = ImpUI.db.char.healthWarningFont;
+            local colour = ImpUI.db.char.healthWarningHalfColour;
 
             OSD:AddMessage( L['HP < 50% !'], font, size, colour.r, colour.g, colour.b, 5.0 );
 
@@ -49,6 +48,7 @@ function ImpUI_Health:UNIT_HEALTH(event, ...)
         elseif(hp < 0.25 and canShowQuarter == true) then
             -- Get font config options.
             local font = ImpUI.db.char.healthWarningFont;
+            local colour = ImpUI.db.char.healthWarningQuarterColour;
 
             OSD:AddMessage( L['HP < 25% !!!'], font, size, colour.r, colour.g, colour.b, 5.0 );
 

@@ -21,11 +21,11 @@ function ImpUI_OSD:AddMessage(message, font, size, r, g, b, duration)
     -- Update the Font.
     osd.text:SetFont(LSM:Fetch('font', font), size, 'OUTLINE');
 
-    -- Set the Message.
-    osd.text:SetText(message);
-
     -- Set the Colour
     osd.text:SetTextColor(r, g, b, 1.0);
+
+    -- Set the Message.
+    osd.text:SetText(message);
 
     -- Play the Animation
     if (osd.hidden) then
