@@ -62,6 +62,8 @@ L['HP < 25% !!!'] = true;
 L['Interrupts'] = true;
 L['Announce Interrupts'] = true;
 L['When you interrupt a target your character announces this to an appropriate sound channel.'] = true;
+L['Chat Channel'] = true;
+L['The Channel that should be used when announcing an interrupt. Auto intelligently chooses based on situation.'] = true;
 L['Interrupted X on Y'] = function (spell, target)
     return 'Interrupted '..spell..' on '..target;
 end
