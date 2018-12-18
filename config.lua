@@ -183,10 +183,65 @@ function ImpUI:GetInterruptOptions()
     return options;
 end
 
+-- Get the channel that should be used for announcing interrupts.
 function ImpUI:GetInterruptChannel(info)
     return self.db.char.interruptChannel;
 end
 
+-- Set the channel that should be used for announcing interrupts.
 function ImpUI:SetInterruptChannel(info, newValue)
     self.db.char.interruptChannel = newValue;
+end
+
+-- Should we display killing blows.
+function ImpUI:ShouldDisplayKillingBlows(info)
+    return self.db.char.killingBlows;
+end
+
+-- Set whether we should display killing blows.
+function ImpUI:SetKillingBlows(info, newValue)
+    self.db.char.killingBlows = newValue;
+end
+
+-- Get the message that should be displayed on a Killing blow.
+function ImpUI:GetKillingBlowMessage(info)
+    return self.db.char.killingBlowMessage;
+end
+
+-- Set the message that should be displayed on a Killing Blow.
+function ImpUI:SetKillingBlowMessage(info, newValue)
+    self.db.char.killingBlowMessage = newValue;
+end
+
+-- Get the Killing Blow Colour
+function ImpUI:GetKillingBlowColour(info)
+    return self.db.char.killingBlowColour.r, self.db.char.killingBlowColour.g, self.db.char.killingBlowColour.b, self.db.char.killingBlowColour.a; 
+end
+
+-- Set the Killing Blow Colour
+function ImpUI:SetKillingBlowColour(_, r, g, b, a)
+    self.db.char.killingBlowColour.r = r;
+    self.db.char.killingBlowColour.g = g;
+    self.db.char.killingBlowColour.b = b;
+    self.db.char.killingBlowColour.a = a;
+end
+
+-- Get the Killing Blow Size.
+function ImpUI:GetKillingBlowSize(info)
+    return self.db.char.killingBlowSize;
+end
+
+-- Set the Killing Blow Size
+function ImpUI:SetKillingBlowSize(info, newValue)
+    self.db.char.killingBlowSize = newValue;
+end
+
+-- Get the Killing Blow Font
+function ImpUI:GetKillingBlowFont(info)
+    return self.db.char.killingBlowFont;
+end
+
+-- Set the Killing Blow Font
+function ImpUI:SetKillingBlowFont(info, newFont)
+    self.db.char.killingBlowFont = newFont;
 end

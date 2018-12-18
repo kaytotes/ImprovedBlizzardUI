@@ -225,7 +225,130 @@ local options = {
                         return ImpUI.db.char.announceInterrupts == false;
                     end,
                     order = 9,
-                }
+                },
+
+                -- Killing Blows Section
+                killingBlowsHeader = {
+                    type = 'header',
+                    name = L['Killing Blows'],
+                    order = 10,
+                },
+
+                killingBlows = {
+                    type = 'toggle',
+                    name = L['Highlight Killing Blows'],
+                    desc = L['When you get a Killing Blow this will be displayed prominently in the center of the screen.'],
+                    get = 'ShouldDisplayKillingBlows',
+                    set = 'SetKillingBlows',
+                    order = 11,
+                },
+
+                killingBlowMessage = {
+                    type = 'input',
+                    name = L['Killing Blow Message'],
+                    desc = L['The message that is displayed in the center of the screen.'],
+                    get = 'GetKillingBlowMessage',
+                    set = 'SetKillingBlowMessage',
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 12,
+                },
+
+                killingBlowColour = {
+                    type = 'color',
+                    name = L['Colour'],
+                    desc = L['The colour of the Killing Blow notification.'],
+                    get = 'GetKillingBlowColour',
+                    set = 'SetKillingBlowColour',
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    hasAlpha = false,
+                    order = 13,
+                },
+
+                killingBlowSize = {
+                    type = 'range',
+                    name = L['Killing Blow Size'],
+                    desc = L['The size of the Killing Blow notification'],
+                    min = 8,
+                    max = 104,
+                    step = 1,
+                    get = 'GetKillingBlowSize',
+                    set = 'SetKillingBlowSize',
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    isPercent = false,
+                    order = 14,
+                },
+
+                killingBlowFont = {
+                    type = 'select',
+                    name = L['Killing Blow Font'],
+                    desc = L['The font used by the Killing Blow Notification.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = 'GetKillingBlowFont',
+                    set = 'SetKillingBlowFont',
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 15,
+                },
+
+                killingBlowInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = L['Notification will display in World content.'],
+                    get = function (info)
+                        return ImpUI.db.char.killingBlowInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInWorld = newValue;
+                    end,
+                    order = 16,
+                },
+
+                killingBlowInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = L['Notification will display in PvP content.'],
+                    get = function (info)
+                        return ImpUI.db.char.killingBlowInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInPvP = newValue;
+                    end,
+                    order = 17,
+                },
+
+                killingBlowInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = L['Notification will display in 5 Man instanced content.'],
+                    get = function (info)
+                        return ImpUI.db.char.killingBlowInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInInstance = newValue;
+                    end,
+                    order = 18,
+                },
+
+                killingBlowInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = L['Notification will display in instanced raid content.'],
+                    get = function (info)
+                        return ImpUI.db.char.killingBlowInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInRaid = newValue;
+                    end,
+                    order = 19,
+                },
             }
         },
     },
@@ -260,6 +383,20 @@ local defaults = {
         },
         announceInterrupts = true,
         interruptChannel = 1,
+        killingBlows = true,
+        killingBlowMessage = L['Killing Blow!'],
+        killingBlowColour = {
+            r = 1,
+            g = 1,
+            b = 0,
+            a = 1,
+        },
+        killingBlowSize = 26,
+        killingBlowFont = 'Improved Blizzard UI',
+        killingBlowInWorld = false,
+        killingBlowInPvP = true,
+        killingBlowInInstance = false,
+        killingBlowInRaid = false,
     },
 };
 

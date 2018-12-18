@@ -67,3 +67,27 @@ L['The Channel that should be used when announcing an interrupt. Auto intelligen
 L['Interrupted X on Y'] = function (spell, target)
     return 'Interrupted '..spell..' on '..target;
 end
+
+-- Killing Blows
+L['Killing Blows'] = true;
+L['Highlight Killing Blows'] = true;
+L['When you get a Killing Blow this will be displayed prominently in the center of the screen.'] = true;
+L['Killing Blow!'] = true;
+L['Killing Blow Message'] = true;
+L['The message that is displayed in the center of the screen.'] = true;
+L['Colour'] = true;
+L['The colour of the Killing Blow notification.'] = true;
+
+L['Killing Blow Size'] = true;
+L['The size of the Killing Blow notification'] = true;
+L['Killing Blow Font'] = true;
+L['The font used by the Killing Blow Notification.'] = true;
+
+L['In World'] = true;
+L['Notification will display in World content.'] = true;
+L['In PvP'] = true;
+L['Notification will display in PvP content.'] = true;
+L['In Instance'] = true;
+L['Notification will display in 5 Man instanced content.'] = true;
+L['In Raid'] = true;
+L['Notification will display in instanced raid content.'] = true;
