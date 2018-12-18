@@ -77,12 +77,10 @@ L['Killing Blow Message'] = true;
 L['The message that is displayed in the center of the screen.'] = true;
 L['Colour'] = true;
 L['The colour of the Killing Blow notification.'] = true;
-
 L['Killing Blow Size'] = true;
 L['The size of the Killing Blow notification'] = true;
 L['Killing Blow Font'] = true;
 L['The font used by the Killing Blow Notification.'] = true;
-
 L['In World'] = true;
 L['Notification will display in World content.'] = true;
 L['In PvP'] = true;
@@ -91,3 +89,7 @@ L['In Instance'] = true;
 L['Notification will display in 5 Man instanced content.'] = true;
 L['In Raid'] = true;
 L['Notification will display in instanced raid content.'] = true;
+
+-- Automatic Release
+L['Automatic Release'] = true;
+L['Automatically release your spirit when you die.'] = true;

@@ -11,6 +11,10 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 local OSD;
 
 -- Local Functions
+local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo;
+local IsInInstance = IsInInstance;
+local UnitGUID = UnitGUID;
+local GetZonePVPInfo = GetZonePVPInfo;
 
 --[[
     Fires on basically any combat log event then I narrow

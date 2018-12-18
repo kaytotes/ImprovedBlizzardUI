@@ -308,6 +308,9 @@ local options = {
                     set = function (info, newValue)
                         ImpUI.db.char.killingBlowInWorld = newValue;
                     end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
                     order = 16,
                 },
 
@@ -320,6 +323,9 @@ local options = {
                     end,
                     set = function (info, newValue)
                         ImpUI.db.char.killingBlowInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
                     end,
                     order = 17,
                 },
@@ -334,6 +340,9 @@ local options = {
                     set = function (info, newValue)
                         ImpUI.db.char.killingBlowInInstance = newValue;
                     end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
                     order = 18,
                 },
 
@@ -347,8 +356,95 @@ local options = {
                     set = function (info, newValue)
                         ImpUI.db.char.killingBlowInRaid = newValue;
                     end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
                     order = 19,
                 },
+
+                -- Automatic Ressurection Section
+                autoRelHeader = {
+                    type = 'header',
+                    name = L['Automatic Release'],
+                    order = 20,
+                },
+
+                autoRel = {
+                    type = 'toggle',
+                    name = L['Automatic Release'],
+                    desc = L['Automatically release your spirit when you die.'] ,
+                    get = function (info)
+                        return ImpUI.db.char.autoRel;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRel = newValue;
+                    end,
+                    order = 21,
+                },
+
+                autoRelInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = '',
+                    get = function (info)
+                        return ImpUI.db.char.autoRelInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 22,
+                },
+
+                autoRelInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = '',
+                    get = function (info)
+                        return ImpUI.db.char.autoRelInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 23,
+                },
+
+                autoRelInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = '',
+                    get = function (info)
+                        return ImpUI.db.char.autoRelInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 23,
+                },
+
+                autoRelInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = '',
+                    get = function (info)
+                        return ImpUI.db.char.autoRelInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 24,
+                }
             }
         },
     },
@@ -397,6 +493,12 @@ local defaults = {
         killingBlowInPvP = true,
         killingBlowInInstance = false,
         killingBlowInRaid = false,
+
+        autoRel = true,
+        autoRelInWorld = false,
+        autoRelInInstance = false,
+        autoRelInPvP = true,
+        autoRelInRaid = false,
     },
 };
 
