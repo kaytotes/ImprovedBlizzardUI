@@ -43,6 +43,7 @@ L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat C
 -- Combat
 L['Combat'] = true;
 
+-- Health Warning
 L['Health Warning'] = true;
 L['Health Warnings'] = true;
 L['Displays a five second warning when Player Health is less than 50% and 25%.'] = true;
@@ -56,3 +57,11 @@ L['25% Colour'] = true;
 L['The colour of the warning that displays at 25% health.'] = true;
 L['HP < 50% !'] = true;
 L['HP < 25% !!!'] = true;
+
+-- Interrupts
+L['Interrupts'] = true;
+L['Announce Interrupts'] = true;
+L['When you interrupt a target your character announces this to an appropriate sound channel.'] = true;
+L['Interrupted X on Y'] = function (spell, target)
+    return 'Interrupted '..spell..' on '..target;
+end

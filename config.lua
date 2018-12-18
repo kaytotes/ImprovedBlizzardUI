@@ -108,12 +108,12 @@ end
 
 -- Get whether the health warnings should display.
 function ImpUI:ShouldDisplayHealthWarning(info)
-    return self.db.char.healthWarning;
+    return self.db.char.healthWarnings;
 end
 
 -- Set whether the health warnings should display.
 function ImpUI:SetDisplayHealthWarning(info, newValue)
-    self.db.char.healthWarning = newValue;
+    self.db.char.healthWarnings = newValue;
 end
 
 -- Get the Health Warning Font
@@ -160,4 +160,33 @@ function ImpUI:SetHealthWarningQuarterColour(_, r, g, b, a)
     self.db.char.healthWarningQuarterColour.g = g;
     self.db.char.healthWarningQuarterColour.b = b;
     self.db.char.healthWarningQuarterColour.a = a;
+end
+
+-- Get whether we should announce interrupts.
+function ImpUI:ShouldAnnounceInterrupts(info)
+    return self.db.char.announceInterrupts;
+end
+
+-- Set whether we should announce interrupts.
+function ImpUI:SetAnnounceInterrupts(info, newValue)
+    self.db.char.announceInterrupts = newValue;
+end
+
+-- The options available for the Interrupt channel.
+function ImpUI:GetInterruptOptions()
+    local options = {
+        'Auto',
+        'Say',
+        'Yell',
+    };
+
+    return options;
+end
+
+function ImpUI:GetInterruptChannel(info)
+    return self.db.char.interruptChannel;
+end
+
+function ImpUI:SetInterruptChannel(info, newValue)
+    self.db.char.interruptChannel = newValue;
 end

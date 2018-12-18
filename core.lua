@@ -196,6 +196,36 @@ local options = {
                     end,
                     order = 6,
                 },
+
+                -- Interrupts Section
+                interruptHeader = {
+                    type = 'header',
+                    name = L['Interrupts'],
+                    order = 7,
+                },
+
+                announceInterrupts = {
+                    type = 'toggle',
+                    name = L['Announce Interrupts'],
+                    desc = L['When you interrupt a target your character announces this to an appropriate sound channel.'],
+                    get = 'ShouldAnnounceInterrupts',
+                    set = 'SetAnnounceInterrupts',
+                    order = 8,
+                },
+
+                interruptChannel = {
+                    type = 'select',
+                    name = L['Chat Channel'],
+                    desc = L['The Channel that should be used when announcing an interrupt. Auto intelligently chooses based on situation.'],
+                    get = 'GetInterruptChannel',
+                    set = 'SetInterruptChannel',
+                    style = 'dropdown',
+                    values = 'GetInterruptOptions',
+                    disabled = function () 
+                        return ImpUI.db.char.announceInterrupts == false;
+                    end,
+                    order = 9,
+                }
             }
         },
     },
@@ -228,6 +258,8 @@ local defaults = {
             b = 0,
             a = 1,
         },
+        announceInterrupts = true,
+        interruptChannel = 1,
     },
 };
 
