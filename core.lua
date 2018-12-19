@@ -591,6 +591,16 @@ local options = {
             type = 'group',
             order = 7,
             args = {
+                primaryInterfaceFont = {
+                    type = 'select',
+                    name = L['Primary Interface Font'],
+                    desc = L['Replaces almost every font in the Blizzard UI to this selection. This is a broad pass.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = 'GetPrimaryInterfaceFont',
+                    set = 'SetPrimaryInterfaceFont',
+                    order = 1,
+                },
             }
         },
 
@@ -608,6 +618,7 @@ local options = {
 -- Configuration Defaults (Per Character DB)
 local defaults = {
     char = {
+        primaryInterfaceFont = 'Improved Blizzard UI',
         afkMode = true,
         autoScreenshot = true,
         autoRepair = true,

@@ -20,6 +20,7 @@ core.lua
 config.lua
 
 # Modules
+modules/extras/fonts.lua
 modules/misc/osd.lua
 modules/misc/afkmode.lua
 modules/misc/autoscreenshot.lua

@@ -332,3 +332,13 @@ function ImpUI:SetMinimapClockSize(info, newValue)
 
     ImpUI_MiniMap:StyleClock();
 end
+
+function ImpUI:GetPrimaryInterfaceFont(info)
+    return self.db.char.primaryInterfaceFont;
+end
+
+function ImpUI:SetPrimaryInterfaceFont(info, newFont)
+    self.db.char.primaryInterfaceFont = newFont;
+
+    ImpUI_Fonts:PrimaryFontUpdated();
+end

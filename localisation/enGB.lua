@@ -103,6 +103,11 @@ L['Tooltips'] = true;
 -- Extras
 L['Extras'] = true;
 
+-- Fonts
+L['Primary Interface Font'] = true;
+L['Replaces almost every font in the Blizzard UI to this selection. This is a broad pass.'] = true;
+L['A /reload may be required after updating the primary font!'] = true;
+
 -- Maps
 L['Maps'] = true;
 L['Mini Map'] = true;
@@ -129,3 +134,4 @@ L['Action Bars'] = true;
 L['with'] = true;
 L['Melee'] = true;
 L[' killed '] = true;
+
