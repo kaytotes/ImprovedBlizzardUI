@@ -100,9 +100,7 @@ L['Unit Frames'] = true;
 -- Tooltips
 L['Tooltips'] = true;
 
--- Extras
-L['Extras'] = true;
-
+-- System Stats
 L['System Statistics'] = true;
 L['Display System Statistics'] = true;
 L['Displays FPS and Latency above the Mini Map.'] = true;
@@ -137,6 +135,7 @@ L['The size of the Minimap Clock Display.'] = true;
 L['Action Bars'] = true;
 
 -- Kill Feed
+L['Kill Feed'] = true;
 L['with'] = true;
 L['Melee'] = true;
 L[' killed '] = true;

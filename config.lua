@@ -1,359 +1,887 @@
--- Get the Config for the AFK Mode
-function ImpUI:IsAFKEnabled(info)
-    return self.db.char.afkMode;
+-- Get Localisation
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
+
+-- Globally Reachable Config Table.
+ImpUI_Config = {};
+
+-- Defaults for the Project.
+ImpUI_Config.defaults = {
+    char = {
+        primaryInterfaceFont = 'Improved Blizzard UI',
+        afkMode = true,
+        autoScreenshot = true,
+        autoRepair = true,
+        guildRepair = true,
+        autoSell = true,
+        minifyStrings = true,
+        styleChat = true,
+        chatFont = 'Improved Blizzard UI',
+        outlineChat = true,
+        healthWarnings = true,
+        healthWarningFont = 'Improved Blizzard UI',
+        healthWarningSize = 26,
+        healthWarningHalfColour = {
+            r = 0,
+            g = 1,
+            b = 1,
+            a = 1,
+        },
+        healthWarningQuarterColour = {
+            r = 1,
+            g = 0,
+            b = 0,
+            a = 1,
+        },
+        announceInterrupts = true,
+        interruptChannel = 1,
+        killingBlows = true,
+        killingBlowMessage = L['Killing Blow!'],
+        killingBlowColour = {
+            r = 1,
+            g = 1,
+            b = 0,
+            a = 1,
+        },
+        killingBlowSize = 26,
+        killingBlowFont = 'Improved Blizzard UI',
+        killingBlowInWorld = false,
+        killingBlowInPvP = true,
+        killingBlowInInstance = false,
+        killingBlowInRaid = false,
+
+        autoRel = true,
+        autoRelInWorld = false,
+        autoRelInInstance = false,
+        autoRelInPvP = true,
+        autoRelInRaid = false,
+
+        showCoords = true,
+        minimapCoordsFont = 'Improved Blizzard UI',
+        minimapCoordsColour = {
+            r = 1,
+            g = 1,
+            b = 0,
+            a = 1,
+        },
+        minimapCoordsSize = 13,
+        minimapZoneTextFont = 'Improved Blizzard UI',
+        minimapZoneTextSize = 13,
+        minimapClockFont = 'Improved Blizzard UI',
+        minimapClockSize = 10,
+
+        performanceFrame = true,
+        performanceFrameSize = 14,
+    },
+};
+
+-- Helper Functions
+local function colour_unpack(colour)
+    return colour.r, colour.g, colour.b, colour.a;
 end
 
--- Store the Config for the AFK Mode
-function ImpUI:SetAFKEnabled(info, newValue)
-    self.db.char.afkMode = newValue;
-end
-
--- Get the Config for the Automatic Screenshot.
-function ImpUI:IsAutoScreenshotEnabled(info)
-    return self.db.char.autoScreenshot;
-end
-
--- Set the Config for the Automatic Screenshot.
-function ImpUI:SetAutoScreenshot(info, newValue)
-    self.db.char.autoScreenshot = newValue;
-end
-
--- Get the Config for using the Auto Repair module.
-function ImpUI:IsAutoRepairEnabled(info)
-    return self.db.char.autoRepair;
-end
-
--- Set the Config for using the Auto Repair module.
-function ImpUI:SetAutoRepairEnabled(info, newValue)
-    self.db.char.autoRepair = newValue;
-end
-
--- Get the Config for using Guild Bank for Repairs.
-function ImpUI:IsGuildRepairEnabled(info)
-    return self.db.char.guildRepair;
-end
-
--- Set the Config for using the Guild bank for Repairs.
-function ImpUI:SetGuildRepairEnabled(info, newValue)
-    self.db.char.guildRepair = newValue;
-end
-
--- Get the Config for auto selling trash items.
-function ImpUI:IsAutoSellEnabled(info)
-    return self.db.char.autoSell;
-end
-
--- Set the Config for auto selling trash items.
-function ImpUI:SetAutoSellEnabled(info, newValue)
-    self.db.char.autoSell = newValue;
-end
-
--- Gets the Minify Chat Messages Config.
-function ImpUI:ShouldMinifyStrings(info)
-    return self.db.char.minifyStrings;
-end
-
--- Set the Minify Strings option and in the process restore
--- or set the string overrides.
-function ImpUI:SetMinifyStrings(info, newValue)
-    self.db.char.minifyStrings = newValue;
-
-    if (newValue == true) then
-        ImpUI_Chat:RestoreStrings();
-        ImpUI_Chat:OverrideStrings();
-    else
-        ImpUI_Chat:RestoreStrings();
-    end
-end
-
--- Get whether the chat should be styped.
-function ImpUI:ShouldStyleChat(info)
-    return self.db.char.styleChat;
-end
-
--- Set whether the chat should be styled.
-function ImpUI:SetStyleChat(info, newValue)
-    self.db.char.styleChat = newValue;
-
-    if (newValue == true) then
-        ImpUI_Chat:StyleChat();
-    else
-        ImpUI_Chat:ResetChat();
-    end
-end
-
--- Gets the stored Chat font.
-function ImpUI:GetChatFont(info)
-    return self.db.char.chatFont;
-end
-
--- Store the Chat font and repaint / reload if needed.
-function ImpUI:SetChatFont(info, newFont)
-    self.db.char.chatFont = newFont;
-
-    ImpUI_Chat:StyleChat();
-end
-
--- Get whether the chat window font should have an outline.
-function ImpUI:GetChatOutline(info)
-    return self.db.char.outlineChat;
-end
-
--- Set whether the chat font should have an outline.
-function ImpUI:SetChatOutline(info, newValue)
-    self.db.char.outlineChat = newValue;
-    
-    ImpUI_Chat:StyleChat();
-end
-
--- Get whether the health warnings should display.
-function ImpUI:ShouldDisplayHealthWarning(info)
-    return self.db.char.healthWarnings;
-end
-
--- Set whether the health warnings should display.
-function ImpUI:SetDisplayHealthWarning(info, newValue)
-    self.db.char.healthWarnings = newValue;
-end
-
--- Get the Health Warning Font
-function ImpUI:GetHealthWarningFont(info)
-    return self.db.char.healthWarningFont;
-end
-
--- Set the Health Warning Font
-function ImpUI:SetHealthWarningFont(info, newFont)
-    self.db.char.healthWarningFont = newFont;
-end
-
--- Get the Health Warning Size.
-function ImpUI:GetHealthWarningSize(info)
-    return self.db.char.healthWarningSize;
-end
-
--- Set the Health Warning Size
-function ImpUI:SetHealthWarningSize(info, newValue)
-    self.db.char.healthWarningSize = newValue;
-end
-
--- Get the Health Warning 50% Colour
-function ImpUI:GetHealthWarningHalfColour(info)
-    return self.db.char.healthWarningHalfColour.r, self.db.char.healthWarningHalfColour.g, self.db.char.healthWarningHalfColour.b, self.db.char.healthWarningHalfColour.a; 
-end
-
--- Set the Health Warning 50% Colour
-function ImpUI:SetHealthWarningHalfColour(_, r, g, b, a)
-    self.db.char.healthWarningHalfColour.r = r;
-    self.db.char.healthWarningHalfColour.g = g;
-    self.db.char.healthWarningHalfColour.b = b;
-    self.db.char.healthWarningHalfColour.a = a;
-end
-
--- Get the Health Warning 25% Colour
-function ImpUI:GetHealthWarningQuarterColour(info)
-    return self.db.char.healthWarningQuarterColour.r, self.db.char.healthWarningQuarterColour.g, self.db.char.healthWarningQuarterColour.b, self.db.char.healthWarningQuarterColour.a; 
-end
-
--- Set the Health Warning 25% Colour
-function ImpUI:SetHealthWarningQuarterColour(_, r, g, b, a)
-    self.db.char.healthWarningQuarterColour.r = r;
-    self.db.char.healthWarningQuarterColour.g = g;
-    self.db.char.healthWarningQuarterColour.b = b;
-    self.db.char.healthWarningQuarterColour.a = a;
-end
-
--- Get whether we should announce interrupts.
-function ImpUI:ShouldAnnounceInterrupts(info)
-    return self.db.char.announceInterrupts;
-end
-
--- Set whether we should announce interrupts.
-function ImpUI:SetAnnounceInterrupts(info, newValue)
-    self.db.char.announceInterrupts = newValue;
-end
-
--- The options available for the Interrupt channel.
-function ImpUI:GetInterruptOptions()
-    local options = {
-        'Auto',
-        'Say',
-        'Yell',
+local function colour_pack(r, g, b, a)
+    return {
+        r = r,
+        g = g,
+        b = b,
+        a = a,
     };
-
-    return options;
 end
 
--- Get the channel that should be used for announcing interrupts.
-function ImpUI:GetInterruptChannel(info)
-    return self.db.char.interruptChannel;
-end
+-- Configuration Menu Options
+ImpUI_Config.options = {
+    name = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'),
+    handler = ImpUI,
+    type = 'group',
+    childGroups = "tab",
+    args = {
+        -- Unit Frames
+        unitframes = {
+            name = L['Unit Frames'],
+            desc = L['Unit Frames'],
+            type = 'group',
+            order = 1,
+            args = {
+            }
+        },
 
--- Set the channel that should be used for announcing interrupts.
-function ImpUI:SetInterruptChannel(info, newValue)
-    self.db.char.interruptChannel = newValue;
-end
+        -- Action Bars
+        actionbars = {
+            name = L['Action Bars'],
+            desc = L['Action Bars'],
+            type = 'group',
+            order = 2,
+            args = {
+            }
+        },
 
--- Should we display killing blows.
-function ImpUI:ShouldDisplayKillingBlows(info)
-    return self.db.char.killingBlows;
-end
+        -- Tooltips
+        tooltips = {
+            name = L['Tooltips'],
+            desc = L['Tooltips'],
+            type = 'group',
+            order = 3,
+            args = {
+            }
+        },
 
--- Set whether we should display killing blows.
-function ImpUI:SetKillingBlows(info, newValue)
-    self.db.char.killingBlows = newValue;
-end
+        -- Combat
+        combat = {
+            name = L['Combat'],
+            desc = L['Combat'],
+            type = 'group',
+            order = 4,
+            args = {
+                -- Health Warning Section
+                healthHeader = {
+                    type = 'header',
+                    name = L['Health Warning'],
+                    order = 1,
+                },
 
--- Get the message that should be displayed on a Killing blow.
-function ImpUI:GetKillingBlowMessage(info)
-    return self.db.char.killingBlowMessage;
-end
+                healthWarnings = {
+                    type = 'toggle',
+                    name = L['Health Warnings'],
+                    desc = L['Displays a five second warning when Player Health is less than 50% and 25%.'],
+                    get = function ()
+                        return ImpUI.db.char.healthWarnings;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.healthWarnings = newValue;
+                    end,
+                    order = 2,
+                },
 
--- Set the message that should be displayed on a Killing Blow.
-function ImpUI:SetKillingBlowMessage(info, newValue)
-    self.db.char.killingBlowMessage = newValue;
-end
+                healthWarningHalfColour = {
+                    type = 'color',
+                    name = L['50% Colour'],
+                    desc = L['The colour of the warning that displays at 50% health.'],
+                    get = function ()
+                        return colour_unpack(ImpUI.db.char.healthWarningHalfColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.healthWarningHalfColour = colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    hasAlpha = false,
+                    order = 3,
+                },
 
--- Get the Killing Blow Colour
-function ImpUI:GetKillingBlowColour(info)
-    return self.db.char.killingBlowColour.r, self.db.char.killingBlowColour.g, self.db.char.killingBlowColour.b, self.db.char.killingBlowColour.a; 
-end
+                healthWarningQuarterColour = {
+                    type = 'color',
+                    name = L['25% Colour'],
+                    desc = L['The colour of the warning that displays at 25% health.'],
+                    get = function ()
+                        return colour_unpack(ImpUI.db.char.healthWarningQuarterColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.healthWarningQuarterColour = colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    hasAlpha = false,
+                    order = 4,
+                },
 
--- Set the Killing Blow Colour
-function ImpUI:SetKillingBlowColour(_, r, g, b, a)
-    self.db.char.killingBlowColour.r = r;
-    self.db.char.killingBlowColour.g = g;
-    self.db.char.killingBlowColour.b = b;
-    self.db.char.killingBlowColour.a = a;
-end
+                healthWarningSize = {
+                    type = 'range',
+                    name = L['Health Warning Size'],
+                    desc = L['The size of the Health Warning Display.'],
+                    min = 8,
+                    max = 104,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.healthWarningSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.healthWarningSize = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    isPercent = false,
+                    order = 5,
+                },
 
--- Get the Killing Blow Size.
-function ImpUI:GetKillingBlowSize(info)
-    return self.db.char.killingBlowSize;
-end
+                healthWarningFont = {
+                    type = 'select',
+                    name = L['Health Warning Font'],
+                    desc = L['The font used by the Health Warning On Screen Display Message'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.healthWarningFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.healthWarningFont = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    order = 6,
+                },
 
--- Set the Killing Blow Size
-function ImpUI:SetKillingBlowSize(info, newValue)
-    self.db.char.killingBlowSize = newValue;
-end
+                -- Interrupts Section
+                interruptHeader = {
+                    type = 'header',
+                    name = L['Interrupts'],
+                    order = 7,
+                },
 
--- Get the Killing Blow Font
-function ImpUI:GetKillingBlowFont(info)
-    return self.db.char.killingBlowFont;
-end
+                announceInterrupts = {
+                    type = 'toggle',
+                    name = L['Announce Interrupts'],
+                    desc = L['When you interrupt a target your character announces this to an appropriate sound channel.'],
+                    get = function ()
+                        return ImpUI.db.char.announceInterrupts;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.announceInterrupts = newValue; 
+                    end,
+                    order = 8,
+                },
 
--- Set the Killing Blow Font
-function ImpUI:SetKillingBlowFont(info, newFont)
-    self.db.char.killingBlowFont = newFont;
-end
+                interruptChannel = {
+                    type = 'select',
+                    name = L['Chat Channel'],
+                    desc = L['The Channel that should be used when announcing an interrupt. Auto intelligently chooses based on situation.'],
+                    get = function ()
+                        return ImpUI.db.char.interruptChannel;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.interruptChannel = newValue; 
+                    end,
+                    style = 'dropdown',
+                    values = {
+                        'Auto',
+                        'Say',
+                        'Yell',
+                    },
+                    disabled = function () 
+                        return ImpUI.db.char.announceInterrupts == false;
+                    end,
+                    order = 9,
+                },
 
--- Get the Minimap Coords Font
-function ImpUI:GetMinimapCoordsFont(info)
-    return self.db.char.minimapCoordsFont;
-end
+                -- Killing Blows Section
+                killingBlowsHeader = {
+                    type = 'header',
+                    name = L['Killing Blows'],
+                    order = 10,
+                },
 
--- Set the Minimap Coords Font
-function ImpUI:SetMinimapCoordsFont(info, newFont)
-    self.db.char.minimapCoordsFont = newFont;
+                killingBlows = {
+                    type = 'toggle',
+                    name = L['Highlight Killing Blows'],
+                    desc = L['When you get a Killing Blow this will be displayed prominently in the center of the screen.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlows;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlows = newValue; 
+                    end,
+                    order = 11,
+                },
 
-    ImpUI_MiniMap:StyleCoords();
-end
+                killingBlowMessage = {
+                    type = 'input',
+                    name = L['Killing Blow Message'],
+                    desc = L['The message that is displayed in the center of the screen.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowMessage;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowMessage = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 12,
+                },
 
--- Get the Minimap Coords Colour
-function ImpUI:GetMinimapCoordsColour(info)
-    return self.db.char.minimapCoordsColour.r, self.db.char.minimapCoordsColour.g, self.db.char.minimapCoordsColour.b, self.db.char.minimapCoordsColour.a; 
-end
+                killingBlowColour = {
+                    type = 'color',
+                    name = L['Colour'],
+                    desc = L['The colour of the Killing Blow notification.'],
+                    get = function ()
+                        return colour_unpack(ImpUI.db.char.killingBlowColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.killingBlowColour = colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    hasAlpha = false,
+                    order = 13,
+                },
 
--- Set the Minimap Coords Colour
-function ImpUI:SetMinimapCoordsColour(_, r, g, b, a)
-    self.db.char.minimapCoordsColour.r = r;
-    self.db.char.minimapCoordsColour.g = g;
-    self.db.char.minimapCoordsColour.b = b;
-    self.db.char.minimapCoordsColour.a = a;
+                killingBlowSize = {
+                    type = 'range',
+                    name = L['Killing Blow Size'],
+                    desc = L['The size of the Killing Blow notification'],
+                    min = 8,
+                    max = 104,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.killingBlowSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowSize = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    isPercent = false,
+                    order = 14,
+                },
 
-    ImpUI_MiniMap:StyleCoords();
-end
+                killingBlowFont = {
+                    type = 'select',
+                    name = L['Killing Blow Font'],
+                    desc = L['The font used by the Killing Blow Notification.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.killingBlowFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowFont = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 15,
+                },
 
--- Get the Minimap Coords Size.
-function ImpUI:GetMinimapCoordsSize(info)
-    return self.db.char.minimapCoordsSize;
-end
+                killingBlowInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = L['Notification will display in World content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 16,
+                },
 
--- Set the Minimap Coords Size
-function ImpUI:SetMinimapCoordsSize(info, newValue)
-    self.db.char.minimapCoordsSize = newValue;
+                killingBlowInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = L['Notification will display in PvP content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 17,
+                },
 
-    ImpUI_MiniMap:StyleCoords();
-end
+                killingBlowInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = L['Notification will display in 5 Man instanced content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 18,
+                },
 
--- Get the Minimap Zone Font
-function ImpUI:GetMinimapZoneFont(info)
-    return self.db.char.minimapZoneTextFont;
-end
+                killingBlowInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = L['Notification will display in instanced raid content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 19,
+                },
 
--- Set the Minimap Zone Font
-function ImpUI:SetMinimapZoneFont(info, newFont)
-    self.db.char.minimapZoneTextFont = newFont;
+                -- Automatic Ressurection Section
+                autoRelHeader = {
+                    type = 'header',
+                    name = L['Automatic Release'],
+                    order = 20,
+                },
 
-    ImpUI_MiniMap:StyleMap();
-end
+                autoRel = {
+                    type = 'toggle',
+                    name = L['Automatic Release'],
+                    desc = L['Automatically release your spirit when you die.'] ,
+                    get = function ()
+                        return ImpUI.db.char.autoRel;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRel = newValue;
+                    end,
+                    order = 21,
+                },
 
--- Get the Minimap Zone Size.
-function ImpUI:GetMinimapZoneSize(info)
-    return self.db.char.minimapZoneTextSize;
-end
+                autoRelInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 22,
+                },
 
--- Set the Minimap Zone Size
-function ImpUI:SetMinimapZoneSize(info, newValue)
-    self.db.char.minimapZoneTextSize = newValue;
+                autoRelInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 23,
+                },
 
-    ImpUI_MiniMap:StyleMap();
-end
+                autoRelInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 23,
+                },
 
--- Get the Minimap Clock Font
-function ImpUI:GetMinimapClockFont(info)
-    return self.db.char.minimapClockFont;
-end
+                autoRelInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 24,
+                }
+            }
+        },
 
--- Set the Minimap Clock Font
-function ImpUI:SetMinimapClockFont(info, newFont)
-    self.db.char.minimapClockFont = newFont;
+        -- Maps
+        maps = {
+            name = L['Maps'],
+            desc = L['Maps'],
+            type = 'group',
+            order = 5,
+            args = {
+                -- Minimap Section
+                minimap = {
+                    type = 'header',
+                    name = L['Mini Map'],
+                    order = 1,
+                },
 
-    ImpUI_MiniMap:StyleClock();
-end
+                showCoords = {
+                    type = 'toggle',
+                    name = L['Player Co-ordinates'],
+                    desc = L['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'],
+                    get = function ()
+                        return ImpUI.db.char.showCoords;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showCoords = newValue;
+                    end,
+                    order = 2,
+                },
 
--- Get the Minimap Clock Size.
-function ImpUI:GetMinimapClockSize(info)
-    return self.db.char.minimapClockSize;
-end
+                minimapCoordsFont = {
+                    type = 'select',
+                    name = L['Co-ordinates Font'],
+                    desc = L['The font used by the Minimap Co-ordinates Display.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.minimapCoordsFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapCoordsFont = newValue;
+                        ImpUI_MiniMap:StyleCoords();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    order = 3,
+                },
 
--- Set the Minimap Clock Size
-function ImpUI:SetMinimapClockSize(info, newValue)
-    self.db.char.minimapClockSize = newValue;
+                minimapCoordsColour = {
+                    type = 'color',
+                    name = L['Colour'],
+                    desc = L['The colour of the Minimap Co-ordinates Display.'],
+                    get = function ()
+                        return colour_unpack(ImpUI.db.char.minimapCoordsColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.minimapCoordsColour = colour_pack(r, g, b, a);
+                        ImpUI_MiniMap:StyleCoords();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    hasAlpha = false,
+                    order = 4,
+                },
 
-    ImpUI_MiniMap:StyleClock();
-end
+                minimapCoordsSize = {
+                    type = 'range',
+                    name = L['Co-ordinates Size'],
+                    desc = L['The size of the Minimap Co-ordinates Display.'],
+                    min = 8,
+                    max = 26,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.minimapCoordsSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapCoordsSize = newValue;
+                        ImpUI_MiniMap:StyleCoords();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    isPercent = false,
+                    order = 5,
+                },
 
--- Get the font that is used to override blizzard ones.
-function ImpUI:GetPrimaryInterfaceFont(info)
-    return self.db.char.primaryInterfaceFont;
-end
+                minimapZoneTextFont = {
+                    type = 'select',
+                    name = L['Zone Text Font'],
+                    desc = L['The font used by the Minimap Zone Display'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.minimapZoneTextFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapZoneTextFont = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    order = 6,
+                },
 
--- Set the font that is used to override blizzard ones.
-function ImpUI:SetPrimaryInterfaceFont(info, newFont)
-    self.db.char.primaryInterfaceFont = newFont;
+                minimapZoneTextSize = {
+                    type = 'range',
+                    name = L['Zone Text Size'],
+                    desc = L['The size of the Minimap Zone Text Display.'],
+                    min = 8,
+                    max = 26,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.minimapZoneTextSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapZoneTextSize = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    isPercent = false,
+                    order = 7,
+                },
 
-    ImpUI_Fonts:PrimaryFontUpdated();
-    ImpUI_Performance:StylePerformanceFrame();
-end
+                minimapClockFont = {
+                    type = 'select',
+                    name = L['Clock Font'],
+                    desc = L['The font used by the Minimap Clock Display'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.minimapClockFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapClockFont = newValue;
+                        ImpUI_MiniMap:StyleClock();
+                    end,
+                    order = 8,
+                },
 
--- Get the System Statistics Size.
-function ImpUI:GetPerformanceFrameSize(info)
-    return self.db.char.performanceFrameSize;
-end
+                minimapClockSize = {
+                    type = 'range',
+                    name = L['Clock Text Size'],
+                    desc = L['The size of the Minimap Clock Display.'],
+                    min = 4,
+                    max = 22,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.minimapClockSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapClockSize = newValue;
+                        ImpUI_MiniMap:StyleClock();
+                    end,
+                    isPercent = false,
+                    order = 9,
+                },
+            }
+        },
 
--- Set the System Statistics Size
-function ImpUI:SetPerformanceFrameSize(info, newValue)
-    self.db.char.performanceFrameSize = newValue;
+        -- Miscellaneous
+        misc = {
+            name = L['Miscellaneous'],
+            desc = L['Miscellaneous'],
+            type = 'group',
+            order = 6,
+            args = {
+                afkMode = {
+                    type = 'toggle',
+                    name = L['Enable AFK Mode'],
+                    desc = L['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.'],
+                    get = function ()
+                        return ImpUI.db.char.afkMode;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.afkMode = newValue;
+                    end,
+                    order = 1,
+                },
+                autoRepair = {
+                    type = 'toggle',
+                    name = L['Auto Repair'],
+                    desc = L['Automatically repairs your armour when you visit a merchant that can repair.'],
+                    get = function ()
+                        return ImpUI.db.char.autoRepair;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRepair = newValue;
+                    end,
+                    order = 2,
+                },
+                guildRepair = {
+                    type = 'toggle',
+                    name = L['Use Guild Bank For Repairs'],
+                    desc = L['When automatically repairing allow the use of Guild Bank funds.'],
+                    get = function ()
+                        return ImpUI.db.char.guildRepair;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.guildRepair = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.autoRepair == false;
+                    end,
+                    order = 3,
+                },
+                autoSell = {
+                    type = 'toggle',
+                    name = L['Auto Sell Trash'],
+                    desc = L['Automatically sells any grey items that are in your inventory.'],
+                    get = function ()
+                        return ImpUI.db.char.autoSell;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoSell = newValue;
+                    end,
+                    order = 4,
+                },
+                autoScreenshot = {
+                    type = 'toggle',
+                    name = L['Achievement Screenshot'],
+                    desc = L['Automatically take a screenshot upon earning an achievement.'],
+                    get = function ()
+                        return ImpUI.db.char.autoScreenshot;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoScreenshot = newValue;
+                    end,
+                    order = 5,
+                },
 
-    ImpUI_Performance:StylePerformanceFrame();
-end
+                -- Chat Section
+                chatHeader = {
+                    type = 'header',
+                    name = L['Chat'],
+                    order = 6,
+                },
+
+                minifyStrings = {
+                    type = 'toggle',
+                    name = L['Minify Blizzard Strings'],
+                    desc = L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'],
+                    get = function ()
+                        return ImpUI.db.char.minifyStrings;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minifyStrings = newValue;
+
+                        if (newValue == true) then
+                            ImpUI_Chat:RestoreStrings();
+                            ImpUI_Chat:OverrideStrings();
+                        else
+                            ImpUI_Chat:RestoreStrings();
+                        end
+                    end,
+                    order = 7,
+                },
+
+                styleChat = {
+                    type = 'toggle',
+                    name = L['Style Chat'],
+                    desc = L['Styles the Blizzard Chat frame to better match the rest of the UI.'],
+                    get = function ()
+                        return ImpUI.db.char.styleChat;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.styleChat = newValue;
+
+                        if (newValue == true) then
+                            ImpUI_Chat:StyleChat();
+                        else
+                            ImpUI_Chat:ResetChat();
+                        end
+                    end,
+                    order = 8,
+                },
+
+                chatFont = {
+                    type = 'select',
+                    name = L['Chat Font'],
+                    desc = L['Sets the font used for the chat window, tabs etc.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.chatFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.chatFont = newValue;
+                        ImpUI_Chat:StyleChat();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleChat == false;
+                    end,
+                    order = 9,
+                },
+
+                outlineChat = {
+                    type = 'toggle',
+                    name = L['Outline Font'],
+                    desc = L['Applies a thin outline to text rendered in the chat windows.'],
+                    get = function ()
+                        return ImpUI.db.char.outlineChat;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.outlineChat = newValue;
+                        ImpUI_Chat:StyleChat();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleChat == false;
+                    end,
+                    order = 10,
+                },
+
+                primaryInterfaceFontHeader = {
+                    type = 'header',
+                    name = L['Primary Interface Font'],
+                    order = 11,
+                },
+
+                primaryInterfaceFont = {
+                    type = 'select',
+                    name = L['Primary Interface Font'],
+                    desc = L['Replaces almost every font in the Blizzard UI to this selection. This is a broad pass.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.primaryInterfaceFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.primaryInterfaceFont = newValue;
+                        ImpUI_Fonts:PrimaryFontUpdated();
+                        ImpUI_Performance:StylePerformanceFrame();
+                    end,
+                    order = 12,
+                },
+
+                performanceHeader = {
+                    type = 'header',
+                    name = L['System Statistics'],
+                    order = 13,
+                },
+
+                performanceFrame = {
+                    type = 'toggle',
+                    name = L['Display System Statistics'],
+                    desc = L['Displays FPS and Latency above the Mini Map.'],
+                    get = function ()
+                        return ImpUI.db.char.performanceFrame;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.performanceFrame = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    order = 14,
+                },
+
+                performanceFrameSize = {
+                    type = 'range',
+                    name = L['System Statistics Size'],
+                    desc = L['The size of the system statistics display.'],
+                    min = 4,
+                    max = 23,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.performanceFrameSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.performanceFrameSize = newValue;
+                        ImpUI_Performance:StylePerformanceFrame();
+                    end,
+                    isPercent = false,
+                    order = 15,
+                },
+
+                killFeedHeader = {
+                    type = 'header',
+                    name = L['Kill Feed'],
+                    order = 16,
+                },
+            }
+        },
+    }
+};
