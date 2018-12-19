@@ -601,6 +601,39 @@ local options = {
                     set = 'SetPrimaryInterfaceFont',
                     order = 1,
                 },
+
+                performanceHeader = {
+                    type = 'header',
+                    name = L['System Statistics'],
+                    order = 2,
+                },
+
+                performanceFrame = {
+                    type = 'toggle',
+                    name = L['Display System Statistics'],
+                    desc = L['Displays FPS and Latency above the Mini Map.'],
+                    get = function (info)
+                        return ImpUI.db.char.performanceFrame;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.performanceFrame = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    order = 3,
+                },
+
+                performanceFrameSize = {
+                    type = 'range',
+                    name = L['System Statistics Size'],
+                    desc = L['The size of the system statistics display.'],
+                    min = 4,
+                    max = 23,
+                    step = 1,
+                    get = 'GetPerformanceFrameSize',
+                    set = 'SetPerformanceFrameSize',
+                    isPercent = false,
+                    order = 4,
+                }
             }
         },
 
@@ -681,6 +714,7 @@ local defaults = {
         minimapClockSize = 10,
 
         performanceFrame = true,
+        performanceFrameSize = 14,
     },
 };
 

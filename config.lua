@@ -333,12 +333,27 @@ function ImpUI:SetMinimapClockSize(info, newValue)
     ImpUI_MiniMap:StyleClock();
 end
 
+-- Get the font that is used to override blizzard ones.
 function ImpUI:GetPrimaryInterfaceFont(info)
     return self.db.char.primaryInterfaceFont;
 end
 
+-- Set the font that is used to override blizzard ones.
 function ImpUI:SetPrimaryInterfaceFont(info, newFont)
     self.db.char.primaryInterfaceFont = newFont;
 
     ImpUI_Fonts:PrimaryFontUpdated();
+    ImpUI_Performance:StylePerformanceFrame();
+end
+
+-- Get the System Statistics Size.
+function ImpUI:GetPerformanceFrameSize(info)
+    return self.db.char.performanceFrameSize;
+end
+
+-- Set the System Statistics Size
+function ImpUI:SetPerformanceFrameSize(info, newValue)
+    self.db.char.performanceFrameSize = newValue;
+
+    ImpUI_Performance:StylePerformanceFrame();
 end

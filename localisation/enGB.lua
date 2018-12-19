@@ -103,6 +103,12 @@ L['Tooltips'] = true;
 -- Extras
 L['Extras'] = true;
 
+L['System Statistics'] = true;
+L['Display System Statistics'] = true;
+L['Displays FPS and Latency above the Mini Map.'] = true;
+L['System Statistics Size'] = true;
+L['The size of the system statistics display.'] = true;
+
 -- Fonts
 L['Primary Interface Font'] = true;
 L['Replaces almost every font in the Blizzard UI to this selection. This is a broad pass.'] = true;

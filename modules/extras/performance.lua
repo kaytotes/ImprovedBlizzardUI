@@ -2,7 +2,7 @@
 	modules\extras\performance.lua
 	An FPS and Latency monitor above the minimap
 ]]
-local ImpUI_Performance = ImpUI:NewModule('ImpUI_Performance', 'AceEvent-3.0', 'AceTimer-3.0');
+ImpUI_Performance = ImpUI:NewModule('ImpUI_Performance', 'AceEvent-3.0', 'AceTimer-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -13,7 +13,11 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 local performance;
 
 function ImpUI_Performance:Tick()
-    -- CHECK CONFIG TODO
+    -- Bail out if configuration option is disabled.
+    if (ImpUI.db.char.performanceFrame == false) then
+        performance.text:SetText(' ');
+        return;
+    end
 
     local _, _, latencyHome, latencyWorld = GetNetStats(); -- Get current Latency
 
@@ -46,11 +50,20 @@ function ImpUI_Performance:Tick()
     end
 
     -- Write Text
-    performance.text:SetText(' ');
-    
-    if(true) then
-        performance.text:SetText(latencyHome..' / '..latencyWorld..' ms - '..frameRate..' fps');
-    end
+    performance.text:SetText(latencyHome..' / '..latencyWorld..' ms - '..frameRate..' fps');
+end
+
+--[[
+    Fires when either the performance frame size option is changed
+    or the primary UI font is.
+	
+    @ return void
+]]
+function ImpUI_Performance:StylePerformanceFrame()
+    local font = ImpUI.db.char.primaryInterfaceFont;
+    local size = ImpUI.db.char.performanceFrameSize;
+
+    performance.text:SetFont(LSM:Fetch('font', font), size, 'THINOUTLINE');
 end
 
 --[[
@@ -67,11 +80,9 @@ end
     @ return void
 ]]
 function ImpUI_Performance:OnEnable()
+    -- Create the Performance Frame.
     performance = CreateFrame('Frame', nil, MinimapCluster);
-
     performance.text = performance:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
-    performance.elapsed = 0;
-    performance.delay = 2;
     performance:SetFrameStrata('BACKGROUND');
     performance:SetWidth(32);
     performance:SetHeight(32);
@@ -80,9 +91,7 @@ function ImpUI_Performance:OnEnable()
     -- Text positioning
     performance.text:SetPoint('CENTER', 0, 0);
 
-    font = LSM:Fetch('font', 'Improved Blizzard UI');
-
-    performance.text:SetFont(font, 14, 'THINOUTLINE');
+    self:StylePerformanceFrame();
 
     self.perfTimer = self:ScheduleRepeatingTimer('Tick', 1);
 end
