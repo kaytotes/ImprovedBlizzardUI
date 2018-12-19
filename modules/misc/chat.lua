@@ -284,6 +284,16 @@ function ImpUI_Chat:OnInitialize()
     for i = 1, 13 do
         CHAT_FONT_HEIGHTS[i] = i + 10;
     end
+
+    for i = 1, NUM_CHAT_WINDOWS do
+        local Window = _G['ChatFrame'..i]:GetName();
+        local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
+
+        -- Remove Screen Clamping
+		_G[Window]:SetClampRectInsets( 0, 0, 0, 0 );
+		_G[Window]:SetMinResize( 100, 50 );
+        _G[Window]:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
+    end
 end
 
 --[[
