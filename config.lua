@@ -1,10 +1,11 @@
 -- Get Localisation
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
--- Globally Reachable Config Table.
 ImpUI_Config = {};
 
--- Defaults for the Project.
+--[[
+	Defaults for every new character.
+]]
 ImpUI_Config.defaults = {
     char = {
         primaryInterfaceFont = 'Improved Blizzard UI',
@@ -74,11 +75,16 @@ ImpUI_Config.defaults = {
     },
 };
 
--- Helper Functions
+--[[
+	When passed an RGBA table simply returns it seperated.
+]]
 local function colour_unpack(colour)
     return colour.r, colour.g, colour.b, colour.a;
 end
 
+--[[
+	Packs seperate RGBA values into a single table.
+]]
 local function colour_pack(r, g, b, a)
     return {
         r = r,
@@ -88,7 +94,9 @@ local function colour_pack(r, g, b, a)
     };
 end
 
--- Configuration Menu Options
+--[[
+	Configuration Menu.
+]]
 ImpUI_Config.options = {
     name = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'),
     handler = ImpUI,
