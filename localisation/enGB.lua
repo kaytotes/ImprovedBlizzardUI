@@ -93,3 +93,18 @@ L['Notification will display in instanced raid content.'] = true;
 -- Automatic Release
 L['Automatic Release'] = true;
 L['Automatically release your spirit when you die.'] = true;
+
+-- Unit Frames
+L['Unit Frames'] = true;
+
+-- Tooltips
+L['Tooltips'] = true;
+
+-- Extras
+L['Extras'] = true;
+
+-- Maps
+L['Maps'] = true;
+
+-- Action Bars
+L['Action Bars'] = true;

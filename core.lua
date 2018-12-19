@@ -22,7 +22,7 @@ local options = {
             name = L['Miscellaneous'],
             desc = L['Miscellaneous'],
             type = 'group',
-            order = 1,
+            order = 6,
             args = {
                 enableAfkMode = {
                     type = 'toggle',
@@ -123,7 +123,7 @@ local options = {
             name = L['Combat'],
             desc = L['Combat'],
             type = 'group',
-            order = 2,
+            order = 4,
             args = {
                 -- Health Warning Section
                 healthHeader = {
@@ -445,6 +445,51 @@ local options = {
                     end,
                     order = 24,
                 }
+            }
+        },
+
+        unitframes = {
+            name = L['Unit Frames'],
+            desc = L['Unit Frames'],
+            type = 'group',
+            order = 1,
+            args = {
+            }
+        },
+
+        tooltips = {
+            name = L['Tooltips'],
+            desc = L['Tooltips'],
+            type = 'group',
+            order = 3,
+            args = {
+            }
+        },
+
+        maps = {
+            name = L['Maps'],
+            desc = L['Maps'],
+            type = 'group',
+            order = 5,
+            args = {
+            }
+        },
+
+        extras = {
+            name = L['Extras'],
+            desc = L['Extras'],
+            type = 'group',
+            order = 7,
+            args = {
+            }
+        },
+
+        actionbars = {
+            name = L['Action Bars'],
+            desc = L['Action Bars'],
+            type = 'group',
+            order = 2,
+            args = {
             }
         },
     },
