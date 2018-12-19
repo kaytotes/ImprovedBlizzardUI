@@ -28,13 +28,10 @@ local function FormatNum(number)
     local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
     int = int:reverse():gsub("(%d%d%d)", "%1,")
 
-    return minus .. int:reverse():gsub("^,", "") .. fraction
+    return minus .. int:reverse():gsub("^,", "") .. fraction;
 end
 
 function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount)
-    ImpUI:Print('UpdateKillFeed');
-    print(sourceGUID, sourceName, destGUID, destName, spellName, amount);
-
     local playerFaction, _ = UnitFactionGroup( 'player' );
     local killerString, killedString, killerFaction, killedFaction;
 
@@ -170,8 +167,6 @@ function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
 end
 
 function ImpUI_Killfeed:ClearKillFeed()
-    ImpUI:Print('ClearKillFeed');
-
     for i = 1, #killfeed.recentKills do
         killfeed.recentKills[i] = ' ';
         killfeed.texts[i]:SetText(' ');
@@ -179,8 +174,6 @@ function ImpUI_Killfeed:ClearKillFeed()
 end
 
 function ImpUI_Killfeed:StyleKillFeed()
-    ImpUI:Print('StyleKillFeed');
-
     local font = 'Improved Blizzard UI';
     local size = 17;
 
@@ -191,8 +184,6 @@ function ImpUI_Killfeed:StyleKillFeed()
 end
 
 function ImpUI_Killfeed:PositionKillFeed()
-    ImpUI:Print('PositionKillFeed');
-
     killfeed:SetPoint('TOPLEFT', 15, 15 );
 end
 
@@ -214,7 +205,6 @@ end
     @ return void
 ]]
 function ImpUI_Killfeed:OnInitialize()
-    ImpUI:Print('ImpUI_Killfeed Init');
 end
 
 --[[
