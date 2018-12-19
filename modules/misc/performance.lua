@@ -1,5 +1,5 @@
 --[[
-	modules\extras\performance.lua
+	modules\misc\performance.lua
 	An FPS and Latency monitor above the minimap
 ]]
 ImpUI_Performance = ImpUI:NewModule('ImpUI_Performance', 'AceEvent-3.0', 'AceTimer-3.0');

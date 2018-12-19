@@ -21,17 +21,17 @@ helpers.lua
 config.lua
 
 # Modules
-modules/extras/fonts.lua
+modules/misc/fonts.lua
 modules/misc/osd.lua
 modules/misc/afkmode.lua
 modules/misc/autoscreenshot.lua
 modules/misc/autorepair.lua
 modules/misc/autosell.lua
 modules/misc/chat.lua
+modules/misc/killfeed.lua
+modules/misc/performance.lua
 modules/combat/healthwarning.lua
 modules/combat/interrupts.lua
 modules/combat/killingblows.lua
 modules/combat/autorelease.lua
 modules/maps/minimap.lua
-modules/extras/killfeed.lua
-modules/extras/performance.lua

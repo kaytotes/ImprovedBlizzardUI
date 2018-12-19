@@ -1,5 +1,5 @@
 --[[
-    modules\extras\fonts.lua
+    modules\misc\fonts.lua
     Basically overrides a crapload of UI fonts to the 'Primary' UI font set in config.
 
     This code is a mixture of my own, Phanx, Tekkub and gmFonts.

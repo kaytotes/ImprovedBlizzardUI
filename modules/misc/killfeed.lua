@@ -1,5 +1,5 @@
 --[[
-    modules\extras\killfeed.lua
+    modules\misc\killfeed.lua
     Displays a feed of kills showing who has been killed and by what.
 ]]
 ImpUI_Killfeed = ImpUI:NewModule('ImpUI_Killfeed', 'AceEvent-3.0');
