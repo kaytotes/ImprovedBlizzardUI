@@ -245,3 +245,90 @@ end
 function ImpUI:SetKillingBlowFont(info, newFont)
     self.db.char.killingBlowFont = newFont;
 end
+
+-- Get the Minimap Coords Font
+function ImpUI:GetMinimapCoordsFont(info)
+    return self.db.char.minimapCoordsFont;
+end
+
+-- Set the Minimap Coords Font
+function ImpUI:SetMinimapCoordsFont(info, newFont)
+    self.db.char.minimapCoordsFont = newFont;
+
+    ImpUI_MiniMap:StyleCoords();
+end
+
+-- Get the Minimap Coords Colour
+function ImpUI:GetMinimapCoordsColour(info)
+    return self.db.char.minimapCoordsColour.r, self.db.char.minimapCoordsColour.g, self.db.char.minimapCoordsColour.b, self.db.char.minimapCoordsColour.a; 
+end
+
+-- Set the Minimap Coords Colour
+function ImpUI:SetMinimapCoordsColour(_, r, g, b, a)
+    self.db.char.minimapCoordsColour.r = r;
+    self.db.char.minimapCoordsColour.g = g;
+    self.db.char.minimapCoordsColour.b = b;
+    self.db.char.minimapCoordsColour.a = a;
+
+    ImpUI_MiniMap:StyleCoords();
+end
+
+-- Get the Minimap Coords Size.
+function ImpUI:GetMinimapCoordsSize(info)
+    return self.db.char.minimapCoordsSize;
+end
+
+-- Set the Minimap Coords Size
+function ImpUI:SetMinimapCoordsSize(info, newValue)
+    self.db.char.minimapCoordsSize = newValue;
+
+    ImpUI_MiniMap:StyleCoords();
+end
+
+-- Get the Minimap Zone Font
+function ImpUI:GetMinimapZoneFont(info)
+    return self.db.char.minimapZoneTextFont;
+end
+
+-- Set the Minimap Zone Font
+function ImpUI:SetMinimapZoneFont(info, newFont)
+    self.db.char.minimapZoneTextFont = newFont;
+
+    ImpUI_MiniMap:StyleMap();
+end
+
+-- Get the Minimap Zone Size.
+function ImpUI:GetMinimapZoneSize(info)
+    return self.db.char.minimapZoneTextSize;
+end
+
+-- Set the Minimap Zone Size
+function ImpUI:SetMinimapZoneSize(info, newValue)
+    self.db.char.minimapZoneTextSize = newValue;
+
+    ImpUI_MiniMap:StyleMap();
+end
+
+-- Get the Minimap Clock Font
+function ImpUI:GetMinimapClockFont(info)
+    return self.db.char.minimapClockFont;
+end
+
+-- Set the Minimap Clock Font
+function ImpUI:SetMinimapClockFont(info, newFont)
+    self.db.char.minimapClockFont = newFont;
+
+    ImpUI_MiniMap:StyleClock();
+end
+
+-- Get the Minimap Clock Size.
+function ImpUI:GetMinimapClockSize(info)
+    return self.db.char.minimapClockSize;
+end
+
+-- Set the Minimap Clock Size
+function ImpUI:SetMinimapClockSize(info, newValue)
+    self.db.char.minimapClockSize = newValue;
+
+    ImpUI_MiniMap:StyleClock();
+end

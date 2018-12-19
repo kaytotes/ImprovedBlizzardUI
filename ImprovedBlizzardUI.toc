@@ -30,3 +30,4 @@ modules/combat/healthwarning.lua
 modules/combat/interrupts.lua
 modules/combat/killingblows.lua
 modules/combat/autorelease.lua
+modules/maps/minimap.lua

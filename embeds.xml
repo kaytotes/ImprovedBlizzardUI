@@ -17,5 +17,6 @@
     <Include file='Libs\Ace3\AceGUI-3.0\AceGUI-3.0.xml'/>
     <Include file='Libs\Ace3\AceConfig-3.0\AceConfig-3.0.xml'/>
     <Include file='Libs\Ace3\AceHook-3.0\AceHook-3.0.xml'/>
+    <Include file='Libs\Ace3\AceTimer-3.0\AceTimer-3.0.xml'/>
     <Include file='Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml'/>
 </Ui>

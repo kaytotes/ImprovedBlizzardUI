@@ -27,7 +27,7 @@ local options = {
                 enableAfkMode = {
                     type = 'toggle',
                     name = L['Enable AFK Mode'],
-                    desc = 'After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.',
+                    desc = L['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.'],
                     get = 'IsAFKEnabled',
                     set = 'SetAFKEnabled',
                     order = 1,
@@ -472,6 +472,116 @@ local options = {
             type = 'group',
             order = 5,
             args = {
+                -- Minimap Section
+                minimap = {
+                    type = 'header',
+                    name = L['Mini Map'],
+                    order = 1,
+                },
+
+                showCoords = {
+                    type = 'toggle',
+                    name = L['Player Co-ordinates'],
+                    desc = L['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'],
+                    get = function (info)
+                        return ImpUI.db.char.showCoords;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showCoords = newValue;
+                    end,
+                    order = 2,
+                },
+
+                minimapCoordsFont = {
+                    type = 'select',
+                    name = L['Co-ordinates Font'],
+                    desc = L['The font used by the Minimap Co-ordinates Display.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = 'GetMinimapCoordsFont',
+                    set = 'SetMinimapCoordsFont',
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    order = 3,
+                },
+
+                minimapCoordsColour = {
+                    type = 'color',
+                    name = L['Colour'],
+                    desc = L['The colour of the Minimap Co-ordinates Display.'],
+                    get = 'GetMinimapCoordsColour',
+                    set = 'SetMinimapCoordsColour',
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    hasAlpha = false,
+                    order = 4,
+                },
+
+                minimapCoordsSize = {
+                    type = 'range',
+                    name = L['Co-ordinates Size'],
+                    desc = L['The size of the Minimap Co-ordinates Display.'],
+                    min = 8,
+                    max = 26,
+                    step = 1,
+                    get = 'GetMinimapCoordsSize',
+                    set = 'SetMinimapCoordsSize',
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    isPercent = false,
+                    order = 5,
+                },
+
+                minimapZoneTextFont = {
+                    type = 'select',
+                    name = L['Zone Text Font'],
+                    desc = L['The font used by the Minimap Zone Display'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = 'GetMinimapZoneFont',
+                    set = 'SetMinimapZoneFont',
+                    order = 6,
+                },
+
+                minimapZoneTextSize = {
+                    type = 'range',
+                    name = L['Zone Text Size'],
+                    desc = L['The size of the Minimap Zone Text Display.'],
+                    min = 8,
+                    max = 26,
+                    step = 1,
+                    get = 'GetMinimapZoneSize',
+                    set = 'SetMinimapZoneSize',
+                    isPercent = false,
+                    order = 7,
+                },
+
+                minimapClockFont = {
+                    type = 'select',
+                    name = L['Clock Font'],
+                    desc = L['The font used by the Minimap Clock Display'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = 'GetMinimapClockFont',
+                    set = 'SetMinimapClockFont',
+                    order = 8,
+                },
+
+                minimapClockSize = {
+                    type = 'range',
+                    name = L['Clock Text Size'],
+                    desc = L['The size of the Minimap Clock Display.'],
+                    min = 4,
+                    max = 22,
+                    step = 1,
+                    get = 'GetMinimapClockSize',
+                    set = 'SetMinimapClockSize',
+                    isPercent = false,
+                    order = 9,
+                },
             }
         },
 
@@ -544,6 +654,22 @@ local defaults = {
         autoRelInInstance = false,
         autoRelInPvP = true,
         autoRelInRaid = false,
+
+        showCoords = true,
+        minimapCoordsFont = 'Improved Blizzard UI',
+        minimapCoordsColour = {
+            r = 1,
+            g = 1,
+            b = 0,
+            a = 1,
+        },
+        minimapCoordsSize = 13,
+        minimapZoneTextFont = 'Improved Blizzard UI',
+        minimapZoneTextSize = 13,
+        minimapClockFont = 'Improved Blizzard UI',
+        minimapClockSize = 10,
+
+        performanceFrame = true,
     },
 };
 

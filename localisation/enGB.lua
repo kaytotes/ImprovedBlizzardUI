@@ -105,6 +105,22 @@ L['Extras'] = true;
 
 -- Maps
 L['Maps'] = true;
+L['Mini Map'] = true;
+L['Player Co-ordinates'] = true;
+L['Co-ordinates Font'] = true;
+L['The font used by the Minimap Co-ordinates Display.'] = true;
+L['The colour of the Minimap Co-ordinates Display.'] = true;
+L['Co-ordinates Size'] = true;
+L['The size of the Minimap Co-ordinates Display.'] = true;
+L['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'] = true;
+L['Zone Text Font'] = true;
+L['The font used by the Minimap Zone Display'] = true;
+L['Zone Text Size'] = true;
+L['The size of the Minimap Zone Text Display.'] = true;
+L['Clock Font'] = true;
+L['The font used by the Minimap Clock Display'] = true;
+L['Clock Text Size'] = true;
+L['The size of the Minimap Clock Display.'] = true;
 
 -- Action Bars
 L['Action Bars'] = true;
