@@ -124,3 +124,8 @@ L['The size of the Minimap Clock Display.'] = true;
 
 -- Action Bars
 L['Action Bars'] = true;
+
+-- Kill Feed
+L['with'] = true;
+L['Melee'] = true;
+L[' killed '] = true;
