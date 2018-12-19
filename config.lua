@@ -628,6 +628,13 @@ ImpUI_Config.options = {
                     isPercent = false,
                     order = 9,
                 },
+
+                -- World Map Section
+                worldmap = {
+                    type = 'header',
+                    name = L['World Map'],
+                    order = 10,
+                },
             }
         },
 

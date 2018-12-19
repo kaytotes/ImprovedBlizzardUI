@@ -131,6 +131,8 @@ L['The font used by the Minimap Clock Display'] = true;
 L['Clock Text Size'] = true;
 L['The size of the Minimap Clock Display.'] = true;
 
+L['World Map'] = true;
+
 -- Action Bars
 L['Action Bars'] = true;
 
