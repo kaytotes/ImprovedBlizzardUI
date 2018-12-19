@@ -18,3 +18,16 @@ function Helpers.colour_pack(r, g, b, a)
         a = a,
     };
 end
+
+--[[
+    Converts a number to a string with comma values
+    @ param int $number The number we're converting
+    @
+    @ return string
+]]
+function Helpers.format_num(number)
+    local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
+    int = int:reverse():gsub("(%d%d%d)", "%1,")
+
+    return minus .. int:reverse():gsub("^,", "") .. fraction;
+end

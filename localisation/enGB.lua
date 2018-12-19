@@ -138,6 +138,20 @@ L['Action Bars'] = true;
 
 -- Kill Feed
 L['Kill Feed'] = true;
+L['Enable Kill Feed'] = true;
+L['Displays a feed of the last 5 kills that occur around you.'] = true;
+L['Show Casted Spell'] = true;
+L['Show the Spell that caused a death.'] = true;
+L['Show Damage'] = true;
+L['Show how much damage the Creature or Player took.'] = true;
+L['Hide When Inactive'] = true;
+L['Hides the Kill Feed after no new events have occured for a short period.'] = true;
+L['Kill Feed Font'] = true;
+L['The font used for the Kill Feed.'] = true;
+L['Text Size'] = true;
+L['The font size used for the Kill Feed.'] = true;
+L['Spacing'] = true;
+L['The vertical spacing between each row of the Kill Feed.'] = true;
 L['with'] = true;
 L['Melee'] = true;
 L[' killed '] = true;

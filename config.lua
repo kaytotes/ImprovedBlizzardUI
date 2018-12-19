@@ -52,6 +52,18 @@ ImpUI_Config.defaults = {
 
         performanceFrame = true,
         performanceFrameSize = 14,
+
+        killFeed = true,
+        killFeedFont = 'Improved Blizzard UI',
+        killFeedSize = 17,
+        killFeedSpacing = 26,
+        killFeedInWorld = false,
+        killFeedInInstance = true,
+        killFeedInRaid = true,
+        killFeedInPvP = true,
+        killFeedShowSpell = true,
+        killFeedShowDamage = true,
+        killFeedFadeInactive = true,
     },
 };
 
@@ -857,6 +869,192 @@ ImpUI_Config.options = {
                     name = L['Kill Feed'],
                     order = 16,
                 },
+
+                killFeed = {
+                    type = 'toggle',
+                    name = L['Enable Kill Feed'],
+                    desc = L['Displays a feed of the last 5 kills that occur around you.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeed;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeed = newValue;
+                    end,
+                    order = 17,
+                },
+
+                killFeedFont = {
+                    type = 'select',
+                    name = L['Kill Feed Font'],
+                    desc = L['The font used for the Kill Feed.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.killFeedFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedFont = newValue;
+                        ImpUI_Killfeed:StyleKillFeed();
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 18,
+                },
+
+                killFeedSize = {
+                    type = 'range',
+                    name = L['Text Size'],
+                    desc = L['The font size used for the Kill Feed.'],
+                    min = 4,
+                    max = 52,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.killFeedSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedSize = newValue;
+                        ImpUI_Killfeed:StyleKillFeed();
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    isPercent = false,
+                    order = 19,
+                },
+
+                killFeedSpacing = {
+                    type = 'range',
+                    name = L['Spacing'],
+                    desc = L['The vertical spacing between each row of the Kill Feed.'],
+                    min = 4,
+                    max = 52,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.killFeedSpacing;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedSpacing = newValue;
+                        ImpUI_Killfeed:StyleKillFeed();
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    isPercent = false,
+                    order = 20,
+                },
+
+                killFeedShowSpell = {
+                    type = 'toggle',
+                    name = L['Show Casted Spell'],
+                    desc = L['Show the Spell that caused a death.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeedShowSpell;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedShowSpell = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 21,
+                },
+
+                killFeedShowDamage = {
+                    type = 'toggle',
+                    name = L['Show Damage'],
+                    desc = L['Show how much damage the Creature or Player took.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeedShowDamage;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedShowDamage = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 22,
+                },
+
+                killFeedFadeInactive = {
+                    type = 'toggle',
+                    name = L['Hide When Inactive'],
+                    desc = L['Hides the Kill Feed after no new events have occured for a short period.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeedFadeInactive;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedFadeInactive = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 23,
+                },
+
+                killFeedInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 24,
+                },
+
+                killFeedInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 25,
+                },
+
+                killFeedInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 26,
+                },
+
+                killFeedInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 27,
+                }
             }
         },
     }

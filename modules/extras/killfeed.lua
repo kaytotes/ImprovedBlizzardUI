@@ -19,18 +19,10 @@ local killfeed;
 local lastGUID;
 
 --[[
-    Converts a number to a string with comma values
-    @ param int $number The number we're converting
-    @
-    @ return string
+	Adds a new entry to the Kill Feed after building the structure from configuration.
+	
+    @ return void
 ]]
-local function FormatNum(number)
-    local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
-    int = int:reverse():gsub("(%d%d%d)", "%1,")
-
-    return minus .. int:reverse():gsub("^,", "") .. fraction;
-end
-
 function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount)
     local playerFaction, _ = UnitFactionGroup( 'player' );
     local killerString, killedString, killerFaction, killedFaction;
@@ -58,7 +50,6 @@ function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellN
             killerFaction = 'Horde';
         end
     end
-    
 
     if( killerFaction == playerFaction ) then -- Killer on our Faction
         if( playerFaction == 'Horde' ) then
@@ -95,7 +86,7 @@ function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellN
         killfeed.recentKills[i] = killfeed.recentKills[i - 1];
     end
 
-    local showSpell = true; -- TODO MAKE THIS CONFIG
+    local showSpell = ImpUI.db.char.killFeedShowSpell;
 
     if (showSpell and spellName ~= nil) then
         spellString = format(' %s |cff69CCF0%s|r', L['with'], spellName);
@@ -103,10 +94,10 @@ function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellN
         spellString = format(' %s |cff69CCF0%s|r', L['with'], L['Melee']);
     end
 
-    local showDamage = true; -- TODO MAKE THIS CONFIG
+    local showDamage = ImpUI.db.char.killFeedShowDamage;
 
     if (showDamage and amount ~= nil) then
-        damageString = format(' (%s)', FormatNum(amount));
+        damageString = format(' (%s)', Helpers.format_num(amount));
     else
         damageString = '';
     end
@@ -117,7 +108,6 @@ function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellN
     -- Display Messages
     for i = 1, #killfeed.recentKills do
         killfeed.texts[i]:SetText( killfeed.recentKills[i] );
-        killfeed.texts[i]:SetPoint('TOPLEFT', 0, -(26 * i) );
     end
 
     if (killfeed.hidden) then
@@ -132,17 +122,34 @@ function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellN
 
     -- Set Fade Timer
     fadeTimer = C_Timer.NewTimer(7.5, function()
-        local inactiveFade = true; -- TODO MAKE CONFIG
+        local inactiveFade = ImpUI.db.char.killFeedFadeInactive;
         if (inactiveFade) then
             killfeed.fadeOutAnim:Play();
         end
     end);
 end
 
-function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
+--[[
+	Fires on basically any combat log event.
+	
+    @ return void
+]]
+function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()    
     local _, instanceType = IsInInstance();
 
-    -- Bail out based on config options TODO
+    -- Bail out based on config options
+    if (ImpUI.db.char.killFeed == false) then return; end
+
+    local shouldShow = false;
+
+    -- Figure out if we should show based on config.
+    if (instanceType == 'none' and ImpUI.db.char.killFeedInWorld) then shouldShow = true; end
+    if (instanceType == 'party' and ImpUI.db.char.killFeedInInstance) then shouldShow = true; end
+    if (instanceType == 'raid' and ImpUI.db.char.killFeedInRaid) then shouldShow = true; end
+    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.char.killFeedInPvP) then shouldShow = true; end
+
+    -- Bail out if it shouldn't be shown in current context.
+    if (shouldShow == false) then return; end
 
     -- Get all the variables we'll need.
     local timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, _, _, _, _, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
@@ -166,6 +173,11 @@ function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
     end
 end
 
+--[[
+	Clear out the Kill Feed.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:ClearKillFeed()
     for i = 1, #killfeed.recentKills do
         killfeed.recentKills[i] = ' ';
@@ -173,28 +185,54 @@ function ImpUI_Killfeed:ClearKillFeed()
     end
 end
 
+--[[
+	Applies styling configuration to the Kill Feed.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:StyleKillFeed()
-    local font = 'Improved Blizzard UI';
-    local size = 17;
+    local font = ImpUI.db.char.killFeedFont;
+    local size = ImpUI.db.char.killFeedSize;
+    local spacing = ImpUI.db.char.killFeedSpacing;
 
     for i = 1, #killfeed.recentKills do
         killfeed.texts[i]:SetFont( LSM:Fetch('font', font), size, 'OUTLINE' );
-        killfeed.texts[i]:SetPoint('TOPLEFT', 0, -(26 * i) );
+        killfeed.texts[i]:SetPoint('TOPLEFT', 0, -(spacing * i) );
     end
 end
 
+--[[
+	Positions the Kill Feed.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:PositionKillFeed()
     killfeed:SetPoint('TOPLEFT', 15, 15 );
 end
 
+--[[
+	Fires when the Player Logs In.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:PLAYER_LOGIN()
     ImpUI_Killfeed:ClearKillFeed();
 end
 
+--[[
+	Fires when the Player hits a loading screen / transition.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:PLAYER_ENTERING_WORLD()
     ImpUI_Killfeed:ClearKillFeed();
 end
 
+--[[
+	Fires when the Player enters a BG.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:PLAYER_ENTERING_BATTLEGROUND()
     ImpUI_Killfeed:ClearKillFeed();
 end
