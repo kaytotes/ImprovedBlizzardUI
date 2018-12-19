@@ -21,28 +21,13 @@ ImpUI_Config.defaults = {
         healthWarnings = true,
         healthWarningFont = 'Improved Blizzard UI',
         healthWarningSize = 26,
-        healthWarningHalfColour = {
-            r = 0,
-            g = 1,
-            b = 1,
-            a = 1,
-        },
-        healthWarningQuarterColour = {
-            r = 1,
-            g = 0,
-            b = 0,
-            a = 1,
-        },
+        healthWarningHalfColour = Helpers.colour_pack(0, 1, 1, 1),
+        healthWarningQuarterColour = Helpers.colour_pack(1, 0, 0, 1),
         announceInterrupts = true,
         interruptChannel = 1,
         killingBlows = true,
         killingBlowMessage = L['Killing Blow!'],
-        killingBlowColour = {
-            r = 1,
-            g = 1,
-            b = 0,
-            a = 1,
-        },
+        killingBlowColour = Helpers.colour_pack(1, 1, 0, 1),
         killingBlowSize = 26,
         killingBlowFont = 'Improved Blizzard UI',
         killingBlowInWorld = false,
@@ -58,12 +43,7 @@ ImpUI_Config.defaults = {
 
         showCoords = true,
         minimapCoordsFont = 'Improved Blizzard UI',
-        minimapCoordsColour = {
-            r = 1,
-            g = 1,
-            b = 0,
-            a = 1,
-        },
+        minimapCoordsColour = Helpers.colour_pack(1, 1, 0, 1),
         minimapCoordsSize = 13,
         minimapZoneTextFont = 'Improved Blizzard UI',
         minimapZoneTextSize = 13,
@@ -74,25 +54,6 @@ ImpUI_Config.defaults = {
         performanceFrameSize = 14,
     },
 };
-
---[[
-	When passed an RGBA table simply returns it seperated.
-]]
-local function colour_unpack(colour)
-    return colour.r, colour.g, colour.b, colour.a;
-end
-
---[[
-	Packs seperate RGBA values into a single table.
-]]
-local function colour_pack(r, g, b, a)
-    return {
-        r = r,
-        g = g,
-        b = b,
-        a = a,
-    };
-end
 
 --[[
 	Configuration Menu.
@@ -165,10 +126,10 @@ ImpUI_Config.options = {
                     name = L['50% Colour'],
                     desc = L['The colour of the warning that displays at 50% health.'],
                     get = function ()
-                        return colour_unpack(ImpUI.db.char.healthWarningHalfColour);
+                        return Helpers.colour_unpack(ImpUI.db.char.healthWarningHalfColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.healthWarningHalfColour = colour_pack(r, g, b, a);
+                        ImpUI.db.char.healthWarningHalfColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
                         return ImpUI.db.char.healthWarnings == false;
@@ -182,10 +143,10 @@ ImpUI_Config.options = {
                     name = L['25% Colour'],
                     desc = L['The colour of the warning that displays at 25% health.'],
                     get = function ()
-                        return colour_unpack(ImpUI.db.char.healthWarningQuarterColour);
+                        return Helpers.colour_unpack(ImpUI.db.char.healthWarningQuarterColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.healthWarningQuarterColour = colour_pack(r, g, b, a);
+                        ImpUI.db.char.healthWarningQuarterColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
                         return ImpUI.db.char.healthWarnings == false;
@@ -315,10 +276,10 @@ ImpUI_Config.options = {
                     name = L['Colour'],
                     desc = L['The colour of the Killing Blow notification.'],
                     get = function ()
-                        return colour_unpack(ImpUI.db.char.killingBlowColour);
+                        return Helpers.colour_unpack(ImpUI.db.char.killingBlowColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.killingBlowColour = colour_pack(r, g, b, a);
+                        ImpUI.db.char.killingBlowColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
                         return ImpUI.db.char.killingBlows == false;
@@ -566,10 +527,10 @@ ImpUI_Config.options = {
                     name = L['Colour'],
                     desc = L['The colour of the Minimap Co-ordinates Display.'],
                     get = function ()
-                        return colour_unpack(ImpUI.db.char.minimapCoordsColour);
+                        return Helpers.colour_unpack(ImpUI.db.char.minimapCoordsColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.minimapCoordsColour = colour_pack(r, g, b, a);
+                        ImpUI.db.char.minimapCoordsColour = Helpers.colour_pack(r, g, b, a);
                         ImpUI_MiniMap:StyleCoords();
                     end,
                     disabled = function () 

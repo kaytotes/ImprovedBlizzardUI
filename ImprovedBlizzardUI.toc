@@ -17,6 +17,7 @@ embeds.xml
 localisation.xml
 
 core.lua
+helpers.lua
 config.lua
 
 # Modules
