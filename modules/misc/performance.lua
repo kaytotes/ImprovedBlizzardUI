@@ -41,9 +41,9 @@ function ImpUI_Performance:Tick()
     local frameRate = floor(GetFramerate()); -- Get the current frame rate
 
     -- Colour Frame Rate
-    if(frameRate >= 60) then
+    if(frameRate >= 59) then
         frameRate = format('|cff00CC00%s|r', frameRate );
-    elseif(frameRate >= 20 and frameRate <= 59) then
+    elseif(frameRate >= 20 and frameRate <= 58) then
         frameRate = format('|cffFFFF00%s|r', frameRate );
     elseif(frameRate < 20) then
         frameRate = format('|cffFF0000%s|r', frameRate );
