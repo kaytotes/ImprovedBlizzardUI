@@ -53,6 +53,7 @@ ImpUI_Config.defaults = {
         performanceFrame = true,
         performanceFrameSize = 14,
 
+        osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
         killFeed = true,
         killFeedFont = 'Improved Blizzard UI',
         killFeedSize = 17,

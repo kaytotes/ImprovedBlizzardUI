@@ -22,6 +22,31 @@ local function OpenOptions()
     InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
 end
 
+-- The Modules / Elements that can be moved.
+local draggable = {
+    'ImpUI_OSD'
+};
+
+--[[
+	Unlocks all of the UI draggable frames.
+]]
+local function UnlockFrames()
+    for i, module in pairs (draggable) do
+        local m = ImpUI:GetModule(module);
+        m:Unlock();
+    end 
+end
+
+--[[
+	Locks all of the UI draggable frames.
+]]
+local function LockFrames()
+    for i, module in pairs (draggable) do
+        local m = ImpUI:GetModule(module);
+        m:Lock();
+    end 
+end
+
 --[[
     Just prints the addons configuration options.
 	
@@ -30,6 +55,8 @@ end
 local function PrintConfig()
     ImpUI:Print(L['/imp - Open the configuration panel.']);
     ImpUI:Print(L['/imp grid - Toggle a grid to aid in interface element placement.']);
+    ImpUI:Print(L['/imp unlock - Unlocks the interfaces movable frames. Locking them saves position.']);
+    ImpUI:Print(L['/imp lock - Locks the interfaces movable frames.']);
 end
 
 --[[
@@ -53,6 +80,16 @@ function ImpUI:HandleSlash(input)
         local grid = ImpUI:GetModule('ImpUI_Grid');
         grid:ToggleGrid();
         return;
+    end
+
+    -- Unlock
+    if (command == 'unlock') then
+        UnlockFrames();
+    end
+
+    -- Lock
+    if (command == 'lock') then
+        LockFrames();
     end
 end
 

@@ -180,5 +180,10 @@ L['Melee'] = true;
 L[' killed '] = true;
 
 -- Addon
+L['Test String Output'] = true;
 L['/imp - Open the configuration panel.'] = true;
 L['/imp grid - Toggle a grid to aid in interface element placement.'] = true;
+L['/imp unlock - Unlocks the interfaces movable frames. Locking them saves position.'] = true;
+L['/imp lock - Locks the interfaces movable frames.'] = true;
+
+L['On Screen Display'] = true;

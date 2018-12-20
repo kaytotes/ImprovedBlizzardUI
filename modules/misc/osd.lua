@@ -11,6 +11,8 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Variables
 local osd;
 
+local dragFrame;
+
 --[[
     Entry point for the rest of the addon. Parameters are pretty
     self explanatory.
@@ -43,6 +45,31 @@ function ImpUI_OSD:AddMessage(message, font, size, r, g, b, duration)
     end);
 end
 
+-- Called when unlocking the UI.
+function ImpUI_OSD:Unlock()
+    dragFrame:Show();
+
+    -- Display a Test Message.
+    self:AddMessage(L['Test String Output'], 'Improved Blizzard UI', 26, 1, 1, 0, 30.0);
+end
+
+-- Called when Locking the UI.
+function ImpUI_OSD:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
+
+    -- Store Position
+    ImpUI.db.char.osdPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    dragFrame:Hide();
+end
+
+--[[
+	Loads the position of the OSD from SavedVariables.
+]]
+function ImpUI_OSD:LoadPosition()
+    dragFrame:SetPoint(ImpUI.db.char.osdPosition.point, ImpUI.db.char.osdPosition.relativeTo, ImpUI.db.char.osdPosition.relativePoint, ImpUI.db.char.osdPosition.x, ImpUI.db.char.osdPosition.y);
+end
+
 --[[
 	Fires when the module is Initialised.
 	
@@ -58,12 +85,19 @@ end
 ]]
 function ImpUI_OSD:OnEnable()
     -- Build OSD and Animations
-    osd = CreateFrame('Frame', nil, UIParent);
+    osd = CreateFrame('Frame', 'ImpUI_OSD', UIParent);
+    
+    -- Create Drag Frame and load position.
+    dragFrame = Helpers.create_drag_frame('Imp_OSD_DragFrame', 64, 64, L['On Screen Display']);
+    osd:SetParent(dragFrame);
+
+    ImpUI_OSD:LoadPosition();
+
     osd.text = osd:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
     osd:SetWidth(32);
     osd:SetHeight(32);
     osd:SetFrameStrata('BACKGROUND');
-    osd:SetPoint('CENTER', 0, 75);
+    osd:SetPoint('CENTER', dragFrame, 'CENTER', 0, 0);
     osd.text:SetPoint('CENTER', 0, 0);
 
     osd.text:SetFont(LSM:Fetch('font', 'Improved Blizzard UI'), 26, 'OUTLINE');
