@@ -64,7 +64,9 @@ function Helpers.create_drag_frame(name, width, height, label)
     frame:SetHeight(height);
     local tex = frame:CreateTexture('ARTWORK');
     tex:SetAllPoints();
-    tex:SetTexture(1.0, 0.5, 0); tex:SetAlpha(0.5);
+    tex:SetTexture(1.0, 0.5, 0); 
+    tex:SetAlpha(0.5);
+    frame:SetFrameStrata('HIGH');
 
     -- Give it a Label.
     Helpers.add_tooltip(frame, label);

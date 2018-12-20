@@ -54,8 +54,14 @@ ImpUI_Config.defaults = {
         performanceFrameSize = 14,
 
         osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
-        killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5);
+        killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5),
+
+        playerFrameScale = 1.2,
+        playerFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -305.16, -160.82),
         
+        targetFrameScale = 1.2,
+        targetFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', 305.16, -160.82),
+
         killFeed = true,
         killFeedFont = 'Improved Blizzard UI',
         killFeedSize = 17,

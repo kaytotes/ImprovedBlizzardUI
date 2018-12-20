@@ -26,6 +26,8 @@ end
 local draggable = {
     'ImpUI_OSD',
     'ImpUI_Killfeed',
+    'ImpUI_PlayerFrame',
+    'ImpUI_TargetFrame',
 };
 
 local isEditing = false;
@@ -49,7 +51,7 @@ end
 ]]
 local function LockFrames()
     if (isEditing == false) then return; end
-    
+
     for i, module in pairs (draggable) do
         local m = ImpUI:GetModule(module);
         m:Lock();

@@ -87,7 +87,7 @@ function ImpUI_OSD:OnEnable()
     osd = CreateFrame('Frame', 'ImpUI_OSD', UIParent);
     
     -- Create Drag Frame and load position.
-    dragFrame = Helpers.create_drag_frame('Imp_OSD_DragFrame', 64, 64, L['On Screen Display']);
+    dragFrame = Helpers.create_drag_frame('ImpUI_OSD_DragFrame', 64, 64, L['On Screen Display']);
     osd:SetParent(dragFrame);
 
     ImpUI_OSD:LoadPosition();

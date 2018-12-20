@@ -96,6 +96,8 @@ L['Automatically release your spirit when you die.'] = true;
 
 -- Unit Frames
 L['Unit Frames'] = true;
+L['Player Frame'] = true;
+L['Target Frame'] = true;
 
 -- Tooltips
 L['Tooltips'] = true;
