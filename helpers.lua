@@ -154,8 +154,7 @@ end
 ]]
 function Helpers.ApplyClassColours(statusBar, unit)
     if ( UnitIsConnected(unit) and unit == statusBar.unit and UnitClass(unit) ) then
-        local _, class = UnitClass(unit);
-        local c = RAID_CLASS_COLORS[class];
+        local c = Helpers.GetClassColour(unit);
         statusBar:SetStatusBarColor(c.r, c.g, c.b );
     end
 end

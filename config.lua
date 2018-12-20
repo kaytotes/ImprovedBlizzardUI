@@ -56,9 +56,14 @@ ImpUI_Config.defaults = {
         osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
         killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5),
 
+        styleUnitFrames = true,
+        
         playerFrameScale = 1.2,
         playerFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -305.16, -160.82),
-        
+        playerClassColours = true,
+        playerHidePortraitSpam = true,
+        playerHideOOC = true,
+
         targetFrameScale = 1.2,
         targetFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', 305.16, -160.82),
 
@@ -964,6 +969,7 @@ ImpUI_Config.options = {
                         ImpUI.db.char.primaryInterfaceFont = newValue;
                         ImpUI_Fonts:PrimaryFontUpdated();
                         ImpUI_Performance:StylePerformanceFrame();
+                        ImpUI_PlayerFrame:StyleFrame();
                     end,
                     order = 12,
                 },
