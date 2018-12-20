@@ -59,7 +59,9 @@ function Helpers.create_drag_frame(name, width, height, label)
     end);
 
     -- Make the Drag Frame Visible.
-    frame:SetPoint('CENTER'); frame:SetWidth(width); frame:SetHeight(width);
+    frame:SetPoint('CENTER'); 
+    frame:SetWidth(width); 
+    frame:SetHeight(height);
     local tex = frame:CreateTexture('ARTWORK');
     tex:SetAllPoints();
     tex:SetTexture(1.0, 0.5, 0); tex:SetAlpha(0.5);

@@ -16,6 +16,7 @@ local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo;
 
 -- Local Variables
 local killfeed;
+local dragFrame;
 local lastGUID;
 
 --[[
@@ -201,13 +202,41 @@ function ImpUI_Killfeed:StyleKillFeed()
     end
 end
 
+function ImpUI_Killfeed:OutputTestMessages()
+    for i = 1, #killfeed.recentKills do
+        killfeed.recentKills[i] = L['Test String Output'];
+        killfeed.texts[i]:SetText(L['Test String Output']);
+    end
+end
+
 --[[
 	Positions the Kill Feed.
 	
     @ return void
 ]]
-function ImpUI_Killfeed:PositionKillFeed()
-    killfeed:SetPoint('TOPLEFT', 15, 15 );
+function ImpUI_Killfeed:LoadPosition()
+    dragFrame:SetPoint(ImpUI.db.char.killFeedPosition.point, ImpUI.db.char.killFeedPosition.relativeTo, ImpUI.db.char.killFeedPosition.relativePoint, ImpUI.db.char.killFeedPosition.x, ImpUI.db.char.killFeedPosition.y);
+end
+
+-- Called when unlocking the UI.
+function ImpUI_Killfeed:Unlock()
+    dragFrame:Show();
+
+    -- Fill with test data.
+    ImpUI_Killfeed:OutputTestMessages();
+end
+
+-- Called when Locking the UI.
+function ImpUI_Killfeed:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
+
+    -- Store Position
+    ImpUI.db.char.killFeedPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    -- Clear Test Data
+    ImpUI_Killfeed:ClearKillFeed();
+
+    dragFrame:Hide();
 end
 
 --[[
@@ -253,6 +282,14 @@ end
 function ImpUI_Killfeed:OnEnable()
     -- Create the Kill Feed Frame
     killfeed = CreateFrame('Frame', nil, UIParent );
+
+    -- Create Drag Frame and load position.
+    dragFrame = Helpers.create_drag_frame('Imp_KillFeed_DragFrame', 256, 145, L['Kill Feed']);
+    killfeed:SetParent(dragFrame);
+    killfeed:SetPoint('TOPLEFT', dragFrame, 'TOPLEFT', 10, 15);
+
+    ImpUI_Killfeed:LoadPosition();
+
     killfeed:SetFrameStrata('HIGH');
     killfeed:SetWidth(256);
     killfeed:SetHeight(128);
@@ -268,9 +305,6 @@ function ImpUI_Killfeed:OnEnable()
 
     -- Style It
     ImpUI_Killfeed:StyleKillFeed();
-
-    -- Position It
-    ImpUI_Killfeed:PositionKillFeed();
 
     -- Initialise the fadein / out anims
     killfeed.fadeInAnim = killfeed:CreateAnimationGroup();
