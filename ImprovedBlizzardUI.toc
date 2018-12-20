@@ -30,6 +30,7 @@ modules/misc/autosell.lua
 modules/misc/chat.lua
 modules/misc/killfeed.lua
 modules/misc/performance.lua
+modules/misc/tooltips.lua
 modules/combat/healthwarning.lua
 modules/combat/interrupts.lua
 modules/combat/killingblows.lua

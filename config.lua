@@ -64,6 +64,15 @@ ImpUI_Config.defaults = {
         killFeedShowSpell = true,
         killFeedShowDamage = true,
         killFeedFadeInactive = true,
+
+        anchorMouse = true,
+        styleTooltips = true,
+        tooltipGuildColour = Helpers.colour_pack(1, 0.529, 1, 1),
+        tooltipHostileBorder = true,
+        tooltipNameClassColours = true,
+        tooltipToT = true,
+        tooltipHealthClassColours = true,
+        tooltipItemRarity = true,
     },
 };
 
@@ -83,6 +92,7 @@ ImpUI_Config.options = {
             type = 'group',
             order = 1,
             args = {
+                
             }
         },
 
@@ -103,6 +113,129 @@ ImpUI_Config.options = {
             type = 'group',
             order = 3,
             args = {
+                anchorMouse = {
+                    type = 'toggle',
+                    name = L['Anchor To Mouse'],
+                    desc = L['The tooltip will always display at the mouse location.'],
+                    get = function ()
+                        return ImpUI.db.char.anchorMouse;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.anchorMouse = newValue;
+                    end,
+                    order = 1,
+                },
+
+                styleTooltips = {
+                    type = 'toggle',
+                    name = L['Style Tooltips'],
+                    desc = L['Adjusts the information and style of the default tooltips.'],
+                    get = function ()
+                        return ImpUI.db.char.styleTooltips;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.styleTooltips = newValue;
+                        ImpUI_Tooltips:ResetStyle();
+                    end,
+                    order = 2,
+                },
+
+                tooltipGuildColour = {
+                    type = 'color',
+                    name = L['Guild Colour'],
+                    desc = L['The colour of the guild name display in tooltips.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.char.tooltipGuildColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    hasAlpha = false,
+                    order = 3,
+                },
+
+                tooltipHostileBorder = {
+                    type = 'toggle',
+                    name = L['Hostile Border'],
+                    desc = L['Colours the border of the tooltip based on the hostility of the target.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipHostileBorder;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipHostileBorder = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 4,
+                },
+
+                tooltipNameClassColours = {
+                    type = 'toggle',
+                    name = L['Class Coloured Name'],
+                    desc = L['Colours the name of the target to match their Class.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipNameClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipNameClassColours = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 5,
+                },
+
+                tooltipToT = {
+                    type = 'toggle',
+                    name = L['Show Target of Target'],
+                    desc = L['Displays who / what the unit is targeting. Coloured by Class.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipToT;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipToT = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 6,
+                },
+
+                tooltipHealthClassColours = {
+                    type = 'toggle',
+                    name = L['Class Colour Health Bar'],
+                    desc = L['Colours the Tooltip Health Bar by Class.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipHealthClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipHealthClassColours = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 6,
+                },
+
+                tooltipItemRarity = {
+                    type = 'toggle',
+                    name = L['Item Rarity Border'],
+                    desc = L['Colours the tooltip border by the rarity of the item you are inspecting.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipItemRarity;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipItemRarity = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 7,
+                },
             }
         },
 

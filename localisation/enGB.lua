@@ -99,6 +99,29 @@ L['Unit Frames'] = true;
 
 -- Tooltips
 L['Tooltips'] = true;
+L['Trivial'] = true;
+L['Normal'] = true;
+L['Rare'] = true;
+L['Elite'] = true;
+L['Rare Elite'] = true;
+L['World Boss'] = true;
+L['Target'] = true;
+L['Anchor To Mouse'] = true;
+L['The tooltip will always display at the mouse location.'] = true;
+L['Style Tooltips'] = true;
+L['Adjusts the information and style of the default tooltips.'] = true;
+L['Guild Colour'] = true;
+L['The colour of the guild name display in tooltips.'] = true;
+L['Hostile Border'] = true;
+L['Colours the border of the tooltip based on the hostility of the target.'] = true;
+L['Class Coloured Name'] = true;
+L['Colours the name of the target to match their Class.'] = true;
+L['Show Target of Target'] = true;
+L['Displays who / what the unit is targeting. Coloured by Class.'] = true;
+L['Class Colour Health Bar'] = true;
+L['Colours the Tooltip Health Bar by Class.'] = true;
+L['Item Rarity Border'] = true;
+L['Colours the tooltip border by the rarity of the item you are inspecting.'] = true;
 
 -- System Stats
 L['System Statistics'] = true;
