@@ -17,9 +17,19 @@ LSM = LibStub('LibSharedMedia-3.0');
 	
     @ return void
 ]]
-function ImpUI:OpenOptions()
-    InterfaceOptionsFrame_OpenToCategory(self.optionsFrame);
-    InterfaceOptionsFrame_OpenToCategory(self.optionsFrame);
+local function OpenOptions()
+    InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
+    InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
+end
+
+--[[
+    Just prints the addons configuration options.
+	
+    @ return void
+]]
+local function PrintConfig()
+    ImpUI:Print(L['/imp - Open the configuration panel.']);
+    ImpUI:Print(L['/imp grid - Toggle a grid to aid in interface element placement.']);
 end
 
 --[[
@@ -30,8 +40,19 @@ end
     @ return void
 ]]
 function ImpUI:HandleSlash(input)
+    -- Nothing provided. Just open options and print config commands.
     if (not input or input:trim() == '') then
-        self:OpenOptions();
+        OpenOptions();
+        PrintConfig();
+    end
+
+    local command = input:trim();
+
+    -- Grid
+    if (command == 'grid') then
+        local grid = ImpUI:GetModule('ImpUI_Grid');
+        grid:ToggleGrid();
+        return;
     end
 end
 

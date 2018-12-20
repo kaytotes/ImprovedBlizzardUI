@@ -179,3 +179,6 @@ L['with'] = true;
 L['Melee'] = true;
 L[' killed '] = true;
 
+-- Addon
+L['/imp - Open the configuration panel.'] = true;
+L['/imp grid - Toggle a grid to aid in interface element placement.'] = true;
