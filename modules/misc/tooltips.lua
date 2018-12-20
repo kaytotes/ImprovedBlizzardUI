@@ -238,6 +238,7 @@ end
 function ImpUI_Tooltips:StyleItemTooltip(tip)
     -- Bail out on config 
     if (ImpUI.db.char.styleTooltips == false) then return; end
+    if (ImpUI.db.char.tooltipItemRarity == false) then return; end
 
     local _, item = tip:GetItem();
 
