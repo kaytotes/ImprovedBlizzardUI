@@ -72,7 +72,6 @@ end
     @ return void
 ]]
 function ImpUI_Grid:OnInitialize()
-    print('ImpUI_Grid');
 end
 
 --[[
