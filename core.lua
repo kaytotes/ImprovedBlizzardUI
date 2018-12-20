@@ -28,24 +28,34 @@ local draggable = {
     'ImpUI_Killfeed',
 };
 
+local isEditing = false;
+
 --[[
 	Unlocks all of the UI draggable frames.
 ]]
 local function UnlockFrames()
+    if (isEditing) then return; end
+
     for i, module in pairs (draggable) do
         local m = ImpUI:GetModule(module);
         m:Unlock();
     end 
+
+    isEditing = true;
 end
 
 --[[
 	Locks all of the UI draggable frames.
 ]]
 local function LockFrames()
+    if (isEditing == false) then return; end
+    
     for i, module in pairs (draggable) do
         local m = ImpUI:GetModule(module);
         m:Lock();
     end 
+
+    isEditing = false;
 end
 
 --[[
