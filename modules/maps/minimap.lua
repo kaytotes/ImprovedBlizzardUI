@@ -52,9 +52,9 @@ function ImpUI_MiniMap:StyleMap()
     MinimapCluster:ClearAllPoints();
     
     if (ImpUI.db.char.performanceFrame == true) then
-        MinimapCluster:SetPoint('TOPRIGHT', -15, -20);
+        MinimapCluster:SetPoint('TOPRIGHT', -15, -32);
     else
-        MinimapCluster:SetPoint('TOPRIGHT', -15, -15);
+        MinimapCluster:SetPoint('TOPRIGHT', -15, -16);
     end
 
     -- Replace Zoom Buttons with Mousewheel.
