@@ -60,7 +60,7 @@ end
 
 
 --[[
-	Applies to actual styling.
+	Applies the actual styling.
 	
     @ return void
 ]]
@@ -101,6 +101,9 @@ function ImpUI_PlayerFrame:StyleFrame()
 
     PetName:SetFont(font, 11, flags);
     PetName:SetTextColor(r, g, b, a);
+
+    PlayerLevelText:SetFont(font, 10, flags);
+    PlayerLevelText:SetTextColor(r, g, b, a);
 end
 
 --[[

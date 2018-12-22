@@ -66,6 +66,9 @@ ImpUI_Config.defaults = {
 
         targetFrameScale = 1.2,
         targetFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', 305.16, -160.82),
+        targetClassColours = true,
+        targetBuffsOnTop = true,
+        targetOfTargetClassColours = true,
 
         killFeed = true,
         killFeedFont = 'Improved Blizzard UI',
