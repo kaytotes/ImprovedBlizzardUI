@@ -3,20 +3,20 @@
     <Script file='libs\LibStub\LibStub.lua'/>
 
     <!-- Callback Handler -->
-    <Include file='Libs\CallbackHandler-1.0\CallbackHandler-1.0\CallbackHandler-1.0.xml'/>
+    <Include file='libs\CallbackHandler-1.0\CallbackHandler-1.0\CallbackHandler-1.0.xml'/>
 
     <!-- LibSharedMedia -->
-    <Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
+    <Include file="libs\LibSharedMedia-3.0\lib.xml"/>
 
     <!-- Ace3 Libs -->
-    <Include file='Libs\Ace3\AceAddon-3.0\AceAddon-3.0.xml'/>
-    <Include file='Libs\Ace3\AceEvent-3.0\AceEvent-3.0.xml'/>
-    <Include file='Libs\Ace3\AceDB-3.0\AceDB-3.0.xml'/>
-    <Include file="Libs\Ace3\AceLocale-3.0\AceLocale-3.0.xml"/>
-    <Include file='Libs\Ace3\AceConsole-3.0\AceConsole-3.0.xml'/>
-    <Include file='Libs\Ace3\AceGUI-3.0\AceGUI-3.0.xml'/>
-    <Include file='Libs\Ace3\AceConfig-3.0\AceConfig-3.0.xml'/>
-    <Include file='Libs\Ace3\AceHook-3.0\AceHook-3.0.xml'/>
-    <Include file='Libs\Ace3\AceTimer-3.0\AceTimer-3.0.xml'/>
-    <Include file='Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml'/>
+    <Include file='libs\Ace3\AceAddon-3.0\AceAddon-3.0.xml'/>
+    <Include file='libs\Ace3\AceEvent-3.0\AceEvent-3.0.xml'/>
+    <Include file='libs\Ace3\AceDB-3.0\AceDB-3.0.xml'/>
+    <Include file="libs\Ace3\AceLocale-3.0\AceLocale-3.0.xml"/>
+    <Include file='libs\Ace3\AceConsole-3.0\AceConsole-3.0.xml'/>
+    <Include file='libs\Ace3\AceGUI-3.0\AceGUI-3.0.xml'/>
+    <Include file='libs\Ace3\AceConfig-3.0\AceConfig-3.0.xml'/>
+    <Include file='libs\Ace3\AceHook-3.0\AceHook-3.0.xml'/>
+    <Include file='libs\Ace3\AceTimer-3.0\AceTimer-3.0.xml'/>
+    <Include file='libs\AceGUI-3.0-SharedMediaWidgets\widget.xml'/>
 </Ui>
