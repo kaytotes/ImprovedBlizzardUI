@@ -3,7 +3,7 @@
     Styles, Scales and Repositions the Player Unit Frame.
     Disables Player Portrait Spam
 ]]
-ImpUI_PlayerFrame = ImpUI:NewModule('ImpUI_PlayerFrame', 'AceEvent-3.0', 'AceHook-3.0');
+ImpUI_Player = ImpUI:NewModule('ImpUI_Player', 'AceEvent-3.0', 'AceHook-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -25,7 +25,7 @@ local InCombatLockdown = InCombatLockdown;
     @ param int $amount THe amount of Damage or Healing done
     @ param int $type Honestly unsure, apparently sets it to black if > 0 but I've never seen this actually happen in game.
 ]]
-function ImpUI_PlayerFrame:CombatFeedback_OnCombatEvent(self, event, flags, amount, type)
+function ImpUI_Player:CombatFeedback_OnCombatEvent(self, event, flags, amount, type)
     if(ImpUI.db.char.playerHidePortraitSpam) then
         self.feedbackText:SetText(' ');
     end
@@ -52,7 +52,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:HealthBarChanged(bar)
+function ImpUI_Player:HealthBarChanged(bar)
     if (ImpUI.db.char.playerClassColours and bar.unit == 'player') then
         Helpers.ApplyClassColours(bar, bar.unit);
     end
@@ -64,7 +64,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:StyleFrame()
+function ImpUI_Player:StyleFrame()
     if (ImpUI.db.char.styleUnitFrames == false) then return; end
     if (InCombatLockdown() == true) then return end
 
@@ -101,6 +101,10 @@ function ImpUI_PlayerFrame:StyleFrame()
 
     PetName:SetFont(font, 11, flags);
     PetName:SetTextColor(r, g, b, a);
+    PetFrameHealthBarTextLeft:SetFont(font, 10, flags);
+    PetFrameHealthBarTextRight:SetFont(font, 10, flags);
+    PetFrameManaBarTextLeft:SetFont(font, 10, flags);
+    PetFrameManaBarTextRight:SetFont(font, 10, flags);
 
     PlayerLevelText:SetFont(font, 10, flags);
     PlayerLevelText:SetTextColor(r, g, b, a);
@@ -111,11 +115,11 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:PLAYER_LOGIN()
-    ImpUI_PlayerFrame:LoadPosition();
+function ImpUI_Player:PLAYER_LOGIN()
+    ImpUI_Player:LoadPosition();
     TogglePlayer(true);
 
-    ImpUI_PlayerFrame:StyleFrame();
+    ImpUI_Player:StyleFrame();
 end
 
 
@@ -124,7 +128,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:UNIT_HEALTH()
+function ImpUI_Player:UNIT_HEALTH()
     TogglePlayer(true);
 end
 
@@ -133,7 +137,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:PLAYER_REGEN_DISABLED()
+function ImpUI_Player:PLAYER_REGEN_DISABLED()
     TogglePlayer(false);
 end
 
@@ -142,7 +146,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:PLAYER_REGEN_ENABLED()
+function ImpUI_Player:PLAYER_REGEN_ENABLED()
     TogglePlayer(true);
 end
 
@@ -152,7 +156,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:PLAYER_TARGET_CHANGED()
+function ImpUI_Player:PLAYER_TARGET_CHANGED()
     if (UnitExists('target')) then
         TogglePlayer(false);
     else
@@ -165,9 +169,9 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:UNIT_EXITED_VEHICLE(event, ...)
+function ImpUI_Player:UNIT_EXITED_VEHICLE(event, ...)
     if (... == 'player') then
-        ImpUI_PlayerFrame:StyleFrame();
+        ImpUI_Player:StyleFrame();
     end
 end
 
@@ -176,23 +180,23 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:UNIT_ENTERED_VEHICLE(event, ...)
+function ImpUI_Player:UNIT_ENTERED_VEHICLE(event, ...)
     if (... == 'player') then
-        ImpUI_PlayerFrame:StyleFrame();
+        ImpUI_Player:StyleFrame();
     end
 end
 
 --[[
 	Called when unlocking the UI.
 ]]
-function ImpUI_PlayerFrame:Unlock()
+function ImpUI_Player:Unlock()
     dragFrame:Show();
 end
 
 --[[
 	Called when locking the UI.
 ]]
-function ImpUI_PlayerFrame:Lock()
+function ImpUI_Player:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
     ImpUI.db.char.playerFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
@@ -201,9 +205,9 @@ function ImpUI_PlayerFrame:Lock()
 end
 
 --[[
-	Loads the position of the OSD from SavedVariables.
+	Loads the position of the Player Frame from SavedVariables.
 ]]
-function ImpUI_PlayerFrame:LoadPosition()
+function ImpUI_Player:LoadPosition()
     local pos = ImpUI.db.char.playerFramePosition;
     local scale = ImpUI.db.char.playerFrameScale;
     
@@ -224,7 +228,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:OnInitialize()
+function ImpUI_Player:OnInitialize()
 end
 
 --[[
@@ -232,13 +236,13 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:OnEnable()
+function ImpUI_Player:OnEnable()
     -- Create Drag Frame and load position.
-    dragFrame = Helpers.create_drag_frame('ImpUI_PlayerFrame_DragFrame', 205, 90, L['Player Frame']);
+    dragFrame = Helpers.create_drag_frame('ImpUI_Player_DragFrame', 205, 90, L['Player Frame']);
 
-    ImpUI_PlayerFrame:LoadPosition();
+    ImpUI_Player:LoadPosition();
 
-    ImpUI_PlayerFrame:StyleFrame();
+    ImpUI_Player:StyleFrame();
 
     TogglePlayer(true);
 
@@ -263,5 +267,5 @@ end
 	
     @ return void
 ]]
-function ImpUI_PlayerFrame:OnDisable()
+function ImpUI_Player:OnDisable()
 end

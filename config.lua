@@ -70,6 +70,14 @@ ImpUI_Config.defaults = {
         targetBuffsOnTop = true,
         targetOfTargetClassColours = true,
 
+        partyFrameScale = 1.4,
+        partyFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -550, 100),
+
+        focusFrameScale = 0.9,
+        focusFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -500.0, -250.0),
+        focusClassColours = true,
+        focusBuffsOnTop = true,
+
         killFeed = true,
         killFeedFont = 'Improved Blizzard UI',
         killFeedSize = 17,
@@ -972,7 +980,7 @@ ImpUI_Config.options = {
                         ImpUI.db.char.primaryInterfaceFont = newValue;
                         ImpUI_Fonts:PrimaryFontUpdated();
                         ImpUI_Performance:StylePerformanceFrame();
-                        ImpUI_PlayerFrame:StyleFrame();
+                        ImpUI_Player:StyleFrame();
                     end,
                     order = 12,
                 },

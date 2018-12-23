@@ -26,8 +26,10 @@ end
 local draggable = {
     'ImpUI_OSD',
     'ImpUI_Killfeed',
-    'ImpUI_PlayerFrame',
-    'ImpUI_TargetFrame',
+    'ImpUI_Player',
+    'ImpUI_Target',
+    'ImpUI_Party',
+    'ImpUI_Focus',
 };
 
 local isEditing = false;

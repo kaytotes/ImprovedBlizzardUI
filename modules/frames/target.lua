@@ -2,7 +2,7 @@
     modules\frames\target.lua
     Styles, Scales and Repositions the Target Unit Frame.
 ]]
-local ImpUI_TargetFrame = ImpUI:NewModule('ImpUI_TargetFrame', 'AceEvent-3.0', 'AceHook-3.0');
+local ImpUI_Target = ImpUI:NewModule('ImpUI_Target', 'AceEvent-3.0', 'AceHook-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -18,7 +18,7 @@ local UnitClassification = UnitClassification;
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:TargetofTargetHealthCheck(self)
+function ImpUI_Target:TargetofTargetHealthCheck(self)
     if (ImpUI.db.char.targetOfTargetClassColours) then
         Helpers.ApplyClassColours(self.healthbar, self.healthbar.unit);
     end
@@ -29,7 +29,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:HealthBarChanged(bar)
+function ImpUI_Target:HealthBarChanged(bar)
     if (ImpUI.db.char.targetClassColours and bar.unit == 'target') then
         Helpers.ApplyClassColours(bar, bar.unit);
     end
@@ -40,7 +40,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:StyleFrame()
+function ImpUI_Target:StyleFrame()
     if (ImpUI.db.char.styleUnitFrames == false) then return; end
 
     local unitClassification = UnitClassification(TargetFrame.unit);
@@ -67,11 +67,14 @@ function ImpUI_TargetFrame:StyleFrame()
     TargetFrame.deadText:SetPoint('CENTER',-50,6);
     TargetFrame.nameBackground:Hide();
     TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
+    TargetFrame.healthbar:SetWidth(119);
 
     -- Class Colours
     if (ImpUI.db.char.targetClassColours) then
         Helpers.ApplyClassColours(TargetFrame.healthbar, TargetFrame.healthbar.unit);
     end
+
+    TargetFrame.healthbar.lockColor = true;
 
     -- Buffs on Top.
     if (ImpUI.db.char.targetBuffsOnTop) then
@@ -98,9 +101,6 @@ function ImpUI_TargetFrame:StyleFrame()
     TargetFrameTextureFrameManaBarTextLeft:SetFont(font, 10, flags);
     TargetFrameTextureFrameManaBarTextRight:SetFont(font, 10, flags);
 
-    TargetFrame.healthbar:SetWidth(119);
-    TargetFrame.healthbar.lockColor = true;
-
     TargetFrameTextureFrameLevelText:SetFont(font, 10, flags);
     TargetFrameTextureFrameLevelText:SetTextColor(r, g, b, a);
     TargetFrameTextureFrameLevelText:ClearAllPoints();
@@ -117,21 +117,22 @@ end
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:PLAYER_LOGIN()
-    ImpUI_TargetFrame:LoadPosition();
+function ImpUI_Target:PLAYER_LOGIN()
+    ImpUI_Target:LoadPosition();
 end
 
 --[[
 	Called when unlocking the UI.
 ]]
-function ImpUI_TargetFrame:Unlock()
+function ImpUI_Target:Unlock()
     dragFrame:Show();
 end
 
 --[[
 	Called when locking the UI.
 ]]
-function ImpUI_TargetFrame:Lock()
+function ImpUI_Target:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
     ImpUI.db.char.targetFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
@@ -139,16 +140,16 @@ function ImpUI_TargetFrame:Lock()
 end
 
 --[[
-	Loads the position of the OSD from SavedVariables.
+	Loads the position of the Target Frame from SavedVariables.
 ]]
-function ImpUI_TargetFrame:LoadPosition()
+function ImpUI_Target:LoadPosition()
     local pos = ImpUI.db.char.targetFramePosition;
     local scale = ImpUI.db.char.targetFrameScale;
     
     -- Set Drag Frame Position
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
-    -- Parent PlayerFrame to the Drag Frame.
+    -- Parent Target Frame to the Drag Frame.
     TargetFrame:SetMovable(true);
     TargetFrame:ClearAllPoints();
     TargetFrame:SetPoint('CENTER', dragFrame, 'CENTER', 15, -5);
@@ -162,7 +163,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:OnInitialize()
+function ImpUI_Target:OnInitialize()
 end
 
 --[[
@@ -170,13 +171,13 @@ end
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:OnEnable()
+function ImpUI_Target:OnEnable()
     -- Create Drag Frame and load position.
-    dragFrame = Helpers.create_drag_frame('ImpUI_TargetFrame_DragFrame', 205, 90, L['Target Frame']);
+    dragFrame = Helpers.create_drag_frame('ImpUI_Target_DragFrame', 205, 90, L['Target Frame']);
 
-    ImpUI_TargetFrame:LoadPosition();
+    ImpUI_Target:LoadPosition();
 
-    ImpUI_TargetFrame:StyleFrame();
+    ImpUI_Target:StyleFrame();
 
     -- Register Events
     self:RegisterEvent('PLAYER_LOGIN');
@@ -197,5 +198,5 @@ end
 	
     @ return void
 ]]
-function ImpUI_TargetFrame:OnDisable()
+function ImpUI_Target:OnDisable()
 end
