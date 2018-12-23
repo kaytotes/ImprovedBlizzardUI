@@ -1,4 +1,4 @@
 *
 !.gitignore
-!rActionBar/
-!rLib/
+!rActionBar/*
+!rLib/*
