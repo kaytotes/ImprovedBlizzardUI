@@ -1,461 +1,1433 @@
-local addonName, Loc = ...;
+-- Get Localisation
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
+
+ImpUI_Config = {};
 
 --[[
-    Adds a Tooltip to a Frame
-
-    @ param Frame $frame The Frame that the tooltip should be added too
-    @ param string $text The text that should be displayed on the tooltip
-    @ return void
+	Defaults for every new character.
 ]]
-local function AddTooltip(frame, text)
-    frame:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(frame, 'ANCHOR_TOPLEFT');
-        GameTooltip:AddLine(text, 1, 1, 0);
-        GameTooltip:Show();
-    end);
-    frame:SetScript('OnLeave', GameTooltip_Hide);
-end
+ImpUI_Config.defaults = {
+    char = {
+        primaryInterfaceFont = 'Improved Blizzard UI',
+        afkMode = true,
+        autoScreenshot = true,
+        autoRepair = true,
+        guildRepair = true,
+        autoSell = true,
+        minifyStrings = true,
+        styleChat = true,
+        chatFont = 'Improved Blizzard UI',
+        outlineChat = true,
+        healthWarnings = true,
+        healthWarningFont = 'Improved Blizzard UI',
+        healthWarningSize = 26,
+        healthWarningHalfColour = Helpers.colour_pack(0, 1, 1, 1),
+        healthWarningQuarterColour = Helpers.colour_pack(1, 0, 0, 1),
+        announceInterrupts = true,
+        interruptChannel = 1,
+        killingBlows = true,
+        killingBlowMessage = L['Killing Blow!'],
+        killingBlowColour = Helpers.colour_pack(1, 1, 0, 1),
+        killingBlowSize = 26,
+        killingBlowFont = 'Improved Blizzard UI',
+        killingBlowInWorld = false,
+        killingBlowInPvP = true,
+        killingBlowInInstance = false,
+        killingBlowInRaid = false,
 
-local defaults = {
-    afkMode = true,
+        autoRel = true,
+        autoRelInWorld = false,
+        autoRelInInstance = false,
+        autoRelInPvP = true,
+        autoRelInRaid = false,
 
-    styleChat = true,
-    overrideBlizzardStrings = true,
+        showCoords = true,
+        minimapCoordsFont = 'Improved Blizzard UI',
+        minimapCoordsColour = Helpers.colour_pack(1, 1, 0, 1),
+        minimapCoordsSize = 13,
+        minimapZoneTextFont = 'Improved Blizzard UI',
+        minimapZoneTextSize = 13,
+        minimapClockFont = 'Improved Blizzard UI',
+        minimapClockSize = 10,
 
-    autoRepair = true,
-    guildRepair = true,
-    autoSell = true,
-    autoScreenshot = true,
+        performanceFrame = true,
+        performanceFrameSize = 14,
 
-    toggleObjective = true,
+        osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
+        killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5),
 
-    healthWarnings = true,
-    announceInterrupts = true,
+        styleUnitFrames = true,
+        
+        playerFrameScale = 1.2,
+        playerFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -305.16, -160.82),
+        playerClassColours = true,
+        playerHidePortraitSpam = true,
+        playerHideOOC = true,
 
-    killingBlows = true,
-    autoRes = true,
+        targetFrameScale = 1.2,
+        targetFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', 305.16, -160.82),
+        targetClassColours = true,
+        targetBuffsOnTop = true,
+        targetOfTargetClassColours = true,
 
-    anchorMouse = true,
-    styleTooltips = true,
-    guildColour = 'ffff87ff',
-    hostileBorder = true,
-    nameClassColours = true,
-    tooltipToT = true,
-    tooltipClassHealth = true,
-    tooltipFontSize = 12,
+        partyFrameScale = 1.4,
+        partyFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -550, 100),
+
+        focusFrameScale = 0.9,
+        focusFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -500.0, -250.0),
+        focusClassColours = true,
+        focusBuffsOnTop = true,
+
+        killFeed = true,
+        killFeedFont = 'Improved Blizzard UI',
+        killFeedSize = 17,
+        killFeedSpacing = 26,
+        killFeedInWorld = false,
+        killFeedInInstance = true,
+        killFeedInRaid = true,
+        killFeedInPvP = true,
+        killFeedShowSpell = true,
+        killFeedShowDamage = true,
+        killFeedFadeInactive = true,
+
+        anchorMouse = true,
+        styleTooltips = true,
+        tooltipGuildColour = Helpers.colour_pack(1, 0.529, 1, 1),
+        tooltipHostileBorder = true,
+        tooltipNameClassColours = true,
+        tooltipToT = true,
+        tooltipHealthClassColours = true,
+        tooltipItemRarity = true,
+    },
 };
 
-local options = LibStub('Wasabi'):New(addonName, 'PrimaryDB', defaults);
-options:AddSlash('/imp');
+--[[
+	Configuration Menu.
+]]
+ImpUI_Config.options = {
+    name = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'),
+    handler = ImpUI,
+    type = 'group',
+    childGroups = "tab",
+    args = {
+        -- Unit Frames
+        unitframes = {
+            name = L['Unit Frames'],
+            desc = L['Unit Frames'],
+            type = 'group',
+            order = 1,
+            args = {
+                styleUnitFrames = {
+                    type = 'toggle',
+                    name = L['Style Unit Frames'],
+                    desc = L['Applies modified textures and font styling to the Player, Target, Party and Focus Frames. This will trigger a UI Reload!'],
+                    get = function ()
+                        return ImpUI.db.char.styleUnitFrames;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.styleUnitFrames = newValue;
+                        ReloadUI();
+                    end,
+                    order = 1,
+                },
 
-options:Initialize(function(self)
-    local title = self:CreateTitle();
-    title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
+                -- Player Frame Section
+                playerHeader = {
+                    type = 'header',
+                    name = L['Player Frame'],
+                    order = 2,
+                },
 
-    -- Miscellaneous Category
-    local miscTitle = self:CreateTitle();
-    miscTitle:SetPoint('TOPLEFT', 10, -50);
-    miscTitle:SetText(Loc['Miscellaneous']);
+                playerClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.playerClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerClassColours = newValue;
+                        ImpUI_Player:ToggleClassColours(newValue);
+                    end,
+                    order = 3,
+                },
 
-    local afkMode = self:CreateCheckButton('afkMode');
-    afkMode:SetPoint('TOPLEFT', miscTitle, 'BOTTOMLEFT', 0, -8);
-    afkMode:SetText(Loc['Enable AFK Mode']);
-    AddTooltip(afkMode, Loc['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.']);
+                playerHidePortraitSpam = {
+                    type = 'toggle',
+                    name = L['Hide Portrait Spam'],
+                    desc = L['Hides the damage text that appears over the Player portrait when damaged or healed.'],
+                    get = function ()
+                        return ImpUI.db.char.playerHidePortraitSpam;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerHidePortraitSpam = newValue;
+                    end,
+                    order = 4,
+                },
 
-    local autoRepair = self:CreateCheckButton('autoRepair');
-    autoRepair:SetPoint('TOPLEFT', afkMode, 'BOTTOMLEFT', 0, 0);
-    autoRepair:SetText(Loc['Auto Repair']);
-    AddTooltip(autoRepair, Loc['Automatically repairs your armour when you visit a merchant that can repair.']);
+                playerHideOOC = {
+                    type = 'toggle',
+                    name = L['Hide Out of Combat'],
+                    desc = L['Hides the Player Frame when you are out of combat, have no target and are at full health.'],
+                    get = function ()
+                        return ImpUI.db.char.playerHideOOC;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerHideOOC = newValue;
 
-    local guildRepair = self:CreateCheckButton('guildRepair');
-    guildRepair:SetPoint('TOPLEFT', autoRepair, 'BOTTOMLEFT', 0, 0);
-    guildRepair:SetText(Loc['Use Guild Bank For Repairs']);
-    AddTooltip(guildRepair, Loc['When automatically repairing allow the use of Guild Bank funds.']);
+                        ImpUI_Player:TogglePlayer(newValue);
+                    end,
+                    order = 5,
+                },
 
-    local autoSell = self:CreateCheckButton('autoSell');
-    autoSell:SetPoint('TOPLEFT', guildRepair, 'BOTTOMLEFT', 0, 0);
-    autoSell:SetText(Loc['Auto Sell Trash']);
-    AddTooltip(autoSell, Loc['Automatically sells any grey items that are in your inventory.']);
+                playerFrameScale = {
+                    type = 'range',
+                    name = L['Player Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.playerFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerFrameScale = newValue; 
 
-    local toggleObjective = self:CreateCheckButton('toggleObjective');
-    toggleObjective:SetPoint('TOPLEFT', autoSell, 'BOTTOMLEFT', 0, 0);
-    toggleObjective:SetText(Loc['Dynamic Objective Tracker']);
-    AddTooltip(toggleObjective, Loc['When you enter an instanced area the Objective Tracker will automatically close.']);
+                        ImpUI_Player:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 6,
+                },
 
-    local autoScreenshot = self:CreateCheckButton('autoScreenshot');
-    autoScreenshot:SetPoint('TOPLEFT', toggleObjective, 'BOTTOMLEFT', 0, 0);
-    autoScreenshot:SetText(Loc['Achievement Screenshot']);
-    AddTooltip(autoScreenshot, Loc['Automatically take a screenshot upon earning an achievement.']);
+                -- Target Frame Section
+                targetHeader = {
+                    type = 'header',
+                    name = L['Target Frame'],
+                    order = 7,
+                },
 
-    -- Chat Category
-    local chatTitle = self:CreateTitle();
-    chatTitle:SetPoint('TOPLEFT', autoScreenshot, 'BOTTOMLEFT', 0, -8);
-    chatTitle:SetText(Loc['Chat']);
+                targetClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.targetClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetClassColours = newValue;
+                        TargetFrame:Hide();
+                    end,
+                    order = 8,
+                },
 
-    local styleChat = self:CreateCheckButton('styleChat');
-    styleChat:SetPoint('TOPLEFT', chatTitle, 'BOTTOMLEFT', 0, -8);
-    styleChat:SetText(Loc['Style Chat']);
-    AddTooltip(styleChat, Loc['Styles the Blizzard Chat frame to better match the rest of the UI.']);
+                targetBuffsOnTop = {
+                    type = 'toggle',
+                    name = L['Buffs On Top'],
+                    desc = L['Displays the Targets Buffs above the Unit Frame.'],
+                    get = function ()
+                        return ImpUI.db.char.targetBuffsOnTop;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetBuffsOnTop = newValue;
+                        TargetFrame:Hide();
+                    end,
+                    order = 9,
+                },
 
-    local overrideBlizzardStrings = self:CreateCheckButton('overrideBlizzardStrings');
-    overrideBlizzardStrings:SetPoint('TOPLEFT', styleChat, 'BOTTOMLEFT', 0, 0);
-    overrideBlizzardStrings:SetText(Loc['Minify Blizzard Strings']);
-    AddTooltip(overrideBlizzardStrings, Loc['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.']);
+                targetOfTargetClassColours = {
+                    type = 'toggle',
+                    name = L['ToT Class Colours'],
+                    desc = L['Colours Target of Target Health bar to match their class.'],
+                    get = function ()
+                        return ImpUI.db.char.targetOfTargetClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetOfTargetClassColours = newValue;
+                        TargetFrame:Hide();
+                    end,
+                    order = 10,
+                },
 
-    -- Combat Category
-    local combatTitle = self:CreateTitle();
-    combatTitle:SetPoint('TOPLEFT', overrideBlizzardStrings, 'BOTTOMLEFT', 0, -8);
-    combatTitle:SetText(Loc['Combat']);
+                -- Party Frames Section
+                partyHeader = {
+                    type = 'header',
+                    name = L['Party Frames'],
+                    order = 11,
+                },
 
-    local healthWarnings = self:CreateCheckButton('healthWarnings');
-    healthWarnings:SetPoint('TOPLEFT', combatTitle, 'BOTTOMLEFT', 0, -8);
-    healthWarnings:SetText(Loc['Display Health Warnings']);
-    AddTooltip(healthWarnings, Loc['Displays a five second warning when Player Health is less than 50% and 25%.']);
+                partyFrameScale = {
+                    type = 'range',
+                    name = L['Party Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.partyFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.partyFrameScale = newValue; 
 
-    local announceInterrupts = self:CreateCheckButton('announceInterrupts');
-    announceInterrupts:SetPoint('TOPLEFT', healthWarnings, 'BOTTOMLEFT', 0, 0);
-    announceInterrupts:SetText(Loc['Announce Interrupts']);
-    AddTooltip(announceInterrupts, Loc['When you interrupt a target your character announces this to an appropriate sound channel.']);
+                        ImpUI_Party:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 12,
+                },
 
-    -- PvP Category
-    local pvpTitle = self:CreateTitle();
-    pvpTitle:SetPoint('TOPLEFT', announceInterrupts, 'BOTTOMLEFT', 0, -8);
-    pvpTitle:SetText(Loc['PvP']);
+                -- Focus Frames Section
+                focusHeader = {
+                    type = 'header',
+                    name = L['Focus Frame'],
+                    order = 13,
+                },
 
-    local killingBlows = self:CreateCheckButton('killingBlows');
-    killingBlows:SetPoint('TOPLEFT', pvpTitle, 'BOTTOMLEFT', 0, -8);
-    killingBlows:SetText(Loc['Highlight Killing Blows']);
-    AddTooltip(killingBlows, Loc['When you get a Killing Blow in a Battleground or Arena this will be displayed prominently in the center of the screen.']);
+                focusClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = L['Colours Focus Frame Health bar to match their class.'],
+                    get = function ()
+                        return ImpUI.db.char.focusClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.focusClassColours = newValue;
+                        ImpUI_Focus:ToggleClassColours(newValue);
+                    end,
+                    order = 14,
+                },
 
-    local autoRes = self:CreateCheckButton('autoRes');
-    autoRes:SetPoint('TOPLEFT', killingBlows, 'BOTTOMLEFT', 0, 0);
-    autoRes:SetText(Loc['Automatic Ressurection']);
-    AddTooltip(autoRes, Loc['When you die in a Battleground you are automatically ressurected.']);
+                focusBuffsOnTop = {
+                    type = 'toggle',
+                    name = L['Buffs On Top'],
+                    desc = L['Displays the Focus Targets Buffs above the Unit Frame.'],
+                    get = function ()
+                        return ImpUI.db.char.focusBuffsOnTop;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.focusBuffsOnTop = newValue;
+                        
+                        if(UnitExists('focus') == true) then 
+                            FocusFrame.buffsOnTop = newValue;
+                        end
+                    end,
+                    order = 14,
+                },
 
-    -- Tooltips Category
-    local tooltipsTitle = self:CreateTitle();
-    tooltipsTitle:SetPoint('TOPLEFT', 250, -50);
-    tooltipsTitle:SetText(Loc['Tooltips']);
+                focusFrameScale = {
+                    type = 'range',
+                    name = L['Focus Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.focusFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.focusFrameScale = newValue; 
 
-    local anchorMouse = self:CreateCheckButton('anchorMouse');
-    anchorMouse:SetPoint('TOPLEFT', tooltipsTitle, 'BOTTOMLEFT', 0, -8);
-    anchorMouse:SetText(Loc['Anchor To Mouse']);
-    AddTooltip(anchorMouse, Loc['The Tooltip will always display at the mouse location.']);
-    
-    local styleTooltips = self:CreateCheckButton('styleTooltips');
-    styleTooltips:SetPoint('TOPLEFT', anchorMouse, 'BOTTOMLEFT', 0, 0);
-    styleTooltips:SetText(Loc['Style Tooltips']);
-    AddTooltip(styleTooltips, Loc['Adjusts the Fonts and behavior of the default Tooltips.']);
+                        ImpUI_Focus:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 16,
+                },
+            }
+        },
 
-    local hostileBorder = self:CreateCheckButton('hostileBorder');
-    hostileBorder:SetPoint('TOPLEFT', styleTooltips, 'BOTTOMLEFT', 0, 0);
-    hostileBorder:SetText(Loc['Hostile Border']);
-    AddTooltip(hostileBorder, Loc['Colours the Border of the Tooltip based on the hostility of the target.']);
+        -- Action Bars
+        actionbars = {
+            name = L['Action Bars'],
+            desc = L['Action Bars'],
+            type = 'group',
+            order = 2,
+            args = {
+            }
+        },
 
-    local nameClassColours = self:CreateCheckButton('nameClassColours');
-    nameClassColours:SetPoint('TOPLEFT', hostileBorder, 'BOTTOMLEFT', 0, 0);
-    nameClassColours:SetText(Loc['Class Coloured Name']);
-    AddTooltip(nameClassColours, Loc['Colours the name of the Target to match their Class.']);
+        -- Tooltips
+        tooltips = {
+            name = L['Tooltips'],
+            desc = L['Tooltips'],
+            type = 'group',
+            order = 3,
+            args = {
+                anchorMouse = {
+                    type = 'toggle',
+                    name = L['Anchor To Mouse'],
+                    desc = L['The tooltip will always display at the mouse location.'],
+                    get = function ()
+                        return ImpUI.db.char.anchorMouse;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.anchorMouse = newValue;
+                    end,
+                    order = 1,
+                },
 
-    local tooltipToT = self:CreateCheckButton('tooltipToT');
-    tooltipToT:SetPoint('TOPLEFT', nameClassColours, 'BOTTOMLEFT', 0, 0);
-    tooltipToT:SetText(Loc['Show Target of Target']);
-    AddTooltip(tooltipToT, Loc['Displays who / what the unit is targeting. Coloured by Class.']);
+                styleTooltips = {
+                    type = 'toggle',
+                    name = L['Style Tooltips'],
+                    desc = L['Adjusts the information and style of the default tooltips.'],
+                    get = function ()
+                        return ImpUI.db.char.styleTooltips;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.styleTooltips = newValue;
+                        ImpUI_Tooltips:ResetStyle();
+                    end,
+                    order = 2,
+                },
 
-    local tooltipClassHealth = self:CreateCheckButton('tooltipClassHealth');
-    tooltipClassHealth:SetPoint('TOPLEFT', tooltipToT, 'BOTTOMLEFT', 0, 0);
-    tooltipClassHealth:SetText(Loc['Class Colour Health Bar']);
-    AddTooltip(tooltipClassHealth, Loc['Colours the Tooltip Health Bar by Class.']);
+                tooltipGuildColour = {
+                    type = 'color',
+                    name = L['Guild Colour'],
+                    desc = L['The colour of the guild name display in tooltips.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.char.tooltipGuildColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    hasAlpha = false,
+                    order = 3,
+                },
 
-    local guildColour = self:CreateColorPicker('guildColour');
-	guildColour:SetPoint('TOPLEFT', tooltipClassHealth, 'BOTTOMLEFT', 5, -3);
-    guildColour:SetText(Loc['Guild Colour']);
+                tooltipHostileBorder = {
+                    type = 'toggle',
+                    name = L['Hostile Border'],
+                    desc = L['Colours the border of the tooltip based on the hostility of the target.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipHostileBorder;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipHostileBorder = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 4,
+                },
 
-    local tooltipFontSize = self:CreateSlider('tooltipFontSize');
-    tooltipFontSize:SetPoint('TOPLEFT', guildColour, 'BOTTOMLEFT', 4, -10);
-    tooltipFontSize:SetRange(7, 20);
-    tooltipFontSize:SetStep(1);
-    AddTooltip(tooltipFontSize, Loc['Font Size']);
-end);
+                tooltipNameClassColours = {
+                    type = 'toggle',
+                    name = L['Class Coloured Name'],
+                    desc = L['Colours the name of the target to match their Class.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipNameClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipNameClassColours = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 5,
+                },
 
-local frameDefaults = {
-    primaryOffsetX = 265,
-    primaryOffsetY = 150,
-    primaryScale = 1.2,
+                tooltipToT = {
+                    type = 'toggle',
+                    name = L['Show Target of Target'],
+                    desc = L['Displays who / what the unit is targeting. Coloured by Class.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipToT;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipToT = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 6,
+                },
 
-    stylePrimaryFrames = true,
-    playerClassColours = true,
-    playerPortraitSpam = true,
-    playerHideOOC = true,
+                tooltipHealthClassColours = {
+                    type = 'toggle',
+                    name = L['Class Colour Health Bar'],
+                    desc = L['Colours the Tooltip Health Bar by Class.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipHealthClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipHealthClassColours = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 6,
+                },
 
-    targetBuffsOnTop = true,
-    targetClassColours = true,
-    targetOfTargetClassColours = true,
+                tooltipItemRarity = {
+                    type = 'toggle',
+                    name = L['Item Rarity Border'],
+                    desc = L['Colours the tooltip border by the rarity of the item you are inspecting.'],
+                    get = function ()
+                        return ImpUI.db.char.tooltipItemRarity;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.tooltipItemRarity = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleTooltips == false;
+                    end,
+                    order = 7,
+                },
+            }
+        },
 
-    focusClassColours = true,
+        -- Combat
+        combat = {
+            name = L['Combat'],
+            desc = L['Combat'],
+            type = 'group',
+            order = 4,
+            args = {
+                -- Health Warning Section
+                healthHeader = {
+                    type = 'header',
+                    name = L['Health Warning'],
+                    order = 1,
+                },
 
-    showMinimapCoords = true,
-    replaceZoom = true,
-    showPerformance = true,
+                healthWarnings = {
+                    type = 'toggle',
+                    name = L['Health Warnings'],
+                    desc = L['Displays a five second warning when Player Health is less than 50% and 25%.'],
+                    get = function ()
+                        return ImpUI.db.char.healthWarnings;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.healthWarnings = newValue;
+                    end,
+                    order = 2,
+                },
 
-    killFeed = true,
-    showInWorld = false,
-    showInDungeons = true,
-    showInRaids = true,
-    showInPvP = true,
-    showSpell = true,
-    showDamage = true,
-    inactiveFade = true,
-    fontSize = 17,
+                healthWarningHalfColour = {
+                    type = 'color',
+                    name = L['50% Colour'],
+                    desc = L['The colour of the warning that displays at 50% health.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.char.healthWarningHalfColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.healthWarningHalfColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    hasAlpha = false,
+                    order = 3,
+                },
 
-    showMapDungeons = true,
-    showCursorCoords = true,
+                healthWarningQuarterColour = {
+                    type = 'color',
+                    name = L['25% Colour'],
+                    desc = L['The colour of the warning that displays at 25% health.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.char.healthWarningQuarterColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.healthWarningQuarterColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    hasAlpha = false,
+                    order = 4,
+                },
+
+                healthWarningSize = {
+                    type = 'range',
+                    name = L['Health Warning Size'],
+                    desc = L['The size of the Health Warning Display.'],
+                    min = 8,
+                    max = 104,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.healthWarningSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.healthWarningSize = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    isPercent = false,
+                    order = 5,
+                },
+
+                healthWarningFont = {
+                    type = 'select',
+                    name = L['Health Warning Font'],
+                    desc = L['The font used by the Health Warning On Screen Display Message'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.healthWarningFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.healthWarningFont = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.healthWarnings == false;
+                    end,
+                    order = 6,
+                },
+
+                -- Interrupts Section
+                interruptHeader = {
+                    type = 'header',
+                    name = L['Interrupts'],
+                    order = 7,
+                },
+
+                announceInterrupts = {
+                    type = 'toggle',
+                    name = L['Announce Interrupts'],
+                    desc = L['When you interrupt a target your character announces this to an appropriate sound channel.'],
+                    get = function ()
+                        return ImpUI.db.char.announceInterrupts;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.announceInterrupts = newValue; 
+                    end,
+                    order = 8,
+                },
+
+                interruptChannel = {
+                    type = 'select',
+                    name = L['Chat Channel'],
+                    desc = L['The Channel that should be used when announcing an interrupt. Auto intelligently chooses based on situation.'],
+                    get = function ()
+                        return ImpUI.db.char.interruptChannel;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.interruptChannel = newValue; 
+                    end,
+                    style = 'dropdown',
+                    values = {
+                        'Auto',
+                        'Say',
+                        'Yell',
+                    },
+                    disabled = function () 
+                        return ImpUI.db.char.announceInterrupts == false;
+                    end,
+                    order = 9,
+                },
+
+                -- Killing Blows Section
+                killingBlowsHeader = {
+                    type = 'header',
+                    name = L['Killing Blows'],
+                    order = 10,
+                },
+
+                killingBlows = {
+                    type = 'toggle',
+                    name = L['Highlight Killing Blows'],
+                    desc = L['When you get a Killing Blow this will be displayed prominently in the center of the screen.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlows;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlows = newValue; 
+                    end,
+                    order = 11,
+                },
+
+                killingBlowMessage = {
+                    type = 'input',
+                    name = L['Killing Blow Message'],
+                    desc = L['The message that is displayed in the center of the screen.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowMessage;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowMessage = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 12,
+                },
+
+                killingBlowColour = {
+                    type = 'color',
+                    name = L['Colour'],
+                    desc = L['The colour of the Killing Blow notification.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.char.killingBlowColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.killingBlowColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    hasAlpha = false,
+                    order = 13,
+                },
+
+                killingBlowSize = {
+                    type = 'range',
+                    name = L['Killing Blow Size'],
+                    desc = L['The size of the Killing Blow notification'],
+                    min = 8,
+                    max = 104,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.killingBlowSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowSize = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    isPercent = false,
+                    order = 14,
+                },
+
+                killingBlowFont = {
+                    type = 'select',
+                    name = L['Killing Blow Font'],
+                    desc = L['The font used by the Killing Blow Notification.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.killingBlowFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowFont = newValue; 
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 15,
+                },
+
+                killingBlowInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = L['Notification will display in World content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 16,
+                },
+
+                killingBlowInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = L['Notification will display in PvP content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 17,
+                },
+
+                killingBlowInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = L['Notification will display in 5 Man instanced content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 18,
+                },
+
+                killingBlowInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = L['Notification will display in instanced raid content.'],
+                    get = function ()
+                        return ImpUI.db.char.killingBlowInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killingBlowInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killingBlows == false;
+                    end,
+                    order = 19,
+                },
+
+                -- Automatic Ressurection Section
+                autoRelHeader = {
+                    type = 'header',
+                    name = L['Automatic Release'],
+                    order = 20,
+                },
+
+                autoRel = {
+                    type = 'toggle',
+                    name = L['Automatic Release'],
+                    desc = L['Automatically release your spirit when you die.'] ,
+                    get = function ()
+                        return ImpUI.db.char.autoRel;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRel = newValue;
+                    end,
+                    order = 21,
+                },
+
+                autoRelInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 22,
+                },
+
+                autoRelInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 23,
+                },
+
+                autoRelInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 23,
+                },
+
+                autoRelInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.autoRelInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRelInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.autoRel == false;
+                    end,
+                    order = 24,
+                }
+            }
+        },
+
+        -- Maps
+        maps = {
+            name = L['Maps'],
+            desc = L['Maps'],
+            type = 'group',
+            order = 5,
+            args = {
+                -- Minimap Section
+                minimap = {
+                    type = 'header',
+                    name = L['Mini Map'],
+                    order = 1,
+                },
+
+                showCoords = {
+                    type = 'toggle',
+                    name = L['Player Co-ordinates'],
+                    desc = L['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'],
+                    get = function ()
+                        return ImpUI.db.char.showCoords;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showCoords = newValue;
+                    end,
+                    order = 2,
+                },
+
+                minimapCoordsFont = {
+                    type = 'select',
+                    name = L['Co-ordinates Font'],
+                    desc = L['The font used by the Minimap Co-ordinates Display.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.minimapCoordsFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapCoordsFont = newValue;
+                        ImpUI_MiniMap:StyleCoords();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    order = 3,
+                },
+
+                minimapCoordsColour = {
+                    type = 'color',
+                    name = L['Colour'],
+                    desc = L['The colour of the Minimap Co-ordinates Display.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.char.minimapCoordsColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.char.minimapCoordsColour = Helpers.colour_pack(r, g, b, a);
+                        ImpUI_MiniMap:StyleCoords();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    hasAlpha = false,
+                    order = 4,
+                },
+
+                minimapCoordsSize = {
+                    type = 'range',
+                    name = L['Co-ordinates Size'],
+                    desc = L['The size of the Minimap Co-ordinates Display.'],
+                    min = 8,
+                    max = 26,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.minimapCoordsSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapCoordsSize = newValue;
+                        ImpUI_MiniMap:StyleCoords();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.showCoords == false;
+                    end,
+                    isPercent = false,
+                    order = 5,
+                },
+
+                minimapZoneTextFont = {
+                    type = 'select',
+                    name = L['Zone Text Font'],
+                    desc = L['The font used by the Minimap Zone Display'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.minimapZoneTextFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapZoneTextFont = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    order = 6,
+                },
+
+                minimapZoneTextSize = {
+                    type = 'range',
+                    name = L['Zone Text Size'],
+                    desc = L['The size of the Minimap Zone Text Display.'],
+                    min = 8,
+                    max = 26,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.minimapZoneTextSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapZoneTextSize = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    isPercent = false,
+                    order = 7,
+                },
+
+                minimapClockFont = {
+                    type = 'select',
+                    name = L['Clock Font'],
+                    desc = L['The font used by the Minimap Clock Display'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.minimapClockFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapClockFont = newValue;
+                        ImpUI_MiniMap:StyleClock();
+                    end,
+                    order = 8,
+                },
+
+                minimapClockSize = {
+                    type = 'range',
+                    name = L['Clock Text Size'],
+                    desc = L['The size of the Minimap Clock Display.'],
+                    min = 4,
+                    max = 22,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.minimapClockSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minimapClockSize = newValue;
+                        ImpUI_MiniMap:StyleClock();
+                    end,
+                    isPercent = false,
+                    order = 9,
+                },
+
+                -- World Map Section
+                worldmap = {
+                    type = 'header',
+                    name = L['World Map'],
+                    order = 10,
+                },
+            }
+        },
+
+        -- Miscellaneous
+        misc = {
+            name = L['Miscellaneous'],
+            desc = L['Miscellaneous'],
+            type = 'group',
+            order = 6,
+            args = {
+                afkMode = {
+                    type = 'toggle',
+                    name = L['Enable AFK Mode'],
+                    desc = L['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.'],
+                    get = function ()
+                        return ImpUI.db.char.afkMode;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.afkMode = newValue;
+                    end,
+                    order = 1,
+                },
+                autoRepair = {
+                    type = 'toggle',
+                    name = L['Auto Repair'],
+                    desc = L['Automatically repairs your armour when you visit a merchant that can repair.'],
+                    get = function ()
+                        return ImpUI.db.char.autoRepair;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoRepair = newValue;
+                    end,
+                    order = 2,
+                },
+                guildRepair = {
+                    type = 'toggle',
+                    name = L['Use Guild Bank For Repairs'],
+                    desc = L['When automatically repairing allow the use of Guild Bank funds.'],
+                    get = function ()
+                        return ImpUI.db.char.guildRepair;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.guildRepair = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.autoRepair == false;
+                    end,
+                    order = 3,
+                },
+                autoSell = {
+                    type = 'toggle',
+                    name = L['Auto Sell Trash'],
+                    desc = L['Automatically sells any grey items that are in your inventory.'],
+                    get = function ()
+                        return ImpUI.db.char.autoSell;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoSell = newValue;
+                    end,
+                    order = 4,
+                },
+                autoScreenshot = {
+                    type = 'toggle',
+                    name = L['Achievement Screenshot'],
+                    desc = L['Automatically take a screenshot upon earning an achievement.'],
+                    get = function ()
+                        return ImpUI.db.char.autoScreenshot;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.autoScreenshot = newValue;
+                    end,
+                    order = 5,
+                },
+
+                -- Chat Section
+                chatHeader = {
+                    type = 'header',
+                    name = L['Chat'],
+                    order = 6,
+                },
+
+                minifyStrings = {
+                    type = 'toggle',
+                    name = L['Minify Blizzard Strings'],
+                    desc = L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'],
+                    get = function ()
+                        return ImpUI.db.char.minifyStrings;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.minifyStrings = newValue;
+
+                        if (newValue == true) then
+                            ImpUI_Chat:RestoreStrings();
+                            ImpUI_Chat:OverrideStrings();
+                        else
+                            ImpUI_Chat:RestoreStrings();
+                        end
+                    end,
+                    order = 7,
+                },
+
+                styleChat = {
+                    type = 'toggle',
+                    name = L['Style Chat'],
+                    desc = L['Styles the Blizzard Chat frame to better match the rest of the UI.'],
+                    get = function ()
+                        return ImpUI.db.char.styleChat;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.styleChat = newValue;
+
+                        if (newValue == true) then
+                            ImpUI_Chat:StyleChat();
+                        else
+                            ImpUI_Chat:ResetChat();
+                        end
+                    end,
+                    order = 8,
+                },
+
+                chatFont = {
+                    type = 'select',
+                    name = L['Chat Font'],
+                    desc = L['Sets the font used for the chat window, tabs etc.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.chatFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.chatFont = newValue;
+                        ImpUI_Chat:StyleChat();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleChat == false;
+                    end,
+                    order = 9,
+                },
+
+                outlineChat = {
+                    type = 'toggle',
+                    name = L['Outline Font'],
+                    desc = L['Applies a thin outline to text rendered in the chat windows.'],
+                    get = function ()
+                        return ImpUI.db.char.outlineChat;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.outlineChat = newValue;
+                        ImpUI_Chat:StyleChat();
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.styleChat == false;
+                    end,
+                    order = 10,
+                },
+
+                primaryInterfaceFontHeader = {
+                    type = 'header',
+                    name = L['Primary Interface Font'],
+                    order = 11,
+                },
+
+                primaryInterfaceFont = {
+                    type = 'select',
+                    name = L['Primary Interface Font'],
+                    desc = L['Replaces almost every font in the Blizzard UI to this selection. This is a broad pass.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.primaryInterfaceFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.primaryInterfaceFont = newValue;
+                        ImpUI_Fonts:PrimaryFontUpdated();
+                        ImpUI_Performance:StylePerformanceFrame();
+                        ImpUI_Player:StyleFrame();
+                        ImpUI_OrderHall:StyleFrame();
+                    end,
+                    order = 12,
+                },
+
+                performanceHeader = {
+                    type = 'header',
+                    name = L['System Statistics'],
+                    order = 13,
+                },
+
+                performanceFrame = {
+                    type = 'toggle',
+                    name = L['Display System Statistics'],
+                    desc = L['Displays FPS and Latency above the Mini Map.'],
+                    get = function ()
+                        return ImpUI.db.char.performanceFrame;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.performanceFrame = newValue;
+                        ImpUI_MiniMap:StyleMap();
+                    end,
+                    order = 14,
+                },
+
+                performanceFrameSize = {
+                    type = 'range',
+                    name = L['System Statistics Size'],
+                    desc = L['The size of the system statistics display.'],
+                    min = 4,
+                    max = 23,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.performanceFrameSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.performanceFrameSize = newValue;
+                        ImpUI_Performance:StylePerformanceFrame();
+                    end,
+                    isPercent = false,
+                    order = 15,
+                },
+
+                killFeedHeader = {
+                    type = 'header',
+                    name = L['Kill Feed'],
+                    order = 16,
+                },
+
+                killFeed = {
+                    type = 'toggle',
+                    name = L['Enable Kill Feed'],
+                    desc = L['Displays a feed of the last 5 kills that occur around you.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeed;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeed = newValue;
+                    end,
+                    order = 17,
+                },
+
+                killFeedFont = {
+                    type = 'select',
+                    name = L['Kill Feed Font'],
+                    desc = L['The font used for the Kill Feed.'],
+                    dialogControl = 'LSM30_Font',
+                    values = LSM:HashTable( LSM.MediaType.FONT ),
+                    get = function ()
+                        return ImpUI.db.char.killFeedFont;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedFont = newValue;
+                        ImpUI_Killfeed:StyleKillFeed();
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 18,
+                },
+
+                killFeedSize = {
+                    type = 'range',
+                    name = L['Text Size'],
+                    desc = L['The font size used for the Kill Feed.'],
+                    min = 4,
+                    max = 52,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.killFeedSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedSize = newValue;
+                        ImpUI_Killfeed:StyleKillFeed();
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    isPercent = false,
+                    order = 19,
+                },
+
+                killFeedSpacing = {
+                    type = 'range',
+                    name = L['Spacing'],
+                    desc = L['The vertical spacing between each row of the Kill Feed.'],
+                    min = 4,
+                    max = 52,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.killFeedSpacing;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedSpacing = newValue;
+                        ImpUI_Killfeed:StyleKillFeed();
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    isPercent = false,
+                    order = 20,
+                },
+
+                killFeedShowSpell = {
+                    type = 'toggle',
+                    name = L['Show Casted Spell'],
+                    desc = L['Show the Spell that caused a death.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeedShowSpell;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedShowSpell = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 21,
+                },
+
+                killFeedShowDamage = {
+                    type = 'toggle',
+                    name = L['Show Damage'],
+                    desc = L['Show how much damage the Creature or Player took.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeedShowDamage;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedShowDamage = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 22,
+                },
+
+                killFeedFadeInactive = {
+                    type = 'toggle',
+                    name = L['Hide When Inactive'],
+                    desc = L['Hides the Kill Feed after no new events have occured for a short period.'],
+                    get = function ()
+                        return ImpUI.db.char.killFeedFadeInactive;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedFadeInactive = newValue;
+                    end,
+                    disabled = function ()
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 23,
+                },
+
+                killFeedInWorld = {
+                    type = 'toggle',
+                    name = L['In World'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInWorld;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInWorld = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 24,
+                },
+
+                killFeedInInstance = {
+                    type = 'toggle',
+                    name = L['In Instance'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInInstance;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInInstance = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 25,
+                },
+
+                killFeedInPvP = {
+                    type = 'toggle',
+                    name = L['In PvP'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInPvP;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInPvP = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 26,
+                },
+
+                killFeedInRaid = {
+                    type = 'toggle',
+                    name = L['In Raid'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.killFeedInRaid;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.killFeedInRaid = newValue;
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.char.killFeed == false;
+                    end,
+                    order = 27,
+                }
+            }
+        },
+    }
 };
-
-local framesOptions = options:CreateChild(Loc['Frames'], 'FramesDB', frameDefaults);
-
-framesOptions:Initialize(function(self)
-    local title = self:CreateTitle();
-    title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
-
-    local globalTitle = self:CreateTitle();
-    globalTitle:SetPoint('TOPLEFT', 10, -50)
-    globalTitle:SetText(Loc['Primary']);
-
-    local stylePrimaryFrames = self:CreateCheckButton('stylePrimaryFrames');
-    stylePrimaryFrames:SetPoint('TOPLEFT', globalTitle, 'BOTTOMLEFT', 0, -8)
-    stylePrimaryFrames:SetText(Loc['Style Unit Frames']);
-    AddTooltip(stylePrimaryFrames, Loc['Tweaks textures and structure of Unit Frames.']);
-
-    local primaryScale = self:CreateSlider('primaryScale');
-    primaryScale:SetPoint('TOPLEFT', stylePrimaryFrames, 'BOTTOMLEFT', 4, 0);
-    primaryScale:SetRange(0.1, 2.0);
-    primaryScale:SetStep(0.1);
-    AddTooltip(primaryScale, Loc['Player and Target Frame Scale']);
-
-    -- Player Frame
-    local playerFrame = self:CreateTitle();
-    playerFrame:SetPoint('TOPLEFT', primaryScale, 'BOTTOMLEFT', 0, -24)
-    playerFrame:SetText(Loc['Player Frame']);
-
-    local playerClassColours = self:CreateCheckButton('playerClassColours');
-    playerClassColours:SetPoint('TOPLEFT', playerFrame, 'BOTTOMLEFT', 0, -8)
-    playerClassColours:SetText(Loc['Display Class Colours']);
-    AddTooltip(playerClassColours, Loc['Colours your Health bar to match the current class.']);
-
-    local playerPortraitSpam = self:CreateCheckButton('playerPortraitSpam');
-    playerPortraitSpam:SetPoint('TOPLEFT', playerClassColours, 'BOTTOMLEFT', 0, 0)
-    playerPortraitSpam:SetText(Loc['Hide Portrait Spam']);
-    AddTooltip(playerPortraitSpam, Loc['Hides the damage text that appears over the Player portrait when damaged or healed.']);
-
-    local playerHideOOC = self:CreateCheckButton('playerHideOOC');
-    playerHideOOC:SetPoint('TOPLEFT', playerPortraitSpam, 'BOTTOMLEFT', 0, 0)
-    playerHideOOC:SetText(Loc['Hide Out of Combat']);
-    AddTooltip(playerHideOOC, Loc['Hides the Player Frame when you are out of combat, have no target and are at full health.']);
-
-    local targetFrame = self:CreateTitle();
-    targetFrame:SetPoint('TOPLEFT', playerHideOOC, 'BOTTOMLEFT', 0, -10)
-    targetFrame:SetText(Loc['Target Frame']);
-
-    local targetClassColours = self:CreateCheckButton('targetClassColours');
-    targetClassColours:SetPoint('TOPLEFT', targetFrame, 'BOTTOMLEFT', 0, -8)
-    targetClassColours:SetText(Loc['Display Class Colours']);
-    AddTooltip(targetClassColours, Loc['Colours Target Health bar to match their class.']);
-
-    local targetBuffsOnTop = self:CreateCheckButton('targetBuffsOnTop');
-    targetBuffsOnTop:SetPoint('TOPLEFT', targetClassColours, 'BOTTOMLEFT', 0, 0)
-    targetBuffsOnTop:SetText(Loc['Buffs On Top']);
-    AddTooltip(targetBuffsOnTop, Loc['Displays the Targets Buffs above the Unit Frame.']);
-
-    local targetOfTargetFrame = self:CreateTitle();
-    targetOfTargetFrame:SetPoint('TOPLEFT', targetBuffsOnTop, 'BOTTOMLEFT', 0, -10)
-    targetOfTargetFrame:SetText(Loc['Target of Target Frame']);
-
-    local targetOfTargetClassColours = self:CreateCheckButton('targetOfTargetClassColours');
-    targetOfTargetClassColours:SetPoint('TOPLEFT', targetOfTargetFrame, 'BOTTOMLEFT', 0, -8)
-    targetOfTargetClassColours:SetText(Loc['Display Class Colours']);
-    AddTooltip(targetOfTargetClassColours, Loc['Colours Target of Target Health bar to match their class.']);
-
-    local focusFrame = self:CreateTitle();
-    focusFrame:SetPoint('TOPLEFT', targetOfTargetClassColours, 'BOTTOMLEFT', 0, -10)
-    focusFrame:SetText(Loc['Focus Frame']);
-
-    local focusClassColours = self:CreateCheckButton('focusClassColours');
-    focusClassColours:SetPoint('TOPLEFT', focusFrame, 'BOTTOMLEFT', 0, -8)
-    focusClassColours:SetText(Loc['Display Class Colours']);
-    AddTooltip(focusClassColours, Loc['Colours Focus Health bar to match their class.']);
-
-    local minimapTitle = self:CreateTitle();
-    minimapTitle:SetPoint('TOPLEFT', 250, -50)
-    minimapTitle:SetText(Loc['Mini Map']);
-
-    local showMinimapCoords = self:CreateCheckButton('showMinimapCoords');
-    showMinimapCoords:SetPoint('TOPLEFT', minimapTitle, 'BOTTOMLEFT', 0, -8)
-    showMinimapCoords:SetText(Loc['Display Player Co-Ordinates']);
-    AddTooltip(showMinimapCoords, Loc['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.']);
-
-    local replaceZoom = self:CreateCheckButton('replaceZoom');
-    replaceZoom:SetPoint('TOPLEFT', showMinimapCoords, 'BOTTOMLEFT', 0, 0)
-    replaceZoom:SetText(Loc['Replace Zoom Functionality']);
-    AddTooltip(replaceZoom, Loc['Hides the Zoom Buttons and enables scroll wheel zooming.']);
-
-    local showPerformance = self:CreateCheckButton('showPerformance');
-    showPerformance:SetPoint('TOPLEFT', replaceZoom, 'BOTTOMLEFT', 0, 0);
-    showPerformance:SetText(Loc['Display System Statistics']);
-    AddTooltip(showPerformance, Loc['Displays FPS and Latency above the Mini Map.']);
-
-    -- Kill Feed Title
-    local killFeedTitle = self:CreateTitle();
-    killFeedTitle:SetPoint('TOPLEFT', showPerformance, 'BOTTOMLEFT', 0, -10);
-    killFeedTitle:SetText(Loc['Kill Feed']);
-
-    local killFeed = self:CreateCheckButton('killFeed');
-    killFeed:SetPoint('TOPLEFT', killFeedTitle, 'BOTTOMLEFT', 0, -8);
-    killFeed:SetText(Loc['Enable Kill Feed']);
-    AddTooltip(killFeed, Loc['Displays a feed of the last 5 kills that occur around you when in Instances and optionally out in the World.']);
-
-    local showInWorld = self:CreateCheckButton('showInWorld');
-    showInWorld:SetPoint('TOPLEFT', killFeed, 'BOTTOMLEFT', 0, 0);
-    showInWorld:SetText(Loc['Show In World']);
-    AddTooltip(showInWorld, Loc['Displays the Kill Feed when solo in the world.']);
-
-    local showInDungeons = self:CreateCheckButton('showInDungeons');
-    showInDungeons:SetPoint('TOPLEFT', showInWorld, 'BOTTOMLEFT', 0, 0);
-    showInDungeons:SetText(Loc['Show In Dungeons']);
-    AddTooltip(showInDungeons, Loc['Displays the Kill Feed when in 5 man Dungeons.']);
-
-    local showInRaids = self:CreateCheckButton('showInRaids');
-    showInRaids:SetPoint('TOPLEFT', showInDungeons, 'BOTTOMLEFT', 0, 0);
-    showInRaids:SetText(Loc['Show In Raids']);
-    AddTooltip(showInRaids, Loc['Displays the Kill Feed when in Raids.']);
-
-    local showInPvP = self:CreateCheckButton('showInPvP');
-    showInPvP:SetPoint('TOPLEFT', showInRaids, 'BOTTOMLEFT', 0, 0);
-    showInPvP:SetText(Loc['Show In PvP']);
-    AddTooltip(showInPvP, Loc['Displays the Kill Feed when in Instanced PvP (Arenas and Battlegrounds).']);
-
-    local showSpell = self:CreateCheckButton('showSpell');
-    showSpell:SetPoint('TOPLEFT', showInPvP, 'BOTTOMLEFT', 0, 0);
-    showSpell:SetText(Loc['Show Casted Spell']);
-    AddTooltip(showSpell, Loc['Show the Spell that caused a death.']);
-
-    local showDamage = self:CreateCheckButton('showDamage');
-    showDamage:SetPoint('TOPLEFT', showSpell, 'BOTTOMLEFT', 0, 0);
-    showDamage:SetText(Loc['Show Damage']);
-    AddTooltip(showDamage, Loc['Show how much damage the Creature or Player took.']);
-
-    local inactiveFade = self:CreateCheckButton('inactiveFade');
-    inactiveFade:SetPoint('TOPLEFT', showDamage, 'BOTTOMLEFT', 0, 0);
-    inactiveFade:SetText(Loc['Hide When Inactive']);
-    AddTooltip(inactiveFade, Loc['Hides the Kill Feed after no new events have occured for a short period.']);
-
-    local fontSize = self:CreateSlider('fontSize');
-    fontSize:SetPoint('TOPLEFT', inactiveFade, 'BOTTOMLEFT', 4, -10);
-    fontSize:SetRange(10, 30);
-    fontSize:SetStep(1);
-    AddTooltip(fontSize, Loc['Font Size']);
-end);
-
-local barDefaults = {
-    barTimer = true,
-    targetBarTimer = true,
-    focusBarTimer = true,
-    castingScale = 1.1,
-
-    outOfRange = true,
-
-    showMainText = true,
-    showBottomLeftText = true,
-    showBottomRightText = true,
-    showLeftText = true,
-    showRightText = true,
-
-    buffScale = 1.1,
-};
-
-local barOptions = options:CreateChild(Loc['Action Bars'], 'BarsDB', barDefaults);
-
-barOptions:Initialize(function(self)
-    local title = self:CreateTitle();
-    title:SetPoint('TOPLEFT', 190, -10);
-    title:SetText('Improved Blizzard UI - v'..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'));
-
-    -- Cast Bars
-    local castBarTitle = self:CreateTitle();
-    castBarTitle:SetPoint('TOPLEFT', 10, -50);
-    castBarTitle:SetText(Loc['Cast Bars']);
-
-    -- Player Cast Bar Timer
-    local barTimer = self:CreateCheckButton('barTimer');
-    barTimer:SetPoint('TOPLEFT', castBarTitle, 'BOTTOMLEFT', 0, -8)
-    barTimer:SetText(Loc['Cast Bar Timer']);
-    AddTooltip(barTimer, Loc['Adds a timer in seconds above the Cast Bar.']);
-
-    local castingScale = self:CreateSlider('castingScale');
-    castingScale:SetPoint('TOPLEFT', barTimer, 'BOTTOMLEFT', 4, 0);
-    castingScale:SetRange(0.1, 2.0);
-    castingScale:SetStep(0.1);
-    AddTooltip(castingScale, Loc['Cast Bar Scale']);
-
-    -- Target Cast Bar Timer
-    local targetBarTimer = self:CreateCheckButton('targetBarTimer');
-    targetBarTimer:SetPoint('TOPLEFT', castingScale, 'BOTTOMLEFT', -4, -12)
-    targetBarTimer:SetText(Loc['Target Cast Bar Timer']);
-    AddTooltip(targetBarTimer, Loc["Adds a timer in seconds above the Target's Cast Bar."]);
-
-    -- Focus Cast Bar Timer
-    local focusBarTimer = self:CreateCheckButton('focusBarTimer');
-    focusBarTimer:SetPoint('TOPLEFT', targetBarTimer, 'BOTTOMLEFT', 0, 0)
-    focusBarTimer:SetText(Loc['Focus Cast Bar Timer']);
-    AddTooltip(focusBarTimer, Loc["Adds a timer in seconds above the Focus' Cast Bar."]);
-
-    local actionBarsTitle = self:CreateTitle();
-    actionBarsTitle:SetPoint('TOPLEFT', focusBarTimer, 'BOTTOMLEFT', 0, -24);
-    actionBarsTitle:SetText(Loc['Action Bars']);
-
-    local outOfRange = self:CreateCheckButton('outOfRange');
-    outOfRange:SetPoint('TOPLEFT', actionBarsTitle, 'BOTTOMLEFT', 0, -8);
-    outOfRange:SetText(Loc['Out of Range Indicator']);
-    AddTooltip(outOfRange, Loc['When an Ability is not usable due to range the entire Button is highlighted Red.']);
-
-    local showMainText = self:CreateCheckButton('showMainText');
-    showMainText:SetPoint('TOPLEFT', outOfRange, 'BOTTOMLEFT', 0, 0);
-    showMainText:SetText(Loc['Show Main Action Bar Text']);
-    AddTooltip(showMainText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
-
-    local showBottomLeftText = self:CreateCheckButton('showBottomLeftText');
-    showBottomLeftText:SetPoint('TOPLEFT', showMainText, 'BOTTOMLEFT', 0, 0);
-    showBottomLeftText:SetText(Loc['Show Bottom Left Bar Text']);
-    AddTooltip(showBottomLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
-
-    local showBottomRightText = self:CreateCheckButton('showBottomRightText');
-    showBottomRightText:SetPoint('TOPLEFT', showBottomLeftText, 'BOTTOMLEFT', 0, 0);
-    showBottomRightText:SetText(Loc['Show Bottom Right Bar Text']);
-    AddTooltip(showBottomRightText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
-
-    local showRightText = self:CreateCheckButton('showRightText');
-    showRightText:SetPoint('TOPLEFT', showBottomRightText, 'BOTTOMLEFT', 0, 0);
-    showRightText:SetText(Loc['Show Right 1 Bar Text']);
-    AddTooltip(showRightText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
-
-    local showLeftText = self:CreateCheckButton('showLeftText');
-    showLeftText:SetPoint('TOPLEFT', showRightText, 'BOTTOMLEFT', 0, 0);
-    showLeftText:SetText(Loc['Show Right 2 Bar Text']);
-    AddTooltip(showLeftText, Loc['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar']);
-
-    local buffsTitle = self:CreateTitle();
-    buffsTitle:SetPoint('TOPLEFT', showLeftText, 'BOTTOMLEFT', 0, -24);
-    buffsTitle:SetText(Loc['Buffs and Debuffs']);
-
-    local buffScale = self:CreateSlider('buffScale');
-    buffScale:SetPoint('TOPLEFT', buffsTitle, 'BOTTOMLEFT', 4, -8);
-    buffScale:SetRange(0.1, 2.0);
-    buffScale:SetStep(0.1);
-    AddTooltip(buffScale, Loc['Buffs and Debuffs Scale']);
-end);
-
-options:On('Okay', function(self)
-    ReloadUI();
-end);

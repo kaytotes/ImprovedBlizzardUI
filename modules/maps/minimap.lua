@@ -3,98 +3,159 @@
     Slightly repositions and scales the Minimap frame.
     Adds Coords.
 ]]
-local addonName, Loc = ...;
+ImpUI_MiniMap = ImpUI:NewModule('ImpUI_MiniMap', 'AceEvent-3.0', 'AceHook-3.0', 'AceTimer-3.0');
 
-local MapFrame = CreateFrame('Frame', nil, UIParent);
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
--- Co-ordinates Frame
-local CoordsFrame = CreateFrame('Frame', nil, Minimap);
-CoordsFrame.text = CoordsFrame:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
-CoordsFrame.delay = 0.5;
-CoordsFrame.elapsed = 0;
+-- Local Variables
+local coords;
 
--- Set the position and scale etc
-CoordsFrame:SetFrameStrata('LOW');
-CoordsFrame:SetWidth(32);
-CoordsFrame:SetHeight(32);
-CoordsFrame:SetPoint('BOTTOM', 3, 0);
-CoordsFrame.text:SetPoint('CENTER', 0, 0);
-CoordsFrame.text:SetFont(ImpFont, 14, 'OUTLINE');
-
--- Ticks every 0.5 seconds, purely to update the Co-ordinates display.
-local function CoordsFrame_Tick(self, elapsed)
-	CoordsFrame.elapsed = CoordsFrame.elapsed + elapsed; -- Increment the tick timer
-	if(CoordsFrame.elapsed >= CoordsFrame.delay) then -- Matched tick delay?
-		if(FramesDB.showMinimapCoords) then -- Update the Co-ords frame
-            -- 7.1 Restricted this so it only works in the outside world. Lame.
-            local inInstance, instanceType = IsInInstance();
-
-            if (not inInstance) then
-                local map = C_Map.GetBestMapForUnit('player');
-            
-                if(map) then
-                    if(Minimap:IsVisible()) then
-                        local x, y = C_Map.GetPlayerMapPosition(map, 'player'):GetXY();
-                        if(x ~= 0 and y ~= 0) then
-                            CoordsFrame.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
-                        else
-                            CoordsFrame.text:SetText('');
-                        end
-                    end
-                else
-                    if(Minimap:IsVisible()) then
-                        CoordsFrame.text:SetText('');
-                    end
-                end
-            else
-                CoordsFrame.text:SetText('');
-            end
-		end
-		CoordsFrame.elapsed = 0; -- Reset the timer
-	end
-end
-CoordsFrame:SetScript('OnUpdate', CoordsFrame_Tick); -- Begin the Core_Tick
+-- Local Functions
+local Minimap_ZoomIn = Minimap_ZoomIn;
+local Minimap_ZoomOut = Minimap_ZoomOut;
+local IsInInstance = IsInInstance;
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+    On scrolling the mouse wheel zooms the minimap in or out.
+    Replacement for the + and - buttons.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_ENTERING_WORLD') then
-        -- Move and Scale the entire Minimap frame
-        MinimapCluster:ClearAllPoints();
-        MinimapCluster:SetScale(1.00);
-        
-        if (FramesDB.showPerformance) then
-            MinimapCluster:SetPoint('TOPRIGHT', -15, -20);
-        else
-            MinimapCluster:SetPoint('TOPRIGHT', -15, -15);
+function ImpUI_MiniMap:MinimapOnMouseWheel(self, delta)
+    if(delta > 0) then
+        Minimap_ZoomIn();
+    else
+        Minimap_ZoomOut();
+    end
+end
+
+--[[
+	Sets the font styling of minimap clock.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:StyleClock()
+    local font = ImpUI.db.char.minimapClockFont;
+    local size = ImpUI.db.char.minimapClockSize;
+
+    TimeManagerClockTicker:SetFont(LSM:Fetch('font', font), size, outline);
+end
+
+--[[
+    Sets the position of the minimap as well as removing zoom buttons.
+    Sets the style of the zone text too.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:StyleMap()
+    MinimapCluster:ClearAllPoints();
+    
+    if (ImpUI.db.char.performanceFrame == true) then
+        MinimapCluster:SetPoint('TOPRIGHT', -15, -32);
+    else
+        MinimapCluster:SetPoint('TOPRIGHT', -15, -16);
+    end
+
+    -- Replace Zoom Buttons with Mousewheel.
+    MinimapZoomIn:Hide();
+    MinimapZoomOut:Hide();
+    Minimap:EnableMouseWheel(true);
+
+    Minimap:SetScript('OnMouseWheel', function(self, delta)
+        ImpUI_MiniMap:MinimapOnMouseWheel(self, delta);
+    end);
+
+    -- Check styling config here as rest is subjective
+    local font = ImpUI.db.char.minimapZoneTextFont;
+    local size = ImpUI.db.char.minimapZoneTextSize;
+
+    MinimapZoneText:SetFont(LSM:Fetch('font', font), size, 'OUTLINE');
+end
+
+--[[
+	Sets the font styling of the co-ordinates.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:StyleCoords()
+    local font = ImpUI.db.char.minimapCoordsFont;
+    local colour = ImpUI.db.char.minimapCoordsColour;
+    local size = ImpUI.db.char.minimapCoordsSize;
+
+    coords.text:SetFont(LSM:Fetch('font', font), size, 'OUTLINE');
+    coords.text:SetTextColor(colour.r, colour.g, colour.b, colour.a);
+end
+
+--[[
+	Fires every 0.5 seconds and updates the co-ordinates for the player.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:UpdateCoords()
+    local inInstance, instanceType = IsInInstance();
+
+    -- If configuration disabled or we're in a dungeon then just set to blank.
+    if (ImpUI.db.char.showCoords == false or inInstance == true) then
+        coords.text:SetText('');
+        return;
+    end
+
+    local map = C_Map.GetBestMapForUnit('player');
+
+    if(map) then
+        if(Minimap:IsVisible()) then
+            local x, y = C_Map.GetPlayerMapPosition(map, 'player'):GetXY();
+            if(x ~= 0 and y ~= 0) then
+                coords.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
+            else
+                coords.text:SetText('');
+            end
         end
-
-        local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
-        local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
-
-        MinimapZoneText:SetFont(ImpFont, 13, flags);
-
-        if (FramesDB.replaceZoom) then
-            MinimapZoomIn:Hide();
-            MinimapZoomOut:Hide();
-            Minimap:EnableMouseWheel(true);
-            Minimap:SetScript('OnMouseWheel', function(self, delta)
-                if(delta > 0) then
-                    Minimap_ZoomIn();
-                else
-                    Minimap_ZoomOut();
-                end
-            end);
+    else
+        if(Minimap:IsVisible()) then
+            coords.text:SetText('');
         end
     end
 end
 
--- Register the Modules Events
-MapFrame:SetScript('OnEvent', HandleEvents);
-MapFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:OnInitialize()
+end
+
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:OnEnable()
+    -- Create Coords Frame
+    coords = CreateFrame('Frame', nil, Minimap);
+    coords.text = coords:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
+
+    -- Set the position and scale etc
+    coords:SetFrameStrata('LOW');
+    coords:SetWidth(32);
+    coords:SetHeight(32);
+    coords:SetPoint('BOTTOM', 3, 0);
+    coords.text:SetPoint('CENTER', 0, 0);
+    
+
+    ImpUI_MiniMap:StyleMap();
+    ImpUI_MiniMap:StyleCoords();
+    ImpUI_MiniMap:StyleClock();
+
+    self.coordsTimer = self:ScheduleRepeatingTimer('UpdateCoords', 0.5);
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_MiniMap:OnDisable()
+end

@@ -1,32 +1,51 @@
 --[[
-    modules\frames\player.lua
-    Styles, Scales and Repositions the Player Unit Frame.
-    Disables Player Portrait Spam
+    modules\frames\target.lua
+    Styles, Scales and Repositions the Target Unit Frame.
 ]]
-local addonName, Loc = ...;
+ImpUI_Target = ImpUI:NewModule('ImpUI_Target', 'AceEvent-3.0', 'AceHook-3.0');
 
-local TargetUnitFrame = CreateFrame('Frame', nil, UIParent);  
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
+
+-- Local Variables
+local dragFrame;
+
+-- Local Functions
+local UnitClassification = UnitClassification;
 
 --[[
-    Handles the actual styling and scaling of the Target frame.
-
+	When the ToT health bar changes in any way, reapply class colours.
+	
     @ return void
 ]]
-local function StyleTargetFrame()
-    
-    if (FramesDB.stylePrimaryFrames == false) then return; end
+function ImpUI_Target:TargetofTargetHealthCheck(self)
+    if (ImpUI.db.char.targetOfTargetClassColours) then
+        Helpers.ApplyClassColours(self.healthbar, self.healthbar.unit);
+    end
+end
+
+--[[
+	When the health bar changes in any way, reapply class colours.
+	
+    @ return void
+]]
+function ImpUI_Target:HealthBarChanged(bar)
+    if (ImpUI.db.char.targetClassColours and bar.unit == 'target') then
+        Helpers.ApplyClassColours(bar, bar.unit);
+    end
+end
+
+--[[
+	Applies the actual styling.
+	
+    @ return void
+]]
+function ImpUI_Target:StyleFrame()
+    if (ImpUI.db.char.styleUnitFrames == false) then return; end
 
     local unitClassification = UnitClassification(TargetFrame.unit);
 
-    -- Set Sizes
-    TargetFrame.healthbar:SetHeight(29);
-    TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-    TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
-    TargetFrame.deadText:SetPoint('CENTER',-50,6);
-    TargetFrame.nameBackground:Hide();
-    TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
-
-    -- Add Dragons etc if needed
+    -- Figure out what texture we need.
     local frameTexture;
     if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
 		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
@@ -38,91 +57,146 @@ local function StyleTargetFrame()
         frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
 	end
 
+    -- Apply It
     TargetFrame.borderTexture:SetTexture(frameTexture);
 
-    if (FramesDB.targetClassColours) then
-        Imp.ApplyClassColours(TargetFrame.healthbar, TargetFrame.healthbar.unit);
+    -- Update Health Bar Size
+    TargetFrame.healthbar:SetHeight(29);
+    TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+    TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    TargetFrame.deadText:SetPoint('CENTER',-50,6);
+    TargetFrame.nameBackground:Hide();
+    TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
+    TargetFrame.healthbar:SetWidth(119);
+
+    -- Class Colours
+    if (ImpUI.db.char.targetClassColours) then
+        Helpers.ApplyClassColours(TargetFrame.healthbar, TargetFrame.healthbar.unit);
     end
 
-    if (FramesDB.targetBuffsOnTop) then
+    TargetFrame.healthbar.lockColor = true;
+
+    -- Buffs on Top.
+    if (ImpUI.db.char.targetBuffsOnTop) then
         TargetFrame.buffsOnTop = true;
+    else
+        TargetFrame.buffsOnTop = false;
     end
 
-    local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
+    -- Fonts
+    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
     TargetFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
     TargetFrameTextureFrameName:SetTextColor(r, g, b, a);
 
-    TargetFrameTextureFrameName:SetFont(ImpFont, 11, flags);
+    TargetFrameTextureFrameName:SetFont(font, 11, flags);
 
-    TargetFrameTextureFrameHealthBarText:SetFont(ImpFont, 10, flags);
-    TargetFrameTextureFrameHealthBarTextLeft:SetFont(ImpFont, 10, flags);
-    TargetFrameTextureFrameHealthBarTextRight:SetFont(ImpFont, 10, flags);
+    TargetFrameTextureFrameHealthBarText:SetFont(font, 10, flags);
+    TargetFrameTextureFrameHealthBarTextLeft:SetFont(font, 10, flags);
+    TargetFrameTextureFrameHealthBarTextRight:SetFont(font, 10, flags);
     
-    TargetFrameTextureFrameManaBarText:SetFont(ImpFont, 10, flags);
-    TargetFrameTextureFrameManaBarTextLeft:SetFont(ImpFont, 10, flags);
-    TargetFrameTextureFrameManaBarTextRight:SetFont(ImpFont, 10, flags);
+    TargetFrameTextureFrameManaBarText:SetFont(font, 10, flags);
+    TargetFrameTextureFrameManaBarTextLeft:SetFont(font, 10, flags);
+    TargetFrameTextureFrameManaBarTextRight:SetFont(font, 10, flags);
 
-
-    TargetFrame.healthbar:SetWidth(119);
-    TargetFrame.healthbar.lockColor = true;
+    TargetFrameTextureFrameLevelText:SetFont(font, 10, flags);
+    TargetFrameTextureFrameLevelText:SetTextColor(r, g, b, a);
+    TargetFrameTextureFrameLevelText:ClearAllPoints();
+    TargetFrameTextureFrameLevelText:SetPoint('RIGHT', -41, -16);
 
     if ( TargetFrame.totFrame ) then
-        TargetFrameToTTextureFrameName:SetFont(file, 11, flags);
+        TargetFrameToTTextureFrameName:SetFont(font, 11, flags);
         TargetFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
 end
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+	Fires when the Player Logs In.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_ENTERING_WORLD') then
-        -- Position
-        TargetFrame:SetMovable(true);
-        TargetFrame:ClearAllPoints();
-        TargetFrame:SetPoint('CENTER', FramesDB.primaryOffsetX, -FramesDB.primaryOffsetY);
-        TargetFrame:SetScale(FramesDB.primaryScale);
-        TargetFrame:SetUserPlaced(true);
-        TargetFrame:SetMovable(false);
-
-        -- Style Frame
-        StyleTargetFrame();
-    end
+function ImpUI_Target:PLAYER_LOGIN()
+    ImpUI_Target:LoadPosition();
 end
 
--- Register the Modules Events
-TargetUnitFrame:SetScript('OnEvent', HandleEvents);
-TargetUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
-
-function TargetofTargetHealthCheck_Hook(self)
-    if (FramesDB.targetOfTargetClassColours) then
-        Imp.ApplyClassColours(self.healthbar, self.healthbar.unit);
-    end
+--[[
+	Called when unlocking the UI.
+]]
+function ImpUI_Target:Unlock()
+    dragFrame:Show();
 end
 
--- Hook a bunch of Blizzard functions
-hooksecurefunc('TargetFrame_CheckDead', StyleTargetFrame);
-hooksecurefunc('TargetFrame_Update', StyleTargetFrame);
-hooksecurefunc('TargetFrame_CheckFaction', StyleTargetFrame);
-hooksecurefunc('TargetFrame_CheckClassification', StyleTargetFrame);
-hooksecurefunc('TargetofTarget_Update', StyleTargetFrame);
+--[[
+	Called when locking the UI.
+]]
+function ImpUI_Target:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-hooksecurefunc('TargetofTargetHealthCheck', TargetofTargetHealthCheck_Hook);
+    ImpUI.db.char.targetFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
-hooksecurefunc('UnitFrameHealthBar_Update', function(self)
-    if (FramesDB.targetOfTargetClassColours and self.unit == 'target') then
-        Imp.ApplyClassColours(self, self.unit);
-    end
-end);
-hooksecurefunc('HealthBar_OnValueChanged', function(self)
-    if (FramesDB.targetOfTargetClassColours and self.unit == 'target') then
-        Imp.ApplyClassColours(self, self.unit);
-    end
-end);
+    dragFrame:Hide();
+end
+
+--[[
+	Loads the position of the Target Frame from SavedVariables.
+]]
+function ImpUI_Target:LoadPosition()
+    local pos = ImpUI.db.char.targetFramePosition;
+    local scale = ImpUI.db.char.targetFrameScale;
+    
+    -- Set Drag Frame Position
+    dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
+
+    -- Parent Target Frame to the Drag Frame.
+    TargetFrame:SetMovable(true);
+    TargetFrame:ClearAllPoints();
+    TargetFrame:SetPoint('CENTER', dragFrame, 'CENTER', 15, -5);
+    TargetFrame:SetScale(scale);
+    TargetFrame:SetUserPlaced(true);
+    TargetFrame:SetMovable(false);
+end
+
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_Target:OnInitialize()
+end
+
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_Target:OnEnable()
+    -- Create Drag Frame and load position.
+    dragFrame = Helpers.create_drag_frame('ImpUI_Target_DragFrame', 205, 90, L['Target Frame']);
+
+    ImpUI_Target:LoadPosition();
+
+    ImpUI_Target:StyleFrame();
+
+    -- Register Events
+    self:RegisterEvent('PLAYER_LOGIN');
+
+    -- Register Hooks
+    self:SecureHook('TargetFrame_CheckDead', 'StyleFrame');
+    self:SecureHook('TargetFrame_Update', 'StyleFrame');
+    self:SecureHook('TargetFrame_CheckFaction', 'StyleFrame');
+    self:SecureHook('TargetFrame_CheckClassification', 'StyleFrame');
+    self:SecureHook('TargetofTarget_Update', 'StyleFrame');
+    self:SecureHook('TargetofTargetHealthCheck', 'TargetofTargetHealthCheck');
+    self:SecureHook('UnitFrameHealthBar_Update', 'HealthBarChanged');
+    self:SecureHook('HealthBar_OnValueChanged', 'HealthBarChanged');
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_Target:OnDisable()
+end

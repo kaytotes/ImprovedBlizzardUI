@@ -2,26 +2,46 @@
     modules\misc\autoscreenshot.lua
     Automatically takes a screenshot when an achievement is earned
 ]]
-local addonName, Loc = ...;
+local ImpUI_Screenshot = ImpUI:NewModule('ImpUI_Screenshot', 'AceEvent-3.0');
 
-local AutoScreenshotFrame = CreateFrame('Frame', nil, UIParent);
+-- Just a toggle to stop spamming on multiple achievements.
+local canCapture = true;
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+	Fired when an Achievement is earned.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'ACHIEVEMENT_EARNED' and PrimaryDB.autoScreenshot) then
-        AutoScreenshotFrame:UnregisterEvent('ACHIEVEMENT_EARNED');
-        C_Timer.After(1, Screenshot);
-        C_Timer.After(4, function() AutoScreenshotFrame:RegisterEvent('ACHIEVEMENT_EARNED') end);
+function ImpUI_Screenshot:ACHIEVEMENT_EARNED()
+    if (canCapture and ImpUI.db.char.autoScreenshot) then
+        canCapture = false;
+
+        C_Timer.After(1, Screenshot); -- Take Screenshot
+        C_Timer.After(4, function() canCapture = true end); -- After 4 seconds allow another to be taken.
     end
 end
 
--- Register the Modules Events
-AutoScreenshotFrame:SetScript('OnEvent', HandleEvents);
-AutoScreenshotFrame:RegisterEvent('ACHIEVEMENT_EARNED');
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_Screenshot:OnInitialize()
+end
+
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_Screenshot:OnEnable()
+    self:RegisterEvent('ACHIEVEMENT_EARNED');
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_Screenshot:OnDisable()
+end

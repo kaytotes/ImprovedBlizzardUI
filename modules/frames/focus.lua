@@ -1,39 +1,40 @@
 --[[
-    modules\frames\party.lua
-    Styling and Repositioning of the Focus Frame
+    modules\frames\focus.lua
+    Styles and Positions the Focus Frame.
 ]]
-local addonName, Loc = ...;
+ImpUI_Focus = ImpUI:NewModule('ImpUI_Focus', 'AceEvent-3.0', 'AceHook-3.0');
 
-local FocusUnitFrame = CreateFrame('Frame', nil, UIParent);  
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
+
+-- Local Functions
+
+-- Local Variables
+local dragFrame;
 
 --[[
-    Set the Buffs on top of the Frame
+    Either applies class colours or resets to blizzards. Called from config.lua
     @ return void
 ]]
-local function SetBuffs()
-    FocusFrame.buffsOnTop = true;
+function ImpUI_Focus:ToggleClassColours(enabled)
+    if (enabled) then
+        ImpUI_Focus:HealthBarChanged(FocusFrame.healthbar);
+    else
+        FocusFrame.healthbar:SetStatusBarColor(0, 0.99, 0); -- Blizz Default.
+    end
 end
 
 --[[
-    Apply textures and fonts
-    @ return void
+	Actually does
 ]]
-local function StyleFocusFrame()
-    if (FramesDB.stylePrimaryFrames == false) then return; end
+function ImpUI_Focus:StyleFrame()
+    if (ImpUI.db.char.styleUnitFrames == false) then return; end
 
     if(UnitExists('focus') == false) then return; end
 
     local unitClassification = UnitClassification(FocusFrame.unit);
 
-    -- Set Sizes
-    FocusFrame.healthbar:SetHeight(29);
-    FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-    FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
-    FocusFrame.deadText:SetPoint('CENTER',-50,6);
-    FocusFrame.nameBackground:Hide();
-    FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
-
-    -- Add Dragons etc if needed
+    -- Figure out what texture we need.
     local frameTexture;
     if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
 		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
@@ -45,21 +46,35 @@ local function StyleFocusFrame()
         frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
 	end
 
+    -- Apply It
     FocusFrame.borderTexture:SetTexture(frameTexture);
 
-    if (FramesDB.focusClassColours) then
-        Imp.ApplyClassColours(FocusFrame.healthbar, FocusFrame.healthbar.unit);
-    end
+    -- Update Health Bar Size
+    FocusFrame.healthbar:SetHeight(29);
+    FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+    FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    FocusFrame.healthbar:SetWidth(119);
+    FocusFrame.deadText:SetPoint('CENTER',-50,6);
+    FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
+    
 
-    local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
+    -- Hide Background
+    FocusFrame.nameBackground:Hide();
+
+    -- Class Colours
+    if (ImpUI.db.char.focusClassColours) then
+        Helpers.ApplyClassColours(FocusFrame.healthbar, FocusFrame.healthbar.unit);
+    end
+    FocusFrame.healthbar.lockColor = true;
+
+    -- Set Fonts
+    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
-    FocusFrameTextureFrameName:SetFont(file, 11, flags);
+    FocusFrameTextureFrameName:SetFont(font, 11, flags);
     FocusFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
     FocusFrameTextureFrameName:SetTextColor(r, g, b, a);
-
-    FocusFrame.healthbar:SetWidth(119);
-    FocusFrame.healthbar.lockColor = true;
 
     if (FocusFrameTextureFramePVPIcon:IsShown()) then
         FocusFrameTextureFramePVPIcon:Hide();
@@ -67,77 +82,105 @@ local function StyleFocusFrame()
 
     -- Style Font
     if(FocusFrameToT:IsShown()) then
-        FocusFrameToTTextureFrameName:SetFont(ImpFont, 11, flags);
+        FocusFrameToTTextureFrameName:SetFont(font, 11, flags);
         FocusFrameToTTextureFrameName:SetTextColor(r, g, b, a);
     end
 
-    SetBuffs();
+    -- Buffs on Top
+    if (ImpUI.db.char.focusBuffsOnTop) then
+        FocusFrame.buffsOnTop = true;
+    else
+        FocusFrame.buffsOnTop = false;
+    end
 end
 
 --[[
-    Moves the Focus Frame
+	When the health bar changes in any way, reapply class colours.
+	
     @ return void
 ]]
-local function SetPosition()
-    -- Position
+function ImpUI_Focus:HealthBarChanged(bar)
+    if (ImpUI.db.char.focusClassColours and bar.unit == 'focus') then
+        Helpers.ApplyClassColours(bar, bar.unit);
+    end
+end
+
+--[[
+	Called when unlocking the UI.
+]]
+function ImpUI_Focus:Unlock()
+    dragFrame:Show();
+end
+
+--[[
+	Called when locking the UI.
+]]
+function ImpUI_Focus:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
+
+    ImpUI.db.char.focusFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    dragFrame:Hide();
+end
+
+--[[
+	Loads the position of the Focus Frame from SavedVariables.
+]]
+function ImpUI_Focus:LoadPosition()
+    local pos = ImpUI.db.char.focusFramePosition;
+    local scale = ImpUI.db.char.focusFrameScale;
+    
+    -- Set Drag Frame Position
+    dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
+
+    -- Parent Focus Frame to the Drag Frame.
     FocusFrame:SetMovable(true);
     FocusFrame:ClearAllPoints();
-    FocusFrame:SetPoint('RIGHT', PlayerFrame, 'TOP', 150, 90)
-    FocusFrame:SetScale(FramesDB.primaryScale - 0.3);
+    FocusFrame:SetPoint('CENTER', dragFrame, 'CENTER', 15, 0);
+    FocusFrame:SetScale(scale);
     FocusFrame:SetUserPlaced(true);
     FocusFrame:SetMovable(false);
 end
 
+
 --[[
-    Don't allow rescaling
+	Fires when the module is Initialised.
+	
     @ return void
 ]]
-local function FocusFrame_SetSmallSize_Hook(toggle)
-    SetPosition();
-    StyleFocusFrame();
+function ImpUI_Focus:OnInitialize()
 end
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_ENTERING_WORLD') then
+function ImpUI_Focus:OnEnable()
+    -- Create Drag Frame and load position.
+    dragFrame = Helpers.create_drag_frame('ImpUI_FocusFrame_DragFrame', 205, 90, L['Focus Frame']);
 
-        SetPosition();
+    ImpUI_Focus:LoadPosition();
 
-        SetBuffs();
+    ImpUI_Focus:StyleFrame();
 
-        StyleFocusFrame();
-    end
+    -- Register Hooks
+    self:SecureHook('FocusFrame_UpdateBuffsOnTop', 'StyleFrame');
+    self:SecureHook('FocusFrame_SetSmallSize', function ()
+        ImpUI_Focus:LoadPosition();
+        ImpUI_Focus:StyleFrame();
+    end);
+    self:SecureHook('UnitFrameHealthBar_Update', 'HealthBarChanged');
+    self:SecureHook('HealthBar_OnValueChanged', 'HealthBarChanged');
+
+    self:HookScript(FocusFrame, 'OnShow', 'StyleFrame');
+    self:HookScript(FocusFrame, 'OnUpdate', 'StyleFrame');
 end
 
--- Register the Modules Events
-FocusUnitFrame:SetScript('OnEvent', HandleEvents);
-FocusUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
-
-hooksecurefunc('FocusFrame_UpdateBuffsOnTop', SetBuffs);
-hooksecurefunc('FocusFrame_SetSmallSize', FocusFrame_SetSmallSize_Hook);
-
-FocusFrame:HookScript('OnShow', function()
-    StyleFocusFrame();
-end);
-
-FocusFrame:HookScript('OnUpdate', function()
-    StyleFocusFrame();
-end)
-
-hooksecurefunc('UnitFrameHealthBar_Update', function(self)
-    if (FramesDB.focusFrameClassColours and self.unit == 'focus') then
-        Imp.ApplyClassColours(self, self.unit);
-    end
-end);
-hooksecurefunc('HealthBar_OnValueChanged', function(self)
-    if (FramesDB.focusFrameClassColours and self.unit == 'focus') then
-        Imp.ApplyClassColours(self, self.unit);
-    end
-end);
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_Focus:OnDisable()
+end
