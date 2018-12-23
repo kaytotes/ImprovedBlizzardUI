@@ -1193,6 +1193,7 @@ ImpUI_Config.options = {
                         ImpUI_Fonts:PrimaryFontUpdated();
                         ImpUI_Performance:StylePerformanceFrame();
                         ImpUI_Player:StyleFrame();
+                        ImpUI_OrderHall:StyleFrame();
                     end,
                     order = 12,
                 },

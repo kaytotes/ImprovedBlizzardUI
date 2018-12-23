@@ -32,6 +32,7 @@ modules/misc/killfeed.lua
 modules/misc/performance.lua
 modules/misc/tooltips.lua
 modules/misc/grid.lua
+modules/misc/orderhall.lua
 modules/combat/healthwarning.lua
 modules/combat/interrupts.lua
 modules/combat/killingblows.lua
