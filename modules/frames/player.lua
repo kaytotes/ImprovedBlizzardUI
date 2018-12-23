@@ -18,6 +18,18 @@ local UnitExists = UnitExists;
 local InCombatLockdown = InCombatLockdown;
 
 --[[
+    Either applies class colours or resets to blizzards. Called from config.lua
+    @ return void
+]]
+function ImpUI_Player:ToggleClassColours(enabled)
+    if (enabled) then
+        ImpUI_Player:HealthBarChanged(PlayerFrameHealthBar);
+    else
+        PlayerFrameHealthBar:SetStatusBarColor(0, 0.99, 0); -- Blizz Default.
+    end
+end
+
+--[[
     Whenever the Portrait Damage text appears instantly override it
     @ param Frame $self The Frame that is handling the event
     @ param string $event The message eg 'IMMUNE', 'HEAL', 'BLOCK'
@@ -36,9 +48,9 @@ end
     @ param boolean $hide Should we hide the frame
     @ return void
 ]]
-local function TogglePlayer(toggle)
-    if (InCombatLockdown() == false and ImpUI.db.char.playerHideOOC) then
-        if (toggle and UnitHealth('player') == UnitHealthMax('player') and UnitExists('target') == false) then
+function ImpUI_Player:TogglePlayer(toggle)
+    if (InCombatLockdown() == false) then
+        if (toggle and UnitHealth('player') == UnitHealthMax('player') and UnitExists('target') == false  and ImpUI.db.char.playerHideOOC) then
             PlayerFrame:Hide();
         else
             PlayerFrame:Show();
@@ -117,7 +129,7 @@ end
 ]]
 function ImpUI_Player:PLAYER_LOGIN()
     ImpUI_Player:LoadPosition();
-    TogglePlayer(true);
+    ImpUI_Player:TogglePlayer(true);
 
     ImpUI_Player:StyleFrame();
 end
@@ -129,7 +141,7 @@ end
     @ return void
 ]]
 function ImpUI_Player:UNIT_HEALTH()
-    TogglePlayer(true);
+    ImpUI_Player:TogglePlayer(true);
 end
 
 --[[
@@ -138,7 +150,7 @@ end
     @ return void
 ]]
 function ImpUI_Player:PLAYER_REGEN_DISABLED()
-    TogglePlayer(false);
+    ImpUI_Player:TogglePlayer(false);
 end
 
 --[[
@@ -147,7 +159,7 @@ end
     @ return void
 ]]
 function ImpUI_Player:PLAYER_REGEN_ENABLED()
-    TogglePlayer(true);
+    ImpUI_Player:TogglePlayer(true);
 end
 
 
@@ -158,9 +170,9 @@ end
 ]]
 function ImpUI_Player:PLAYER_TARGET_CHANGED()
     if (UnitExists('target')) then
-        TogglePlayer(false);
+        ImpUI_Player:TogglePlayer(false);
     else
-        TogglePlayer(true);
+        ImpUI_Player:TogglePlayer(true);
     end
 end
 
@@ -244,7 +256,7 @@ function ImpUI_Player:OnEnable()
 
     ImpUI_Player:StyleFrame();
 
-    TogglePlayer(true);
+    ImpUI_Player:TogglePlayer(true);
 
     -- Register Events
     self:RegisterEvent('PLAYER_LOGIN');

@@ -2,7 +2,7 @@
     modules\frames\focus.lua
     Styles and Positions the Focus Frame.
 ]]
-local ImpUI_Focus = ImpUI:NewModule('ImpUI_Focus', 'AceEvent-3.0', 'AceHook-3.0');
+ImpUI_Focus = ImpUI:NewModule('ImpUI_Focus', 'AceEvent-3.0', 'AceHook-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -11,6 +11,18 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 -- Local Variables
 local dragFrame;
+
+--[[
+    Either applies class colours or resets to blizzards. Called from config.lua
+    @ return void
+]]
+function ImpUI_Focus:ToggleClassColours(enabled)
+    if (enabled) then
+        ImpUI_Focus:HealthBarChanged(FocusFrame.healthbar);
+    else
+        FocusFrame.healthbar:SetStatusBarColor(0, 0.99, 0); -- Blizz Default.
+    end
+end
 
 --[[
 	Actually does

@@ -117,7 +117,219 @@ ImpUI_Config.options = {
             type = 'group',
             order = 1,
             args = {
-                
+                styleUnitFrames = {
+                    type = 'toggle',
+                    name = L['Style Unit Frames'],
+                    desc = L['Applies modified textures and font styling to the Player, Target, Party and Focus Frames. This will trigger a UI Reload!'],
+                    get = function ()
+                        return ImpUI.db.char.styleUnitFrames;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.styleUnitFrames = newValue;
+                        ReloadUI();
+                    end,
+                    order = 1,
+                },
+
+                -- Player Frame Section
+                playerHeader = {
+                    type = 'header',
+                    name = L['Player Frame'],
+                    order = 2,
+                },
+
+                playerClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.playerClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerClassColours = newValue;
+                        ImpUI_Player:ToggleClassColours(newValue);
+                    end,
+                    order = 3,
+                },
+
+                playerHidePortraitSpam = {
+                    type = 'toggle',
+                    name = L['Hide Portrait Spam'],
+                    desc = L['Hides the damage text that appears over the Player portrait when damaged or healed.'],
+                    get = function ()
+                        return ImpUI.db.char.playerHidePortraitSpam;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerHidePortraitSpam = newValue;
+                    end,
+                    order = 4,
+                },
+
+                playerHideOOC = {
+                    type = 'toggle',
+                    name = L['Hide Out of Combat'],
+                    desc = L['Hides the Player Frame when you are out of combat, have no target and are at full health.'],
+                    get = function ()
+                        return ImpUI.db.char.playerHideOOC;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerHideOOC = newValue;
+
+                        ImpUI_Player:TogglePlayer(newValue);
+                    end,
+                    order = 5,
+                },
+
+                playerFrameScale = {
+                    type = 'range',
+                    name = L['Player Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.playerFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.playerFrameScale = newValue; 
+
+                        ImpUI_Player:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 6,
+                },
+
+                -- Target Frame Section
+                targetHeader = {
+                    type = 'header',
+                    name = L['Target Frame'],
+                    order = 7,
+                },
+
+                targetClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.char.targetClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetClassColours = newValue;
+                        TargetFrame:Hide();
+                    end,
+                    order = 8,
+                },
+
+                targetBuffsOnTop = {
+                    type = 'toggle',
+                    name = L['Buffs On Top'],
+                    desc = L['Displays the Targets Buffs above the Unit Frame.'],
+                    get = function ()
+                        return ImpUI.db.char.targetBuffsOnTop;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetBuffsOnTop = newValue;
+                        TargetFrame:Hide();
+                    end,
+                    order = 9,
+                },
+
+                targetOfTargetClassColours = {
+                    type = 'toggle',
+                    name = L['ToT Class Colours'],
+                    desc = L['Colours Target of Target Health bar to match their class.'],
+                    get = function ()
+                        return ImpUI.db.char.targetOfTargetClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetOfTargetClassColours = newValue;
+                        TargetFrame:Hide();
+                    end,
+                    order = 10,
+                },
+
+                -- Party Frames Section
+                partyHeader = {
+                    type = 'header',
+                    name = L['Party Frames'],
+                    order = 11,
+                },
+
+                partyFrameScale = {
+                    type = 'range',
+                    name = L['Party Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.partyFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.partyFrameScale = newValue; 
+
+                        ImpUI_Party:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 12,
+                },
+
+                -- Focus Frames Section
+                focusHeader = {
+                    type = 'header',
+                    name = L['Focus Frame'],
+                    order = 13,
+                },
+
+                focusClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = L['Colours Focus Frame Health bar to match their class.'],
+                    get = function ()
+                        return ImpUI.db.char.focusClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.focusClassColours = newValue;
+                        ImpUI_Focus:ToggleClassColours(newValue);
+                    end,
+                    order = 14,
+                },
+
+                focusBuffsOnTop = {
+                    type = 'toggle',
+                    name = L['Buffs On Top'],
+                    desc = L['Displays the Focus Targets Buffs above the Unit Frame.'],
+                    get = function ()
+                        return ImpUI.db.char.focusBuffsOnTop;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.focusBuffsOnTop = newValue;
+                        
+                        if(UnitExists('focus') == true) then 
+                            FocusFrame.buffsOnTop = newValue;
+                        end
+                    end,
+                    order = 14,
+                },
+
+                focusFrameScale = {
+                    type = 'range',
+                    name = L['Focus Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.focusFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.focusFrameScale = newValue; 
+
+                        ImpUI_Focus:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 16,
+                },
             }
         },
 
