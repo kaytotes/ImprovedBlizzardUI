@@ -111,7 +111,7 @@ function ImpUI_OrderHall:PrepBar()
     if (C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)) then
         C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0);
 
-        RefreshInfo();
+        ImpUI_OrderHall:RefreshInfo();
     end
 end
 
