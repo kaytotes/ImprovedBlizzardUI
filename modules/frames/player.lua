@@ -113,8 +113,10 @@ function ImpUI_Player:StyleFrame()
 
     PetName:SetFont(font, 11, flags);
     PetName:SetTextColor(r, g, b, a);
+    PetFrameHealthBarText:SetFont(font, 9, flags);
     PetFrameHealthBarTextLeft:SetFont(font, 10, flags);
     PetFrameHealthBarTextRight:SetFont(font, 10, flags);
+    PetFrameManaBarText:SetFont(font, 9, flags)
     PetFrameManaBarTextLeft:SetFont(font, 10, flags);
     PetFrameManaBarTextRight:SetFont(font, 10, flags);
 
