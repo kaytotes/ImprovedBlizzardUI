@@ -9,11 +9,9 @@ This has been customized to out of the box be how I personally like my UI set up
 
 # Project Development Setup
 
-To get a working installation of Improved Blizzard UI you must first clone the repository to a directory of your choosing. From there `cd` into the `.release` directory.
+To get a working installation of Improved Blizzard UI you must first clone the repository to a directory of your choosing. 
 
-Execute `./release.sh`
-
-After a short while a configured and ready to go version of ImprovedBlizzardUI including a .zip file will be present in the `.release` directory.
+Execute `./setup.sh` - This will pull in all dependencies and put them in the libs folder.
 
 # Addon Installation
 
