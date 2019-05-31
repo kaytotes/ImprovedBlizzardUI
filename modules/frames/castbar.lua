@@ -39,6 +39,8 @@ end
 local function CreateCastingTimer(frame, pos)
     local updateDelay = 0.1;
 
+    frame.timer = nil;
+
     -- Get Font
     local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
 
@@ -56,9 +58,21 @@ local function CreateCastingTimer(frame, pos)
 end
 
 --[[
+	Destroys an existing timer.
+]]
+local function KillTimer(frame)
+    frame.timer = nil;
+end
+
+--[[
 	Actually does the heavy lifting of styling the bars.
 ]]
 function ImpUI_CastBar:StyleFrame()
+    -- Kill If Needed
+    KillTimer(CastingBarFrame);
+    KillTimer(TargetFrameSpellBar);
+    KillTimer(FocusFrameSpellBar);
+
     -- Get Font
     font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
 

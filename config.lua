@@ -99,7 +99,7 @@ ImpUI_Config.defaults = {
         tooltipHealthClassColours = true,
         tooltipItemRarity = true,
 
-        castBarScale = 1.1,
+        castBarScale = 1.0,
         castBarPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, -175);
         castBarPlayerTimer = true,
         castBarTargetTimer = true,
@@ -342,11 +342,100 @@ ImpUI_Config.options = {
 
         -- Action Bars
         actionbars = {
-            name = L['Action Bars'],
-            desc = L['Action Bars'],
+            name = L['Bars'],
+            desc = L['Bars'],
             type = 'group',
             order = 2,
             args = {
+                -- Casting Bar Section
+                castBarHeader = {
+                    type = 'header',
+                    name = L['Cast Bar'],
+                    order = 1,
+                },
+
+                castBarScale = {
+                    type = 'range',
+                    name = L['Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.castBarScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.castBarScale = newValue; 
+
+                        ImpUI_CastBar:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 2,
+                },
+
+                castBarFontSize = {
+                    type = 'range',
+                    name = L['Font Size'],
+                    desc = '',
+                    min = 4,
+                    max = 32,
+                    step = 1,
+                    get = function ()
+                        return ImpUI.db.char.castBarFontSize;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.castBarFontSize = newValue; 
+
+                        ImpUI_CastBar:StyleFrame();
+                    end,
+                    isPercent = false,
+                    order = 3,
+                },
+
+                castBarPlayerTimer = {
+                    type = 'toggle',
+                    name = L['Player Cast Timer'],
+                    desc = L['Displays a Timer on the Players Cast Bar.'],
+                    get = function ()
+                        return ImpUI.db.char.castBarPlayerTimer;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.castBarPlayerTimer = newValue;
+
+                        ImpUI_CastBar:StyleFrame();
+                    end,
+                    order = 4,
+                },
+
+                castBarTargetTimer = {
+                    type = 'toggle',
+                    name = L['Target Cast Timer'],
+                    desc = L['Displays a Timer on the Targets Cast Bar.'],
+                    get = function ()
+                        return ImpUI.db.char.castBarTargetTimer;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.castBarTargetTimer = newValue;
+
+                        ImpUI_CastBar:StyleFrame();
+                    end,
+                    order = 5,
+                },
+
+                castBarFocusTimer = {
+                    type = 'toggle',
+                    name = L['Focus Cast Timer'],
+                    desc = L['Displays a Timer on the Focus Cast Bar.'],
+                    get = function ()
+                        return ImpUI.db.char.castBarFocusTimer;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.castBarFocusTimer = newValue;
+
+                        ImpUI_CastBar:StyleFrame();
+                    end,
+                    order = 6,
+                },
             }
         },
 
