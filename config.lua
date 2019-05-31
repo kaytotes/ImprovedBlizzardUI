@@ -98,6 +98,13 @@ ImpUI_Config.defaults = {
         tooltipToT = true,
         tooltipHealthClassColours = true,
         tooltipItemRarity = true,
+
+        castBarScale = 1.1,
+        castBarPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, -175);
+        castBarPlayerTimer = true,
+        castBarTargetTimer = true,
+        castBarFocusTimer = true,
+        castBarFontSize = 13,
     },
 };
 
@@ -1194,6 +1201,7 @@ ImpUI_Config.options = {
                         ImpUI_Performance:StylePerformanceFrame();
                         ImpUI_Player:StyleFrame();
                         ImpUI_OrderHall:StyleFrame();
+                        ImpUI_CastBar:StyleFrame();
                     end,
                     order = 12,
                 },

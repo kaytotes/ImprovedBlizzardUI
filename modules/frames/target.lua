@@ -84,31 +84,29 @@ function ImpUI_Target:StyleFrame()
     end
 
     -- Fonts
-    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
-    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
-    local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
 
-    TargetFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
-    TargetFrameTextureFrameName:SetTextColor(r, g, b, a);
+    TargetFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    TargetFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
 
-    TargetFrameTextureFrameName:SetFont(font, 11, flags);
+    TargetFrameTextureFrameName:SetFont(font.font, 11, font.flags);
 
-    TargetFrameTextureFrameHealthBarText:SetFont(font, 10, flags);
-    TargetFrameTextureFrameHealthBarTextLeft:SetFont(font, 10, flags);
-    TargetFrameTextureFrameHealthBarTextRight:SetFont(font, 10, flags);
+    TargetFrameTextureFrameHealthBarText:SetFont(font.font, 10, font.flags);
+    TargetFrameTextureFrameHealthBarTextLeft:SetFont(font.font, 10, font.flags);
+    TargetFrameTextureFrameHealthBarTextRight:SetFont(font.font, 10, font.flags);
     
-    TargetFrameTextureFrameManaBarText:SetFont(font, 10, flags);
-    TargetFrameTextureFrameManaBarTextLeft:SetFont(font, 10, flags);
-    TargetFrameTextureFrameManaBarTextRight:SetFont(font, 10, flags);
+    TargetFrameTextureFrameManaBarText:SetFont(font.font, 10, font.flags);
+    TargetFrameTextureFrameManaBarTextLeft:SetFont(font.font, 10, font.flags);
+    TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
 
-    TargetFrameTextureFrameLevelText:SetFont(font, 10, flags);
-    TargetFrameTextureFrameLevelText:SetTextColor(r, g, b, a);
+    TargetFrameTextureFrameLevelText:SetFont(font.font, 10, font.flags);
+    TargetFrameTextureFrameLevelText:SetTextColor(font.r, font.g, font.b, font.a);
     TargetFrameTextureFrameLevelText:ClearAllPoints();
     TargetFrameTextureFrameLevelText:SetPoint('RIGHT', -41, -16);
 
     if ( TargetFrame.totFrame ) then
-        TargetFrameToTTextureFrameName:SetFont(font, 11, flags);
-        TargetFrameToTTextureFrameName:SetTextColor(r, g, b, a);
+        TargetFrameToTTextureFrameName:SetFont(font.font, 11, font.flags);
+        TargetFrameToTTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
     end
 end
 

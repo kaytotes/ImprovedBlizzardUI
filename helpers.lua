@@ -1,6 +1,24 @@
 Helpers = CreateFrame('Frame', nil, UIParent);
 
 --[[
+	Just a helper for getting consistent font styles.
+]]
+function Helpers.get_styled_font(font)
+    local font = LSM:Fetch('font', font);
+    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
+    local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+
+    return {
+        font = font,
+        flags = flags,
+        r = r,
+        g = g,
+        b = b,
+        a = a,
+    };
+end
+
+--[[
 	Just a helper for storing positions in a table.
 ]]
 function Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs)

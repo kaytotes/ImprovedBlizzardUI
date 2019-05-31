@@ -208,3 +208,6 @@ L['/imp unlock - Unlocks the interfaces movable frames. Locking them saves posit
 L['/imp lock - Locks the interfaces movable frames.'] = true;
 
 L['On Screen Display'] = true;
+
+-- Cast Bar
+L['Cast Bar'] = true;
