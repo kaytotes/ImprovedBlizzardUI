@@ -439,6 +439,32 @@ ImpUI_Config.options = {
                     end,
                     order = 6,
                 },
+
+                -- Buff Bar Section
+                buffBarHeader = {
+                    type = 'header',
+                    name = L['Buffs & Debuffs'],
+                    order = 7,
+                },
+
+                buffsScale = {
+                    type = 'range',
+                    name = L['Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.buffsScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.buffsScale = newValue; 
+
+                        ImpUI_Buffs:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 8,
+                },
             }
         },
 
