@@ -1,5 +1,5 @@
 --[[
-    modules\frames\castbar.lua
+    modules\bars\castbar.lua
     Styles and Positions the Cast Bar.
 ]]
 ImpUI_CastBar = ImpUI:NewModule('ImpUI_CastBar', 'AceEvent-3.0', 'AceHook-3.0');
