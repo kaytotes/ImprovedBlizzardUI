@@ -105,6 +105,9 @@ ImpUI_Config.defaults = {
         castBarTargetTimer = true,
         castBarFocusTimer = true,
         castBarFontSize = 13,
+
+        buffsPosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -200, -25),
+        buffsScale = 1.1;
     },
 };
 
@@ -435,6 +438,32 @@ ImpUI_Config.options = {
                         ImpUI_CastBar:StyleFrame();
                     end,
                     order = 6,
+                },
+
+                -- Buff Bar Section
+                buffBarHeader = {
+                    type = 'header',
+                    name = L['Buffs & Debuffs'],
+                    order = 7,
+                },
+
+                buffsScale = {
+                    type = 'range',
+                    name = L['Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.buffsScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.buffsScale = newValue; 
+
+                        ImpUI_Buffs:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 8,
                 },
             }
         },

@@ -211,7 +211,6 @@ L['Font Size'] = true;
 -- Action Bars
 L['Bars'] = true;
 
-
 -- Cast Bar
 L['Cast Bar'] = true;
 L['Player Cast Timer'] = true;
@@ -220,3 +219,6 @@ L['Target Cast Timer'] = true;
 L['Displays a Timer on the Targets Cast Bar.'] = true;
 L['Focus Cast Timer'] = true;
 L['Displays a Timer on the Focus Cast Bar.'] = true;
+
+-- Buffs
+L['Buffs & Debuffs'] = true;
