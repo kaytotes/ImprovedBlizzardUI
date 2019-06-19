@@ -105,6 +105,9 @@ ImpUI_Config.defaults = {
         castBarTargetTimer = true,
         castBarFocusTimer = true,
         castBarFontSize = 13,
+
+        buffsPosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -200, -25),
+        buffsScale = 1.1;
     },
 };
 
