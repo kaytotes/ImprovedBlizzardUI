@@ -43,3 +43,4 @@ modules/frames/target.lua
 modules/frames/party.lua
 modules/frames/focus.lua
 modules/bars/castbar.lua
+modules/bars/buffs.lua

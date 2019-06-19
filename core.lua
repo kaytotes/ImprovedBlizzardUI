@@ -31,6 +31,7 @@ local draggable = {
     'ImpUI_Party',
     'ImpUI_Focus',
     'ImpUI_CastBar',
+    'ImpUI_Buffs',
 };
 
 local isEditing = false;
