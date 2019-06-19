@@ -21,23 +21,21 @@ function ImpUI_Party:StyleFrames()
     if (ImpUI.db.char.styleUnitFrames == false) then return; end
 
     -- Fonts
-    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
-    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
-    local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
 
     -- Style Each Party Frame
     for i = 1, 4 do
         -- Update Fonts
-        _G["PartyMemberFrame"..i.."Name"]:SetTextColor(r, g, b, a);
-        _G["PartyMemberFrame"..i.."Name"]:SetFont(font, 10, flags);
+        _G["PartyMemberFrame"..i.."Name"]:SetTextColor(font.r, font.g, font.b, font.a);
+        _G["PartyMemberFrame"..i.."Name"]:SetFont(font.font, 10, font.flags);
         
-        _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font, 8, flags);
-        _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetFont(font, 8, flags);
-        _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetFont(font, 8, flags);
+        _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font.font, 8, font.flags);
+        _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetFont(font.font, 8, font.flags);
+        _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetFont(font.font, 8, font.flags);
 
-        _G["PartyMemberFrame"..i.."ManaBarText"]:SetFont(font, 8, flags);
-        _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetFont(font, 8, flags);
-        _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font, 8, flags);
+        _G["PartyMemberFrame"..i.."ManaBarText"]:SetFont(font.font, 8, font.flags);
+        _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetFont(font.font, 8, font.flags);
+        _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font.font, 8, font.flags);
     end
 end
 

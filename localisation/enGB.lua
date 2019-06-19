@@ -177,9 +177,6 @@ L['The size of the Minimap Clock Display.'] = true;
 
 L['World Map'] = true;
 
--- Action Bars
-L['Action Bars'] = true;
-
 -- Kill Feed
 L['Kill Feed'] = true;
 L['Enable Kill Feed'] = true;
@@ -208,3 +205,18 @@ L['/imp unlock - Unlocks the interfaces movable frames. Locking them saves posit
 L['/imp lock - Locks the interfaces movable frames.'] = true;
 
 L['On Screen Display'] = true;
+L['Scale'] = true;
+L['Font Size'] = true;
+
+-- Action Bars
+L['Bars'] = true;
+
+
+-- Cast Bar
+L['Cast Bar'] = true;
+L['Player Cast Timer'] = true;
+L['Displays a Timer on the Players Cast Bar.'] = true;
+L['Target Cast Timer'] = true;
+L['Displays a Timer on the Targets Cast Bar.'] = true;
+L['Focus Cast Timer'] = true;
+L['Displays a Timer on the Focus Cast Bar.'] = true;

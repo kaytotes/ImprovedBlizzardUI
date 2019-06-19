@@ -68,13 +68,11 @@ function ImpUI_Focus:StyleFrame()
     FocusFrame.healthbar.lockColor = true;
 
     -- Set Fonts
-    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
-    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
-    local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
+    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
 
-    FocusFrameTextureFrameName:SetFont(font, 11, flags);
-    FocusFrameTextureFrameHealthBarText:SetTextColor(r, g, b, a);
-    FocusFrameTextureFrameName:SetTextColor(r, g, b, a);
+    FocusFrameTextureFrameName:SetFont(font.font, 11, font.flags);
+    FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    FocusFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
 
     if (FocusFrameTextureFramePVPIcon:IsShown()) then
         FocusFrameTextureFramePVPIcon:Hide();
@@ -82,8 +80,8 @@ function ImpUI_Focus:StyleFrame()
 
     -- Style Font
     if(FocusFrameToT:IsShown()) then
-        FocusFrameToTTextureFrameName:SetFont(font, 11, flags);
-        FocusFrameToTTextureFrameName:SetTextColor(r, g, b, a);
+        FocusFrameToTTextureFrameName:SetFont(font.font, 11, font.flags);
+        FocusFrameToTTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
     end
 
     -- Buffs on Top
