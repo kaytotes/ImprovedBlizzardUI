@@ -145,6 +145,7 @@ function ImpUI_Target:LoadPosition()
     local scale = ImpUI.db.char.targetFrameScale;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     -- Parent Target Frame to the Drag Frame.

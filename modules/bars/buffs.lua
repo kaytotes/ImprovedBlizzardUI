@@ -42,6 +42,7 @@ function ImpUI_Buffs:LoadPosition()
     local scale = ImpUI.db.char.buffsScale;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     BuffFrame:ClearAllPoints();

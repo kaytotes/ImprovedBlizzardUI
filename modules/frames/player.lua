@@ -226,6 +226,7 @@ function ImpUI_Player:LoadPosition()
     local scale = ImpUI.db.char.playerFrameScale;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     -- Parent PlayerFrame to the Drag Frame.

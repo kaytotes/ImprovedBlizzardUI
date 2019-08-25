@@ -48,15 +48,18 @@ function ImpUI_Party:LoadPosition()
     local offset = 0;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     for i = 1, 4 do
-        _G["PartyMemberFrame"..i]:SetMovable(true);
-        _G["PartyMemberFrame"..i]:ClearAllPoints();
-        _G["PartyMemberFrame"..i]:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
-        _G["PartyMemberFrame"..i]:SetScale(scale);
-        _G["PartyMemberFrame"..i]:SetUserPlaced(true);
-        _G["PartyMemberFrame"..i]:SetMovable(false);
+        _G["PartyMemberFrame"..i]:Show();
+        ImpUI:Print(_G["PartyMemberFrame"..i]:GetParent():GetName())
+        -- _G["PartyMemberFrame"..i]:SetMovable(true);
+        -- _G["PartyMemberFrame"..i]:ClearAllPoints();
+        -- _G["PartyMemberFrame"..i]:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
+        -- _G["PartyMemberFrame"..i]:SetScale(scale);
+        -- _G["PartyMemberFrame"..i]:SetUserPlaced(true);
+        -- _G["PartyMemberFrame"..i]:SetMovable(false);
         offset = offset + 60;
     end
 end
