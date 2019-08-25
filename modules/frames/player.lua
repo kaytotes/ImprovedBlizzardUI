@@ -120,6 +120,8 @@ function ImpUI_Player:StyleFrame()
 
     PlayerLevelText:SetFont(font, 10, flags);
     PlayerLevelText:SetTextColor(r, g, b, a);
+
+    self:HealthBarChanged(PlayerFrameHealthBar);
 end
 
 --[[
