@@ -28,7 +28,7 @@ local draggable = {
     'ImpUI_Killfeed',
     'ImpUI_Player',
     'ImpUI_Target',
-    'ImpUI_Party',
+    -- 'ImpUI_Party',
     'ImpUI_Focus',
     'ImpUI_CastBar',
     'ImpUI_Buffs',
