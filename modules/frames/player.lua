@@ -121,20 +121,7 @@ function ImpUI_Player:StyleFrame()
     point, relativeTo, relativePoint, xOfs, yOfs = PlayerLevelText:GetPoint();
     level = UnitLevel('player');
 
-    --print('Level: '..level);
-
-    -- print(point);
-    -- print(relativeTo:GetName());
-    -- print(relativePoint);
-
-    --print('xOfs: '..xOfs);
-    --print('yOfs: '..yOfs);
-
-    if (level < 10) then
-        --print('Single Figures');
-        xOfs = -61.5;
-    elseif(level > 9 and level < 100) then
-        --print('Double Figures');
+    if(level < 100) then
         xOfs = -61.5;
     end
 
