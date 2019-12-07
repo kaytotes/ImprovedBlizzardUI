@@ -236,8 +236,8 @@ L['Collections'] = true;
 L['Adventure Guide'] = true;
 L['Shop'] = true;
 L['Swap Bags'] = true;
-L['Talents now available under the Minimap Right-Click Menu!'] = true;
-L['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!'] = true;
+L['Talents now available under the Micro Menu!'] = true;
+L['Group Finder and Adventure Guide now available under the Micro Menu!'] = true;
 L['Improved Blizzard UI'] = true;
 
 -- Action Bars

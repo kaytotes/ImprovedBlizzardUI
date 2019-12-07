@@ -41,22 +41,32 @@ function ImpUI_MicroMenu:BuildMicroMenu()
     MicroMenuFrame.menuFont:SetFontObject(GameFontNormal);
     MicroMenuFrame.microMenuList = {}; -- Create the array
     MicroMenuFrame.bagsVisible = false;
+    
+    MicroMenuFrame.button = CreateFrame("Button", "MicroMenuFrameButton", MainMenuBarArtFrame, "SecureActionButtonTemplate,ActionButtonTemplate");
+    MicroMenuFrame.button:SetScale(0.5);
+    MicroMenuFrame.button:SetAlpha(1.0);
+    MicroMenuFrame.button:SetPoint("RIGHT", 185, 0);
+    MicroMenuFrame.button:SetFrameStrata("TOOLTIP");
+    
+    MicroMenuFrame.button:SetPushedTexture("Interface\\MINIMAP\\UI-Minimap-MinimizeButtonUp-Down");
+    MicroMenuFrame.button:SetHighlightTexture("Interface\\MINIMAP\\UI-Minimap-MinimizeButtonUp-Highlight");
+    MicroMenuFrame.button:SetNormalTexture("Interface\\MINIMAP\\UI-Minimap-MinimizeButtonUp-Up");
+    
+    MicroMenuFrame.button:SetScript("OnClick",function(self)
+        ShowMicroMenu();
+    end);
 
     MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
 
     self:StyleMicroMenu();
 
-    Minimap:SetScript('OnMouseUp', function(self, btn)
-        if btn == 'RightButton' then
-            EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, 'cursor', 0, 0, 'MENU', 3);
-        else
-            Minimap_OnClick(self)
-        end
-    end);
-
     self:HookScript(UIParent, 'OnShow', function ()
         HideMicroMenu();
     end);
+end
+
+function ShowMicroMenu()
+    EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, MicroMenuFrame.button, 0, 90, 'MENU', 7);
 end
 
 --[[
@@ -65,7 +75,7 @@ end
 ]]
 function ImpUI_MicroMenu:StyleMicroMenu()
     local font = ImpUI.db.char.microMenuFont;
-    local size = ImpUI.db.char.microMenuSize;
+    local size = 12;
 
     MicroMenuFrame.menuFont:SetFont(font, size, nil);
 end
@@ -119,14 +129,18 @@ end
 	
     @ return void
 ]]
-local function CheckLevel(...)
+local function CheckLevel(event, ...)
     local newLevel, _, _, _, _, _, _, _, _ = ...;
+
     UpdateMicroMenuList(newLevel);
+
     -- Print out hint for players on level up of unlocks, replaces the blizzard flashing thing
     if(newLevel == 10) then
-        print('|cffffff00'..L['Talents now available under the Minimap Right-Click Menu!']);
+        print('|cffffff00'..L['Talents now available under the Micro Menu!']);
+        ShowMicroMenu();
     elseif(newLevel == 15) then
-        print('|cffffff00'..L['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!']);
+        print('|cffffff00'..L['Group Finder and Adventure Guide now available under the Micro Menu!']);
+        ShowMicroMenu();
     end
 end
 
