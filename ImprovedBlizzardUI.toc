@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Title: Improved Blizzard UI
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
