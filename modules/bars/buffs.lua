@@ -10,8 +10,9 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Local Functions
 local Buffs = CreateFrame('Frame', nil, UIParent);
 
-Buffs.buffPoint = BuffFrame.SetPoint;
-Buffs.buffScale = BuffFrame.SetScale;
+local SetPoint = Buffs.SetPoint;
+local ClearAllPoints = Buffs.ClearAllPoints;
+local SetScale = Buffs.SetScale;
 
 -- Local Variables
 local dragFrame;
@@ -37,16 +38,17 @@ end
 --[[
 	Loads the position of the Focus Frame from SavedVariables.
 ]]
-function ImpUI_Buffs:LoadPosition()
+function ImpUI_Buffs:LoadPosition(frame)
     local pos = ImpUI.db.char.buffsPosition;
     local scale = ImpUI.db.char.buffsScale;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
-    BuffFrame:ClearAllPoints();
-    Buffs.buffPoint(BuffFrame, 'RIGHT', dragFrame, -10, -10);
-    Buffs.buffScale(BuffFrame, scale);
+    ClearAllPoints(frame);
+    SetPoint(frame, "TOPRIGHT", dragFrame, "TOPRIGHT");
+    SetScale(frame, scale);
 end
 
 
@@ -67,7 +69,7 @@ function ImpUI_Buffs:OnEnable()
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_Buffs_DragFrame', 250, 50, L['Buffs & Debuffs']);
 
-    ImpUI_Buffs:LoadPosition();
+    ImpUI_Buffs:LoadPosition(BuffFrame);
 
     self:SecureHook(BuffFrame, 'SetPoint', 'LoadPosition');
 end

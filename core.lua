@@ -17,7 +17,7 @@ LSM = LibStub('LibSharedMedia-3.0');
 	
     @ return void
 ]]
-local function OpenOptions()
+function OpenImprovedUIOptions()
     InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
     InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
 end
@@ -28,7 +28,7 @@ local draggable = {
     'ImpUI_Killfeed',
     'ImpUI_Player',
     'ImpUI_Target',
-    'ImpUI_Party',
+    -- 'ImpUI_Party',
     'ImpUI_Focus',
     'ImpUI_CastBar',
     'ImpUI_Buffs',
@@ -86,7 +86,7 @@ end
 function ImpUI:HandleSlash(input)
     -- Nothing provided. Just open options and print config commands.
     if (not input or input:trim() == '') then
-        OpenOptions();
+        OpenImprovedUIOptions();
         PrintConfig();
     end
 

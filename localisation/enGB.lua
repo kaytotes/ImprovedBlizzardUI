@@ -222,3 +222,30 @@ L['Displays a Timer on the Focus Cast Bar.'] = true;
 
 -- Buffs
 L['Buffs & Debuffs'] = true;
+
+-- Micro Menu
+L['Character'] = true;
+L['Spellbook'] = true;
+L['Talents'] = true;
+L['Achievements'] = true;
+L['Quest Log'] = true;
+L['Guild'] = true;
+L['Group Finder'] = true;
+L['PvP'] = true;
+L['Collections'] = true;
+L['Adventure Guide'] = true;
+L['Shop'] = true;
+L['Swap Bags'] = true;
+L['Talents now available under the Micro Menu!'] = true;
+L['Group Finder and Adventure Guide now available under the Micro Menu!'] = true;
+L['Improved Blizzard UI'] = true;
+
+-- Action Bars
+L['Action Bars'] = true;
+
+L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'] = true;
+L['Show Main Action Bar Text'] = true;
+L['Show Bottom Left Bar Text'] = true;
+L['Show Bottom Right Bar Text'] = true;
+L['Show Right 1 Bar Text'] = true;
+L['Show Right 2 Bar Text'] = true;

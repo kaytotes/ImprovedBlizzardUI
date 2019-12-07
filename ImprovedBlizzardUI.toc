@@ -1,4 +1,4 @@
-## Interface: 80100
+## Interface: 80205
 ## Title: Improved Blizzard UI
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
@@ -44,3 +44,6 @@ modules/frames/party.lua
 modules/frames/focus.lua
 modules/bars/castbar.lua
 modules/bars/buffs.lua
+modules/bars/micromenu.lua
+modules/bars/bags.lua
+modules/bars/actionbars.lua

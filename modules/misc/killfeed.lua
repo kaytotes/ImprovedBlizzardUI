@@ -215,6 +215,7 @@ end
     @ return void
 ]]
 function ImpUI_Killfeed:LoadPosition()
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(ImpUI.db.char.killFeedPosition.point, ImpUI.db.char.killFeedPosition.relativeTo, ImpUI.db.char.killFeedPosition.relativePoint, ImpUI.db.char.killFeedPosition.x, ImpUI.db.char.killFeedPosition.y);
 end
 

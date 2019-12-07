@@ -129,6 +129,7 @@ function ImpUI_Focus:LoadPosition()
     local scale = ImpUI.db.char.focusFrameScale;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     -- Parent Focus Frame to the Drag Frame.

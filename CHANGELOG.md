@@ -1,5 +1,6 @@
 # Improved Blizzard UI Changelog
 
+3.0.0 - Complete Ace3 and LibSharedMedia-3.0 based overhaul.
 2.2.0 - German localisation (Credit @Marakuja)
 2.2.0 - Pet Name Font Change
 2.2.0 - Fixed an issue with the Possesion Bar placement

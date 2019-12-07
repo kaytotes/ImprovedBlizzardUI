@@ -118,8 +118,19 @@ function ImpUI_Player:StyleFrame()
     PetFrameManaBarTextLeft:SetFont(font, 10, flags);
     PetFrameManaBarTextRight:SetFont(font, 10, flags);
 
+    point, relativeTo, relativePoint, xOfs, yOfs = PlayerLevelText:GetPoint();
+    level = UnitLevel('player');
+
+    if(level < 100) then
+        xOfs = -61.5;
+    end
+
+    PlayerLevelText:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs);
+
     PlayerLevelText:SetFont(font, 10, flags);
     PlayerLevelText:SetTextColor(r, g, b, a);
+
+    self:HealthBarChanged(PlayerFrameHealthBar);
 end
 
 --[[
@@ -224,6 +235,7 @@ function ImpUI_Player:LoadPosition()
     local scale = ImpUI.db.char.playerFrameScale;
     
     -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     -- Parent PlayerFrame to the Drag Frame.

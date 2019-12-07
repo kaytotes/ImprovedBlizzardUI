@@ -66,6 +66,7 @@ end
 	Loads the position of the OSD from SavedVariables.
 ]]
 function ImpUI_OSD:LoadPosition()
+    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(ImpUI.db.char.osdPosition.point, ImpUI.db.char.osdPosition.relativeTo, ImpUI.db.char.osdPosition.relativePoint, ImpUI.db.char.osdPosition.x, ImpUI.db.char.osdPosition.y);
 end
 
