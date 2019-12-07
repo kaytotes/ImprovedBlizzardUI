@@ -66,7 +66,7 @@ function ImpUI_MicroMenu:BuildMicroMenu()
 end
 
 function ShowMicroMenu()
-    EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, MicroMenuFrame.button, 0, 90, 'MENU', 7);
+    EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, MicroMenuFrame.button, 0, 90, 'MENU', 5);
 end
 
 --[[
