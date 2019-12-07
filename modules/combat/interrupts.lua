@@ -42,6 +42,12 @@ function ImpUI_Interrupts:COMBAT_LOG_EVENT_UNFILTERED()
         elseif (config == CONF_YELL) then
             channel = 'YELL';
         end
+
+        local inInstance, instanceType = IsInInstance();
+        
+        if ((channel == 'SAY' or channel == 'YELL') and inInstance == false) then
+            return;
+        end
         
         SendChatMessage(message, channel);
     end
