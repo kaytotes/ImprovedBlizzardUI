@@ -76,6 +76,8 @@ end
     @ return void
 ]]
 local function UpdateMicroMenuList(newLevel)
+    MicroMenuFrame.microMenuList = {}; -- Clear the array
+
     -- Add Stuff to it
     table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Character'], func = function() securecall(ToggleCharacter, 'PaperDollFrame') end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
     table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Spellbook'], func = function() securecall(ToggleFrame, SpellBookFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });

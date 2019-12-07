@@ -46,3 +46,4 @@ modules/bars/castbar.lua
 modules/bars/buffs.lua
 modules/bars/micromenu.lua
 modules/bars/bags.lua
+modules/bars/actionbars.lua

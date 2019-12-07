@@ -110,6 +110,12 @@ ImpUI_Config.defaults = {
         buffsScale = 1.1,
 
         microMenuFont = 'Improved Blizzard UI',
+
+        showMainText = true,
+        showBottomLeftText = true,
+        showBottomRightText = true,
+        showLeftText = true,
+        showRightText = true,
     },
 };
 
@@ -466,6 +472,88 @@ ImpUI_Config.options = {
                     end,
                     isPercent = false,
                     order = 8,
+                },
+
+                -- Action Bar Section
+                actionBarHeader = {
+                    type = 'header',
+                    name = L['Action Bars'],
+                    order = 9,
+                },
+
+                showMainText = {
+                    type = 'toggle',
+                    name = L['Show Main Action Bar Text'],
+                    desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
+                    get = function ()
+                        return ImpUI.db.char.showMainText;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showMainText = newValue;
+
+                        ApplyButtonStyles();
+                    end,
+                    order = 10,
+                },
+
+                showBottomLeftText = {
+                    type = 'toggle',
+                    name = L['Show Bottom Left Bar Text'],
+                    desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
+                    get = function ()
+                        return ImpUI.db.char.showBottomLeftText;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showBottomLeftText = newValue;
+
+                        ApplyButtonStyles();
+                    end,
+                    order = 11,
+                },
+
+                showBottomRightText = {
+                    type = 'toggle',
+                    name = L['Show Bottom Right Bar Text'],
+                    desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
+                    get = function ()
+                        return ImpUI.db.char.showBottomRightText;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showBottomRightText = newValue;
+
+                        ApplyButtonStyles();
+                    end,
+                    order = 12,
+                },
+
+                showLeftText = {
+                    type = 'toggle',
+                    name = L['Show Right 1 Bar Text'],
+                    desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
+                    get = function ()
+                        return ImpUI.db.char.showLeftText;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showLeftText = newValue;
+
+                        ApplyButtonStyles();
+                    end,
+                    order = 13,
+                },
+
+                showRightText = {
+                    type = 'toggle',
+                    name = L['Show Right 2 Bar Text'],
+                    desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
+                    get = function ()
+                        return ImpUI.db.char.showRightText;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.showRightText = newValue;
+
+                        ApplyButtonStyles();
+                    end,
+                    order = 14,
                 },
             }
         },
