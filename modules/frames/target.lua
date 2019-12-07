@@ -99,10 +99,14 @@ function ImpUI_Target:StyleFrame()
     TargetFrameTextureFrameManaBarTextLeft:SetFont(font.font, 10, font.flags);
     TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
 
+    point, relativeTo, relativePoint, xOfs, yOfs = TargetFrameTextureFrameLevelText:GetPoint();
+    level = UnitLevel('target');
+
+    xOfs = 64.5;
+
     TargetFrameTextureFrameLevelText:SetFont(font.font, 10, font.flags);
     TargetFrameTextureFrameLevelText:SetTextColor(font.r, font.g, font.b, font.a);
-    TargetFrameTextureFrameLevelText:ClearAllPoints();
-    TargetFrameTextureFrameLevelText:SetPoint('RIGHT', -41, -16);
+    TargetFrameTextureFrameLevelText:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs);
 
     if ( TargetFrame.totFrame ) then
         TargetFrameToTTextureFrameName:SetFont(font.font, 11, font.flags);

@@ -118,6 +118,28 @@ function ImpUI_Player:StyleFrame()
     PetFrameManaBarTextLeft:SetFont(font, 10, flags);
     PetFrameManaBarTextRight:SetFont(font, 10, flags);
 
+    point, relativeTo, relativePoint, xOfs, yOfs = PlayerLevelText:GetPoint();
+    level = UnitLevel('player');
+
+    --print('Level: '..level);
+
+    -- print(point);
+    -- print(relativeTo:GetName());
+    -- print(relativePoint);
+
+    --print('xOfs: '..xOfs);
+    --print('yOfs: '..yOfs);
+
+    if (level < 10) then
+        --print('Single Figures');
+        xOfs = -61.5;
+    elseif(level > 9 and level < 100) then
+        --print('Double Figures');
+        xOfs = -61.5;
+    end
+
+    PlayerLevelText:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs);
+
     PlayerLevelText:SetFont(font, 10, flags);
     PlayerLevelText:SetTextColor(r, g, b, a);
 
