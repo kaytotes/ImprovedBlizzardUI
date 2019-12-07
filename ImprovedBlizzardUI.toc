@@ -44,3 +44,5 @@ modules/frames/party.lua
 modules/frames/focus.lua
 modules/bars/castbar.lua
 modules/bars/buffs.lua
+modules/bars/micromenu.lua
+modules/bars/bags.lua

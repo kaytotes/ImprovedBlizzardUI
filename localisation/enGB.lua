@@ -222,3 +222,20 @@ L['Displays a Timer on the Focus Cast Bar.'] = true;
 
 -- Buffs
 L['Buffs & Debuffs'] = true;
+
+-- Micro Menu
+L['Character'] = true;
+L['Spellbook'] = true;
+L['Talents'] = true;
+L['Achievements'] = true;
+L['Quest Log'] = true;
+L['Guild'] = true;
+L['Group Finder'] = true;
+L['PvP'] = true;
+L['Collections'] = true;
+L['Adventure Guide'] = true;
+L['Shop'] = true;
+L['Swap Bags'] = true;
+L['Talents now available under the Minimap Right-Click Menu!'] = true;
+L['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!'] = true;
+L['Improved Blizzard UI'] = true;

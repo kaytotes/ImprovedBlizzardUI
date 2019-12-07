@@ -107,7 +107,9 @@ ImpUI_Config.defaults = {
         castBarFontSize = 13,
 
         buffsPosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -216, -34),
-        buffsScale = 1.1;
+        buffsScale = 1.1,
+
+        microMenuFont = 'Improved Blizzard UI',
     },
 };
 
