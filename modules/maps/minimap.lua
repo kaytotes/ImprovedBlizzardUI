@@ -105,7 +105,15 @@ function ImpUI_MiniMap:UpdateCoords()
 
     if(map) then
         if(Minimap:IsVisible()) then
-            local x, y = C_Map.GetPlayerMapPosition(map, 'player'):GetXY();
+            local position = C_Map.GetPlayerMapPosition(map, 'player');
+
+            if (position == nil) then 
+                coords.text:SetText('');
+                return
+            end
+
+            local x, y = position:GetXY();
+            
             if(x ~= 0 and y ~= 0) then
                 coords.text:SetFormattedText('(%d:%d)', x * 100, y * 100);
             else
