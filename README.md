@@ -1,8 +1,6 @@
 Improved Blizzard UI (Battle for Azeroth Edition)
 ====================
 
-### Please note that due to me no longer playing Battle for Azeroth this is not currently maintained any longer.
-
 Improved Blizzard UI is an attempt to improve the World of Warcraft interface by styling frames, implementing additional functionality and restructuring / hiding existing elements.
 
 This is a complete ground up rewrite using Ace3 to make porting between versions a bit easier and the upgrade process between patches smoother.
