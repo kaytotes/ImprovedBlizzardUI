@@ -78,7 +78,6 @@ end
 ]]
 function ImpUI_Player:StyleFrame()
     if (ImpUI.db.char.styleUnitFrames == false) then return; end
-    if (InCombatLockdown() == true) then return end
 
     -- Change Texture
     PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-TargetingFrame');
