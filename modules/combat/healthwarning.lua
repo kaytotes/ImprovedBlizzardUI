@@ -2,49 +2,86 @@
     modules\combat\healthwarning.lua
     Displays a five second warning when Player Health is less than 50% and 25%.
 ]]
-local addonName, Loc = ...;
+local ImpUI_Health = ImpUI:NewModule('ImpUI_Health', 'AceEvent-3.0');
 
-local HealthFrame = CreateFrame('Frame', nil, UIParent);
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
-local config = false;
+local OSD;
+
+-- Local Functions
+local UnitHealth = UnitHealth;
+local UnitHealthMax = UnitHealthMax;
+
+-- Module Variables
+local canShowHalf = true;
+local canShowQuarter = true;
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+    Fired when a Units health changes. In this case we only care
+    about whether the Unit is a Player.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_LOGIN') then
-        config = PrimaryDB.healthWarnings;
-    end
+function ImpUI_Health:UNIT_HEALTH(event, ...)
+    if (ImpUI.db.char.healthWarning == false) then return; end
 
-    if ( event == 'UNIT_HEALTH' and ... == 'player' and config) then
+    if (... == 'player') then
         local hp = UnitHealth('player') / UnitHealthMax('player');
 
-        if ( hp > 0.50 ) then
-            HealthFrame.canShowHalf = true;
+        if (hp > 0.50) then
+            canShowHalf = true;
         end
 
-        if ( hp <= 0.50 and hp > 0.25 and HealthFrame.canShowHalf) then
-            Imp_OSD.AddMessage( Loc['HP < 50% !'], 0, 1, 1, 5.0 );
-            HealthFrame.canShowHalf = false;
-            HealthFrame.canShowQuarter = true;
+        local size = ImpUI.db.char.healthWarningSize;
+
+        if ( hp <= 0.50 and hp > 0.25 and canShowHalf == true) then
+            -- Get font config options.
+            local font = ImpUI.db.char.healthWarningFont;
+            local colour = ImpUI.db.char.healthWarningHalfColour;
+
+            OSD:AddMessage( L['HP < 50% !'], font, size, colour.r, colour.g, colour.b, 5.0 );
+
+            canShowHalf = false;
+            canShowQuarter = true;
             return;
-        elseif(hp < 0.25 and HealthFrame.canShowQuarter) then
-            Imp_OSD.AddMessage( Loc['HP < 25% !!!'], 1, 0, 0, 5.0 );
-            HealthFrame.canShowHalf = true;
-            HealthFrame.canShowQuarter = false;
+        elseif(hp < 0.25 and canShowQuarter == true) then
+            -- Get font config options.
+            local font = ImpUI.db.char.healthWarningFont;
+            local colour = ImpUI.db.char.healthWarningQuarterColour;
+
+            OSD:AddMessage( L['HP < 25% !!!'], font, size, colour.r, colour.g, colour.b, 5.0 );
+
+            canShowHalf = true;
+            canShowQuarter = false;
             return;
         end
     end
 end
 
--- Register the Modules Events
-HealthFrame.canShowHalf = true;
-HealthFrame.canShowQuarter = true;
-HealthFrame:SetScript('OnEvent', HandleEvents);
-HealthFrame:RegisterEvent('UNIT_HEALTH');
-HealthFrame:RegisterEvent('PLAYER_LOGIN');
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_Health:OnInitialize()
+end
+
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_Health:OnEnable()
+    OSD = ImpUI:GetModule('ImpUI_OSD');
+
+    self:RegisterEvent('UNIT_HEALTH');
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_Health:OnDisable()
+end

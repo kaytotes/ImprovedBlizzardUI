@@ -1,236 +1,136 @@
-local _, Loc = ...;
-local DEBUG = true;
+-- Create Ace3 Addon.
+ImpUI = LibStub('AceAddon-3.0'):NewAddon('ImprovedBlizzardUI', 'AceConsole-3.0', 'AceHook-3.0');
 
-Imp = CreateFrame('Frame', nil, UIParent);
+-- Get Localisation
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
-ImpFont = 'Interface\\AddOns\\ImprovedBlizzardUI\\media\\impfont.ttf';
+-- LibSharedMedia-3.0
+LSM = LibStub('LibSharedMedia-3.0');
 
--- Build the On Screen Display
-Imp_OSD = CreateFrame('Frame', nil, UIParent);
-Imp_OSD.text = Imp_OSD:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
-Imp_OSD:SetWidth(32);
-Imp_OSD:SetHeight(32);
-Imp_OSD:SetFrameStrata('BACKGROUND');
-Imp_OSD:SetPoint('CENTER', 0, 75);
-Imp_OSD.text:SetPoint('CENTER', 0, 0);
-Imp_OSD.text:SetFont(ImpFont, 26, 'OUTLINE');
-Imp_OSD.hidden = true;
-Imp_OSD.fadeTimer = nil;
+--[[
+    Opens the Improved Blizzard UI options panel.
 
--- Initialise the fadein / out anims
-Imp_OSD.fadeInAnim = Imp_OSD:CreateAnimationGroup();
-Imp_OSD.fadeIn = Imp_OSD.fadeInAnim:CreateAnimation('Alpha');
-Imp_OSD.fadeIn:SetDuration(0.20);
-Imp_OSD.fadeIn:SetFromAlpha(0);
-Imp_OSD.fadeIn:SetToAlpha(1);
-Imp_OSD.fadeIn:SetOrder(1);
+    Yes this really does call the exact same function twice. This is due to a Blizzard
+    bug that has existed ever since InterfaceOptionsFrame_OpenToCategory was put in
+    the game. Since it's been years and would take someone 2 minutes to fix, we 
+    can only assume Blizzard just doesn't care and won't ever fix it.
+	
+    @ return void
+]]
+function OpenImprovedUIOptions()
+    InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
+    InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
+end
 
-Imp_OSD.fadeInAnim:SetScript('OnFinished', function() 
-    Imp_OSD:SetAlpha(1);
-    Imp_OSD.hidden = false;
-end);
+-- The Modules / Elements that can be moved.
+local draggable = {
+    'ImpUI_OSD',
+    'ImpUI_Killfeed',
+    'ImpUI_Player',
+    'ImpUI_Target',
+    -- 'ImpUI_Party',
+    'ImpUI_Focus',
+    'ImpUI_CastBar',
+    'ImpUI_Buffs',
+};
 
-Imp_OSD.fadeOutAnim = Imp_OSD:CreateAnimationGroup();
-Imp_OSD.fadeOut = Imp_OSD.fadeOutAnim:CreateAnimation('Alpha');
-Imp_OSD.fadeOut:SetDuration(0.20);
-Imp_OSD.fadeOut:SetFromAlpha(1);
-Imp_OSD.fadeOut:SetToAlpha(0);
-Imp_OSD.fadeOut:SetOrder(1);
+local isEditing = false;
 
-Imp_OSD.fadeOutAnim:SetScript('OnFinished', function() 
-    Imp_OSD:SetAlpha(0);
-    Imp_OSD.hidden = true;
-    Imp_OSD.text:SetText('');
-end);
+--[[
+	Unlocks all of the UI draggable frames.
+]]
+local function UnlockFrames()
+    if (isEditing) then return; end
 
-function Imp_OSD.AddMessage(message, r, g, b, duration)
-    Imp_OSD.text:SetText(message);
-    Imp_OSD.text:SetTextColor(r, g, b, 1.0);
+    for i, module in pairs (draggable) do
+        local m = ImpUI:GetModule(module);
+        m:Unlock();
+    end 
 
-    if (Imp_OSD.hidden) then
-        Imp_OSD.fadeInAnim:Play();
+    isEditing = true;
+end
+
+--[[
+	Locks all of the UI draggable frames.
+]]
+local function LockFrames()
+    if (isEditing == false) then return; end
+
+    for i, module in pairs (draggable) do
+        local m = ImpUI:GetModule(module);
+        m:Lock();
+    end 
+
+    isEditing = false;
+end
+
+--[[
+    Just prints the addons configuration options.
+	
+    @ return void
+]]
+local function PrintConfig()
+    ImpUI:Print(L['/imp - Open the configuration panel.']);
+    ImpUI:Print(L['/imp grid - Toggle a grid to aid in interface element placement.']);
+    ImpUI:Print(L['/imp unlock - Unlocks the interfaces movable frames. Locking them saves position.']);
+    ImpUI:Print(L['/imp lock - Locks the interfaces movable frames.']);
+end
+
+--[[
+    Handles the /imp slash command.
+
+    For now just opens options.
+	
+    @ return void
+]]
+function ImpUI:HandleSlash(input)
+    -- Nothing provided. Just open options and print config commands.
+    if (not input or input:trim() == '') then
+        OpenImprovedUIOptions();
+        PrintConfig();
     end
 
-    if ( Imp_OSD.fadeTimer ~= nil ) then
-        Imp_OSD.fadeTimer:Cancel();
+    local command = input:trim();
+
+    -- Grid
+    if (command == 'grid') then
+        local grid = ImpUI:GetModule('ImpUI_Grid');
+        grid:ToggleGrid();
+        return;
     end
 
-    -- Set Fade Timer
-    Imp_OSD.fadeTimer = C_Timer.NewTimer(duration, function()
-        Imp_OSD.fadeOutAnim:Play();
-    end);
-end
+    -- Unlock
+    if (command == 'unlock') then
+        UnlockFrames();
+    end
 
---[[
-    Applies the unit's class colour to the status bar that is passed in
-
-    @ param Frame $statusBar The Status Bar we're tweaking
-    @ param Unit $unit The unit we're checking
-    @ return void
-]]
-function Imp.ApplyClassColours(statusBar, unit)
-    if ( UnitIsConnected(unit) and unit == statusBar.unit and UnitClass(unit) ) then
-        local _, class = UnitClass(unit);
-        local c = RAID_CLASS_COLORS[class];
-        statusBar:SetStatusBarColor(c.r, c.g, c.b );
+    -- Lock
+    if (command == 'lock') then
+        LockFrames();
     end
 end
 
 --[[
-    Just a debug printing function.
-
-    @ param Message to be outputted
+	Fires when the Addon is Initialised.
+	
     @ return void
 ]]
-function Imp.Debug(message)
-    if (DEBUG == true) then
-        print(message);
-    end
+function ImpUI:OnInitialize()
+    -- Set up Improved Blizzard UI font.
+    LSM:Register(LSM.MediaType.FONT, 'Improved Blizzard UI', [[Interface\AddOns\ImprovedBlizzardUI\media\ImprovedBlizzardUI.ttf]]);
+
+    -- Set up DB
+    self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
+
+    -- Register Config
+    LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config.options);
+
+    -- Add to Blizz Config
+    self.optionsFrame = LibStub('AceConfigDialog-3.0'):AddToBlizOptions('ImprovedBlizzardUI', 'Improved Blizzard UI');
+
+    -- Register Slash Command
+    self:RegisterChatCommand('imp', 'HandleSlash');
+
+    -- Finally print Intialized Message.
+    print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialized.');
 end
-
---[[
-    Gets the Unit's class colour in RGB
-
-    @ param Unit $unit The unit we're checking
-    @ return array
-]]
-function Imp.GetClassColour(unit)
-    if (UnitClass(unit)) then
-        local _, class = UnitClass(unit);
-        local c = RAID_CLASS_COLORS[class];
-        return c;
-    end
-end
-
---[[
-    Helper function for moving a Blizzard frame that has a SetMoveable flag
-
-    @ param Frame $frame The Frame we're tweaking
-    @ param string $anchor The anchoring point of the frame. CENTER, TOP, BOTTOM etc.
-    @ param Frame $parent Optional Frame to parent to
-    @ param int $posX Frames new X Position
-    @ param int $posY Frames new Y Position
-    @ param float $scale Frames new scale
-    @ return void
-]]
-function Imp.ModifyFrame(frame, anchor, parent, posX, posY, scale)
-    frame:SetMovable(true);
-    frame:ClearAllPoints();
-    if(parent == nil) then frame:SetPoint(anchor, posX, posY) else frame:SetPoint(anchor, parent, posX, posY) end
-    if(scale ~= nil) then frame:SetScale(scale) end
-    frame:SetUserPlaced(true);
-    frame:SetMovable(false);
-end
-
---[[
-    Helper function for moving a Blizzard frame that does NOT have a SetMoveable flag
-
-    @ param Frame $frame The Frame we're tweaking
-    @ param string $anchor The anchoring point of the frame. CENTER, TOP, BOTTOM etc.
-    @ param Frame $parent Optional Frame to parent to
-    @ param int $posX Frames new X Position
-    @ param int $posY Frames new Y Position
-    @ param float $scale Frames new scale
-    @ return void
-]]
-function Imp.ModifyBasicFrame(frame, anchor, parent, posX, posY, scale)
-    frame:ClearAllPoints();
-    if(parent == nil) then frame:SetPoint(anchor, posX, posY) else frame:SetPoint(anchor, parent, posX, posY) end
-    if(scale ~= nil) then frame:SetScale(scale) end
-end
-
---[[
-    Helper function for essentially completely deleting a Frame.
-
-    @ param Frame $frame The Frame we're destroying
-    @ return void
-]]
-function Imp.DestroyFrame(frame)
-	if type(frame) == 'table' and frame.SetScript then
-		frame:UnregisterAllEvents();
-        frame:SetScript('OnEvent',nil);
-        frame:SetScript('OnUpdate',nil);
-        frame:SetScript('OnHide',nil);
-        frame:Hide();
-        frame.SetScript = function() end;
-        frame.RegisterEvent = function() end;
-        frame.RegisterAllEvents = function() end;
-        frame.Show = function() end;
-	end
-end
-
---[[
-    Converts an RGB colour to Hex - Source: WoWWiki
-
-    @ param float $r Red
-    @ param float $g Green
-    @ param float $b Blue
-    @
-    @ return void
-]]
-function Imp.RGBToHex(r, g, b)
-	if (type(r) == "table") then
-		g = r.g
-		b = r.b
-		r = r.r
-	end
-	if (not r and not g and not b) then
-		r = 255
-		g = 255
-		b = 255
-	end
-	r = r <= 255 and r >= 0 and r or 0
-	g = g <= 255 and g >= 0 and g or 0
-	b = b <= 255 and b >= 0 and b or 0
-	return string.format("%02x%02x%02x", r, g, b)
-end
-
---[[
-    Converts an RGB Percentage to Hex - Source: WoWWiki
-
-    @ param float $r Red
-    @ param float $g Green
-    @ param float $b Blue
-    @
-    @ return void
-]]
-function Imp.RGBPercToHex(r, g, b)
-	if (type(r) == "table") then
-		g = r.g
-		b = r.b
-		r = r.r
-    end
-	r = r <= 1 and r >= 0 and r or 0
-	g = g <= 1 and g >= 0 and g or 0
-	b = b <= 1 and b >= 0 and b or 0
-	return string.format("%02x%02x%02x", r*255, g*255, b*255)
-end
-
---[[
-    Just strips out alpha at the beginning of a hex string
-
-    @ param string $hex The ARGB Hex
-    @
-    @ return string
-]]
-function Imp.ARGBToHex(hex)
-    return hex:sub(3);
-end
-
---[[
-    Converts a number to a string with comma values
-
-    @ param int $number The number we're converting
-    @
-    @ return string
-]]
-function Imp.formatNum(number)
-    local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
-    int = int:reverse():gsub("(%d%d%d)", "%1,")
-
-    return minus .. int:reverse():gsub("^,", "") .. fraction
-end
-
-local version = GetAddOnMetadata('ImprovedBlizzardUI', 'Version');
-
-print('|cffffff00Improved Blizzard UI ' .. version .. ' Initialised.');

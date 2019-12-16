@@ -8,10 +8,19 @@ enable-nolib-creation: no
  
 externals:
   libs/LibStub:
-    url: git://github.com/kaytotes/LibStub
+    url: https://repos.wowace.com/wow/libstub/trunk
+    tag: 1.0
+  libs/Ace3:
+    url: https://repos.wowace.com/wow/ace3/trunk
     tag: latest
-  libs/Wasabi:
-    url: git://github.com/p3lim-wow/Wasabi
+  libs/CallbackHandler-1.0:
+    url: https://repos.wowace.com/wow/callbackhandler/trunk
+    tag: latest
+  libs/LibSharedMedia-3.0:
+    url: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk
+    tag: latest
+  libs/AceGUI-3.0-SharedMediaWidgets:
+    url: https://repos.wowace.com/wow/ace-gui-3-0-shared-media-widgets/trunk
     tag: latest
 
 ignore:

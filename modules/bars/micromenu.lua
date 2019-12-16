@@ -2,24 +2,19 @@
     modules\bars\micromenu.lua
     Hides the MicroMenu frame when not in a Vehicle or Pet Battle and replaces it with a right click menu.
 ]]
-local addonName, Loc = ...;
+ImpUI_MicroMenu = ImpUI:NewModule('ImpUI_MicroMenu', 'AceEvent-3.0', 'AceHook-3.0');
+
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 local MicroMenuFrame = CreateFrame('Frame', nil, UIParent);
 
--- Micro Menu that replaces the removed action bar based one. Spawns on right click of minimamp
-MicroMenuFrame.microMenu = CreateFrame('Frame', 'RightClickMenu', UIParent, 'UIDropDownMenuTemplate');
-MicroMenuFrame.menuFont = CreateFont('menuFont');
-MicroMenuFrame.menuFont:SetFontObject(GameFontNormal);
-MicroMenuFrame.menuFont:SetFont(ImpFont, 12, nil);
-MicroMenuFrame.bagsVisible = false;
-
 --[[
     Hides the Micro Menu by moving it off screen
-
     @ return void
 ]]
 local function HideMicroMenu()
-    Imp.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
+    Helpers.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
 
     -- Hide Art
     MicroButtonAndBagsBar.MicroBagBar:Hide();
@@ -37,19 +32,67 @@ local function MicroMenu_Tick()
 end
 
 --[[
-    Rebuilds the contents of the Micro Menu List
+    Builds the Micro Menu.
+    @ return void
+]]
+function ImpUI_MicroMenu:BuildMicroMenu()
+    MicroMenuFrame.microMenu = CreateFrame('Frame', 'RightClickMenu', UIParent, 'UIDropDownMenuTemplate');
+    MicroMenuFrame.menuFont = CreateFont('menuFont');
+    MicroMenuFrame.menuFont:SetFontObject(GameFontNormal);
+    MicroMenuFrame.microMenuList = {}; -- Create the array
+    MicroMenuFrame.bagsVisible = false;
+    
+    MicroMenuFrame.button = CreateFrame("Button", "MicroMenuFrameButton", MainMenuBarArtFrame, "SecureActionButtonTemplate,ActionButtonTemplate");
+    MicroMenuFrame.button:SetScale(0.5);
+    MicroMenuFrame.button:SetAlpha(1.0);
+    MicroMenuFrame.button:SetPoint("RIGHT", 185, 0);
+    MicroMenuFrame.button:SetFrameStrata("TOOLTIP");
+    
+    MicroMenuFrame.button:SetPushedTexture("Interface\\MINIMAP\\UI-Minimap-MinimizeButtonUp-Down");
+    MicroMenuFrame.button:SetHighlightTexture("Interface\\MINIMAP\\UI-Minimap-MinimizeButtonUp-Highlight");
+    MicroMenuFrame.button:SetNormalTexture("Interface\\MINIMAP\\UI-Minimap-MinimizeButtonUp-Up");
+    
+    MicroMenuFrame.button:SetScript("OnClick",function(self)
+        ShowMicroMenu();
+    end);
 
+    MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
+
+    self:StyleMicroMenu();
+
+    self:HookScript(UIParent, 'OnShow', function ()
+        HideMicroMenu();
+    end);
+end
+
+function ShowMicroMenu()
+    EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, MicroMenuFrame.button, 0, 90, 'MENU', 5);
+end
+
+--[[
+    Style the Micro Menu Frame.
+    @ return void
+]]
+function ImpUI_MicroMenu:StyleMicroMenu()
+    local font = ImpUI.db.char.microMenuFont;
+    local size = 12;
+
+    MicroMenuFrame.menuFont:SetFont(font, size, nil);
+end
+
+--[[
+    Rebuilds the contents of the Micro Menu List
     @ param int $newLevel The new level of the Player after leveling up
     @ return void
 ]]
 local function UpdateMicroMenuList(newLevel)
-    MicroMenuFrame.microMenuList = {}; -- Create the array
+    MicroMenuFrame.microMenuList = {}; -- Clear the array
 
     -- Add Stuff to it
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Character'], func = function() securecall(ToggleCharacter, 'PaperDollFrame') end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Spellbook'], func = function() securecall(ToggleFrame, SpellBookFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Character'], func = function() securecall(ToggleCharacter, 'PaperDollFrame') end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\PaperDollInfoFrame\\UI-EquipmentManager-Toggle' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Spellbook'], func = function() securecall(ToggleFrame, SpellBookFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Class' });
     if(newLevel >= 10) then
-        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Talents'], func = function()
+        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Talents'], func = function()
             if (not PlayerTalentFrame) then
                     LoadAddOn('Blizzard_TalentUI')
                 end
@@ -59,9 +102,9 @@ local function UpdateMicroMenuList(newLevel)
                 securecall(ToggleFrame, PlayerTalentFrame)
             end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Profession' });
     end
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Achievements'], func = function() securecall(ToggleAchievementFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', });
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Quest Log'], func = function() securecall(ToggleFrame, WorldMapFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' });
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Guild'], func = function()
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Achievements'], func = function() securecall(ToggleAchievementFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\Minimap_shield_elite', });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Quest Log'], func = function() ToggleQuestLog() end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\GossipFrame\\ActiveQuestIcon' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Guild'], func = function()
         if (IsTrialAccount()) then
             UIErrorsFrame:AddMessage(ERR_RESTRICTED_ACCOUNT, 1, 0, 0)
         else
@@ -69,75 +112,86 @@ local function UpdateMicroMenuList(newLevel)
         end
     end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\GossipFrame\\TabardGossipIcon' });
     if(newLevel >= 15) then
-        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Group Finder'], func = function() securecall(PVEFrame_ToggleFrame, 'GroupFinderFrame') end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' });
-        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['PvP'], func = function() securecall(PVEFrame_ToggleFrame, 'PVPUIFrame', HonorFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
+        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Group Finder'], func = function() securecall(PVEFrame_ToggleFrame, 'GroupFinderFrame') end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\LFGFRAME\\BattlenetWorking0' });
+        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['PvP'], func = function() securecall(PVEFrame_ToggleFrame, 'PVPUIFrame', HonorFrame) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
     end
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Collections'], func = function() securecall(ToggleCollectionsJournal) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Collections'], func = function() securecall(ToggleCollectionsJournal) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\StableMaster' });
     if(newLevel >= 15) then
-        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Adventure Guide']..'     ', func = function() securecall(ToggleEncounterJournal) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
+        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Adventure Guide']..'     ', func = function() securecall(ToggleEncounterJournal) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
     end
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Shop'], func = function() securecall(ToggleStoreUI) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Repair' });
-    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..Loc['Swap Bags'], func = function() ToggleBagBar() end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Shop'], func = function() securecall(ToggleStoreUI) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Repair' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Improved Blizzard UI'], func = function() OpenImprovedUIOptions() end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\InnKeeper' });
+    table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Swap Bags'], func = function() ImpUI_Bags:ToggleBagBar() end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' });
 end
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+	Checks the players level and updates the micro menu if needed.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if(event == 'PLAYER_ENTERING_WORLD' or event == 'PLAYER_TALENT_UPDATE' or event == 'ACTIVE_TALENT_GROUP_CHANGED') then
-        HideMicroMenu();
-        UpdateMicroMenuList(UnitLevel('player'));
-    end
-	
-	if(event == 'UNIT_EXITED_VEHICLE') then
-        if(... == 'player') then
-            HideMicroMenu();
-        end
-    end
+local function CheckLevel(event, ...)
+    local newLevel, _, _, _, _, _, _, _, _ = ...;
 
-    if (event == 'PLAYER_FLAGS_CHANGED' or event == 'CINEMATIC_STOP' or event == 'CINEMATIC_START') then
-        HideMicroMenu();
-    end
+    UpdateMicroMenuList(newLevel);
 
-    if(event == 'PLAYER_LEVEL_UP') then
-        local newLevel, _, _, _, _, _, _, _, _ = ...;
-        UpdateMicroMenuList(newLevel);
-        -- Print out hint for players on level up of unlocks, replaces the blizzard flashing thing
-        if(newLevel == 10) then
-            print('|cffffff00'..Loc['Talents now available under the Minimap Right-Click Menu!']);
-        elseif(newLevel == 15) then
-            print('|cffffff00'..Loc['Group Finder and Adventure Guide now available under the Minimap Right-Click Menu!']);
-        end
+    -- Print out hint for players on level up of unlocks, replaces the blizzard flashing thing
+    if(newLevel == 10) then
+        print('|cffffff00'..L['Talents now available under the Micro Menu!']);
+        ShowMicroMenu();
+    elseif(newLevel == 15) then
+        print('|cffffff00'..L['Group Finder and Adventure Guide now available under the Micro Menu!']);
+        ShowMicroMenu();
     end
 end
 
--- Register the Modules Events
-MicroMenuFrame:SetScript('OnEvent', HandleEvents);
-MicroMenuFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
-MicroMenuFrame:RegisterEvent('PLAYER_FLAGS_CHANGED');
-MicroMenuFrame:RegisterEvent('PLAYER_TALENT_UPDATE');
-MicroMenuFrame:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED');
-MicroMenuFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
-MicroMenuFrame:RegisterEvent('PLAYER_LEVEL_UP');
-MicroMenuFrame:RegisterEvent('CINEMATIC_START');
-MicroMenuFrame:RegisterEvent('CINEMATIC_STOP');
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_MicroMenu:OnInitialize()
+end
 
--- Fixes Micro Menu showing when the player intentionally cancels a cinematic
--- This feels hacky as hell
-UIParent:HookScript('OnShow', function()
-    HideMicroMenu();
-end);
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_MicroMenu:OnEnable()
+    ImpUI_MicroMenu:BuildMicroMenu();
 
-MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
-Minimap:SetScript('OnMouseUp', function(self, btn)
-    if btn == 'RightButton' then
-        EasyMenu(MicroMenuFrame.microMenuList, MicroMenuFrame.microMenu, 'cursor', 0, 0, 'MENU', 3);
-    else
-        Minimap_OnClick(self)
-    end
-end)
+    self:RegisterEvent('PLAYER_ENTERING_WORLD', function ()
+        HideMicroMenu();
+        UpdateMicroMenuList(UnitLevel('player'));
+    end);
+
+    self:RegisterEvent('PLAYER_FLAGS_CHANGED', HideMicroMenu);
+
+    self:RegisterEvent('PLAYER_TALENT_UPDATE', function ()
+        HideMicroMenu();
+        UpdateMicroMenuList(UnitLevel('player'));
+    end);
+
+    self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED', function ()
+        HideMicroMenu();
+        UpdateMicroMenuList(UnitLevel('player'));
+    end);
+
+    self:RegisterEvent('UNIT_EXITED_VEHICLE', function (...)
+        if(... == 'player') then
+            HideMicroMenu();
+        end
+    end);
+
+    self:RegisterEvent('PLAYER_LEVEL_UP', CheckLevel);
+    self:RegisterEvent('CINEMATIC_START', HideMicroMenu);
+    self:RegisterEvent('CINEMATIC_STOP', HideMicroMenu);
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_MicroMenu:OnDisable()
+end

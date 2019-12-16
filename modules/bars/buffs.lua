@@ -1,41 +1,83 @@
 --[[
     modules\bars\buffs.lua
-    Moves and scales the Buff / Debuff Frames
+    Styles and Positions the Cast Bar.
 ]]
-local addonName, Loc = ...;
+ImpUI_Buffs = ImpUI:NewModule('ImpUI_Buffs', 'AceEvent-3.0', 'AceHook-3.0');
 
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
+
+-- Local Functions
 local Buffs = CreateFrame('Frame', nil, UIParent);
 
-Buffs.buffPoint = BuffFrame.SetPoint;
-Buffs.buffScale = BuffFrame.SetScale;
+local SetPoint = Buffs.SetPoint;
+local ClearAllPoints = Buffs.ClearAllPoints;
+local SetScale = Buffs.SetScale;
+
+-- Local Variables
+local dragFrame;
 
 --[[
-    Moves the Buff Frame Itself
-    @ return void
+	Called when unlocking the UI.
 ]]
-local function MoveBuffs()
-    BuffFrame:ClearAllPoints();
-    Buffs.buffPoint(BuffFrame, 'TOPLEFT', MinimapCluster, -55, -2);
-    Buffs.buffScale(BuffFrame, BarsDB.buffScale);
+function ImpUI_Buffs:Unlock()
+    dragFrame:Show();
 end
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
-    @ return void
+	Called when locking the UI.
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_LOGIN') then
-        MoveBuffs();
-    end    
+function ImpUI_Buffs:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
+
+    ImpUI.db.char.buffsPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    dragFrame:Hide();
 end
 
--- Register the Modules Events
-Buffs:SetScript('OnEvent', HandleEvents);
-Buffs:RegisterEvent('PLAYER_LOGIN');
+--[[
+	Loads the position of the Focus Frame from SavedVariables.
+]]
+function ImpUI_Buffs:LoadPosition(frame)
+    local pos = ImpUI.db.char.buffsPosition;
+    local scale = ImpUI.db.char.buffsScale;
+    
+    -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
+    dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
-hooksecurefunc( BuffFrame, 'SetPoint', function(frame) MoveBuffs() end);
-hooksecurefunc( BuffFrame, 'SetScale', function(frame) MoveBuffs() end)
+    ClearAllPoints(frame);
+    SetPoint(frame, "TOPRIGHT", dragFrame, "TOPRIGHT");
+    SetScale(frame, scale);
+end
+
+
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_Buffs:OnInitialize()
+end
+
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_Buffs:OnEnable()
+    -- Create Drag Frame and load position.
+    dragFrame = Helpers.create_drag_frame('ImpUI_Buffs_DragFrame', 250, 50, L['Buffs & Debuffs']);
+
+    ImpUI_Buffs:LoadPosition(BuffFrame);
+
+    self:SecureHook(BuffFrame, 'SetPoint', 'LoadPosition');
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_Buffs:OnDisable()
+end

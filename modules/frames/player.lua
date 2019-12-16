@@ -3,36 +3,54 @@
     Styles, Scales and Repositions the Player Unit Frame.
     Disables Player Portrait Spam
 ]]
-local addonName, Loc = ...;
+ImpUI_Player = ImpUI:NewModule('ImpUI_Player', 'AceEvent-3.0', 'AceHook-3.0');
 
-local PlayerUnitFrame = CreateFrame('Frame', nil, UIParent);  
+-- Get Locale
+local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
-local confPlayerClassColours = false;
+-- Local Variables
+local dragFrame;
+
+-- Local Functions
+local UnitHealth = UnitHealth;
+local UnitHealthMax = UnitHealthMax;
+local UnitExists = UnitExists;
+local InCombatLockdown = InCombatLockdown;
+
+--[[
+    Either applies class colours or resets to blizzards. Called from config.lua
+    @ return void
+]]
+function ImpUI_Player:ToggleClassColours(enabled)
+    if (enabled) then
+        ImpUI_Player:HealthBarChanged(PlayerFrameHealthBar);
+    else
+        PlayerFrameHealthBar:SetStatusBarColor(0, 0.99, 0); -- Blizz Default.
+    end
+end
 
 --[[
     Whenever the Portrait Damage text appears instantly override it
-
     @ param Frame $self The Frame that is handling the event
     @ param string $event The message eg 'IMMUNE', 'HEAL', 'BLOCK'
     @ param string $flags Extra information eg 'CRITICAL', 'RESIST'
     @ param int $amount THe amount of Damage or Healing done
     @ param int $type Honestly unsure, apparently sets it to black if > 0 but I've never seen this actually happen in game.
 ]]
-local function CombatFeedback_OnCombatEvent_Hook(self, event, flags, amount, type)
-    if(FramesDB.playerPortraitSpam) then
+function ImpUI_Player:CombatFeedback_OnCombatEvent(self, event, flags, amount, type)
+    if(ImpUI.db.char.playerHidePortraitSpam) then
         self.feedbackText:SetText(' ');
     end
 end
 
 --[[
     Hides the Player Frame when you are out of combat, have no target and are at full health.
-
     @ param boolean $hide Should we hide the frame
     @ return void
 ]]
-local function HidePlayer(hide)
-    if (InCombatLockdown() == false and FramesDB.playerHideOOC) then
-        if (hide and UnitHealth('player') == UnitHealthMax('player') and UnitExists('target') == false) then
+function ImpUI_Player:TogglePlayer(toggle)
+    if (InCombatLockdown() == false) then
+        if (toggle and UnitHealth('player') == UnitHealthMax('player') and UnitExists('target') == false  and ImpUI.db.char.playerHideOOC) then
             PlayerFrame:Hide();
         else
             PlayerFrame:Show();
@@ -40,115 +58,237 @@ local function HidePlayer(hide)
     end
 end
 
-local function StyleFrames()
 
-    if (FramesDB.stylePrimaryFrames == false) then return end
-    if (InCombatLockdown() == true) then return end
+--[[
+	When the health bar changes in any way, reapply class colours.
+	
+    @ return void
+]]
+function ImpUI_Player:HealthBarChanged(bar)
+    if (ImpUI.db.char.playerClassColours and bar.unit == 'player') then
+        Helpers.ApplyClassColours(bar, bar.unit);
+    end
+end
 
+
+--[[
+	Applies the actual styling.
+	
+    @ return void
+]]
+function ImpUI_Player:StyleFrame()
+    if (ImpUI.db.char.styleUnitFrames == false) then return; end
+
+    -- Change Texture
+    PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-TargetingFrame');
+    PlayerStatusTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-Player-Status');
+
+    -- Update Health Bar Size
     PlayerFrameHealthBar:SetWidth(119);
     PlayerFrameHealthBar:SetHeight(29);
     PlayerFrameHealthBar:SetPoint('TOPLEFT',106,-22);
     PlayerFrameHealthBarText:SetPoint('CENTER',50,6);
-    PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-TargetingFrame');
-    PlayerStatusTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-Player-Status');
 
-    local file, size, flags = PlayerFrameHealthBarTextLeft:GetFont();
+    -- Apply Fonts and Colours
+    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
-    PlayerName:SetFont(ImpFont, 11, flags);
-    -- 10
-    PlayerFrameHealthBarText:SetFont(ImpFont, 10, flags);
-    PlayerFrameHealthBarTextLeft:SetFont(ImpFont, 10, flags);
-    PlayerFrameHealthBarTextRight:SetFont(ImpFont, 10, flags);
+    PlayerName:SetFont(font, 11, flags);
 
-    PlayerFrameManaBarText:SetFont(ImpFont, 10, flags);
-    PlayerFrameManaBarTextLeft:SetFont(ImpFont, 10, flags);
-    PlayerFrameManaBarTextRight:SetFont(ImpFont, 10, flags);
+    PlayerFrameHealthBarText:SetFont(font, 10, flags);
+    PlayerFrameHealthBarTextLeft:SetFont(font, 10, flags);
+    PlayerFrameHealthBarTextRight:SetFont(font, 10, flags);
 
-    PlayerFrameAlternateManaBarText:SetFont(ImpFont, 10, flags);
-    PlayerFrameAlternateManaBar.RightText:SetFont(ImpFont, 10, flags);
-    PlayerFrameAlternateManaBar.LeftText:SetFont(ImpFont, 10, flags);
+    PlayerFrameManaBarText:SetFont(font, 10, flags);
+    PlayerFrameManaBarTextLeft:SetFont(font, 10, flags);
+    PlayerFrameManaBarTextRight:SetFont(font, 10, flags);
+
+    PlayerFrameAlternateManaBarText:SetFont(font, 10, flags);
+    PlayerFrameAlternateManaBar.RightText:SetFont(font, 10, flags);
+    PlayerFrameAlternateManaBar.LeftText:SetFont(font, 10, flags);
 
     PlayerName:SetTextColor(r, g, b, a);
 
-    PetName:SetFont(ImpFont, 11, flags);
+    PetName:SetFont(font, 11, flags);
     PetName:SetTextColor(r, g, b, a);
+    PetFrameHealthBarTextLeft:SetFont(font, 10, flags);
+    PetFrameHealthBarTextRight:SetFont(font, 10, flags);
+    PetFrameManaBarTextLeft:SetFont(font, 10, flags);
+    PetFrameManaBarTextRight:SetFont(font, 10, flags);
+
+    point, relativeTo, relativePoint, xOfs, yOfs = PlayerLevelText:GetPoint();
+    level = UnitLevel('player');
+
+    if(level < 100) then
+        xOfs = -61.5;
+    end
+
+    PlayerLevelText:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    PlayerLevelText:SetFont(font, 10, flags);
+    PlayerLevelText:SetTextColor(r, g, b, a);
+
+    self:HealthBarChanged(PlayerFrameHealthBar);
 end
 
 --[[
-    Handles the WoW API Events Registered Below
-
-    @ param Frame $self The Frame that is handling the event 
-    @ param string $event The WoW API Event that has been triggered
-    @ param arg $... The arguments of the Event
+	Fires when the Player Logs In.
+	
     @ return void
 ]]
-local function HandleEvents (self, event, ...)
-    if (event == 'PLAYER_LOGIN' or (event == 'ADDON_LOADED' and ... == 'ImprovedBlizzardUI')) then
-        confPlayerClassColours = FramesDB.playerClassColours;
+function ImpUI_Player:PLAYER_LOGIN()
+    ImpUI_Player:LoadPosition();
+    ImpUI_Player:TogglePlayer(true);
 
-        -- Position
-        PlayerFrame:SetMovable(true);
-        PlayerFrame:ClearAllPoints();
-        PlayerFrame:SetPoint('CENTER', -FramesDB.primaryOffsetX, -FramesDB.primaryOffsetY);
-        PlayerFrame:SetScale(FramesDB.primaryScale);
-        PlayerFrame:SetUserPlaced(true);
-        PlayerFrame:SetMovable(false);
+    ImpUI_Player:StyleFrame();
+end
 
-        HidePlayer(true);
-        
-        -- Style Frame
-        if (FramesDB.stylePrimaryFrames) then
-            StyleFrames();
-        end
-    end
 
-    if (event == 'PLAYER_REGEN_DISABLED') then
-        HidePlayer(false);
-    elseif (event == 'PLAYER_REGEN_ENABLED' or event == 'UNIT_HEALTH') then
-        HidePlayer(true);
-    end
+--[[
+	Fires when the Players health changes.
+	
+    @ return void
+]]
+function ImpUI_Player:UNIT_HEALTH()
+    ImpUI_Player:TogglePlayer(true);
+end
 
-    if (event == 'PLAYER_TARGET_CHANGED') then
-        if (UnitExists('target')) then
-            HidePlayer(false);
-        else
-            HidePlayer(true);
-        end
-    end
+--[[
+	Fires when the Player health regen stops.
+	
+    @ return void
+]]
+function ImpUI_Player:PLAYER_REGEN_DISABLED()
+    ImpUI_Player:TogglePlayer(false);
+end
 
-    if (event == 'UNIT_EXITED_VEHICLE' and ... == 'player') then
-        StyleFrames();
-    end
+--[[
+	Fires when the Player begins gaining health.
+	
+    @ return void
+]]
+function ImpUI_Player:PLAYER_REGEN_ENABLED()
+    ImpUI_Player:TogglePlayer(true);
+end
 
-    if (event == 'UNIT_ENTERED_VEHICLE' and ... == 'player') then
-        StyleFrames();
+
+--[[
+	Fires when the Player changes target.
+	
+    @ return void
+]]
+function ImpUI_Player:PLAYER_TARGET_CHANGED()
+    if (UnitExists('target')) then
+        ImpUI_Player:TogglePlayer(false);
+    else
+        ImpUI_Player:TogglePlayer(true);
     end
 end
 
--- Register the Modules Events
-PlayerUnitFrame:SetScript('OnEvent', HandleEvents);
-PlayerUnitFrame:RegisterEvent('PLAYER_ENTERING_WORLD');
-PlayerUnitFrame:RegisterEvent('PLAYER_LOGIN');
-PlayerUnitFrame:RegisterEvent('UNIT_HEALTH');
-PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_DISABLED');
-PlayerUnitFrame:RegisterEvent('PLAYER_REGEN_ENABLED');
-PlayerUnitFrame:RegisterEvent('PLAYER_TARGET_CHANGED');
-PlayerUnitFrame:RegisterEvent('UNIT_EXITED_VEHICLE');
-PlayerUnitFrame:RegisterEvent('UNIT_ENTERED_VEHICLE');
-PlayerUnitFrame:RegisterEvent('ADDON_LOADED');
-
--- Hook Blizzard Functions
-hooksecurefunc('CombatFeedback_OnCombatEvent', CombatFeedback_OnCombatEvent_Hook);
-hooksecurefunc('UnitFrameHealthBar_Update', function(self)
-    if (confPlayerClassColours and self.unit == 'player') then
-        Imp.ApplyClassColours(self, self.unit);
+--[[
+	Fires when the Player exits a vehicle.
+	
+    @ return void
+]]
+function ImpUI_Player:UNIT_EXITED_VEHICLE(event, ...)
+    if (... == 'player') then
+        ImpUI_Player:StyleFrame();
     end
-end);
-hooksecurefunc('HealthBar_OnValueChanged', function(self)
-    if (confPlayerClassColours and self.unit == 'player') then
-        Imp.ApplyClassColours(self, self.unit);
-    end
-end);
+end
 
-hooksecurefunc('PlayerFrame_Update', StyleFrames);
+--[[
+	Fires when the Player enters a vehicle.
+	
+    @ return void
+]]
+function ImpUI_Player:UNIT_ENTERED_VEHICLE(event, ...)
+    if (... == 'player') then
+        ImpUI_Player:StyleFrame();
+    end
+end
+
+--[[
+	Called when unlocking the UI.
+]]
+function ImpUI_Player:Unlock()
+    dragFrame:Show();
+end
+
+--[[
+	Called when locking the UI.
+]]
+function ImpUI_Player:Lock()
+    local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
+
+    ImpUI.db.char.playerFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    dragFrame:Hide();
+end
+
+--[[
+	Loads the position of the Player Frame from SavedVariables.
+]]
+function ImpUI_Player:LoadPosition()
+    local pos = ImpUI.db.char.playerFramePosition;
+    local scale = ImpUI.db.char.playerFrameScale;
+    
+    -- Set Drag Frame Position
+    dragFrame:ClearAllPoints();
+    dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
+
+    -- Parent PlayerFrame to the Drag Frame.
+    PlayerFrame:SetMovable(true);
+    PlayerFrame:ClearAllPoints();
+    PlayerFrame:SetPoint('CENTER', dragFrame, 'CENTER', -15, -5);
+    PlayerFrame:SetScale(scale);
+    PlayerFrame:SetUserPlaced(true);
+    PlayerFrame:SetMovable(false);
+end
+
+--[[
+	Fires when the module is Initialised.
+	
+    @ return void
+]]
+function ImpUI_Player:OnInitialize()
+end
+
+--[[
+	Fires when the module is Enabled. Set up frames, events etc here.
+	
+    @ return void
+]]
+function ImpUI_Player:OnEnable()
+    -- Create Drag Frame and load position.
+    dragFrame = Helpers.create_drag_frame('ImpUI_Player_DragFrame', 205, 90, L['Player Frame']);
+
+    ImpUI_Player:LoadPosition();
+
+    ImpUI_Player:StyleFrame();
+
+    ImpUI_Player:TogglePlayer(true);
+
+    -- Register Events
+    self:RegisterEvent('PLAYER_LOGIN');
+    self:RegisterEvent('UNIT_HEALTH');
+    self:RegisterEvent('PLAYER_REGEN_DISABLED');
+    self:RegisterEvent('PLAYER_REGEN_ENABLED');
+    self:RegisterEvent('PLAYER_TARGET_CHANGED');
+    self:RegisterEvent('UNIT_EXITED_VEHICLE');
+    self:RegisterEvent('UNIT_ENTERED_VEHICLE');
+
+    -- Register Hooks
+    self:SecureHook('CombatFeedback_OnCombatEvent', 'CombatFeedback_OnCombatEvent');
+    self:SecureHook('UnitFrameHealthBar_Update', 'HealthBarChanged');
+    self:SecureHook('HealthBar_OnValueChanged', 'HealthBarChanged');
+    self:SecureHook('PlayerFrame_Update', 'StyleFrame');
+end
+
+--[[
+	Clean up behind ourselves if needed.
+	
+    @ return void
+]]
+function ImpUI_Player:OnDisable()
+end
