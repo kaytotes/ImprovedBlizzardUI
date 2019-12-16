@@ -223,6 +223,8 @@ end
 function ImpUI_Killfeed:Unlock()
     dragFrame:Show();
 
+    killfeed:SetParent(dragFrame);
+
     -- Fill with test data.
     ImpUI_Killfeed:OutputTestMessages();
 end
@@ -236,6 +238,8 @@ function ImpUI_Killfeed:Lock()
 
     -- Clear Test Data
     ImpUI_Killfeed:ClearKillFeed();
+
+    killfeed:SetParent(UIParent);
 
     dragFrame:Hide();
 end
@@ -297,6 +301,7 @@ function ImpUI_Killfeed:OnEnable()
     killfeed.texts = { }; -- Table for Kill Texts
     killfeed.recentKills = { ' ', ' ', ' ', ' ', ' ' };
     killfeed.hidden = true;
+    killfeed:SetParent(UIParent);
 
     -- Create Font Strings
     for i = 1, #killfeed.recentKills do

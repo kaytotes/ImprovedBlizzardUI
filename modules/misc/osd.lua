@@ -48,6 +48,8 @@ end
 function ImpUI_OSD:Unlock()
     dragFrame:Show();
 
+    osd:SetParent(dragFrame);
+
     -- Display a Test Message.
     self:AddMessage(L['Test String Output'], 'Improved Blizzard UI', 26, 1, 1, 0, 30.0);
 end
@@ -58,6 +60,8 @@ function ImpUI_OSD:Lock()
 
     -- Store Position
     ImpUI.db.char.osdPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    osd:SetParent(UIParent);
 
     dragFrame:Hide();
 end
@@ -92,6 +96,8 @@ function ImpUI_OSD:OnEnable()
     osd:SetParent(dragFrame);
 
     ImpUI_OSD:LoadPosition();
+
+    osd:SetParent(UIParent);
 
     osd.text = osd:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
     osd:SetWidth(32);
