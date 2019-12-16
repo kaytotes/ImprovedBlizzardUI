@@ -26,3 +26,6 @@ externals:
 ignore:
     - README.md
     - setup.sh
+    - /libs/Ace3/tests/check_globals.sh
+    - /libs/Ace3/tests/runall.bat
+    - /libs/Ace3/tests/runall.sh

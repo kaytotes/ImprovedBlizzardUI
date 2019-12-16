@@ -1688,6 +1688,17 @@ if [ -f "$topdir/.pkgmeta" ]; then
 fi
 
 ###
+### Hack - Remove Offending Files
+###
+cd "$releasedir"
+
+rm -rf ImprovedBlizzardUI/libs/Ace3/tests/check_globals.sh
+rm -rf ImprovedBlizzardUI/libs/Ace3/tests/runall.sh
+rm -rf ImprovedBlizzardUI/libs/Ace3/tests/runall.bat
+
+cd "$topDir"
+
+###
 ### Create the final zipfile for the addon.
 ###
 
