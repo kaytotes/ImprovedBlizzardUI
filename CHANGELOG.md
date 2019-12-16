@@ -1,5 +1,6 @@
 # Improved Blizzard UI Changelog
 
+3.0.3 - Remove Bash and Batch Files (Was killing Curse upload).
 3.0.1 - Fix an issue with Killfeed and OSD not displaying.
 3.0.0 - Complete Ace3 and LibSharedMedia-3.0 based overhaul.
 2.2.0 - German localisation (Credit @Marakuja)
