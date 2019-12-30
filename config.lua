@@ -252,6 +252,25 @@ ImpUI_Config.options = {
                     order = 9,
                 },
 
+                targetFrameScale = {
+                    type = 'range',
+                    name = L['Target Frame Scale'],
+                    desc = '',
+                    min = 0.1,
+                    max = 4.0,
+                    step = 0.1,
+                    get = function ()
+                        return ImpUI.db.char.targetFrameScale;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.char.targetFrameScale = newValue; 
+
+                        ImpUI_Target:LoadPosition();
+                    end,
+                    isPercent = false,
+                    order = 10,
+                },
+
                 targetOfTargetClassColours = {
                     type = 'toggle',
                     name = L['ToT Class Colours'],
