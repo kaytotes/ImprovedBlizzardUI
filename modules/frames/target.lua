@@ -100,7 +100,7 @@ function ImpUI_Target:StyleFrame()
     TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
 
     point, relativeTo, relativePoint, xOfs, yOfs = TargetFrameTextureFrameLevelText:GetPoint();
-    level = UnitLevel('target');
+    local level = UnitLevel('target');
 
     xOfs = 64.5;
 
