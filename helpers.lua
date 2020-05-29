@@ -230,3 +230,7 @@ function Helpers.DestroyFrame(frame)
         frame.Show = function() end;
 	end
 end
+
+function round(number, decimals)
+    return (("%%.%df"):format(decimals)):format(number);
+end

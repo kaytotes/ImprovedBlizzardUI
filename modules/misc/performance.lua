@@ -38,7 +38,7 @@ function ImpUI_Performance:Tick()
         latencyWorld = format('|cffFF0000%s|r', latencyWorld );
     end
 
-    local frameRate = floor(GetFramerate()); -- Get the current frame rate
+    local frameRate = tonumber(round(GetFramerate(), 0)); -- Get the current frame rate
 
     -- Colour Frame Rate
     if(frameRate >= 59) then
