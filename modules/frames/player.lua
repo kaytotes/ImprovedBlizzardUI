@@ -118,7 +118,7 @@ function ImpUI_Player:StyleFrame()
     PetFrameManaBarTextRight:SetFont(font, 10, flags);
 
     point, relativeTo, relativePoint, xOfs, yOfs = PlayerLevelText:GetPoint();
-    level = UnitLevel('player');
+    local level = UnitLevel('player');
 
     if(level < 100) then
         xOfs = -61.5;

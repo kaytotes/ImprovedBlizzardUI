@@ -100,13 +100,22 @@ function ImpUI_Target:StyleFrame()
     TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
 
     point, relativeTo, relativePoint, xOfs, yOfs = TargetFrameTextureFrameLevelText:GetPoint();
-    level = UnitLevel('target');
+    local level = UnitLevel('target');
 
     xOfs = 64.5;
 
     TargetFrameTextureFrameLevelText:SetFont(font.font, 10, font.flags);
     TargetFrameTextureFrameLevelText:SetTextColor(font.r, font.g, font.b, font.a);
     TargetFrameTextureFrameLevelText:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    -- Set Flash Texture for Minus Creatures.
+    if (unitClassification == 'minus') then
+        TargetFrameFlash:SetTexture('Interface\\TargetingFrame\\UI-TargetingFrame-Flash');
+        TargetFrameFlash:SetTexCoord(0, 0.9453125, 0, 0.181640625);
+        TargetFrameFlash:SetWidth(242);
+		TargetFrameFlash:SetHeight(93);
+		TargetFrameFlash:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", -24, 0);
+    end
 
     if ( TargetFrame.totFrame ) then
         TargetFrameToTTextureFrameName:SetFont(font.font, 11, font.flags);

@@ -302,7 +302,10 @@ end
     @ return void
 ]]
 function ImpUI_Chat:OnEnable()
-    ImpUI_Chat:OverrideStrings();
+    local minify = ImpUI.db.char.minifyStrings;
+    if (minify == true) then
+        ImpUI_Chat:OverrideStrings();    
+    end
     ImpUI_Chat:StyleChat();
 
     -- Apply Quality of Life changes that don't need to be toggled.

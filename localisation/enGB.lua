@@ -112,6 +112,7 @@ L['Player Frame Scale'] = true;
 L['Buffs On Top'] = true;
 L['Displays the Targets Buffs above the Unit Frame.'] = true;
 L['ToT Class Colours'] = true;
+L['Target Frame Scale']  = true;
 L['Colours Target of Target Health bar to match their class.'] = true;
 L['Party Frame Scale'] = true;
 L['Colours Focus Frame Health bar to match their class.'] = true;
