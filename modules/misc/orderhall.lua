@@ -105,10 +105,10 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:PrepBar()
-    orderbar:SetShown(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0));
+    orderbar:SetShown(C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0));
 
     -- Refresh Info
-    if (C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)) then
+    if (C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0)) then
         C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0);
 
         ImpUI_OrderHall:RefreshInfo();
