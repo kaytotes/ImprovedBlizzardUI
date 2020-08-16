@@ -453,6 +453,7 @@ ImpUI_Config.options = {
                         ImpUI_CastBar:StyleFrame();
                     end,
                     order = 5,
+                    hidden = Helpers.IsClassic(),
                 },
 
                 castBarFocusTimer = {
@@ -468,6 +469,7 @@ ImpUI_Config.options = {
                         ImpUI_CastBar:StyleFrame();
                     end,
                     order = 6,
+                    hidden = Helpers.IsClassic(),
                 },
 
                 -- Buff Bar Section
