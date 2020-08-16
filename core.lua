@@ -145,5 +145,5 @@ function ImpUI:OnInitialize()
         environment = 'Classic';
     end
 
-    print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' ' .. environment .. ' Edition Initialized.');
+    ImpUI:Print(GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' - ' .. environment .. ' Mode Initialized.');
 end
