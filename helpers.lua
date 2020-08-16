@@ -15,6 +15,17 @@ function Helpers.IsRetail()
 end
 
 --[[
+	Returns a human readable string for the current environment.
+]]
+function Helpers.GetEnvironment()
+    if (Helpers.IsRetail()) then
+        return 'Retail';
+    else
+        return 'Classic';
+    end
+end
+
+--[[
 	Just a helper for getting consistent font styles.
 ]]
 function Helpers.get_styled_font(font)

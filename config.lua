@@ -3,6 +3,27 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 ImpUI_Config = {};
 
+local mode = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' - ' .. Helpers.GetEnvironment() .. ' Mode';
+
+function ImpUI_Config:ForClassic(options)
+    return options;
+end
+
+--[[
+	Gets the config options for the addon.
+	
+    @ return table
+]]
+function ImpUI_Config:GetConfigOptions()
+    local base = ImpUI_Config.options;
+
+    if (Helpers.IsClassic()) then
+        return ImpUI_Config:ForClassic(base);
+    end
+
+    return base;
+end
+
 --[[
 	Defaults for every new character.
 ]]
@@ -123,7 +144,7 @@ ImpUI_Config.defaults = {
 	Configuration Menu.
 ]]
 ImpUI_Config.options = {
-    name = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'),
+    name = mode,
     handler = ImpUI,
     type = 'group',
     childGroups = "tab",

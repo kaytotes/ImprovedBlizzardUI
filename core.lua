@@ -130,7 +130,7 @@ function ImpUI:OnInitialize()
     self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
 
     -- Register Config
-    LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config.options);
+    LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config:GetConfigOptions());
 
     -- Add to Blizz Config
     self.optionsFrame = LibStub('AceConfigDialog-3.0'):AddToBlizOptions('ImprovedBlizzardUI', 'Improved Blizzard UI');
@@ -138,12 +138,5 @@ function ImpUI:OnInitialize()
     -- Register Slash Command
     self:RegisterChatCommand('imp', 'HandleSlash');
 
-    -- Finally print Intialized Message.
-    local environment = 'Retail';
-
-    if (Helpers.IsClassic()) then
-        environment = 'Classic';
-    end
-
-    ImpUI:Print(GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' - ' .. environment .. ' Mode Initialized.');
+    ImpUI:Print(GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' - ' .. Helpers.GetEnvironment() .. ' Mode Initialized.');
 end
