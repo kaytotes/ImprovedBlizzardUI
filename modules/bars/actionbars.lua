@@ -83,7 +83,7 @@ function ImpUI_Bars:OnEnable()
     self:RegisterEvent('PLAYER_ENTERING_WORLD', ApplyButtonStyles);
 
     self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
-    self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
+    -- self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
 end
 
 --[[
