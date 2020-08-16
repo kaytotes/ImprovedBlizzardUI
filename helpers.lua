@@ -1,6 +1,20 @@
 Helpers = CreateFrame('Frame', nil, UIParent);
 
 --[[
+	Simple check for if we're currently running in a Classic WoW Client.
+]]
+function Helpers.IsClassic()
+    return select(4,GetBuildInfo()) <= 19999;
+end
+
+--[[
+	Simple check for if we're currently running in a Retail WoW Client.
+]]
+function Helpers.IsRetail()
+    return not Helpers.IsClassic();
+end
+
+--[[
 	Just a helper for getting consistent font styles.
 ]]
 function Helpers.get_styled_font(font)

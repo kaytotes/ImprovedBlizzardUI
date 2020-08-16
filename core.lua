@@ -132,5 +132,11 @@ function ImpUI:OnInitialize()
     self:RegisterChatCommand('imp', 'HandleSlash');
 
     -- Finally print Intialized Message.
-    print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialized.');
+    local environment = 'Retail';
+
+    if (Helpers.IsClassic()) then
+        environment = 'Classic';
+    end
+
+    print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' ' .. environment .. ' Edition Initialized.');
 end
