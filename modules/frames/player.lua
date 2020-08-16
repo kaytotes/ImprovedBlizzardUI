@@ -104,9 +104,11 @@ function ImpUI_Player:StyleFrame()
     PlayerFrameManaBarTextLeft:SetFont(font, 10, flags);
     PlayerFrameManaBarTextRight:SetFont(font, 10, flags);
 
-    PlayerFrameAlternateManaBarText:SetFont(font, 10, flags);
-    PlayerFrameAlternateManaBar.RightText:SetFont(font, 10, flags);
-    PlayerFrameAlternateManaBar.LeftText:SetFont(font, 10, flags);
+    if (Helpers.IsRetail()) then
+        PlayerFrameAlternateManaBarText:SetFont(font, 10, flags);
+        PlayerFrameAlternateManaBar.RightText:SetFont(font, 10, flags);
+        PlayerFrameAlternateManaBar.LeftText:SetFont(font, 10, flags);
+    end
 
     PlayerName:SetTextColor(r, g, b, a);
 
@@ -275,8 +277,11 @@ function ImpUI_Player:OnEnable()
     self:RegisterEvent('PLAYER_REGEN_DISABLED');
     self:RegisterEvent('PLAYER_REGEN_ENABLED');
     self:RegisterEvent('PLAYER_TARGET_CHANGED');
-    self:RegisterEvent('UNIT_EXITED_VEHICLE');
-    self:RegisterEvent('UNIT_ENTERED_VEHICLE');
+
+    if (Helpers.IsRetail()) then
+        self:RegisterEvent('UNIT_EXITED_VEHICLE');
+        self:RegisterEvent('UNIT_ENTERED_VEHICLE');
+    end
 
     -- Register Hooks
     self:SecureHook('CombatFeedback_OnCombatEvent', 'CombatFeedback_OnCombatEvent');
