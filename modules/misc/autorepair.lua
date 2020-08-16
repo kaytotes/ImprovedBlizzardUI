@@ -18,6 +18,41 @@ local GetCoinTextureString = GetCoinTextureString;
 local GetMoney = GetMoney;
 
 --[[
+    Handles the Classic specific repairing logic.
+	
+    @ return void
+]]
+function ImpUI_Repair:Classic()
+    local repCost, _ = GetRepairAllCost();
+
+    if(repCost <= GetMoney() and repCost > 0) then
+        RepairAllItems(false);
+        print('|cffffff00'..L['Items Repaired']..': '..GetCoinTextureString(repCost));
+    end
+end
+
+--[[
+    Handles the Retail specific repairing logic.
+	
+    @ return void
+]]
+function ImpUI_Repair:Retail()
+    local repCost, _ = GetRepairAllCost();
+
+    if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost and ImpUI.db.char.guildRepair) then
+        if(repCost > 0) then
+            RepairAllItems(true);
+            print('|cffffff00'..L['Items Repaired from Guild Bank']..': '..GetCoinTextureString(repCost));
+        end
+    else
+        if(repCost <= GetMoney() and repCost > 0) then
+            RepairAllItems(false);
+            print('|cffffff00'..L['Items Repaired']..': '..GetCoinTextureString(repCost));
+        end
+    end
+end
+
+--[[
     If a merchant window is open check if we can repair and do so.
     Uses guild funds if enabled.
 	
@@ -25,18 +60,10 @@ local GetMoney = GetMoney;
 ]]
 function ImpUI_Repair:MERCHANT_SHOW()
     if (ImpUI.db.char.autoRepair and CanMerchantRepair()) then
-        local repCost, _ = GetRepairAllCost();
-
-        if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost and ImpUI.db.char.guildRepair) then
-            if(repCost > 0) then
-                RepairAllItems(true);
-                print('|cffffff00'..L['Items Repaired from Guild Bank']..': '..GetCoinTextureString(repCost));
-            end
+        if (Helpers.IsRetail()) then
+            ImpUI_Repair:Retail();
         else
-            if(repCost <= GetMoney() and repCost > 0) then
-                RepairAllItems(false);
-                print('|cffffff00'..L['Items Repaired']..': '..GetCoinTextureString(repCost));
-            end
+            ImpUI_Repair:Classic();
         end
     end
 end
