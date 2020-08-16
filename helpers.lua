@@ -1,6 +1,15 @@
 Helpers = CreateFrame('Frame', nil, UIParent);
 
 --[[
+	Removes an element from a table by key.
+]]
+function Helpers.removekey(table, key)
+    local element = table[key]
+    table[key] = nil
+    return element
+end
+
+--[[
 	Simple check for if we're currently running in a Classic WoW Client.
 ]]
 function Helpers.IsClassic()
