@@ -283,7 +283,7 @@ function ImpUI_Tooltips:OnEnable()
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetUnit', 'StyleNormalTooltip');
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
     ImpUI_Tooltips:HookScript(ItemRefTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
-    ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
+    -- ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
 end
 
 --[[
