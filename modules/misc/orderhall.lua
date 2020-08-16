@@ -129,6 +129,8 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:OnEnable()
+    if (Helpers.IsClassic()) then return end
+
     orderbar = CreateFrame('Frame', nil, UIParent);
 
     -- Set the Position

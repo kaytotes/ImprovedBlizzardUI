@@ -48,6 +48,8 @@ end
     @ return void
 ]]
 function ImpUI_Bags:OnEnable()
+    if (Helpers.IsClassic()) then return end
+
     self:RegisterEvent('PLAYER_ENTERING_WORLD', HideBagBar);
 
     self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', HideBagBar);

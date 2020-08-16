@@ -158,6 +158,8 @@ end
     @ return void
 ]]
 function ImpUI_MicroMenu:OnEnable()
+    if (Helpers.IsClassic()) then return end
+
     ImpUI_MicroMenu:BuildMicroMenu();
 
     self:RegisterEvent('PLAYER_ENTERING_WORLD', function ()

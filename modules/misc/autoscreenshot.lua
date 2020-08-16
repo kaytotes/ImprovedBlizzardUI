@@ -35,6 +35,8 @@ end
     @ return void
 ]]
 function ImpUI_Screenshot:OnEnable()
+    if (Helpers.IsClassic()) then return end
+    
     self:RegisterEvent('ACHIEVEMENT_EARNED');
 end
 
