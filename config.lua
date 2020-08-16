@@ -292,6 +292,7 @@ ImpUI_Config.options = {
                     type = 'header',
                     name = L['Party Frames'],
                     order = 11,
+                    hidden = true,
                 },
 
                 partyFrameScale = {
@@ -311,6 +312,7 @@ ImpUI_Config.options = {
                     end,
                     isPercent = false,
                     order = 12,
+                    hidden = true,
                 },
 
                 -- Focus Frames Section

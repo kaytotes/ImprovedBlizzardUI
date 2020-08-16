@@ -40,6 +40,10 @@ local function GetDraggables()
         table.insert(draggables, 'ImpUI_Focus');
     end
 
+    if (Helpers.IsClassic()) then
+        table.insert(draggables, 'ImpUI_Party');
+    end
+
     return draggables;
 end
 
