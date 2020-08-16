@@ -81,12 +81,12 @@ end
 ]]
 function ImpUI_Performance:OnEnable()
     -- Create the Performance Frame.
-    performance = CreateFrame('Frame', nil, MinimapCluster);
+    performance = CreateFrame('Frame', nil, UIParent);
     performance.text = performance:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
     performance:SetFrameStrata('BACKGROUND');
     performance:SetWidth(32);
     performance:SetHeight(32);
-    performance:SetPoint('TOP', 10, 25);
+    performance:SetPoint('TOPRIGHT', -85, -5);
 
     -- Text positioning
     performance.text:SetPoint('CENTER', 0, 0);
