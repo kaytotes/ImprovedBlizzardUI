@@ -51,8 +51,8 @@ end
     @ return void
 ]]
 function ImpUI_Killfeed:GetFormattedString(unitGUID, unitName)
-    local ours = UnitFactionGroup('player');
-    local theirs = UnitFactionGroup(unitName);
+    local ours, _ = UnitFactionGroup('player');
+    local theirs, _ = UnitFactionGroup(unitName);
 
     if (UnitIsPlayer(unitName) == false) then
         return ImpUI_Killfeed:ToFactionColour(ImpUI_Killfeed:GetOppositeFaction(ours), unitName);
