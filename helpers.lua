@@ -10,6 +10,13 @@ function Helpers.removekey(table, key)
 end
 
 --[[
+	Simply returns what percentage the first var is of the second.
+]]
+function Helpers.to_percentage(first, second)
+    return (first / second) * 100;
+end
+
+--[[
 	Simple check for if we're currently running in a Classic WoW Client.
 ]]
 function Helpers.IsClassic()
@@ -63,6 +70,21 @@ function Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs)
         x = xOfs,
         y = yOfs,
     };
+end
+
+--[[
+	To debug exact position of a frame.
+]]
+function Helpers.debug_position(frame)
+    local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint();
+
+    print(frame:GetName());
+    print(format('Point: %s', point));
+    print('Relative To:');
+    print(relativeTo);
+    print(format('Relative Point: %s', relativePoint));
+    print(format('xOffset: %s', xOfs));
+    print(format('yOffset: %s', yOfs));
 end
 
 --[[

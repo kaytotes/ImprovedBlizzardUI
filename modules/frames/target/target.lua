@@ -1,5 +1,5 @@
 --[[
-    modules\frames\target.lua
+    modules\frames\target\target.lua
     Styles, Scales and Repositions the Target Unit Frame.
 ]]
 ImpUI_Target = ImpUI:NewModule('ImpUI_Target', 'AceEvent-3.0', 'AceHook-3.0');
