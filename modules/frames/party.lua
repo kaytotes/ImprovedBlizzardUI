@@ -122,6 +122,8 @@ end
     @ return void
 ]]
 function ImpUI_Party:OnEnable()
+    if (Helpers.IsRetail()) then return end
+
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_PartyFrame_DragFrame', 205, 350, L['Party Frames']);
 
