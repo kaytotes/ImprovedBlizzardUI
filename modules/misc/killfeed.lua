@@ -19,6 +19,11 @@ local killfeed;
 local dragFrame;
 local lastGUID;
 
+--[[
+	Actually handles assigning a colour to text.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:ToFactionColour(faction, string)
     if (faction == 'Horde') then
         return format('|cffFE2E2E%s|r', string);
@@ -27,6 +32,11 @@ function ImpUI_Killfeed:ToFactionColour(faction, string)
     end
 end
 
+--[[
+	Simply provides the opposite faction of the one given in.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:GetOppositeFaction(faction)
     if (faction == 'Horde') then
         return 'Alliance';
@@ -35,6 +45,11 @@ function ImpUI_Killfeed:GetOppositeFaction(faction)
     end
 end
 
+--[[
+	Figures out what to colour what and formats the string accordingly.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:GetFormattedString(unitGUID, unitName)
     local ours = UnitFactionGroup('player');
     local theirs = UnitFactionGroup(unitName);
@@ -50,6 +65,11 @@ function ImpUI_Killfeed:GetFormattedString(unitGUID, unitName)
     end
 end
 
+--[[
+	Actually sends the provided string to the Kill Feed.
+	
+    @ return void
+]]
 function ImpUI_Killfeed:SendToKillFeed(string)
     -- Drop down each kill
     for i = #killfeed.recentKills, 1, -1 do
@@ -89,9 +109,6 @@ end
     @ return void
 ]]
 function ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount)
-    local playerFaction, _ = UnitFactionGroup( 'player' );
-    local killerString, killedString, killerFaction, killedFaction;
-
     if (sourceName == nil or destName == nil) then return end
 
     -- Stop repeat events occuring for different spells but the same enemy.
@@ -105,8 +122,8 @@ function ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destNam
         end
     end
 
-    killerString = ImpUI_Killfeed:GetFormattedString(sourceGUID, sourceName);
-    killedString = ImpUI_Killfeed:GetFormattedString(destGUID, destName);
+    local killerString = ImpUI_Killfeed:GetFormattedString(sourceGUID, sourceName);
+    local killedString = ImpUI_Killfeed:GetFormattedString(destGUID, destName);
 
     local showSpell = ImpUI.db.char.killFeedShowSpell;
 
