@@ -54,6 +54,7 @@ ImpUI_Config.defaults = {
 
         performanceFrame = true,
         performanceFrameSize = 14,
+        performanceFramePosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -27.80, -9.40),
 
         osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
         killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5),

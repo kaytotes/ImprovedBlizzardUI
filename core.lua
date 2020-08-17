@@ -34,6 +34,7 @@ local function GetDraggables()
         'ImpUI_Target',
         'ImpUI_CastBar',
         'ImpUI_Buffs',
+        'ImpUI_Performance',
     };
 
     if (Helpers.IsRetail()) then
