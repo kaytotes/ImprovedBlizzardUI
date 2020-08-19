@@ -57,15 +57,11 @@ end
     @ return void
 ]]
 function ImpUI_Bars:OnEnable()
-    if (Helpers.IsClassic()) then
-        ImpUI:Print('ImpUI_Bars:OnEnable() ignored. Known Issues.');
-
-        return
-    end
-
     self:RegisterEvent('PLAYER_ENTERING_WORLD', ApplyButtonStyles);
 
-    self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
+    if (Helpers.IsRetail()) then
+        self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
+    end
 end
 
 --[[
