@@ -1439,6 +1439,10 @@ ImpUI_Config.options = {
                         ImpUI_Player:StyleFrame();
                         ImpUI_OrderHall:StyleFrame();
                         ImpUI_CastBar:StyleFrame();
+
+                        if (Helpers.IsClassic()) then
+                            ImpUI_Target_Health:StyleFont();
+                        end
                     end,
                     order = 12,
                 },

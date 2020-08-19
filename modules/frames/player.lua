@@ -114,8 +114,6 @@ function ImpUI_Player:StyleFrame()
 
     PlayerName:SetFont(font, 11, flags);
 
-    Helpers.debug_position(PlayerFrameHealthBarTextRight);
-
     PlayerFrameHealthBarText:SetFont(font, 10, flags);
     PlayerFrameHealthBarTextLeft:SetFont(font, 10, flags);
     PlayerFrameHealthBarTextRight:SetFont(font, 10, flags);

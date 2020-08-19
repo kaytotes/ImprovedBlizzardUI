@@ -81,11 +81,27 @@ function Helpers.debug_position(frame)
     print(frame:GetName());
     print(format('Point: %s', point));
     print('Relative To:');
-    print(relativeTo);
+    print(Helpers.dump_table(relativeTo));
     print(format('Relative Point: %s', relativePoint));
     print(format('xOffset: %s', xOfs));
     print(format('yOffset: %s', yOfs));
 end
+
+--[[
+	To debug a tables contents.
+]]
+function Helpers.dump_table(o)
+    if type(o) == 'table' then
+       local s = '{ '
+       for k,v in pairs(o) do
+          if type(k) ~= 'number' then k = '"'..k..'"' end
+          s = s .. '['..k..'] = ' .. Helpers.dump_table(v) .. ','
+       end
+       return s .. '} '
+    else
+       return tostring(o)
+    end
+ end
 
 --[[
 	Adds a tooltip to a frame.

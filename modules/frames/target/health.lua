@@ -30,6 +30,8 @@ function ImpUI_Target_Health:UpdateLeftText(current, max)
         frame.left:SetText('');
         return
     end
+
+    frame.left:SetText(format('%u%%', Helpers.to_percentage(current, max)));
 end
 
 function ImpUI_Target_Health:UpdateRightText(current, max)
@@ -140,8 +142,8 @@ function ImpUI_Target_Health:OnEnable()
     frame.left = frame:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
     frame.right = frame:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
     frame.middle:SetPoint('CENTER', 0, 0);
-    frame.left:SetPoint('LEFT', 0, 0);
-    frame.right:SetPoint('RIGHT', 50, -3);
+    frame.left:SetPoint('LEFT', TargetFrame, 'LEFT', 7, 3);
+    frame.right:SetPoint('RIGHT', TargetFrame, 'RIGHT', -110, 3);
 
     ImpUI_Target_Health:StyleFont();
 
