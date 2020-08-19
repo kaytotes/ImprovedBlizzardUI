@@ -19,6 +19,10 @@ local killfeed;
 local dragFrame;
 local lastGUID;
 
+local hordeColour = 'FE2E2E';
+local allianceColour = '2E9AFE';
+local neutralColour = '00FF61';
+
 --[[
 	Actually handles assigning a colour to text.
 	
@@ -26,9 +30,9 @@ local lastGUID;
 ]]
 function ImpUI_Killfeed:ToFactionColour(faction, string)
     if (faction == 'Horde') then
-        return format('|cffFE2E2E%s|r', string);
+        return format('|cff%s%s|r', hordeColour, string);
     else
-        return format('|cff2E9AFE%s|r', string);
+        return format('|cff%s%s|r', allianceColour, string);
     end
 end
 
@@ -52,14 +56,17 @@ end
 ]]
 function ImpUI_Killfeed:GetFormattedString(unitGUID, unitName)
     local ours, _ = UnitFactionGroup('player');
-    local theirs, _ = UnitFactionGroup(unitName);
-
-    if (UnitIsPlayer(unitName) == false) then
+    
+    if (Helpers.IsPlayerByGUID(unitGUID) == false) then
         return ImpUI_Killfeed:ToFactionColour(ImpUI_Killfeed:GetOppositeFaction(ours), unitName);
     end
 
+    local theirs = Helpers.GetFactionByGUID(unitGUID);
+
     if (ours == theirs) then
         return ImpUI_Killfeed:ToFactionColour(ours, unitName);
+    elseif (theirs == 'Unknown') then
+        return format('|cff%s%s|r', neutralColour, unitName);
     else 
         return ImpUI_Killfeed:ToFactionColour(theirs, unitName);
     end
