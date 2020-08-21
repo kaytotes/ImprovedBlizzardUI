@@ -31,6 +31,11 @@ function ImpUI_Target_Mana:UpdateLeftText(current, max)
         return
     end
 
+    if (current == 0 and max == 0) then
+        frame.left:SetText(format('%u%%', 0));
+        return
+    end
+
     frame.left:SetText(format('%u%%', Helpers.to_percentage(current, max)));
 end
 
@@ -63,6 +68,11 @@ function ImpUI_Target_Mana:UpdateMiddleText(current, max)
     end
 
     if (display == 'PERCENT') then
+        if (current == 0 and max == 0) then
+            frame.middle:SetText(format('%u%%', 0));
+            return
+        end
+
         frame.middle:SetText(format('%u%%', Helpers.to_percentage(current, max)));
         return
     end
@@ -93,9 +103,6 @@ end
 ]]
 function ImpUI_Target_Mana:UNIT_POWER_UPDATE(event, unit, type)
     if (unit ~= 'target') then return end
-
-    print(unit);
-    print(type);
 
     ImpUI_Target_Mana:SetTexts();
 end
