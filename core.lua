@@ -21,20 +21,32 @@ function OpenImprovedUIOptions()
     InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
     InterfaceOptionsFrame_OpenToCategory(ImpUI.optionsFrame);
 end
-
--- The Modules / Elements that can be moved.
-local draggable = {
-    'ImpUI_OSD',
-    'ImpUI_Killfeed',
-    'ImpUI_Player',
-    'ImpUI_Target',
-    -- 'ImpUI_Party',
-    'ImpUI_Focus',
-    'ImpUI_CastBar',
-    'ImpUI_Buffs',
-};
-
 local isEditing = false;
+
+--[[
+	Gets the Draggable UI Elements
+]]
+local function GetDraggables()
+    local draggables = {
+        'ImpUI_OSD',
+        'ImpUI_Killfeed',
+        'ImpUI_Player',
+        'ImpUI_Target',
+        'ImpUI_CastBar',
+        'ImpUI_Buffs',
+        'ImpUI_Performance',
+    };
+
+    if (Helpers.IsRetail()) then
+        table.insert(draggables, 'ImpUI_Focus');
+    end
+
+    if (Helpers.IsClassic()) then
+        table.insert(draggables, 'ImpUI_Party');
+    end
+
+    return draggables;
+end
 
 --[[
 	Unlocks all of the UI draggable frames.
@@ -42,7 +54,7 @@ local isEditing = false;
 local function UnlockFrames()
     if (isEditing) then return; end
 
-    for i, module in pairs (draggable) do
+    for i, module in pairs (GetDraggables()) do
         local m = ImpUI:GetModule(module);
         m:Unlock();
     end 
@@ -56,7 +68,7 @@ end
 local function LockFrames()
     if (isEditing == false) then return; end
 
-    for i, module in pairs (draggable) do
+    for i, module in pairs (GetDraggables()) do
         local m = ImpUI:GetModule(module);
         m:Lock();
     end 
@@ -131,6 +143,5 @@ function ImpUI:OnInitialize()
     -- Register Slash Command
     self:RegisterChatCommand('imp', 'HandleSlash');
 
-    -- Finally print Intialized Message.
-    print('|cffffff00Improved Blizzard UI ' .. GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' Initialized.');
+    print(format('|cffffff00Improved Blizzard UI %s - %s Mode Initialized.', GetAddOnMetadata('ImprovedBlizzardUI', 'Version'), Helpers.GetEnvironment()));
 end

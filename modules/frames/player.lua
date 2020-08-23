@@ -16,6 +16,8 @@ local UnitHealth = UnitHealth;
 local UnitHealthMax = UnitHealthMax;
 local UnitExists = UnitExists;
 local InCombatLockdown = InCombatLockdown;
+local UnitPower = UnitPower;
+local UnitPowerMax = UnitPowerMax;
 
 --[[
     Either applies class colours or resets to blizzards. Called from config.lua
@@ -50,7 +52,15 @@ end
 ]]
 function ImpUI_Player:TogglePlayer(toggle)
     if (InCombatLockdown() == false) then
-        if (toggle and UnitHealth('player') == UnitHealthMax('player') and UnitExists('target') == false  and ImpUI.db.char.playerHideOOC) then
+        local maxHealth = UnitHealth('player') == UnitHealthMax('player');
+        local maxMana = UnitPower('player', 0) == UnitPowerMax('player', 0);
+        local hasTarget = UnitExists('target') == false;
+
+        if (Helpers.IsRetail()) then
+            maxMana = true;
+        end
+
+        if (toggle and maxHealth and maxMana and hasTarget and ImpUI.db.char.playerHideOOC) then
             PlayerFrame:Hide();
         else
             PlayerFrame:Show();
@@ -58,6 +68,14 @@ function ImpUI_Player:TogglePlayer(toggle)
     end
 end
 
+--[[
+	Fires when the Players mana changes.
+	
+    @ return void
+]]
+function ImpUI_Player:UNIT_POWER_UPDATE(...)
+    ImpUI_Player:TogglePlayer(true);
+end
 
 --[[
 	When the health bar changes in any way, reapply class colours.
@@ -104,9 +122,11 @@ function ImpUI_Player:StyleFrame()
     PlayerFrameManaBarTextLeft:SetFont(font, 10, flags);
     PlayerFrameManaBarTextRight:SetFont(font, 10, flags);
 
-    PlayerFrameAlternateManaBarText:SetFont(font, 10, flags);
-    PlayerFrameAlternateManaBar.RightText:SetFont(font, 10, flags);
-    PlayerFrameAlternateManaBar.LeftText:SetFont(font, 10, flags);
+    if (Helpers.IsRetail()) then
+        PlayerFrameAlternateManaBarText:SetFont(font, 10, flags);
+        PlayerFrameAlternateManaBar.RightText:SetFont(font, 10, flags);
+        PlayerFrameAlternateManaBar.LeftText:SetFont(font, 10, flags);
+    end
 
     PlayerName:SetTextColor(r, g, b, a);
 
@@ -272,11 +292,15 @@ function ImpUI_Player:OnEnable()
     -- Register Events
     self:RegisterEvent('PLAYER_LOGIN');
     self:RegisterEvent('UNIT_HEALTH');
+    self:RegisterEvent('UNIT_POWER_UPDATE');
     self:RegisterEvent('PLAYER_REGEN_DISABLED');
     self:RegisterEvent('PLAYER_REGEN_ENABLED');
     self:RegisterEvent('PLAYER_TARGET_CHANGED');
-    self:RegisterEvent('UNIT_EXITED_VEHICLE');
-    self:RegisterEvent('UNIT_ENTERED_VEHICLE');
+
+    if (Helpers.IsRetail()) then
+        self:RegisterEvent('UNIT_EXITED_VEHICLE');
+        self:RegisterEvent('UNIT_ENTERED_VEHICLE');
+    end
 
     -- Register Hooks
     self:SecureHook('CombatFeedback_OnCombatEvent', 'CombatFeedback_OnCombatEvent');

@@ -70,8 +70,11 @@ end
 function ImpUI_CastBar:StyleFrame()
     -- Kill If Needed
     KillTimer(CastingBarFrame);
-    KillTimer(TargetFrameSpellBar);
-    KillTimer(FocusFrameSpellBar);
+
+    if (Helpers.IsRetail()) then
+        KillTimer(TargetFrameSpellBar);
+        KillTimer(FocusFrameSpellBar);
+    end
 
     -- Get Font
     font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
@@ -84,6 +87,9 @@ function ImpUI_CastBar:StyleFrame()
     if (ImpUI.db.char.castBarPlayerTimer) then
         CreateCastingTimer(CastingBarFrame, Helpers.pack_position('TOP', nil, 'BOTTOM', 0, 35));
     end
+
+    -- Anything else is Retail
+    if (Helpers.IsClassic()) then return end
     
     -- Target Frame
     if (ImpUI.db.char.castBarTargetTimer) then

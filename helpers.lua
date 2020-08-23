@@ -1,6 +1,47 @@
 Helpers = CreateFrame('Frame', nil, UIParent);
 
 --[[
+	Removes an element from a table by key.
+]]
+function Helpers.removekey(table, key)
+    local element = table[key]
+    table[key] = nil
+    return element
+end
+
+--[[
+	Simply returns what percentage the first var is of the second.
+]]
+function Helpers.to_percentage(first, second)
+    return (first / second) * 100;
+end
+
+--[[
+	Simple check for if we're currently running in a Classic WoW Client.
+]]
+function Helpers.IsClassic()
+    return select(4,GetBuildInfo()) <= 19999;
+end
+
+--[[
+	Simple check for if we're currently running in a Retail WoW Client.
+]]
+function Helpers.IsRetail()
+    return not Helpers.IsClassic();
+end
+
+--[[
+	Returns a human readable string for the current environment.
+]]
+function Helpers.GetEnvironment()
+    if (Helpers.IsRetail()) then
+        return 'Battle for Azeroth';
+    else
+        return 'Classic';
+    end
+end
+
+--[[
 	Just a helper for getting consistent font styles.
 ]]
 function Helpers.get_styled_font(font)
@@ -30,6 +71,37 @@ function Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs)
         y = yOfs,
     };
 end
+
+--[[
+	To debug exact position of a frame.
+]]
+function Helpers.debug_position(frame)
+    local point, relativeTo, relativePoint, xOfs, yOfs = frame:GetPoint();
+
+    print(frame:GetName());
+    print(format('Point: %s', point));
+    print('Relative To:');
+    print(Helpers.dump_table(relativeTo));
+    print(format('Relative Point: %s', relativePoint));
+    print(format('xOffset: %s', xOfs));
+    print(format('yOffset: %s', yOfs));
+end
+
+--[[
+	To debug a tables contents.
+]]
+function Helpers.dump_table(o)
+    if type(o) == 'table' then
+       local s = '{ '
+       for k,v in pairs(o) do
+          if type(k) ~= 'number' then k = '"'..k..'"' end
+          s = s .. '['..k..'] = ' .. Helpers.dump_table(v) .. ','
+       end
+       return s .. '} '
+    else
+       return tostring(o)
+    end
+ end
 
 --[[
 	Adds a tooltip to a frame.
@@ -233,4 +305,70 @@ end
 
 function round(number, decimals)
     return (("%%.%df"):format(decimals)):format(number);
+end
+
+--[[
+	Figures out if provided guid is a Player.
+]]
+function Helpers.IsPlayerByGUID(guid)
+    local type, _, _, _, _, _, _ = strsplit("-", guid);
+
+    return type == 'Player';
+end
+
+--[[
+	Figures out if provided guid is an NPC.
+]]
+function Helpers.IsCreatureByGUID(guid)
+    local type, _, _, _, _, _, _ = strsplit("-", guid);
+
+    return type == 'Creature';
+end
+
+--[[
+	Figures out a players faction from their guid.
+]]
+function Helpers.GetFactionByGUID(guid)
+    _, _, _, englishRace, _, _, _ = GetPlayerInfoByGUID(guid);
+
+    return Helpers.GetFactionByRace(englishRace);
+end
+
+--[[
+	I absolutely hate that that is required. Shoot me.
+]]
+function Helpers.GetFactionByRace(race)
+    local horde = 'Horde';
+    local alliance = 'Alliance';
+    local unknown = 'Unknown';
+
+    -- Edge Cases
+    if (race == 'Pandaren') then return unknown end
+
+    -- Alliance
+    if (race == 'Human') then return alliance end
+    if (race == 'Dwarf') then return alliance end
+    if (race == 'NightElf') then return alliance end
+    if (race == 'Gnome') then return alliance end
+    if (race == 'Draenei') then return alliance end
+    if (race == 'Worgen') then return alliance end
+    if (race == 'VoidElf') then return alliance end
+    if (race == 'LightforgedDraenei') then return alliance end
+    if (race == 'KulTiran') then return alliance end
+    if (race == 'ThinHuman') then return alliance end
+    if (race == 'DarkIronDwarf') then return alliance end
+    if (race == 'Mechagnome') then return alliance end
+
+    -- Horde
+    if (race == 'Orc') then return horde end
+    if (race == 'Scourge') then return horde end
+    if (race == 'Tauren') then return horde end
+    if (race == 'Troll') then return horde end
+    if (race == 'Goblin') then return horde end
+    if (race == 'BloodElf') then return horde end
+    if (race == 'Nightborne') then return horde end
+    if (race == 'HighmountainTauren') then return horde end
+    if (race == 'ZandalariTroll') then return horde end
+    if (race == 'Vulpera') then return horde end
+    if (race == 'MagharOrc') then return horde end
 end

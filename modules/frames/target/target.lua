@@ -1,5 +1,5 @@
 --[[
-    modules\frames\target.lua
+    modules\frames\target\target.lua
     Styles, Scales and Repositions the Target Unit Frame.
 ]]
 ImpUI_Target = ImpUI:NewModule('ImpUI_Target', 'AceEvent-3.0', 'AceHook-3.0');
@@ -63,7 +63,11 @@ function ImpUI_Target:StyleFrame()
     -- Update Health Bar Size
     TargetFrame.healthbar:SetHeight(29);
     TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-    TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+
+    if (Helpers.IsRetail()) then
+        TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    end
+
     TargetFrame.deadText:SetPoint('CENTER',-50,6);
     TargetFrame.nameBackground:Hide();
     TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
@@ -86,18 +90,20 @@ function ImpUI_Target:StyleFrame()
     -- Fonts
     local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
 
-    TargetFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    
     TargetFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
-
     TargetFrameTextureFrameName:SetFont(font.font, 11, font.flags);
 
-    TargetFrameTextureFrameHealthBarText:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameHealthBarTextLeft:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameHealthBarTextRight:SetFont(font.font, 10, font.flags);
-    
-    TargetFrameTextureFrameManaBarText:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameManaBarTextLeft:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
+    if (Helpers.IsRetail()) then
+        TargetFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+        TargetFrameTextureFrameHealthBarText:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameHealthBarTextLeft:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameHealthBarTextRight:SetFont(font.font, 10, font.flags);
+        
+        TargetFrameTextureFrameManaBarText:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameManaBarTextLeft:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
+    end
 
     point, relativeTo, relativePoint, xOfs, yOfs = TargetFrameTextureFrameLevelText:GetPoint();
     local level = UnitLevel('target');

@@ -3,6 +3,8 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 ImpUI_Config = {};
 
+local mode = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version') .. ' - ' .. Helpers.GetEnvironment() .. ' Mode';
+
 --[[
 	Defaults for every new character.
 ]]
@@ -52,6 +54,7 @@ ImpUI_Config.defaults = {
 
         performanceFrame = true,
         performanceFrameSize = 14,
+        performanceFramePosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -27.80, -9.40),
 
         osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
         killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5),
@@ -123,7 +126,7 @@ ImpUI_Config.defaults = {
 	Configuration Menu.
 ]]
 ImpUI_Config.options = {
-    name = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', 'Version'),
+    name = mode,
     handler = ImpUI,
     type = 'group',
     childGroups = "tab",
@@ -290,6 +293,7 @@ ImpUI_Config.options = {
                     type = 'header',
                     name = L['Party Frames'],
                     order = 11,
+                    hidden = true,
                 },
 
                 partyFrameScale = {
@@ -309,6 +313,7 @@ ImpUI_Config.options = {
                     end,
                     isPercent = false,
                     order = 12,
+                    hidden = true,
                 },
 
                 -- Focus Frames Section
@@ -316,6 +321,7 @@ ImpUI_Config.options = {
                     type = 'header',
                     name = L['Focus Frame'],
                     order = 13,
+                    hidden = Helpers.IsClassic(),
                 },
 
                 focusClassColours = {
@@ -450,6 +456,7 @@ ImpUI_Config.options = {
                         ImpUI_CastBar:StyleFrame();
                     end,
                     order = 5,
+                    hidden = Helpers.IsClassic(),
                 },
 
                 castBarFocusTimer = {
@@ -465,6 +472,7 @@ ImpUI_Config.options = {
                         ImpUI_CastBar:StyleFrame();
                     end,
                     order = 6,
+                    hidden = Helpers.IsClassic(),
                 },
 
                 -- Buff Bar Section
@@ -1299,6 +1307,7 @@ ImpUI_Config.options = {
                         return ImpUI.db.char.autoRepair == false;
                     end,
                     order = 3,
+                    hidden = Helpers.IsClassic(),
                 },
                 autoSell = {
                     type = 'toggle',
@@ -1323,6 +1332,7 @@ ImpUI_Config.options = {
                         ImpUI.db.char.autoScreenshot = newValue;
                     end,
                     order = 5,
+                    hidden = Helpers.IsClassic(),
                 },
 
                 -- Chat Section
@@ -1429,6 +1439,10 @@ ImpUI_Config.options = {
                         ImpUI_Player:StyleFrame();
                         ImpUI_OrderHall:StyleFrame();
                         ImpUI_CastBar:StyleFrame();
+
+                        if (Helpers.IsClassic()) then
+                            ImpUI_Target_Health:StyleFont();
+                        end
                     end,
                     order = 12,
                 },

@@ -44,29 +44,6 @@ function ApplyButtonStyles()
 end
 
 --[[
-    Handles the Out of Range action bar colouring
-	@param Frame $self The Action Bar Button
-	@param float $elapsed The amount of time passed since the last frame
-    @ return void
-]]
-local function ActionButton_OnUpdate_Hook(self, elapsed)
-    if(self.rangeTimer == TOOLTIP_UPDATE_TIME) then
-        if(IsActionInRange(self.action) == false) then
-            self.icon:SetVertexColor(1, 0, 0);
-        else
-            local canUse, amountMana = IsUsableAction( self.action );
-            if(canUse) then
-                self.icon:SetVertexColor( 1.0, 1.0, 1.0 );
-            elseif(amountMana) then
-                self.icon:SetVertexColor( 0.5, 0.5, 1.0 );
-            else
-                self.icon:SetVertexColor( 0.4, 0.4, 0.4 );
-            end
-        end
-    end
-end
-
---[[
 	Fires when the module is Initialised.
 	
     @ return void
@@ -82,8 +59,9 @@ end
 function ImpUI_Bars:OnEnable()
     self:RegisterEvent('PLAYER_ENTERING_WORLD', ApplyButtonStyles);
 
-    self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
-    self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
+    if (Helpers.IsRetail()) then
+        self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
+    end
 end
 
 --[[

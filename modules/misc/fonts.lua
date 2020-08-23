@@ -117,8 +117,10 @@ local function UpdateFonts()
 	SetFont(SystemFont_Shadow_Med1_Outline,     primaryFont, 11, 'OUTLINE');
 	SetFont(SystemFont_Shadow_Small2,           primaryFont, 10);
     SetFont(SystemFont_Small2,                  primaryFont, 11);
-    
-    for _,butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft); end
+	
+	if (Helpers.IsRetail()) then
+		for _,butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft); end
+	end
 end
 
 --[[
