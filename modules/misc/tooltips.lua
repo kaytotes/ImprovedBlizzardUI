@@ -58,7 +58,7 @@ local GetItemInfo = GetItemInfo;
     @ return void
 ]]
 local function AFKStatus(unit)
-    return UnitIsAFK(unit) and '|cffAAAAAA<AFK>|r ' or UnitIsDND(unit) and '|cffAAAAAA<DND>|r ' or '';
+    return UnitIsAFK(unit) and '|cffAAAAAA<afk>|r ' or UnitIsDND(unit) and '|cffAAAAAA<dnd>|r ' or '';
 end
 
 --[[
@@ -78,63 +78,9 @@ function ImpUI_Tooltips:ResetStyle()
 	GameTooltipStatusBar:SetPoint('BOTTOMRIGHT', 0, -10);
 end
 
---[[
-	Styles a normal "Unit" tooltip.
-	
-    @ return void
-]]
-function ImpUI_Tooltips:StyleNormalTooltip(tip)
-    -- Bail out on config 
-    if (ImpUI.db.char.styleTooltips == false) then return; end
-
-    -- Check for forbidden tooltip.
-    if (tip:IsForbidden()) then return end
-
-    -- Get the Unit
-    local name, unit = tip:GetUnit()
-	if (not unit) then
-		unit = GetMouseFocus() and GetMouseFocus():GetAttribute('unit');
-	end
-    if not unit then return end
-
-    -- Get the info we're gonna need
-    local numLines = tip:NumLines();
-    local line = 1;
-	name = GetUnitName(unit);
-	local guild, rank = GetGuildInfo(unit);
-    local race = UnitRace(unit) or '';
-    local canAttack = UnitIsEnemy('player', unit);
-    local playerFaction = UnitFactionGroup('player');
-    local faction = UnitFactionGroup(unit) or canAttack and '' or playerFaction;
-	local classification = UnitClassification(unit);
-	local creatureType = UnitCreatureType(unit);
-    local factionGroup = select(1, UnitFactionGroup(unit));
-    local target = unit .. "target";
-
-    -- Unit Level
-    local level = UnitLevel(unit);
-	local levelColor = GetQuestDifficultyColor(level);
-	if (level == -1) then
-        level = '??';
-        levelColor = Helpers.colour_pack(1, 0, 0, 1);
-    end
-
-    -- Friend Status
-    local isFriend = UnitIsFriend('player', unit);
-    local friendColor = Helpers.colour_pack(1, 1, 1, 1);
-    
-    if (not isFriend) then
-        friendColor = Helpers.colour_pack(1, 0.15, 0, 1);
-    else
-        friendColor = Helpers.colour_pack(0, 0.55, 1, 1);
-    end
-
-    -- Faction Group
-    if (factionGroup == 'Horde') then
-        factionColour = Helpers.colour_pack(1, 0.15, 0, 1);
-    else
-        factionColour = Helpers.colour_pack(0, 0.55, 1, 1);
-    end
+function ImpUI_Tooltips:AssignHostilityBorder(tip, unit)
+    local friendColor = ImpUI_Tooltips:GetFriendColour(unit);
+    local factionColour = ImpUI_Tooltips:GetFactionColour(unit);
 
     -- Set the Background Colour
     local backdrop = GameTooltip:GetBackdrop();
@@ -153,53 +99,11 @@ function ImpUI_Tooltips:StyleNormalTooltip(tip)
     else
         tip:SetBackdropBorderColor(borderColour.r, borderColour.g, borderColour.b);
     end
+end
 
-    -- Build the Tooltip
-    local lines = {};
-	lines[1] = GameTooltipTextLeft1:GetText();
 
-    if (UnitIsPlayer(unit)) then
-        -- Class Coloured
-        if (ImpUI.db.char.tooltipNameClassColours) then
-            GameTooltipTextLeft1:SetFormattedText('|cff%s%s|r %s', Helpers.RGBPercToHex(Helpers.GetClassColour(unit)), UnitName(unit), AFKStatus(unit));
-        else
-            GameTooltipTextLeft1:SetFormattedText('%s%s', UnitName(unit), AFKStatus(unit));
-        end
-        
-        if (guild) then
-            GameTooltipTextLeft2:SetFormattedText('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.char.tooltipGuildColour), guild);
-            GameTooltipTextLeft3:SetFormattedText('|cff%s%s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, Helpers.RGBPercToHex(friendColor), race);
-        else
-            GameTooltip:AddLine('', 1, 1, 1);
-			GameTooltipTextLeft2:SetFormattedText('|cff%s%s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, Helpers.RGBPercToHex(friendColor), race);
-        end
-
-        for i = 2, numLines do
-            local line = _G['GameTooltipTextLeft'..i];
-            if not line or not line:GetText() then break end
-
-            if (factionGroup and line:GetText():find('^'..factionGroup)) then
-                line:SetFormattedText('|cff%s%s|r', Helpers.RGBPercToHex(factionColour), factionGroup);
-            end
-
-            if (line:GetText():find('^'..PVP_ENABLED)) then
-                line:SetFormattedText('|cff%s%s|r', Helpers.RGBPercToHex(friendColor), PVP_ENABLED);
-            end
-        end
-    else
-        for i = 2, numLines do
-			local line = _G['GameTooltipTextLeft'..i];
-            if not line or not line:GetText() then break end
-            
-            if (level and line:GetText():find('^'..LEVEL) or (creatureType and line:GetText():find('^'..creatureType))) then
-                line:SetFormattedText('|cff%s%s %s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, unitClassification[classification], Helpers.RGBPercToHex(friendColor), creatureType or 'Unknown');
-            end
-            
-            if (line:GetText():find('^'..PVP_ENABLED)) then
-                line:SetFormattedText('|cff%s%s|r', Helpers.RGBPercToHex(friendColor), PVP_ENABLED);
-            end
-		end
-    end
+function ImpUI_Tooltips:AddTargetOfTarget(unit)
+    local target = unit .. "target";
 
     -- Target of Target
     if (UnitExists(target) and ImpUI.db.char.tooltipToT) then
@@ -208,26 +112,168 @@ function ImpUI_Tooltips:StyleNormalTooltip(tip)
 
         GameTooltip:AddLine(format("%s: %s", L['Target'], name), colour.r, colour.g, colour.b);
     end
+end
 
+function ImpUI_Tooltips:StyleHealthBar(unit)
     -- Update Health Bar
-    local hp = UnitHealth(unit)
-	local max = UnitHealthMax(unit)
-    
+    local hp = UnitHealth(unit);
+    local max = UnitHealthMax(unit);
+
+    if (UnitIsPlayer(unit) or (UnitCreatureType(unit) ~= nil)) then
+        GameTooltipStatusBar:Show();
+    else
+        GameTooltipStatusBar.unit = nil;
+        GameTooltipStatusBar:Hide();
+
+        return;
+    end
+
     -- Set Tooltip Unit.
     GameTooltipStatusBar.unit = unit;
-	GameTooltipStatusBar:SetMinMaxValues(0, max);
+    GameTooltipStatusBar:SetMinMaxValues(0, max);
     GameTooltipStatusBar:SetValue(hp);
 
     -- Style and Position
-	GameTooltipStatusBar:ClearAllPoints();
+    GameTooltipStatusBar:ClearAllPoints();
     GameTooltipStatusBar:SetPoint('BOTTOMLEFT', 5, 5);
-	GameTooltipStatusBar:SetPoint('BOTTOMRIGHT', -5, 5);
-	GameTooltipStatusBar:SetHeight(5);
+    GameTooltipStatusBar:SetPoint('BOTTOMRIGHT', -5, 5);
+    GameTooltipStatusBar:SetHeight(5);
     GameTooltipStatusBar:SetStatusBarTexture('Interface\\TargetingFrame\\UI-StatusBar');
 
     if (ImpUI.db.char.tooltipHealthClassColours) then
         Helpers.ApplyClassColours(GameTooltipStatusBar, unit);
     end
+end
+
+function ImpUI_Tooltips:FormatForPlayer(tip, unit)
+    local name = GetUnitName(unit);
+    local guild, rank = GetGuildInfo(unit);
+
+    -- Name 
+    if (ImpUI.db.char.tooltipNameClassColours) then
+        GameTooltip:AddLine(format('|cff%s%s|r %s', Helpers.RGBPercToHex(Helpers.GetClassColour(unit)), UnitName(unit), AFKStatus(unit)));
+    else
+        GameTooltip:AddLine(format('%s%s', UnitName(unit), AFKStatus(unit)));
+    end
+
+    -- Guild
+    if (guild) then
+        GameTooltip:AddLine(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.char.tooltipGuildColour), guild));
+    end
+end
+
+function ImpUI_Tooltips:FormatForCreature(tip, unit)
+    local name = GetUnitName(unit);
+
+    -- Name 
+    if (ImpUI.db.char.tooltipNameClassColours) then
+        GameTooltip:AddLine(format('|cff%s%s|r', Helpers.RGBPercToHex(Helpers.GetClassColour(unit)), UnitName(unit)));
+    else
+        GameTooltip:AddLine(format('%s%s', UnitName(unit)));
+    end
+end
+
+function ImpUI_Tooltips:GetFriendColour(unit)
+    local isFriend = UnitIsFriend('player', unit);
+    local friendColor = Helpers.colour_pack(1, 1, 1, 1);
+    
+    if (not isFriend) then
+        friendColor = Helpers.colour_pack(1, 0.15, 0, 1);
+    else
+        friendColor = Helpers.colour_pack(0, 0.55, 1, 1);
+    end
+
+    return friendColor;
+end
+
+function ImpUI_Tooltips:GetFactionColour(unit)
+    local factionGroup = select(1, UnitFactionGroup(unit));
+
+    if (factionGroup == 'Horde') then
+        factionColour = Helpers.colour_pack(1, 0.15, 0, 1);
+    else
+        factionColour = Helpers.colour_pack(0, 0.55, 1, 1);
+    end
+
+    return factionColour;
+end
+
+function ImpUI_Tooltips:AddLevel(tip, unit, isPlayer)
+    local race = UnitRace(unit) or '';
+    local canAttack = UnitIsEnemy('player', unit);
+    local playerFaction = UnitFactionGroup('player');
+    local faction = UnitFactionGroup(unit) or canAttack and '' or playerFaction;
+	local classification = UnitClassification(unit);
+	local creatureType = UnitCreatureType(unit);
+    
+    local level = UnitLevel(unit);
+    local levelColor = GetQuestDifficultyColor(level);
+    
+	if (level == -1) then
+        level = '??';
+        levelColor = Helpers.colour_pack(1, 0, 0, 1);
+    end
+
+    local friendColor = ImpUI_Tooltips:GetFriendColour(unit);
+    local out;
+
+    if (isPlayer) then
+        -- out = level;
+        out = format('|cff%s%s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, Helpers.RGBPercToHex(friendColor), race);
+    else
+        out = format('|cff%s%s %s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, unitClassification[classification], Helpers.RGBPercToHex(friendColor), creatureType or 'Unknown');
+    end
+    
+    GameTooltip:AddLine(out);
+end
+
+function ImpUI_Tooltips:AddFaction(tip, unit)
+    local factionGroup = select(1, UnitFactionGroup(unit));
+
+    if (factionGroup == nil) then return end
+
+    local colour = ImpUI_Tooltips:GetFactionColour(unit);
+
+    local out = format('|cff%s%s|r', Helpers.RGBPercToHex(colour), factionGroup);
+    
+    GameTooltip:AddLine(out);
+end
+
+--[[
+	Styles a normal "Unit" tooltip.
+	
+    @ return void
+]]
+function ImpUI_Tooltips:StyleNormalTooltip(tip)
+    -- Bail out on config 
+    if (ImpUI.db.char.styleTooltips == false) then return; end
+
+    -- Check for forbidden tooltip.
+    if (tip:IsForbidden()) then return end
+
+    -- Get the Unit
+    local _, unit = tip:GetUnit()
+	if (not unit) then
+		unit = GetMouseFocus() and GetMouseFocus():GetAttribute('unit');
+	end
+    if not unit then return end
+
+    ImpUI_Tooltips:AssignHostilityBorder(tip, unit);
+
+    GameTooltip:ClearLines();
+
+    local isPlayer = UnitIsPlayer(unit);
+
+    if (isPlayer) then
+        ImpUI_Tooltips:FormatForPlayer(tip, unit)
+    else
+        ImpUI_Tooltips:FormatForCreature(tip, unit);
+    end
+
+    ImpUI_Tooltips:AddLevel(tip, unit, isPlayer);
+    ImpUI_Tooltips:AddFaction(tip, unit);
+    ImpUI_Tooltips:AddTargetOfTarget(unit);
+    ImpUI_Tooltips:StyleHealthBar(unit);
 end
 
 --[[
@@ -239,6 +285,9 @@ function ImpUI_Tooltips:StyleItemTooltip(tip)
     -- Bail out on config 
     if (ImpUI.db.char.styleTooltips == false) then return; end
     if (ImpUI.db.char.tooltipItemRarity == false) then return; end
+
+    GameTooltipStatusBar.unit = nil;
+    GameTooltipStatusBar:Hide();
 
     local _, item = tip:GetItem();
 
