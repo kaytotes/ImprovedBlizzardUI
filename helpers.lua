@@ -35,7 +35,7 @@ end
 ]]
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
-        return 'Battle for Azeroth';
+        return 'Shadowlands';
     else
         return 'Classic';
     end
