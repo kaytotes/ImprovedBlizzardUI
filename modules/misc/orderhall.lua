@@ -16,6 +16,10 @@ local orderbar;
     @ return void
 ]]
 function ImpUI_OrderHall:RefreshInfo()
+    if (not C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0)) then
+        return
+    end
+
     -- Refresh Currency
     local currency = C_Garrison.GetCurrencyTypes(Enum.GarrisonType.Type_7_0)
     local name, amount, texture = GetCurrencyInfo(currency);
