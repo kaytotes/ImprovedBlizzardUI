@@ -44,8 +44,14 @@ end
     @ return void
 ]]
 function ImpUI_Range:OnEnable()
+    if (Helpers.IsClassic()) then
+        self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
+        return
+    end
+    
     ImpUI:Print("Disabled Range Colours - Shadowlands PTR");
-    -- self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
+
+
 end
 
 --[[
