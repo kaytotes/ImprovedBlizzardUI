@@ -33,8 +33,6 @@ local function SetRotatedTexCoords(tex, left, right, top, bottom, width, height,
 end
 
 function ImpUI_Bubbles:Style(frame)
-    print('Beginning Style');
-
     for i = 1, select("#", frame:GetRegions()) do
 		local region = select(i, frame:GetRegions())
 		if (region:GetObjectType() == "FontString") then
@@ -47,7 +45,7 @@ function ImpUI_Bubbles:Style(frame)
     local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local _, size, _ = frame.text:GetFont();
 
-    frame.text:SetFont(font, size, flags);
+    frame.text:SetFont(font, size + 1, flags);
 
     -- Border
     frame:ClearAllPoints()
@@ -87,25 +85,29 @@ function ImpUI_Bubbles:Style(frame)
         end
     end
 
-    tail:ClearAllPoints();
-    tail:SetSize(ToFixedScale(16), ToFixedScale(16));
-    tail:SetPoint("TOP", frame, "BOTTOM",0, 1 / ToFixedScale(1));
-    tail:SetTexture(replacementTexture);
-    tail:SetVertexColor(0, 0, 0, 0);
+    if (tail) then
+        tail:ClearAllPoints();
+        tail:SetSize(ToFixedScale(16), ToFixedScale(16));
+        tail:SetPoint("TOP", frame, "BOTTOM",0, 1 / ToFixedScale(1));
+        tail:SetTexture(replacementTexture);
+        tail:SetVertexColor(0, 0, 0, 0);
+    
+        tailBd = frame:CreateTexture();
+        tailBd:SetAllPoints(tail);
+        tailBd:SetTexture(replacementTexture);
+        tailBd:SetVertexColor(0, 0, 0, 0);
+    end
 
-    tailBd = frame:CreateTexture();
-    tailBd:SetAllPoints(tail);
-    tailBd:SetTexture(replacementTexture);
-    tailBd:SetVertexColor(0, 0, 0, 0);
-
-    bottom:SetPoint("BOTTOMRIGHT", tail, "TOPLEFT");
-    local bottom2 = frame:CreateTexture(nil, "BORDER");
-    bottom2:SetTexture(replacementTexture);
-    SetRotatedTexCoords(bottom2, 0.375, 0.5, 0, 1, 64, 8, -90, 0.5, 1);
-    bottom2:SetVertexColor(0, 0, 0, 0);
-    bottom2:SetHeight(bottom:GetHeight());
-    bottom2:SetPoint("LEFT", tail, "RIGHT", -ToFixedScale(8), 0);
-    bottom2:SetPoint("BOTTOMRIGHT", frame, 1, 0);
+    if (buttom) then
+        bottom:SetPoint("BOTTOMRIGHT", tail, "TOPLEFT");
+        local bottom2 = frame:CreateTexture(nil, "BORDER");
+        bottom2:SetTexture(replacementTexture);
+        SetRotatedTexCoords(bottom2, 0.375, 0.5, 0, 1, 64, 8, -90, 0.5, 1);
+        bottom2:SetVertexColor(0, 0, 0, 0);
+        bottom2:SetHeight(bottom:GetHeight());
+        bottom2:SetPoint("LEFT", tail, "RIGHT", -ToFixedScale(8), 0);
+        bottom2:SetPoint("BOTTOMRIGHT", frame, 1, 0);
+    end
 
     frame:HookScript("OnHide", function() frame.inUse = false end);
 end
