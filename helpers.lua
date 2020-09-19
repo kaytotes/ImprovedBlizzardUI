@@ -207,6 +207,10 @@ end
 function Helpers.GetClassColour(unit)
     local _, class = UnitClass(unit);
 
+    if (Helpers.IsClassic() and class == 'SHAMAN') then
+        return Helpers.colour_pack(0.0, 0.44, 0.87, 1);
+    end
+
     -- If we can find the class then return the class colours.
     if (class and RAID_CLASS_COLORS[class]) then
         return RAID_CLASS_COLORS[class];
