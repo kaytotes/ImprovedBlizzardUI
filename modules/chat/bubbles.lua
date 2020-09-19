@@ -11,6 +11,7 @@ local replacementTexture = "Interface\\AddOns\\ImprovedBlizzardUI\\media\\blank"
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
+-- World Frames are always based on the UI Scale.
 local function ToFixedScale(len)
     return GetScreenHeight() * len / 768
 end
@@ -22,6 +23,7 @@ local function RotateCoordPair(x, y, ox, oy, a, asp)
         (oy + (y - oy) * math.cos(a) + (x - ox) * math.sin(a)) * asp;
 end
 
+-- Clip and Rotate a Texture.
 local function SetRotatedTexCoords(tex, left, right, top, bottom, width, height, angle, originx, originy)
     local ratio, angle, originx, originy = width / height, math.rad(angle), originx or 0.5, originy or 1;
     local LRx, LRy = RotateCoordPair(left, top, originx, originy, angle, ratio);
@@ -140,6 +142,8 @@ function ImpUI_Bubbles:AttachScript(msg)
 end
 
 function ImpUI_Bubbles:ShouldModify(cvar)
+    if (ImpUI.db.char.styleBubbles == false) then return false end;
+
     return GetCVarBool(cvar);
 end
 

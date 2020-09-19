@@ -39,6 +39,8 @@ L['Style Chat'] = true;
 L['Styles the Blizzard Chat frame to better match the rest of the UI.'] = true;
 L['Minify Blizzard Strings'] = true;
 L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'] = true;
+L['Style Bubbles'] = true;
+L['Removes the backdrop from the chat bubbles and skins the font to match the UI. This will trigger a UI Reload!'] = true;
 
 -- Combat
 L['Combat'] = true;
