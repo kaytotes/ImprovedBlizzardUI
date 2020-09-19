@@ -35,9 +35,9 @@ end
 ]]
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
-        return 'Shadowlands';
+        return 'Shadowlands - 9.0.1';
     else
-        return 'Classic';
+        return 'Classic - 1.13.5';
     end
 end
 
