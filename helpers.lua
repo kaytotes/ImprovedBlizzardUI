@@ -35,9 +35,9 @@ end
 ]]
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
-        return 'Battle for Azeroth';
+        return 'Battle for Azeroth - 8.3.7';
     else
-        return 'Classic';
+        return 'Classic - 1.13.5';
     end
 end
 
