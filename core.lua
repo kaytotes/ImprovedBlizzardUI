@@ -143,5 +143,5 @@ function ImpUI:OnInitialize()
     -- Register Slash Command
     self:RegisterChatCommand('imp', 'HandleSlash');
 
-    print(format('|cffffff00Improved Blizzard UI %s - %s Mode Initialized.', GetAddOnMetadata('ImprovedBlizzardUI', 'Version'), Helpers.GetEnvironment()));
+    print(format('|cffffff00Improved Blizzard UI %s - %s (%s) Mode Initialized.', GetAddOnMetadata('ImprovedBlizzardUI', 'Version'), Helpers.GetEnvironment(), Helpers.GetSupportedBuild()));
 end
