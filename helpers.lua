@@ -35,7 +35,7 @@ end
 ]]
 function Helpers.GetSupportedBuild()
     if (Helpers.IsRetail()) then
-        return '8.3.7';
+        return '9.0.1';
     else
         return '1.13.5';
     end
@@ -46,7 +46,7 @@ end
 ]]
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
-        return 'Battle for Azeroth';
+        return 'Shadowlands';
     else
         return 'Classic';
     end
