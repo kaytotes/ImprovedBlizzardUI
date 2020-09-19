@@ -31,13 +31,24 @@ function Helpers.IsRetail()
 end
 
 --[[
+	Just gets the string for the supported build.
+]]
+function Helpers.GetSupportedBuild()
+    if (Helpers.IsRetail()) then
+        return '8.3.7';
+    else
+        return '1.13.5';
+    end
+end
+
+--[[
 	Returns a human readable string for the current environment.
 ]]
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
-        return 'Battle for Azeroth - 8.3.7';
+        return 'Battle for Azeroth';
     else
-        return 'Classic - 1.13.5';
+        return 'Classic';
     end
 end
 
