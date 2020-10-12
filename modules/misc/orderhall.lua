@@ -16,14 +16,18 @@ local orderbar;
     @ return void
 ]]
 function ImpUI_OrderHall:RefreshInfo()
+    if (not C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0)) then
+        return
+    end
+
     -- Refresh Currency
-    local currency = C_Garrison.GetCurrencyTypes(LE_GARRISON_TYPE_7_0)
+    local currency = C_Garrison.GetCurrencyTypes(Enum.GarrisonType.Type_7_0)
     local name, amount, texture = GetCurrencyInfo(currency);
     orderbar.resourcesText:SetText('|T'..texture..':12:12:0:0:60:60:4:60:4:60|t'..' '..amount);
 
     -- Refresh Troops etc
     local troopText = '';
-    local info = C_Garrison.GetClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0);
+    local info = C_Garrison.GetClassSpecCategoryInfo(Enum.GarrisonFollowerType.Type_7_0);
     for i, troop in ipairs(info) do
         troopText = troopText..'|T'.. troop.icon ..':12:12:0:0:60:60:4:60:4:60|t ';
         troopText = troopText.. troop.count .. '/'.. troop.limit..'    ';
@@ -105,10 +109,10 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:PrepBar()
-    orderbar:SetShown(C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0));
+    orderbar:SetShown(C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0));
 
     -- Refresh Info
-    if (C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)) then
+    if (C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0)) then
         C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0);
 
         ImpUI_OrderHall:RefreshInfo();

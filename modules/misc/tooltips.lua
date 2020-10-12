@@ -300,6 +300,11 @@ function ImpUI_Tooltips:StyleItemTooltip(tip)
     end
 end
 
+function ImpUI_Tooltips:OnHide()
+    GameTooltipStatusBar.unit = nil;
+    GameTooltipStatusBar:Hide();
+end
+
 --[[
 	Forces the tooltip to be anchored to the mouse based on config.
 	
@@ -332,7 +337,14 @@ function ImpUI_Tooltips:OnEnable()
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetUnit', 'StyleNormalTooltip');
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
     ImpUI_Tooltips:HookScript(ItemRefTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
-    ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
+
+    
+
+    if (Helpers.IsClassic()) then
+        ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
+    else
+        ImpUI_Tooltips:HookScript(GameTooltip, 'OnHide', 'OnHide');
+    end
 end
 
 --[[
