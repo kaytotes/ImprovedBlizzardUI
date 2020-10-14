@@ -19,9 +19,6 @@ externals:
   libs/LibSharedMedia-3.0:
     url: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk
     tag: latest
-  libs/AceGUI-3.0-SharedMediaWidgets:
-    url: https://repos.wowace.com/wow/ace-gui-3-0-shared-media-widgets/trunk
-    tag: latest
 
 ignore:
     - README.md

@@ -1,3 +1,5 @@
 *
-!AceGUI-3.0-SharedMediaWidgets
 !.gitignore
+!AceGUI-3.0-SharedMediaWidgets/
+!AceGUI-3.0-SharedMediaWidgets/*
+!AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/*
