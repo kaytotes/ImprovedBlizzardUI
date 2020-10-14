@@ -240,13 +240,13 @@ do
 			frame.ClearFrames = ClearFrames
 			frame.contentRepo = {} -- store all our frames in here so we can get rid of them later
 
-			if (Helpers.IsRetail()) then
-				local slider = CreateFrame("Slider", nil, scrollframe, "BackdropTemplate")
-			else
-				local slider = CreateFrame("Slider", nil, scrollframe)
-			end
+			local slider;
 
-			local slider = CreateFrame("Slider", nil, scrollframe, "BackdropTemplate")
+			if (Helpers.IsRetail()) then
+				slider = CreateFrame("Slider", nil, scrollframe, "BackdropTemplate")
+			else
+				slider = CreateFrame("Slider", nil, scrollframe)
+			end
 				slider:SetOrientation("VERTICAL")
 				slider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -14, -10)
 				slider:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 10)
