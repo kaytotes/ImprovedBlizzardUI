@@ -129,7 +129,6 @@ function ImpUI_OrderHall:PrepBar()
     C_Timer.After(delay, function() 
         
         local inGarrison = C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0);
-        print(inGarrison);
     
         orderbar:SetShown(inGarrison);
     
