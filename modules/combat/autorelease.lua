@@ -31,7 +31,7 @@ end
     @ return void
 ]]
 function ImpUI_Ressurect:PLAYER_DEAD()
-    if (ImpUI.db.char.autoRel == false) then return; end
+    if (ImpUI.db.profile.autoRel == false) then return; end
 
     if (HasSoulstone()) then return; end -- If we can self res (Ankh etc) then don't do anything.
 
@@ -40,10 +40,10 @@ function ImpUI_Ressurect:PLAYER_DEAD()
     local shouldRelease = false;
 
     -- Figure out if we should show based on config.
-    if (instanceType == 'none' and ImpUI.db.char.killingBlowInWorld) then shouldRelease = true; end
-    if (instanceType == 'party' and ImpUI.db.char.killingBlowInInstance) then shouldRelease = true; end
-    if (instanceType == 'raid' and ImpUI.db.char.killingBlowInRaid) then shouldRelease = true; end
-    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.char.killingBlowInPvP) then shouldRelease = true; end
+    if (instanceType == 'none' and ImpUI.db.profile.killingBlowInWorld) then shouldRelease = true; end
+    if (instanceType == 'party' and ImpUI.db.profile.killingBlowInInstance) then shouldRelease = true; end
+    if (instanceType == 'raid' and ImpUI.db.profile.killingBlowInRaid) then shouldRelease = true; end
+    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.profile.killingBlowInPvP) then shouldRelease = true; end
 
     if (shouldRelease) then
         RepopMe();

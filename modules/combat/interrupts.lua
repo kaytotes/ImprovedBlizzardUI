@@ -25,7 +25,7 @@ local CONF_YELL = 3;
     @ return void
 ]]
 function ImpUI_Interrupts:COMBAT_LOG_EVENT_UNFILTERED()
-    if (ImpUI.db.char.announceInterrupts == false) then return; end
+    if (ImpUI.db.profile.announceInterrupts == false) then return; end
 
     local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, _, spellName, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
@@ -33,7 +33,7 @@ function ImpUI_Interrupts:COMBAT_LOG_EVENT_UNFILTERED()
         local message = L['Interrupted X on Y'](spellName, destName);
 
         local channel;
-        local config = ImpUI.db.char.interruptChannel;
+        local config = ImpUI.db.profile.interruptChannel;
 
         if (config == CONF_AUTO) then -- Auto
             channel = IsInGroup(2) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or IsInGroup() and 'PARTY' or 'SAY';

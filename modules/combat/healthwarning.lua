@@ -24,7 +24,7 @@ local canShowQuarter = true;
     @ return void
 ]]
 function ImpUI_Health:UNIT_HEALTH(event, ...)
-    if (ImpUI.db.char.healthWarning == false) then return; end
+    if (ImpUI.db.profile.healthWarning == false) then return; end
 
     if (... == 'player') then
         local hp = UnitHealth('player') / UnitHealthMax('player');
@@ -33,12 +33,12 @@ function ImpUI_Health:UNIT_HEALTH(event, ...)
             canShowHalf = true;
         end
 
-        local size = ImpUI.db.char.healthWarningSize;
+        local size = ImpUI.db.profile.healthWarningSize;
 
         if ( hp <= 0.50 and hp > 0.25 and canShowHalf == true) then
             -- Get font config options.
-            local font = ImpUI.db.char.healthWarningFont;
-            local colour = ImpUI.db.char.healthWarningHalfColour;
+            local font = ImpUI.db.profile.healthWarningFont;
+            local colour = ImpUI.db.profile.healthWarningHalfColour;
 
             OSD:AddMessage( L['HP < 50% !'], font, size, colour.r, colour.g, colour.b, 5.0 );
 
@@ -47,8 +47,8 @@ function ImpUI_Health:UNIT_HEALTH(event, ...)
             return;
         elseif(hp < 0.25 and canShowQuarter == true) then
             -- Get font config options.
-            local font = ImpUI.db.char.healthWarningFont;
-            local colour = ImpUI.db.char.healthWarningQuarterColour;
+            local font = ImpUI.db.profile.healthWarningFont;
+            local colour = ImpUI.db.profile.healthWarningQuarterColour;
 
             OSD:AddMessage( L['HP < 25% !!!'], font, size, colour.r, colour.g, colour.b, 5.0 );
 

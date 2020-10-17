@@ -111,6 +111,16 @@ function ImpUI:HandleSlash(input)
 end
 
 --[[
+    Iterates through each module, disabling and then enabling each one.
+]]
+function ImpUI:ReloadAllModules()
+    for name, module in ImpUI:IterateModules() do
+        module:Disable();
+        module:Enable();
+    end
+end
+
+--[[
 	Fires when the Addon is Initialised.
 	
     @ return void
@@ -121,6 +131,14 @@ function ImpUI:OnInitialize()
 
     -- Set up DB
     self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
+
+    --Enable Profile Management
+    ImpUI_Config.options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
+
+    -- Reload modules after active profile is changed so new settings will take effect
+    self.db.RegisterCallback(self, "OnProfileChanged", "ReloadAllModules")
+    self.db.RegisterCallback(self, "OnProfileCopied", "ReloadAllModules")
+    self.db.RegisterCallback(self, "OnProfileReset", "ReloadAllModules")
 
     -- Register Config
     LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config.options);

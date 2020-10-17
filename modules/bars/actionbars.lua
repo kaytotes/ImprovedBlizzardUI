@@ -30,11 +30,11 @@ end
     @ return void
 ]]
 function ApplyButtonStyles()
-    local showMainText = ImpUI.db.char.showMainText;
-    local showBottomLeftText = ImpUI.db.char.showBottomLeftText;
-    local showBottomRightText = ImpUI.db.char.showBottomRightText;
-    local showLeftText = ImpUI.db.char.showLeftText;
-    local showRightText = ImpUI.db.char.showRightText;
+    local showMainText = ImpUI.db.profile.showMainText;
+    local showBottomLeftText = ImpUI.db.profile.showBottomLeftText;
+    local showBottomRightText = ImpUI.db.profile.showBottomRightText;
+    local showLeftText = ImpUI.db.profile.showLeftText;
+    local showRightText = ImpUI.db.profile.showRightText;
 
     StyleButtons('ActionButton', showMainText);
     StyleButtons('MultiBarBottomLeftButton', showBottomLeftText);
