@@ -10,6 +10,8 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Local Variables
 local orderbar;
 
+local firstAttempt = true;
+
 --[[
 	Gets and formats the Order hall related currency / troops.
 	
@@ -113,14 +115,31 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:PrepBar()
-    orderbar:SetShown(C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0));
+    local delay;
 
-    -- Refresh Info
-    if (C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0)) then
-        C_Garrison.RequestClassSpecCategoryInfo(Enum.GarrisonFollowerType.FollowerType_7_0);
-
-        ImpUI_OrderHall:RefreshInfo();
+    if (firstAttempt) then
+        delay = 2;
+        firstAttempt = false;
+    else
+        delay = 0.1;
     end
+
+    -- For some reason when first logging in it can take a while for this to return true
+    -- I blame blizzard.
+    C_Timer.After(delay, function() 
+        
+        local inGarrison = C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0);
+        print(inGarrison);
+    
+        orderbar:SetShown(inGarrison);
+    
+        -- Refresh Info
+        if (inGarrison) then
+            C_Garrison.RequestClassSpecCategoryInfo(Enum.GarrisonFollowerType.FollowerType_7_0);
+    
+            ImpUI_OrderHall:RefreshInfo();
+        end
+    end);
 end
 
 --[[
@@ -146,6 +165,7 @@ function ImpUI_OrderHall:OnEnable()
     orderbar:SetWidth(32);
     orderbar:SetHeight(32);
     orderbar:SetPoint('TOP', 0, 0);
+    orderbar:SetShown(false);
 
     -- Create the Location Text and Assign Font
     orderbar.locationText = orderbar:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
