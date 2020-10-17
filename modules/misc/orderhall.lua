@@ -37,7 +37,7 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:StyleFrame()
-    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local font = LSM:Fetch('font', ImpUI.db.profile.primaryInterfaceFont);
     local size = 14;
 
     orderbar.locationText:SetFont(font, size, 'THINOUTLINE');

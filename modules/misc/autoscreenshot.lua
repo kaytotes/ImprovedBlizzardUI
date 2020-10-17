@@ -13,7 +13,7 @@ local canCapture = true;
     @ return void
 ]]
 function ImpUI_Screenshot:ACHIEVEMENT_EARNED()
-    if (canCapture and ImpUI.db.char.autoScreenshot) then
+    if (canCapture and ImpUI.db.profile.autoScreenshot) then
         canCapture = false;
 
         C_Timer.After(1, Screenshot); -- Take Screenshot

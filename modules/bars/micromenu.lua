@@ -74,7 +74,7 @@ end
     @ return void
 ]]
 function ImpUI_MicroMenu:StyleMicroMenu()
-    local font = ImpUI.db.char.microMenuFont;
+    local font = ImpUI.db.profile.microMenuFont;
     local size = 12;
 
     MicroMenuFrame.menuFont:SetFont(font, size, nil);

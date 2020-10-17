@@ -24,10 +24,10 @@ local GetMoney = GetMoney;
     @ return void
 ]]
 function ImpUI_Repair:MERCHANT_SHOW()
-    if (ImpUI.db.char.autoRepair and CanMerchantRepair()) then
+    if (ImpUI.db.profile.autoRepair and CanMerchantRepair()) then
         local repCost, _ = GetRepairAllCost();
 
-        if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost and ImpUI.db.char.guildRepair) then
+        if(CanGuildBankRepair() and GetGuildBankWithdrawMoney() >= repCost and GetGuildBankMoney() >= repCost and ImpUI.db.profile.guildRepair) then
             if(repCost > 0) then
                 RepairAllItems(true);
                 print('|cffffff00'..L['Items Repaired from Guild Bank']..': '..GetCoinTextureString(repCost));

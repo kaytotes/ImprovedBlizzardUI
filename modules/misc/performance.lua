@@ -14,7 +14,7 @@ local performance;
 
 function ImpUI_Performance:Tick()
     -- Bail out if configuration option is disabled.
-    if (ImpUI.db.char.performanceFrame == false) then
+    if (ImpUI.db.profile.performanceFrame == false) then
         performance.text:SetText(' ');
         return;
     end
@@ -60,8 +60,8 @@ end
     @ return void
 ]]
 function ImpUI_Performance:StylePerformanceFrame()
-    local font = ImpUI.db.char.primaryInterfaceFont;
-    local size = ImpUI.db.char.performanceFrameSize;
+    local font = ImpUI.db.profile.primaryInterfaceFont;
+    local size = ImpUI.db.profile.performanceFrameSize;
 
     performance.text:SetFont(LSM:Fetch('font', font), size, 'THINOUTLINE');
 end
