@@ -10,6 +10,8 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Local Variables
 local orderbar;
 
+local firstAttempt = true;
+
 --[[
 	Gets and formats the Order hall related currency / troops.
 	
@@ -21,17 +23,22 @@ function ImpUI_OrderHall:RefreshInfo()
     end
 
     -- Refresh Currency
-    local currency = C_Garrison.GetCurrencyTypes(Enum.GarrisonType.Type_7_0)
-    local name, amount, texture = GetCurrencyInfo(currency);
-    orderbar.resourcesText:SetText('|T'..texture..':12:12:0:0:60:60:4:60:4:60|t'..' '..amount);
+    local currency = C_Garrison.GetCurrencyTypes(Enum.GarrisonType.Type_7_0);
+    local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currency);
+    local amount = currencyInfo and currencyInfo.quantity or 0;
+    local icon = currencyInfo.iconFileID;
+
+    orderbar.resourcesText:SetText('|T'..icon..':12:12:0:0:60:60:4:60:4:60|t'..' '..amount);
 
     -- Refresh Troops etc
     local troopText = '';
-    local info = C_Garrison.GetClassSpecCategoryInfo(Enum.GarrisonFollowerType.Type_7_0);
-    for i, troop in ipairs(info) do
-        troopText = troopText..'|T'.. troop.icon ..':12:12:0:0:60:60:4:60:4:60|t ';
-        troopText = troopText.. troop.count .. '/'.. troop.limit..'    ';
-    end
+    local info = C_Garrison.GetClassSpecCategoryInfo(Enum.GarrisonFollowerType.FollowerType_7_0);
+
+    for index, category in ipairs(info) do
+        troopText = troopText..'|T'.. category.icon ..':12:12:0:0:60:60:4:60:4:60|t ';
+        troopText = troopText.. category.count .. '/'.. category.limit..'    ';
+	end
+
     orderbar.troopsText:SetText(troopText);
 end
 
@@ -67,7 +74,6 @@ function ImpUI_OrderHall:ADDON_LOADED(event, ...)
 		OrderHall:UnregisterAllEvents();
 		OrderHall:SetScript('OnShow', OrderHall.Hide);
 		OrderHall:Hide();
-		GarrisonLandingPageTutorialBox:SetClampedToScreen(true);
 		self:UnregisterEvent('ADDON_LOADED');
     end 
 end
@@ -109,14 +115,30 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:PrepBar()
-    orderbar:SetShown(C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0));
+    local delay;
 
-    -- Refresh Info
-    if (C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0)) then
-        C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0);
-
-        ImpUI_OrderHall:RefreshInfo();
+    if (firstAttempt) then
+        delay = 2;
+        firstAttempt = false;
+    else
+        delay = 0.1;
     end
+
+    -- For some reason when first logging in it can take a while for this to return true
+    -- I blame blizzard.
+    C_Timer.After(delay, function() 
+        
+        local inGarrison = C_Garrison.IsPlayerInGarrison(Enum.GarrisonType.Type_7_0);
+    
+        orderbar:SetShown(inGarrison);
+    
+        -- Refresh Info
+        if (inGarrison) then
+            C_Garrison.RequestClassSpecCategoryInfo(Enum.GarrisonFollowerType.FollowerType_7_0);
+    
+            ImpUI_OrderHall:RefreshInfo();
+        end
+    end);
 end
 
 --[[
@@ -142,6 +164,7 @@ function ImpUI_OrderHall:OnEnable()
     orderbar:SetWidth(32);
     orderbar:SetHeight(32);
     orderbar:SetPoint('TOP', 0, 0);
+    orderbar:SetShown(false);
 
     -- Create the Location Text and Assign Font
     orderbar.locationText = orderbar:CreateFontString(nil, 'OVERLAY', 'GameFontNormal');
