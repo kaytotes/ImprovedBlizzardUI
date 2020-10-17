@@ -186,9 +186,9 @@ end
     @ return void
 ]]
 function ImpUI_Chat:StyleChat()
-    if (ImpUI.db.char.styleChat == false) then return; end
+    if (ImpUI.db.profile.styleChat == false) then return; end
 
-    local chatFont = LSM:Fetch('font', ImpUI.db.char.chatFont);
+    local chatFont = LSM:Fetch('font', ImpUI.db.profile.chatFont);
 
     -- Change Edit Box Font
     ChatFontNormal:SetFont(chatFont, 12, 'THINOUTLINE');
@@ -262,7 +262,7 @@ function ImpUI_Chat:StyleChat()
         end
 
         -- Change Chat Font
-        if (ImpUI.db.char.outlineChat) then
+        if (ImpUI.db.profile.outlineChat) then
             _G[window]:SetFont(chatFont, size, 'OUTLINE');
         else
             _G[window]:SetFont(chatFont, size);
@@ -304,7 +304,7 @@ end
     @ return void
 ]]
 function ImpUI_Chat:OnEnable()
-    local minify = ImpUI.db.char.minifyStrings;
+    local minify = ImpUI.db.profile.minifyStrings;
     if (minify == true) then
         ImpUI_Chat:OverrideStrings();    
     end

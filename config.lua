@@ -9,7 +9,7 @@ local mode = 'Improved Blizzard UI - '..GetAddOnMetadata('ImprovedBlizzardUI', '
 	Defaults for every new character.
 ]]
 ImpUI_Config.defaults = {
-    char = {
+    profile = {
         primaryInterfaceFont = 'Improved Blizzard UI',
         afkMode = true,
         autoScreenshot = true,
@@ -143,10 +143,10 @@ ImpUI_Config.options = {
                     name = L['Style Unit Frames'],
                     desc = L['Applies modified textures and font styling to the Player, Target, Party and Focus Frames. This will trigger a UI Reload!'],
                     get = function ()
-                        return ImpUI.db.char.styleUnitFrames;
+                        return ImpUI.db.profile.styleUnitFrames;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.styleUnitFrames = newValue;
+                        ImpUI.db.profile.styleUnitFrames = newValue;
                         ReloadUI();
                     end,
                     order = 1,
@@ -164,10 +164,10 @@ ImpUI_Config.options = {
                     name = L['Display Class Colours'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.playerClassColours;
+                        return ImpUI.db.profile.playerClassColours;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.playerClassColours = newValue;
+                        ImpUI.db.profile.playerClassColours = newValue;
                         ImpUI_Player:ToggleClassColours(newValue);
                     end,
                     order = 3,
@@ -178,10 +178,10 @@ ImpUI_Config.options = {
                     name = L['Hide Portrait Spam'],
                     desc = L['Hides the damage text that appears over the Player portrait when damaged or healed.'],
                     get = function ()
-                        return ImpUI.db.char.playerHidePortraitSpam;
+                        return ImpUI.db.profile.playerHidePortraitSpam;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.playerHidePortraitSpam = newValue;
+                        ImpUI.db.profile.playerHidePortraitSpam = newValue;
                     end,
                     order = 4,
                 },
@@ -191,10 +191,10 @@ ImpUI_Config.options = {
                     name = L['Hide Out of Combat'],
                     desc = L['Hides the Player Frame when you are out of combat, have no target and are at full health.'],
                     get = function ()
-                        return ImpUI.db.char.playerHideOOC;
+                        return ImpUI.db.profile.playerHideOOC;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.playerHideOOC = newValue;
+                        ImpUI.db.profile.playerHideOOC = newValue;
 
                         ImpUI_Player:TogglePlayer(newValue);
                     end,
@@ -209,10 +209,10 @@ ImpUI_Config.options = {
                     max = 4.0,
                     step = 0.1,
                     get = function ()
-                        return ImpUI.db.char.playerFrameScale;
+                        return ImpUI.db.profile.playerFrameScale;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.playerFrameScale = newValue; 
+                        ImpUI.db.profile.playerFrameScale = newValue; 
 
                         ImpUI_Player:LoadPosition();
                     end,
@@ -232,10 +232,10 @@ ImpUI_Config.options = {
                     name = L['Display Class Colours'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.targetClassColours;
+                        return ImpUI.db.profile.targetClassColours;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.targetClassColours = newValue;
+                        ImpUI.db.profile.targetClassColours = newValue;
                         TargetFrame:Hide();
                     end,
                     order = 8,
@@ -246,10 +246,10 @@ ImpUI_Config.options = {
                     name = L['Buffs On Top'],
                     desc = L['Displays the Targets Buffs above the Unit Frame.'],
                     get = function ()
-                        return ImpUI.db.char.targetBuffsOnTop;
+                        return ImpUI.db.profile.targetBuffsOnTop;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.targetBuffsOnTop = newValue;
+                        ImpUI.db.profile.targetBuffsOnTop = newValue;
                         TargetFrame:Hide();
                     end,
                     order = 9,
@@ -263,10 +263,10 @@ ImpUI_Config.options = {
                     max = 4.0,
                     step = 0.1,
                     get = function ()
-                        return ImpUI.db.char.targetFrameScale;
+                        return ImpUI.db.profile.targetFrameScale;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.targetFrameScale = newValue; 
+                        ImpUI.db.profile.targetFrameScale = newValue; 
 
                         ImpUI_Target:LoadPosition();
                     end,
@@ -279,10 +279,10 @@ ImpUI_Config.options = {
                     name = L['ToT Class Colours'],
                     desc = L['Colours Target of Target Health bar to match their class.'],
                     get = function ()
-                        return ImpUI.db.char.targetOfTargetClassColours;
+                        return ImpUI.db.profile.targetOfTargetClassColours;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.targetOfTargetClassColours = newValue;
+                        ImpUI.db.profile.targetOfTargetClassColours = newValue;
                         TargetFrame:Hide();
                     end,
                     order = 10,
@@ -304,10 +304,10 @@ ImpUI_Config.options = {
                     max = 4.0,
                     step = 0.1,
                     get = function ()
-                        return ImpUI.db.char.partyFrameScale;
+                        return ImpUI.db.profile.partyFrameScale;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.partyFrameScale = newValue; 
+                        ImpUI.db.profile.partyFrameScale = newValue; 
 
                         ImpUI_Party:LoadPosition();
                     end,
@@ -329,10 +329,10 @@ ImpUI_Config.options = {
                     name = L['Display Class Colours'],
                     desc = L['Colours Focus Frame Health bar to match their class.'],
                     get = function ()
-                        return ImpUI.db.char.focusClassColours;
+                        return ImpUI.db.profile.focusClassColours;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.focusClassColours = newValue;
+                        ImpUI.db.profile.focusClassColours = newValue;
                         ImpUI_Focus:ToggleClassColours(newValue);
                     end,
                     order = 14,
@@ -343,10 +343,10 @@ ImpUI_Config.options = {
                     name = L['Buffs On Top'],
                     desc = L['Displays the Focus Targets Buffs above the Unit Frame.'],
                     get = function ()
-                        return ImpUI.db.char.focusBuffsOnTop;
+                        return ImpUI.db.profile.focusBuffsOnTop;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.focusBuffsOnTop = newValue;
+                        ImpUI.db.profile.focusBuffsOnTop = newValue;
                         
                         if(UnitExists('focus') == true) then 
                             FocusFrame.buffsOnTop = newValue;
@@ -363,10 +363,10 @@ ImpUI_Config.options = {
                     max = 4.0,
                     step = 0.1,
                     get = function ()
-                        return ImpUI.db.char.focusFrameScale;
+                        return ImpUI.db.profile.focusFrameScale;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.focusFrameScale = newValue; 
+                        ImpUI.db.profile.focusFrameScale = newValue; 
 
                         ImpUI_Focus:LoadPosition();
                     end,
@@ -398,10 +398,10 @@ ImpUI_Config.options = {
                     max = 4.0,
                     step = 0.1,
                     get = function ()
-                        return ImpUI.db.char.castBarScale;
+                        return ImpUI.db.profile.castBarScale;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.castBarScale = newValue; 
+                        ImpUI.db.profile.castBarScale = newValue; 
 
                         ImpUI_CastBar:LoadPosition();
                     end,
@@ -417,10 +417,10 @@ ImpUI_Config.options = {
                     max = 32,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.castBarFontSize;
+                        return ImpUI.db.profile.castBarFontSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.castBarFontSize = newValue; 
+                        ImpUI.db.profile.castBarFontSize = newValue; 
 
                         ImpUI_CastBar:StyleFrame();
                     end,
@@ -433,10 +433,10 @@ ImpUI_Config.options = {
                     name = L['Player Cast Timer'],
                     desc = L['Displays a Timer on the Players Cast Bar.'],
                     get = function ()
-                        return ImpUI.db.char.castBarPlayerTimer;
+                        return ImpUI.db.profile.castBarPlayerTimer;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.castBarPlayerTimer = newValue;
+                        ImpUI.db.profile.castBarPlayerTimer = newValue;
 
                         ImpUI_CastBar:StyleFrame();
                     end,
@@ -448,10 +448,10 @@ ImpUI_Config.options = {
                     name = L['Target Cast Timer'],
                     desc = L['Displays a Timer on the Targets Cast Bar.'],
                     get = function ()
-                        return ImpUI.db.char.castBarTargetTimer;
+                        return ImpUI.db.profile.castBarTargetTimer;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.castBarTargetTimer = newValue;
+                        ImpUI.db.profile.castBarTargetTimer = newValue;
 
                         ImpUI_CastBar:StyleFrame();
                     end,
@@ -464,10 +464,10 @@ ImpUI_Config.options = {
                     name = L['Focus Cast Timer'],
                     desc = L['Displays a Timer on the Focus Cast Bar.'],
                     get = function ()
-                        return ImpUI.db.char.castBarFocusTimer;
+                        return ImpUI.db.profile.castBarFocusTimer;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.castBarFocusTimer = newValue;
+                        ImpUI.db.profile.castBarFocusTimer = newValue;
 
                         ImpUI_CastBar:StyleFrame();
                     end,
@@ -490,10 +490,10 @@ ImpUI_Config.options = {
                     max = 4.0,
                     step = 0.1,
                     get = function ()
-                        return ImpUI.db.char.buffsScale;
+                        return ImpUI.db.profile.buffsScale;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.buffsScale = newValue; 
+                        ImpUI.db.profile.buffsScale = newValue; 
 
                         ImpUI_Buffs:LoadPosition();
                     end,
@@ -513,10 +513,10 @@ ImpUI_Config.options = {
                     name = L['Show Main Action Bar Text'],
                     desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
                     get = function ()
-                        return ImpUI.db.char.showMainText;
+                        return ImpUI.db.profile.showMainText;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.showMainText = newValue;
+                        ImpUI.db.profile.showMainText = newValue;
 
                         ApplyButtonStyles();
                     end,
@@ -528,10 +528,10 @@ ImpUI_Config.options = {
                     name = L['Show Bottom Left Bar Text'],
                     desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
                     get = function ()
-                        return ImpUI.db.char.showBottomLeftText;
+                        return ImpUI.db.profile.showBottomLeftText;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.showBottomLeftText = newValue;
+                        ImpUI.db.profile.showBottomLeftText = newValue;
 
                         ApplyButtonStyles();
                     end,
@@ -543,10 +543,10 @@ ImpUI_Config.options = {
                     name = L['Show Bottom Right Bar Text'],
                     desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
                     get = function ()
-                        return ImpUI.db.char.showBottomRightText;
+                        return ImpUI.db.profile.showBottomRightText;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.showBottomRightText = newValue;
+                        ImpUI.db.profile.showBottomRightText = newValue;
 
                         ApplyButtonStyles();
                     end,
@@ -558,10 +558,10 @@ ImpUI_Config.options = {
                     name = L['Show Right 1 Bar Text'],
                     desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
                     get = function ()
-                        return ImpUI.db.char.showLeftText;
+                        return ImpUI.db.profile.showLeftText;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.showLeftText = newValue;
+                        ImpUI.db.profile.showLeftText = newValue;
 
                         ApplyButtonStyles();
                     end,
@@ -573,10 +573,10 @@ ImpUI_Config.options = {
                     name = L['Show Right 2 Bar Text'],
                     desc = L['Disabling Hides Macro Name Text and Hotkey Text from the specified Action Bar'],
                     get = function ()
-                        return ImpUI.db.char.showRightText;
+                        return ImpUI.db.profile.showRightText;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.showRightText = newValue;
+                        ImpUI.db.profile.showRightText = newValue;
 
                         ApplyButtonStyles();
                     end,
@@ -597,10 +597,10 @@ ImpUI_Config.options = {
                     name = L['Anchor To Mouse'],
                     desc = L['The tooltip will always display at the mouse location.'],
                     get = function ()
-                        return ImpUI.db.char.anchorMouse;
+                        return ImpUI.db.profile.anchorMouse;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.anchorMouse = newValue;
+                        ImpUI.db.profile.anchorMouse = newValue;
                     end,
                     order = 1,
                 },
@@ -610,10 +610,10 @@ ImpUI_Config.options = {
                     name = L['Style Tooltips'],
                     desc = L['Adjusts the information and style of the default tooltips.'],
                     get = function ()
-                        return ImpUI.db.char.styleTooltips;
+                        return ImpUI.db.profile.styleTooltips;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.styleTooltips = newValue;
+                        ImpUI.db.profile.styleTooltips = newValue;
                         ImpUI_Tooltips:ResetStyle();
                     end,
                     order = 2,
@@ -624,13 +624,13 @@ ImpUI_Config.options = {
                     name = L['Guild Colour'],
                     desc = L['The colour of the guild name display in tooltips.'],
                     get = function ()
-                        return Helpers.colour_unpack(ImpUI.db.char.tooltipGuildColour);
+                        return Helpers.colour_unpack(ImpUI.db.profile.tooltipGuildColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
+                        ImpUI.db.profile.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleTooltips == false;
+                        return ImpUI.db.profile.styleTooltips == false;
                     end,
                     hasAlpha = false,
                     order = 3,
@@ -641,13 +641,13 @@ ImpUI_Config.options = {
                     name = L['Hostile Border'],
                     desc = L['Colours the border of the tooltip based on the hostility of the target.'],
                     get = function ()
-                        return ImpUI.db.char.tooltipHostileBorder;
+                        return ImpUI.db.profile.tooltipHostileBorder;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.tooltipHostileBorder = newValue;
+                        ImpUI.db.profile.tooltipHostileBorder = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleTooltips == false;
+                        return ImpUI.db.profile.styleTooltips == false;
                     end,
                     order = 4,
                 },
@@ -657,13 +657,13 @@ ImpUI_Config.options = {
                     name = L['Class Coloured Name'],
                     desc = L['Colours the name of the target to match their Class.'],
                     get = function ()
-                        return ImpUI.db.char.tooltipNameClassColours;
+                        return ImpUI.db.profile.tooltipNameClassColours;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.tooltipNameClassColours = newValue;
+                        ImpUI.db.profile.tooltipNameClassColours = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleTooltips == false;
+                        return ImpUI.db.profile.styleTooltips == false;
                     end,
                     order = 5,
                 },
@@ -673,13 +673,13 @@ ImpUI_Config.options = {
                     name = L['Show Target of Target'],
                     desc = L['Displays who / what the unit is targeting. Coloured by Class.'],
                     get = function ()
-                        return ImpUI.db.char.tooltipToT;
+                        return ImpUI.db.profile.tooltipToT;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.tooltipToT = newValue;
+                        ImpUI.db.profile.tooltipToT = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleTooltips == false;
+                        return ImpUI.db.profile.styleTooltips == false;
                     end,
                     order = 6,
                 },
@@ -689,13 +689,13 @@ ImpUI_Config.options = {
                     name = L['Class Colour Health Bar'],
                     desc = L['Colours the Tooltip Health Bar by Class.'],
                     get = function ()
-                        return ImpUI.db.char.tooltipHealthClassColours;
+                        return ImpUI.db.profile.tooltipHealthClassColours;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.tooltipHealthClassColours = newValue;
+                        ImpUI.db.profile.tooltipHealthClassColours = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleTooltips == false;
+                        return ImpUI.db.profile.styleTooltips == false;
                     end,
                     order = 6,
                 },
@@ -705,13 +705,13 @@ ImpUI_Config.options = {
                     name = L['Item Rarity Border'],
                     desc = L['Colours the tooltip border by the rarity of the item you are inspecting.'],
                     get = function ()
-                        return ImpUI.db.char.tooltipItemRarity;
+                        return ImpUI.db.profile.tooltipItemRarity;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.tooltipItemRarity = newValue;
+                        ImpUI.db.profile.tooltipItemRarity = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleTooltips == false;
+                        return ImpUI.db.profile.styleTooltips == false;
                     end,
                     order = 7,
                 },
@@ -737,10 +737,10 @@ ImpUI_Config.options = {
                     name = L['Health Warnings'],
                     desc = L['Displays a five second warning when Player Health is less than 50% and 25%.'],
                     get = function ()
-                        return ImpUI.db.char.healthWarnings;
+                        return ImpUI.db.profile.healthWarnings;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.healthWarnings = newValue;
+                        ImpUI.db.profile.healthWarnings = newValue;
                     end,
                     order = 2,
                 },
@@ -750,13 +750,13 @@ ImpUI_Config.options = {
                     name = L['50% Colour'],
                     desc = L['The colour of the warning that displays at 50% health.'],
                     get = function ()
-                        return Helpers.colour_unpack(ImpUI.db.char.healthWarningHalfColour);
+                        return Helpers.colour_unpack(ImpUI.db.profile.healthWarningHalfColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.healthWarningHalfColour = Helpers.colour_pack(r, g, b, a);
+                        ImpUI.db.profile.healthWarningHalfColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.healthWarnings == false;
+                        return ImpUI.db.profile.healthWarnings == false;
                     end,
                     hasAlpha = false,
                     order = 3,
@@ -767,13 +767,13 @@ ImpUI_Config.options = {
                     name = L['25% Colour'],
                     desc = L['The colour of the warning that displays at 25% health.'],
                     get = function ()
-                        return Helpers.colour_unpack(ImpUI.db.char.healthWarningQuarterColour);
+                        return Helpers.colour_unpack(ImpUI.db.profile.healthWarningQuarterColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.healthWarningQuarterColour = Helpers.colour_pack(r, g, b, a);
+                        ImpUI.db.profile.healthWarningQuarterColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.healthWarnings == false;
+                        return ImpUI.db.profile.healthWarnings == false;
                     end,
                     hasAlpha = false,
                     order = 4,
@@ -787,13 +787,13 @@ ImpUI_Config.options = {
                     max = 104,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.healthWarningSize;
+                        return ImpUI.db.profile.healthWarningSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.healthWarningSize = newValue; 
+                        ImpUI.db.profile.healthWarningSize = newValue; 
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.healthWarnings == false;
+                        return ImpUI.db.profile.healthWarnings == false;
                     end,
                     isPercent = false,
                     order = 5,
@@ -806,13 +806,13 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.healthWarningFont;
+                        return ImpUI.db.profile.healthWarningFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.healthWarningFont = newValue; 
+                        ImpUI.db.profile.healthWarningFont = newValue; 
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.healthWarnings == false;
+                        return ImpUI.db.profile.healthWarnings == false;
                     end,
                     order = 6,
                 },
@@ -829,10 +829,10 @@ ImpUI_Config.options = {
                     name = L['Announce Interrupts'],
                     desc = L['When you interrupt a target your character announces this to an appropriate sound channel.'],
                     get = function ()
-                        return ImpUI.db.char.announceInterrupts;
+                        return ImpUI.db.profile.announceInterrupts;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.announceInterrupts = newValue; 
+                        ImpUI.db.profile.announceInterrupts = newValue; 
                     end,
                     order = 8,
                 },
@@ -842,10 +842,10 @@ ImpUI_Config.options = {
                     name = L['Chat Channel'],
                     desc = L['The Channel that should be used when announcing an interrupt. Auto intelligently chooses based on situation.'],
                     get = function ()
-                        return ImpUI.db.char.interruptChannel;
+                        return ImpUI.db.profile.interruptChannel;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.interruptChannel = newValue; 
+                        ImpUI.db.profile.interruptChannel = newValue; 
                     end,
                     style = 'dropdown',
                     values = {
@@ -854,7 +854,7 @@ ImpUI_Config.options = {
                         'Yell',
                     },
                     disabled = function () 
-                        return ImpUI.db.char.announceInterrupts == false;
+                        return ImpUI.db.profile.announceInterrupts == false;
                     end,
                     order = 9,
                 },
@@ -871,10 +871,10 @@ ImpUI_Config.options = {
                     name = L['Highlight Killing Blows'],
                     desc = L['When you get a Killing Blow this will be displayed prominently in the center of the screen.'],
                     get = function ()
-                        return ImpUI.db.char.killingBlows;
+                        return ImpUI.db.profile.killingBlows;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlows = newValue; 
+                        ImpUI.db.profile.killingBlows = newValue; 
                     end,
                     order = 11,
                 },
@@ -884,13 +884,13 @@ ImpUI_Config.options = {
                     name = L['Killing Blow Message'],
                     desc = L['The message that is displayed in the center of the screen.'],
                     get = function ()
-                        return ImpUI.db.char.killingBlowMessage;
+                        return ImpUI.db.profile.killingBlowMessage;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowMessage = newValue; 
+                        ImpUI.db.profile.killingBlowMessage = newValue; 
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     order = 12,
                 },
@@ -900,13 +900,13 @@ ImpUI_Config.options = {
                     name = L['Colour'],
                     desc = L['The colour of the Killing Blow notification.'],
                     get = function ()
-                        return Helpers.colour_unpack(ImpUI.db.char.killingBlowColour);
+                        return Helpers.colour_unpack(ImpUI.db.profile.killingBlowColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.killingBlowColour = Helpers.colour_pack(r, g, b, a);
+                        ImpUI.db.profile.killingBlowColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     hasAlpha = false,
                     order = 13,
@@ -920,13 +920,13 @@ ImpUI_Config.options = {
                     max = 104,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.killingBlowSize;
+                        return ImpUI.db.profile.killingBlowSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowSize = newValue; 
+                        ImpUI.db.profile.killingBlowSize = newValue; 
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     isPercent = false,
                     order = 14,
@@ -939,13 +939,13 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.killingBlowFont;
+                        return ImpUI.db.profile.killingBlowFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowFont = newValue; 
+                        ImpUI.db.profile.killingBlowFont = newValue; 
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     order = 15,
                 },
@@ -955,13 +955,13 @@ ImpUI_Config.options = {
                     name = L['In World'],
                     desc = L['Notification will display in World content.'],
                     get = function ()
-                        return ImpUI.db.char.killingBlowInWorld;
+                        return ImpUI.db.profile.killingBlowInWorld;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowInWorld = newValue;
+                        ImpUI.db.profile.killingBlowInWorld = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     order = 16,
                 },
@@ -971,13 +971,13 @@ ImpUI_Config.options = {
                     name = L['In PvP'],
                     desc = L['Notification will display in PvP content.'],
                     get = function ()
-                        return ImpUI.db.char.killingBlowInPvP;
+                        return ImpUI.db.profile.killingBlowInPvP;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowInPvP = newValue;
+                        ImpUI.db.profile.killingBlowInPvP = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     order = 17,
                 },
@@ -987,13 +987,13 @@ ImpUI_Config.options = {
                     name = L['In Instance'],
                     desc = L['Notification will display in 5 Man instanced content.'],
                     get = function ()
-                        return ImpUI.db.char.killingBlowInInstance;
+                        return ImpUI.db.profile.killingBlowInInstance;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowInInstance = newValue;
+                        ImpUI.db.profile.killingBlowInInstance = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     order = 18,
                 },
@@ -1003,13 +1003,13 @@ ImpUI_Config.options = {
                     name = L['In Raid'],
                     desc = L['Notification will display in instanced raid content.'],
                     get = function ()
-                        return ImpUI.db.char.killingBlowInRaid;
+                        return ImpUI.db.profile.killingBlowInRaid;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killingBlowInRaid = newValue;
+                        ImpUI.db.profile.killingBlowInRaid = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killingBlows == false;
+                        return ImpUI.db.profile.killingBlows == false;
                     end,
                     order = 19,
                 },
@@ -1026,10 +1026,10 @@ ImpUI_Config.options = {
                     name = L['Automatic Release'],
                     desc = L['Automatically release your spirit when you die.'] ,
                     get = function ()
-                        return ImpUI.db.char.autoRel;
+                        return ImpUI.db.profile.autoRel;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoRel = newValue;
+                        ImpUI.db.profile.autoRel = newValue;
                     end,
                     order = 21,
                 },
@@ -1039,13 +1039,13 @@ ImpUI_Config.options = {
                     name = L['In World'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.autoRelInWorld;
+                        return ImpUI.db.profile.autoRelInWorld;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoRelInWorld = newValue;
+                        ImpUI.db.profile.autoRelInWorld = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.autoRel == false;
+                        return ImpUI.db.profile.autoRel == false;
                     end,
                     order = 22,
                 },
@@ -1055,13 +1055,13 @@ ImpUI_Config.options = {
                     name = L['In Instance'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.autoRelInInstance;
+                        return ImpUI.db.profile.autoRelInInstance;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoRelInInstance = newValue;
+                        ImpUI.db.profile.autoRelInInstance = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.autoRel == false;
+                        return ImpUI.db.profile.autoRel == false;
                     end,
                     order = 23,
                 },
@@ -1071,13 +1071,13 @@ ImpUI_Config.options = {
                     name = L['In PvP'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.autoRelInPvP;
+                        return ImpUI.db.profile.autoRelInPvP;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoRelInPvP = newValue;
+                        ImpUI.db.profile.autoRelInPvP = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.autoRel == false;
+                        return ImpUI.db.profile.autoRel == false;
                     end,
                     order = 23,
                 },
@@ -1087,13 +1087,13 @@ ImpUI_Config.options = {
                     name = L['In Raid'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.autoRelInRaid;
+                        return ImpUI.db.profile.autoRelInRaid;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoRelInRaid = newValue;
+                        ImpUI.db.profile.autoRelInRaid = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.autoRel == false;
+                        return ImpUI.db.profile.autoRel == false;
                     end,
                     order = 24,
                 }
@@ -1119,10 +1119,10 @@ ImpUI_Config.options = {
                     name = L['Player Co-ordinates'],
                     desc = L['Adds a frame to the Mini Map showing the players location in the world. Does not work in Dungeons.'],
                     get = function ()
-                        return ImpUI.db.char.showCoords;
+                        return ImpUI.db.profile.showCoords;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.showCoords = newValue;
+                        ImpUI.db.profile.showCoords = newValue;
                     end,
                     order = 2,
                 },
@@ -1134,14 +1134,14 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.minimapCoordsFont;
+                        return ImpUI.db.profile.minimapCoordsFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minimapCoordsFont = newValue;
+                        ImpUI.db.profile.minimapCoordsFont = newValue;
                         ImpUI_MiniMap:StyleCoords();
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.showCoords == false;
+                        return ImpUI.db.profile.showCoords == false;
                     end,
                     order = 3,
                 },
@@ -1151,14 +1151,14 @@ ImpUI_Config.options = {
                     name = L['Colour'],
                     desc = L['The colour of the Minimap Co-ordinates Display.'],
                     get = function ()
-                        return Helpers.colour_unpack(ImpUI.db.char.minimapCoordsColour);
+                        return Helpers.colour_unpack(ImpUI.db.profile.minimapCoordsColour);
                     end,
                     set = function (_, r, g, b, a)
-                        ImpUI.db.char.minimapCoordsColour = Helpers.colour_pack(r, g, b, a);
+                        ImpUI.db.profile.minimapCoordsColour = Helpers.colour_pack(r, g, b, a);
                         ImpUI_MiniMap:StyleCoords();
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.showCoords == false;
+                        return ImpUI.db.profile.showCoords == false;
                     end,
                     hasAlpha = false,
                     order = 4,
@@ -1172,14 +1172,14 @@ ImpUI_Config.options = {
                     max = 26,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.minimapCoordsSize;
+                        return ImpUI.db.profile.minimapCoordsSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minimapCoordsSize = newValue;
+                        ImpUI.db.profile.minimapCoordsSize = newValue;
                         ImpUI_MiniMap:StyleCoords();
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.showCoords == false;
+                        return ImpUI.db.profile.showCoords == false;
                     end,
                     isPercent = false,
                     order = 5,
@@ -1192,10 +1192,10 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.minimapZoneTextFont;
+                        return ImpUI.db.profile.minimapZoneTextFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minimapZoneTextFont = newValue;
+                        ImpUI.db.profile.minimapZoneTextFont = newValue;
                         ImpUI_MiniMap:StyleMap();
                     end,
                     order = 6,
@@ -1209,10 +1209,10 @@ ImpUI_Config.options = {
                     max = 26,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.minimapZoneTextSize;
+                        return ImpUI.db.profile.minimapZoneTextSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minimapZoneTextSize = newValue;
+                        ImpUI.db.profile.minimapZoneTextSize = newValue;
                         ImpUI_MiniMap:StyleMap();
                     end,
                     isPercent = false,
@@ -1226,10 +1226,10 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.minimapClockFont;
+                        return ImpUI.db.profile.minimapClockFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minimapClockFont = newValue;
+                        ImpUI.db.profile.minimapClockFont = newValue;
                         ImpUI_MiniMap:StyleClock();
                     end,
                     order = 8,
@@ -1243,10 +1243,10 @@ ImpUI_Config.options = {
                     max = 22,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.minimapClockSize;
+                        return ImpUI.db.profile.minimapClockSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minimapClockSize = newValue;
+                        ImpUI.db.profile.minimapClockSize = newValue;
                         ImpUI_MiniMap:StyleClock();
                     end,
                     isPercent = false,
@@ -1274,10 +1274,10 @@ ImpUI_Config.options = {
                     name = L['Enable AFK Mode'],
                     desc = L['After you go AFK the interface will fade away, pan your camera and display your Character in all their glory.'],
                     get = function ()
-                        return ImpUI.db.char.afkMode;
+                        return ImpUI.db.profile.afkMode;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.afkMode = newValue;
+                        ImpUI.db.profile.afkMode = newValue;
                     end,
                     order = 1,
                 },
@@ -1286,10 +1286,10 @@ ImpUI_Config.options = {
                     name = L['Auto Repair'],
                     desc = L['Automatically repairs your armour when you visit a merchant that can repair.'],
                     get = function ()
-                        return ImpUI.db.char.autoRepair;
+                        return ImpUI.db.profile.autoRepair;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoRepair = newValue;
+                        ImpUI.db.profile.autoRepair = newValue;
                     end,
                     order = 2,
                 },
@@ -1298,13 +1298,13 @@ ImpUI_Config.options = {
                     name = L['Use Guild Bank For Repairs'],
                     desc = L['When automatically repairing allow the use of Guild Bank funds.'],
                     get = function ()
-                        return ImpUI.db.char.guildRepair;
+                        return ImpUI.db.profile.guildRepair;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.guildRepair = newValue;
+                        ImpUI.db.profile.guildRepair = newValue;
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.autoRepair == false;
+                        return ImpUI.db.profile.autoRepair == false;
                     end,
                     order = 3,
                     hidden = Helpers.IsClassic(),
@@ -1314,10 +1314,10 @@ ImpUI_Config.options = {
                     name = L['Auto Sell Trash'],
                     desc = L['Automatically sells any grey items that are in your inventory.'],
                     get = function ()
-                        return ImpUI.db.char.autoSell;
+                        return ImpUI.db.profile.autoSell;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoSell = newValue;
+                        ImpUI.db.profile.autoSell = newValue;
                     end,
                     order = 4,
                 },
@@ -1326,10 +1326,10 @@ ImpUI_Config.options = {
                     name = L['Achievement Screenshot'],
                     desc = L['Automatically take a screenshot upon earning an achievement.'],
                     get = function ()
-                        return ImpUI.db.char.autoScreenshot;
+                        return ImpUI.db.profile.autoScreenshot;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.autoScreenshot = newValue;
+                        ImpUI.db.profile.autoScreenshot = newValue;
                     end,
                     order = 5,
                     hidden = Helpers.IsClassic(),
@@ -1347,10 +1347,10 @@ ImpUI_Config.options = {
                     name = L['Minify Blizzard Strings'],
                     desc = L['Shortens chat messages such as Loot Received, Exp Gain, Skill Gain and Chat Channels.'],
                     get = function ()
-                        return ImpUI.db.char.minifyStrings;
+                        return ImpUI.db.profile.minifyStrings;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.minifyStrings = newValue;
+                        ImpUI.db.profile.minifyStrings = newValue;
 
                         if (newValue == true) then
                             ImpUI_Chat:RestoreStrings();
@@ -1367,10 +1367,10 @@ ImpUI_Config.options = {
                     name = L['Style Chat'],
                     desc = L['Styles the Blizzard Chat frame to better match the rest of the UI.'],
                     get = function ()
-                        return ImpUI.db.char.styleChat;
+                        return ImpUI.db.profile.styleChat;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.styleChat = newValue;
+                        ImpUI.db.profile.styleChat = newValue;
 
                         if (newValue == true) then
                             ImpUI_Chat:StyleChat();
@@ -1388,14 +1388,14 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.chatFont;
+                        return ImpUI.db.profile.chatFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.chatFont = newValue;
+                        ImpUI.db.profile.chatFont = newValue;
                         ImpUI_Chat:StyleChat();
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleChat == false;
+                        return ImpUI.db.profile.styleChat == false;
                     end,
                     order = 9,
                 },
@@ -1405,14 +1405,14 @@ ImpUI_Config.options = {
                     name = L['Outline Font'],
                     desc = L['Applies a thin outline to text rendered in the chat windows.'],
                     get = function ()
-                        return ImpUI.db.char.outlineChat;
+                        return ImpUI.db.profile.outlineChat;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.outlineChat = newValue;
+                        ImpUI.db.profile.outlineChat = newValue;
                         ImpUI_Chat:StyleChat();
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.styleChat == false;
+                        return ImpUI.db.profile.styleChat == false;
                     end,
                     order = 10,
                 },
@@ -1430,10 +1430,10 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.primaryInterfaceFont;
+                        return ImpUI.db.profile.primaryInterfaceFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.primaryInterfaceFont = newValue;
+                        ImpUI.db.profile.primaryInterfaceFont = newValue;
                         ImpUI_Fonts:PrimaryFontUpdated();
                         ImpUI_Performance:StylePerformanceFrame();
                         ImpUI_Player:StyleFrame();
@@ -1458,10 +1458,10 @@ ImpUI_Config.options = {
                     name = L['Display System Statistics'],
                     desc = L['Displays FPS and Latency above the Mini Map.'],
                     get = function ()
-                        return ImpUI.db.char.performanceFrame;
+                        return ImpUI.db.profile.performanceFrame;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.performanceFrame = newValue;
+                        ImpUI.db.profile.performanceFrame = newValue;
                         ImpUI_MiniMap:StyleMap();
                     end,
                     order = 14,
@@ -1475,10 +1475,10 @@ ImpUI_Config.options = {
                     max = 23,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.performanceFrameSize;
+                        return ImpUI.db.profile.performanceFrameSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.performanceFrameSize = newValue;
+                        ImpUI.db.profile.performanceFrameSize = newValue;
                         ImpUI_Performance:StylePerformanceFrame();
                     end,
                     isPercent = false,
@@ -1496,10 +1496,10 @@ ImpUI_Config.options = {
                     name = L['Enable Kill Feed'],
                     desc = L['Displays a feed of the last 5 kills that occur around you.'],
                     get = function ()
-                        return ImpUI.db.char.killFeed;
+                        return ImpUI.db.profile.killFeed;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeed = newValue;
+                        ImpUI.db.profile.killFeed = newValue;
                     end,
                     order = 17,
                 },
@@ -1511,14 +1511,14 @@ ImpUI_Config.options = {
                     dialogControl = 'LSM30_Font',
                     values = LSM:HashTable( LSM.MediaType.FONT ),
                     get = function ()
-                        return ImpUI.db.char.killFeedFont;
+                        return ImpUI.db.profile.killFeedFont;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedFont = newValue;
+                        ImpUI.db.profile.killFeedFont = newValue;
                         ImpUI_Killfeed:StyleKillFeed();
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 18,
                 },
@@ -1531,14 +1531,14 @@ ImpUI_Config.options = {
                     max = 52,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.killFeedSize;
+                        return ImpUI.db.profile.killFeedSize;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedSize = newValue;
+                        ImpUI.db.profile.killFeedSize = newValue;
                         ImpUI_Killfeed:StyleKillFeed();
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     isPercent = false,
                     order = 19,
@@ -1552,14 +1552,14 @@ ImpUI_Config.options = {
                     max = 52,
                     step = 1,
                     get = function ()
-                        return ImpUI.db.char.killFeedSpacing;
+                        return ImpUI.db.profile.killFeedSpacing;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedSpacing = newValue;
+                        ImpUI.db.profile.killFeedSpacing = newValue;
                         ImpUI_Killfeed:StyleKillFeed();
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     isPercent = false,
                     order = 20,
@@ -1570,13 +1570,13 @@ ImpUI_Config.options = {
                     name = L['Show Casted Spell'],
                     desc = L['Show the Spell that caused a death.'],
                     get = function ()
-                        return ImpUI.db.char.killFeedShowSpell;
+                        return ImpUI.db.profile.killFeedShowSpell;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedShowSpell = newValue;
+                        ImpUI.db.profile.killFeedShowSpell = newValue;
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 21,
                 },
@@ -1586,13 +1586,13 @@ ImpUI_Config.options = {
                     name = L['Show Damage'],
                     desc = L['Show how much damage the Creature or Player took.'],
                     get = function ()
-                        return ImpUI.db.char.killFeedShowDamage;
+                        return ImpUI.db.profile.killFeedShowDamage;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedShowDamage = newValue;
+                        ImpUI.db.profile.killFeedShowDamage = newValue;
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 22,
                 },
@@ -1602,13 +1602,13 @@ ImpUI_Config.options = {
                     name = L['Hide When Inactive'],
                     desc = L['Hides the Kill Feed after no new events have occured for a short period.'],
                     get = function ()
-                        return ImpUI.db.char.killFeedFadeInactive;
+                        return ImpUI.db.profile.killFeedFadeInactive;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedFadeInactive = newValue;
+                        ImpUI.db.profile.killFeedFadeInactive = newValue;
                     end,
                     disabled = function ()
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 23,
                 },
@@ -1618,13 +1618,13 @@ ImpUI_Config.options = {
                     name = L['In World'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.killFeedInWorld;
+                        return ImpUI.db.profile.killFeedInWorld;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedInWorld = newValue;
+                        ImpUI.db.profile.killFeedInWorld = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 24,
                 },
@@ -1634,13 +1634,13 @@ ImpUI_Config.options = {
                     name = L['In Instance'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.killFeedInInstance;
+                        return ImpUI.db.profile.killFeedInInstance;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedInInstance = newValue;
+                        ImpUI.db.profile.killFeedInInstance = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 25,
                 },
@@ -1650,13 +1650,13 @@ ImpUI_Config.options = {
                     name = L['In PvP'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.killFeedInPvP;
+                        return ImpUI.db.profile.killFeedInPvP;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedInPvP = newValue;
+                        ImpUI.db.profile.killFeedInPvP = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 26,
                 },
@@ -1666,13 +1666,13 @@ ImpUI_Config.options = {
                     name = L['In Raid'],
                     desc = '',
                     get = function ()
-                        return ImpUI.db.char.killFeedInRaid;
+                        return ImpUI.db.profile.killFeedInRaid;
                     end,
                     set = function (info, newValue)
-                        ImpUI.db.char.killFeedInRaid = newValue;
+                        ImpUI.db.profile.killFeedInRaid = newValue;
                     end,
                     disabled = function () 
-                        return ImpUI.db.char.killFeed == false;
+                        return ImpUI.db.profile.killFeed == false;
                     end,
                     order = 27,
                 }

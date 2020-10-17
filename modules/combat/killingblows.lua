@@ -23,7 +23,7 @@ local GetZonePVPInfo = GetZonePVPInfo;
     @ return void
 ]]
 function ImpUI_KillingBlows:COMBAT_LOG_EVENT_UNFILTERED()
-    if (ImpUI.db.char.killingBlows == false) then return; end
+    if (ImpUI.db.profile.killingBlows == false) then return; end
 
     local _, event, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _, _, spellName, _, amount, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
     local _, instanceType = IsInInstance();
@@ -33,16 +33,16 @@ function ImpUI_KillingBlows:COMBAT_LOG_EVENT_UNFILTERED()
             local shouldShow = false;
 
             -- Figure out if we should show based on config.
-            if (instanceType == 'none' and ImpUI.db.char.killingBlowInWorld) then shouldShow = true; end
-            if (instanceType == 'party' and ImpUI.db.char.killingBlowInInstance) then shouldShow = true; end
-            if (instanceType == 'raid' and ImpUI.db.char.killingBlowInRaid) then shouldShow = true; end
-            if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.char.killingBlowInPvP) then shouldShow = true; end
+            if (instanceType == 'none' and ImpUI.db.profile.killingBlowInWorld) then shouldShow = true; end
+            if (instanceType == 'party' and ImpUI.db.profile.killingBlowInInstance) then shouldShow = true; end
+            if (instanceType == 'raid' and ImpUI.db.profile.killingBlowInRaid) then shouldShow = true; end
+            if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.profile.killingBlowInPvP) then shouldShow = true; end
 
             if (shouldShow) then
-                local message = ImpUI.db.char.killingBlowMessage;
-                local font = ImpUI.db.char.killingBlowFont;
-                local size = ImpUI.db.char.killingBlowSize;
-                local colour = ImpUI.db.char.killingBlowColour;
+                local message = ImpUI.db.profile.killingBlowMessage;
+                local font = ImpUI.db.profile.killingBlowFont;
+                local size = ImpUI.db.profile.killingBlowSize;
+                local colour = ImpUI.db.profile.killingBlowColour;
     
                 OSD:AddMessage( message, font, size, colour.r, colour.g, colour.b, 2.0 );
             end

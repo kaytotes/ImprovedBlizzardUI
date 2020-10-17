@@ -30,7 +30,7 @@ end
 function ImpUI_Buffs:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.buffsPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.buffsPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     dragFrame:Hide();
 end
@@ -39,8 +39,8 @@ end
 	Loads the position of the Focus Frame from SavedVariables.
 ]]
 function ImpUI_Buffs:LoadPosition(frame)
-    local pos = ImpUI.db.char.buffsPosition;
-    local scale = ImpUI.db.char.buffsScale;
+    local pos = ImpUI.db.profile.buffsPosition;
+    local scale = ImpUI.db.profile.buffsScale;
     
     -- Set Drag Frame Position
     dragFrame:ClearAllPoints();
