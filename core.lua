@@ -134,6 +134,9 @@ function ImpUI:OnInitialize()
     -- Set up DB
     self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
 
+    --Enable Profile Management
+    ImpUI_Config.options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
+
     -- Register Config
     LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config.options);
 
