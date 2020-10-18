@@ -123,13 +123,12 @@ function ImpUI:HandleSlash(input)
 end
 
 --[[
-    Iterates through each module, disabling and then enabling each one.
+    Called when active profile is changed.
+
+    For now just forces a UI Reload.
 ]]
-function ImpUI:ReloadAllModules()
-    for name, module in ImpUI:IterateModules() do
-        module:Disable();
-        module:Enable();
-    end
+function ImpUI:RefreshConfig()
+    ReloadUI();
 end
 
 --[[
@@ -144,13 +143,13 @@ function ImpUI:OnInitialize()
     -- Set up DB
     self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
 
-    --Enable Profile Management
+    -- Enable Profile Management
     ImpUI_Config.options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
 
-    -- Reload modules after active profile is changed so new settings will take effect
-    self.db.RegisterCallback(self, "OnProfileChanged", "ReloadAllModules")
-    self.db.RegisterCallback(self, "OnProfileCopied", "ReloadAllModules")
-    self.db.RegisterCallback(self, "OnProfileReset", "ReloadAllModules")
+    -- Make sure new settings take effect whenever active profile is changed, currently by Reloading UI.
+    self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
 
     -- Register Config
     LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config.options);
