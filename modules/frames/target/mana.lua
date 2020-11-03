@@ -117,7 +117,7 @@ function ImpUI_Target_Mana:PLAYER_TARGET_CHANGED()
 end
 
 function ImpUI_Target_Mana:StyleFont()
-    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     frame.middle:SetTextColor(font.r, font.g, font.b, font.a);
     frame.middle:SetFont(font.font, 10, font.flags);

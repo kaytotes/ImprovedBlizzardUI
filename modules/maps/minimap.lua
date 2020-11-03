@@ -36,8 +36,8 @@ end
     @ return void
 ]]
 function ImpUI_MiniMap:StyleClock()
-    local font = ImpUI.db.char.minimapClockFont;
-    local size = ImpUI.db.char.minimapClockSize;
+    local font = ImpUI.db.profile.minimapClockFont;
+    local size = ImpUI.db.profile.minimapClockSize;
 
     TimeManagerClockTicker:SetFont(LSM:Fetch('font', font), size, outline);
 end
@@ -51,7 +51,7 @@ end
 function ImpUI_MiniMap:StyleMap()
     MinimapCluster:ClearAllPoints();
     
-    if (ImpUI.db.char.performanceFrame == true) then
+    if (ImpUI.db.profile.performanceFrame == true) then
         MinimapCluster:SetPoint('TOPRIGHT', -15, -32);
     else
         MinimapCluster:SetPoint('TOPRIGHT', -15, -16);
@@ -67,8 +67,8 @@ function ImpUI_MiniMap:StyleMap()
     end);
 
     -- Check styling config here as rest is subjective
-    local font = ImpUI.db.char.minimapZoneTextFont;
-    local size = ImpUI.db.char.minimapZoneTextSize;
+    local font = ImpUI.db.profile.minimapZoneTextFont;
+    local size = ImpUI.db.profile.minimapZoneTextSize;
 
     MinimapZoneText:SetFont(LSM:Fetch('font', font), size, 'OUTLINE');
 end
@@ -79,9 +79,9 @@ end
     @ return void
 ]]
 function ImpUI_MiniMap:StyleCoords()
-    local font = ImpUI.db.char.minimapCoordsFont;
-    local colour = ImpUI.db.char.minimapCoordsColour;
-    local size = ImpUI.db.char.minimapCoordsSize;
+    local font = ImpUI.db.profile.minimapCoordsFont;
+    local colour = ImpUI.db.profile.minimapCoordsColour;
+    local size = ImpUI.db.profile.minimapCoordsSize;
 
     coords.text:SetFont(LSM:Fetch('font', font), size, 'OUTLINE');
     coords.text:SetTextColor(colour.r, colour.g, colour.b, colour.a);
@@ -96,7 +96,7 @@ function ImpUI_MiniMap:UpdateCoords()
     local inInstance, instanceType = IsInInstance();
 
     -- If configuration disabled or we're in a dungeon then just set to blank.
-    if (ImpUI.db.char.showCoords == false or inInstance == true) then
+    if (ImpUI.db.profile.showCoords == false or inInstance == true) then
         coords.text:SetText('');
         return;
     end

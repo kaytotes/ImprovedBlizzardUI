@@ -18,10 +18,10 @@ local dragFrame;
     @ return void
 ]]
 function ImpUI_Party:StyleFrames()
-    if (ImpUI.db.char.styleUnitFrames == false) then return; end
+    if (ImpUI.db.profile.styleUnitFrames == false) then return; end
 
     -- Fonts
-    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     -- Style Each Party Frame
     for i = 1, 4 do
@@ -46,8 +46,8 @@ function ImpUI_Party:LoadPosition()
     -- Known issues moving party frames in retail.
     if (Helpers.IsRetail()) then return end
 
-    local pos = ImpUI.db.char.partyFramePosition;
-    local scale = ImpUI.db.char.partyFrameScale;
+    local pos = ImpUI.db.profile.partyFramePosition;
+    local scale = ImpUI.db.profile.partyFrameScale;
     local offset = 0;
     
     -- Set Drag Frame Position
@@ -101,7 +101,7 @@ end
 function ImpUI_Party:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.partyFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.partyFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     HideFrames();
 

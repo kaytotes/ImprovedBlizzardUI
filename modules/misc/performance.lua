@@ -15,7 +15,7 @@ local dragFrame;
 
 function ImpUI_Performance:Tick()
     -- Bail out if configuration option is disabled.
-    if (ImpUI.db.char.performanceFrame == false) then
+    if (ImpUI.db.profile.performanceFrame == false) then
         performance.text:SetText(' ');
         return;
     end
@@ -61,7 +61,7 @@ end
 ]]
 function ImpUI_Performance:LoadPosition()
     dragFrame:ClearAllPoints();
-    dragFrame:SetPoint(ImpUI.db.char.performanceFramePosition.point, ImpUI.db.char.performanceFramePosition.relativeTo, ImpUI.db.char.performanceFramePosition.relativePoint, ImpUI.db.char.performanceFramePosition.x, ImpUI.db.char.performanceFramePosition.y);
+    dragFrame:SetPoint(ImpUI.db.profile.performanceFramePosition.point, ImpUI.db.profile.performanceFramePosition.relativeTo, ImpUI.db.profile.performanceFramePosition.relativePoint, ImpUI.db.profile.performanceFramePosition.x, ImpUI.db.profile.performanceFramePosition.y);
 end
 
 -- Called when unlocking the UI.
@@ -76,7 +76,7 @@ function ImpUI_Performance:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
     -- Store Position
-    ImpUI.db.char.performanceFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.performanceFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     performance:SetParent(UIParent);
 
@@ -90,8 +90,8 @@ end
     @ return void
 ]]
 function ImpUI_Performance:StylePerformanceFrame()
-    local font = ImpUI.db.char.primaryInterfaceFont;
-    local size = ImpUI.db.char.performanceFrameSize;
+    local font = ImpUI.db.profile.primaryInterfaceFont;
+    local size = ImpUI.db.profile.performanceFrameSize;
 
     performance.text:SetFont(LSM:Fetch('font', font), size, 'THINOUTLINE');
 end

@@ -62,7 +62,7 @@ end
 ]]
 function ImpUI_AFK:ToggleSpin(spin)
 	-- If disabled in Config do nothing.
-	if (ImpUI.db.char.afkMode == false) then return; end
+	if (ImpUI.db.profile.afkMode == false) then return; end
 
     -- If the Player is in combat then just do nothing
     if (InCombatLockdown()) then return; end

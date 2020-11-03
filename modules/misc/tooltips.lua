@@ -68,7 +68,7 @@ end
 ]]
 function ImpUI_Tooltips:ResetStyle()
     -- Bail out on config 
-    if (ImpUI.db.char.styleTooltips == true) then return; end
+    if (ImpUI.db.profile.styleTooltips == true) then return; end
 
     GameTooltipStatusBar:SetHeight(8);
     GameTooltipStatusBar:SetStatusBarTexture('Interface\\TargetingFrame\\UI-TargetingFrame-BarFill');
@@ -94,7 +94,7 @@ function ImpUI_Tooltips:AssignHostilityBorder(tip, unit)
     tip:SetBackdropColor(backgroundColour.r, backgroundColour.g, backgroundColour.b);
 
     -- Hostility Border
-    if (ImpUI.db.char.tooltipHostileBorder) then
+    if (ImpUI.db.profile.tooltipHostileBorder) then
         tip:SetBackdropBorderColor(friendColor.r, friendColor.g, friendColor.b);
     else
         tip:SetBackdropBorderColor(borderColour.r, borderColour.g, borderColour.b);
@@ -106,7 +106,7 @@ function ImpUI_Tooltips:AddTargetOfTarget(unit)
     local target = unit .. "target";
 
     -- Target of Target
-    if (UnitExists(target) and ImpUI.db.char.tooltipToT) then
+    if (UnitExists(target) and ImpUI.db.profile.tooltipToT) then
         local name, _ = UnitName(target);
         local colour = Helpers.GetClassColour(target);
 
@@ -140,7 +140,7 @@ function ImpUI_Tooltips:StyleHealthBar(unit)
     GameTooltipStatusBar:SetHeight(5);
     GameTooltipStatusBar:SetStatusBarTexture('Interface\\TargetingFrame\\UI-StatusBar');
 
-    if (ImpUI.db.char.tooltipHealthClassColours) then
+    if (ImpUI.db.profile.tooltipHealthClassColours) then
         Helpers.ApplyClassColours(GameTooltipStatusBar, unit);
     end
 end
@@ -150,7 +150,7 @@ function ImpUI_Tooltips:FormatForPlayer(tip, unit)
     local guild, rank = GetGuildInfo(unit);
 
     -- Name 
-    if (ImpUI.db.char.tooltipNameClassColours) then
+    if (ImpUI.db.profile.tooltipNameClassColours) then
         GameTooltip:AddLine(format('|cff%s%s|r %s', Helpers.RGBPercToHex(Helpers.GetClassColour(unit)), UnitName(unit), AFKStatus(unit)));
     else
         GameTooltip:AddLine(format('%s%s', UnitName(unit), AFKStatus(unit)));
@@ -158,7 +158,7 @@ function ImpUI_Tooltips:FormatForPlayer(tip, unit)
 
     -- Guild
     if (guild) then
-        GameTooltip:AddLine(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.char.tooltipGuildColour), guild));
+        GameTooltip:AddLine(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild));
     end
 end
 
@@ -166,7 +166,7 @@ function ImpUI_Tooltips:FormatForCreature(tip, unit)
     local name = GetUnitName(unit);
 
     -- Name 
-    if (ImpUI.db.char.tooltipNameClassColours) then
+    if (ImpUI.db.profile.tooltipNameClassColours) then
         GameTooltip:AddLine(format('|cff%s%s|r', Helpers.RGBPercToHex(Helpers.GetClassColour(unit)), UnitName(unit)));
     else
         GameTooltip:AddLine(format('%s%s', UnitName(unit)));
@@ -246,7 +246,7 @@ end
 ]]
 function ImpUI_Tooltips:StyleNormalTooltip(tip)
     -- Bail out on config 
-    if (ImpUI.db.char.styleTooltips == false) then return; end
+    if (ImpUI.db.profile.styleTooltips == false) then return; end
 
     -- Check for forbidden tooltip.
     if (tip:IsForbidden()) then return end
@@ -283,8 +283,8 @@ end
 ]]
 function ImpUI_Tooltips:StyleItemTooltip(tip)
     -- Bail out on config 
-    if (ImpUI.db.char.styleTooltips == false) then return; end
-    if (ImpUI.db.char.tooltipItemRarity == false) then return; end
+    if (ImpUI.db.profile.styleTooltips == false) then return; end
+    if (ImpUI.db.profile.tooltipItemRarity == false) then return; end
 
     GameTooltipStatusBar.unit = nil;
     GameTooltipStatusBar:Hide();
@@ -311,7 +311,7 @@ end
     @ return void
 ]]
 function ImpUI_Tooltips:AnchorTooltip(tip, parent)
-    if (ImpUI.db.char.anchorMouse) then
+    if (ImpUI.db.profile.anchorMouse) then
         tip:SetOwner(parent, 'ANCHOR_CURSOR');
     end
 end

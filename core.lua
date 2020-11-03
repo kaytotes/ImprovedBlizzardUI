@@ -123,6 +123,15 @@ function ImpUI:HandleSlash(input)
 end
 
 --[[
+    Called when active profile is changed.
+
+    For now just forces a UI Reload.
+]]
+function ImpUI:RefreshConfig()
+    ReloadUI();
+end
+
+--[[
 	Fires when the Addon is Initialised.
 	
     @ return void
@@ -133,6 +142,14 @@ function ImpUI:OnInitialize()
 
     -- Set up DB
     self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
+
+    -- Enable Profile Management
+    ImpUI_Config.options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
+
+    -- Make sure new settings take effect whenever active profile is changed, currently by Reloading UI.
+    self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
 
     -- Register Config
     LibStub('AceConfig-3.0'):RegisterOptionsTable('ImprovedBlizzardUI', ImpUI_Config.options);

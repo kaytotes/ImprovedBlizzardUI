@@ -28,7 +28,7 @@ end
 	Actually does
 ]]
 function ImpUI_Focus:StyleFrame()
-    if (ImpUI.db.char.styleUnitFrames == false) then return; end
+    if (ImpUI.db.profile.styleUnitFrames == false) then return; end
 
     if(UnitExists('focus') == false) then return; end
 
@@ -62,13 +62,13 @@ function ImpUI_Focus:StyleFrame()
     FocusFrame.nameBackground:Hide();
 
     -- Class Colours
-    if (ImpUI.db.char.focusClassColours) then
+    if (ImpUI.db.profile.focusClassColours) then
         Helpers.ApplyClassColours(FocusFrame.healthbar, FocusFrame.healthbar.unit);
     end
     FocusFrame.healthbar.lockColor = true;
 
     -- Set Fonts
-    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     FocusFrameTextureFrameName:SetFont(font.font, 11, font.flags);
     FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
@@ -85,7 +85,7 @@ function ImpUI_Focus:StyleFrame()
     end
 
     -- Buffs on Top
-    if (ImpUI.db.char.focusBuffsOnTop) then
+    if (ImpUI.db.profile.focusBuffsOnTop) then
         FocusFrame.buffsOnTop = true;
     else
         FocusFrame.buffsOnTop = false;
@@ -98,7 +98,7 @@ end
     @ return void
 ]]
 function ImpUI_Focus:HealthBarChanged(bar)
-    if (ImpUI.db.char.focusClassColours and bar.unit == 'focus') then
+    if (ImpUI.db.profile.focusClassColours and bar.unit == 'focus') then
         Helpers.ApplyClassColours(bar, bar.unit);
     end
 end
@@ -116,7 +116,7 @@ end
 function ImpUI_Focus:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.focusFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.focusFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     dragFrame:Hide();
 end
@@ -125,8 +125,8 @@ end
 	Loads the position of the Focus Frame from SavedVariables.
 ]]
 function ImpUI_Focus:LoadPosition()
-    local pos = ImpUI.db.char.focusFramePosition;
-    local scale = ImpUI.db.char.focusFrameScale;
+    local pos = ImpUI.db.profile.focusFramePosition;
+    local scale = ImpUI.db.profile.focusFrameScale;
     
     -- Set Drag Frame Position
     dragFrame:ClearAllPoints();

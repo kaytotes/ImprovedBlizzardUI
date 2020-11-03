@@ -42,11 +42,11 @@ local function CreateCastingTimer(frame, pos)
     frame.timer = nil;
 
     -- Get Font
-    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     -- Create Timers
     frame.timer = frame:CreateFontString(nil);
-    frame.timer:SetFont(font.font, ImpUI.db.char.castBarFontSize, font.flags);
+    frame.timer:SetFont(font.font, ImpUI.db.profile.castBarFontSize, font.flags);
     frame.timer:SetPoint(pos.point, frame, pos.relativePoint, pos.x, pos.y);
     frame.timer:SetTextColor(font.r, font.g, font.b, font.a);
     frame.timer.updateDelay = updateDelay;
@@ -77,14 +77,14 @@ function ImpUI_CastBar:StyleFrame()
     end
 
     -- Get Font
-    font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     -- Set Font
-    CastingBarFrame.Text:SetFont(font.font, ImpUI.db.char.castBarFontSize, font.flags);
+    CastingBarFrame.Text:SetFont(font.font, ImpUI.db.profile.castBarFontSize, font.flags);
     CastingBarFrame.Text:SetTextColor(font.r, font.g, font.b, font.a);
 
     -- Cast Bar
-    if (ImpUI.db.char.castBarPlayerTimer) then
+    if (ImpUI.db.profile.castBarPlayerTimer) then
         CreateCastingTimer(CastingBarFrame, Helpers.pack_position('TOP', nil, 'BOTTOM', 0, 35));
     end
 
@@ -92,12 +92,12 @@ function ImpUI_CastBar:StyleFrame()
     if (Helpers.IsClassic()) then return end
     
     -- Target Frame
-    if (ImpUI.db.char.castBarTargetTimer) then
+    if (ImpUI.db.profile.castBarTargetTimer) then
         CreateCastingTimer(TargetFrameSpellBar, Helpers.pack_position('TOP', nil, 'BOTTOM', 0, 28));
     end
 
     -- Focus Frame
-    if (ImpUI.db.char.castBarFocusTimer) then
+    if (ImpUI.db.profile.castBarFocusTimer) then
         CreateCastingTimer(FocusFrameSpellBar, Helpers.pack_position('TOP', nil, 'BOTTOM', 0, -8));    
     end
 end
@@ -115,7 +115,7 @@ end
 function ImpUI_CastBar:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.castBarPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.castBarPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     dragFrame:Hide();
 end
@@ -124,8 +124,8 @@ end
 	Loads the position of the Focus Frame from SavedVariables.
 ]]
 function ImpUI_CastBar:LoadPosition()
-    local pos = ImpUI.db.char.castBarPosition;
-    local scale = ImpUI.db.char.castBarScale;
+    local pos = ImpUI.db.profile.castBarPosition;
+    local scale = ImpUI.db.profile.castBarScale;
     
     -- Set Drag Frame Position
     dragFrame:ClearAllPoints();

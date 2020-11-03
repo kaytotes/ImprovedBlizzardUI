@@ -40,7 +40,7 @@ end
     @ param int $type Honestly unsure, apparently sets it to black if > 0 but I've never seen this actually happen in game.
 ]]
 function ImpUI_Player:CombatFeedback_OnCombatEvent(self, event, flags, amount, type)
-    if(ImpUI.db.char.playerHidePortraitSpam) then
+    if(ImpUI.db.profile.playerHidePortraitSpam) then
         self.feedbackText:SetText(' ');
     end
 end
@@ -60,7 +60,7 @@ function ImpUI_Player:TogglePlayer(toggle)
             maxMana = true;
         end
 
-        if (toggle and maxHealth and maxMana and hasTarget and ImpUI.db.char.playerHideOOC) then
+        if (toggle and maxHealth and maxMana and hasTarget and ImpUI.db.profile.playerHideOOC) then
             PlayerFrame:Hide();
         else
             PlayerFrame:Show();
@@ -83,7 +83,7 @@ end
     @ return void
 ]]
 function ImpUI_Player:HealthBarChanged(bar)
-    if (ImpUI.db.char.playerClassColours and bar.unit == 'player') then
+    if (ImpUI.db.profile.playerClassColours and bar.unit == 'player') then
         Helpers.ApplyClassColours(bar, bar.unit);
     end
 end
@@ -95,7 +95,7 @@ end
     @ return void
 ]]
 function ImpUI_Player:StyleFrame()
-    if (ImpUI.db.char.styleUnitFrames == false) then return; end
+    if (ImpUI.db.profile.styleUnitFrames == false) then return; end
 
     -- Change Texture
     PlayerFrameTexture:SetTexture('Interface\\AddOns\\ImprovedBlizzardUI\\media\\UI-TargetingFrame');
@@ -108,7 +108,7 @@ function ImpUI_Player:StyleFrame()
     PlayerFrameHealthBarText:SetPoint('CENTER',50,6);
 
     -- Apply Fonts and Colours
-    local font = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local font = LSM:Fetch('font', ImpUI.db.profile.primaryInterfaceFont);
     local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont();
     local r, g, b, a = PlayerFrameHealthBarTextLeft:GetTextColor();
 
@@ -241,7 +241,7 @@ end
 function ImpUI_Player:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.playerFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.playerFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     dragFrame:Hide();
 end
@@ -250,8 +250,8 @@ end
 	Loads the position of the Player Frame from SavedVariables.
 ]]
 function ImpUI_Player:LoadPosition()
-    local pos = ImpUI.db.char.playerFramePosition;
-    local scale = ImpUI.db.char.playerFrameScale;
+    local pos = ImpUI.db.profile.playerFramePosition;
+    local scale = ImpUI.db.profile.playerFrameScale;
     
     -- Set Drag Frame Position
     dragFrame:ClearAllPoints();

@@ -103,7 +103,7 @@ function ImpUI_Killfeed:SendToKillFeed(string)
 
     -- Set Fade Timer
     fadeTimer = C_Timer.NewTimer(7.5, function()
-        local inactiveFade = ImpUI.db.char.killFeedFadeInactive;
+        local inactiveFade = ImpUI.db.profile.killFeedFadeInactive;
         if (inactiveFade) then
             killfeed.fadeOutAnim:Play();
         end
@@ -132,7 +132,7 @@ function ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destNam
     local killerString = ImpUI_Killfeed:GetFormattedString(sourceGUID, sourceName);
     local killedString = ImpUI_Killfeed:GetFormattedString(destGUID, destName);
 
-    local showSpell = ImpUI.db.char.killFeedShowSpell;
+    local showSpell = ImpUI.db.profile.killFeedShowSpell;
 
     if (showSpell and spellName ~= nil) then
         spellString = format(' %s |cff69CCF0%s|r', L['with'], spellName);
@@ -140,7 +140,7 @@ function ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destNam
         spellString = format(' %s |cff69CCF0%s|r', L['with'], L['Melee']);
     end
 
-    local showDamage = ImpUI.db.char.killFeedShowDamage;
+    local showDamage = ImpUI.db.profile.killFeedShowDamage;
 
     if (showDamage and amount ~= nil) then
         damageString = format(' (%s)', Helpers.format_num(amount));
@@ -160,15 +160,15 @@ function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
     local _, instanceType = IsInInstance();
 
     -- Bail out based on config options
-    if (ImpUI.db.char.killFeed == false) then return; end
+    if (ImpUI.db.profile.killFeed == false) then return; end
 
     local shouldShow = false;
 
     -- Figure out if we should show based on config.
-    if (instanceType == 'none' and ImpUI.db.char.killFeedInWorld) then shouldShow = true; end
-    if (instanceType == 'party' and ImpUI.db.char.killFeedInInstance) then shouldShow = true; end
-    if (instanceType == 'raid' and ImpUI.db.char.killFeedInRaid) then shouldShow = true; end
-    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.char.killFeedInPvP) then shouldShow = true; end
+    if (instanceType == 'none' and ImpUI.db.profile.killFeedInWorld) then shouldShow = true; end
+    if (instanceType == 'party' and ImpUI.db.profile.killFeedInInstance) then shouldShow = true; end
+    if (instanceType == 'raid' and ImpUI.db.profile.killFeedInRaid) then shouldShow = true; end
+    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.profile.killFeedInPvP) then shouldShow = true; end
 
     -- Bail out if it shouldn't be shown in current context.
     if (shouldShow == false) then return; end
@@ -213,9 +213,9 @@ end
     @ return void
 ]]
 function ImpUI_Killfeed:StyleKillFeed()
-    local font = ImpUI.db.char.killFeedFont;
-    local size = ImpUI.db.char.killFeedSize;
-    local spacing = ImpUI.db.char.killFeedSpacing;
+    local font = ImpUI.db.profile.killFeedFont;
+    local size = ImpUI.db.profile.killFeedSize;
+    local spacing = ImpUI.db.profile.killFeedSpacing;
 
     for i = 1, #killfeed.recentKills do
         killfeed.texts[i]:SetFont( LSM:Fetch('font', font), size, 'OUTLINE' );
@@ -237,7 +237,7 @@ end
 ]]
 function ImpUI_Killfeed:LoadPosition()
     dragFrame:ClearAllPoints();
-    dragFrame:SetPoint(ImpUI.db.char.killFeedPosition.point, ImpUI.db.char.killFeedPosition.relativeTo, ImpUI.db.char.killFeedPosition.relativePoint, ImpUI.db.char.killFeedPosition.x, ImpUI.db.char.killFeedPosition.y);
+    dragFrame:SetPoint(ImpUI.db.profile.killFeedPosition.point, ImpUI.db.profile.killFeedPosition.relativeTo, ImpUI.db.profile.killFeedPosition.relativePoint, ImpUI.db.profile.killFeedPosition.x, ImpUI.db.profile.killFeedPosition.y);
 end
 
 -- Called when unlocking the UI.
@@ -255,7 +255,7 @@ function ImpUI_Killfeed:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
     -- Store Position
-    ImpUI.db.char.killFeedPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.killFeedPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     -- Clear Test Data
     ImpUI_Killfeed:ClearKillFeed();

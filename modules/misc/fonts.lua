@@ -37,7 +37,7 @@ end
     @ return void
 ]]
 local function UpdateFonts()
-    local primaryFont = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local primaryFont = LSM:Fetch('font', ImpUI.db.profile.primaryInterfaceFont);
 
     UNIT_NAME_FONT     = primaryFont;
 	DAMAGE_TEXT_FONT   = primaryFont;
@@ -135,7 +135,7 @@ function ImpUI_Fonts:PrimaryFontUpdated()
 
     ImpUI:Print(warning);
 
-    OSD:AddMessage( warning, ImpUI.db.char.primaryInterfaceFont, 22, 1, 1, 0, 5.0 );
+    OSD:AddMessage( warning, ImpUI.db.profile.primaryInterfaceFont, 22, 1, 1, 0, 5.0 );
 
     UpdateFonts();
 end
