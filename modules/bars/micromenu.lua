@@ -64,7 +64,7 @@ function ImpUI_MicroMenu:BuildMicroMenu()
         ShowMicroMenu();
     end);
 
-    MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
+    -- MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
 
     self:StyleMicroMenu();
 
