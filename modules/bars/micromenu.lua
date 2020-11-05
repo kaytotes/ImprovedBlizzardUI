@@ -9,6 +9,9 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 local MicroMenuFrame = CreateFrame('Frame', nil, UIParent);
 
+local hideDelay = 2.0;
+local tick = 0;
+
 --[[
     Hides the Micro Menu by moving it off screen
     @ return void
@@ -24,10 +27,15 @@ end
     Checks for the world map on update as when this closes Blizzard moves the micromenu
     @ return void
 ]]
-local function MicroMenu_Tick()
-    -- Blanket attempt to only show micro menu when in pet battle or vehicle.
-    if (not UnitHasVehicleUI('player') and not C_PetBattles.IsInBattle() and InCombatLockdown() == false) then
-        HideMicroMenu();
+local function MicroMenu_Tick(self, elapsed)
+    tick = tick + elapsed;
+
+    if (tick > hideDelay) then
+        if (not UnitHasVehicleUI('player') and not C_PetBattles.IsInBattle() and InCombatLockdown() == false) then
+            HideMicroMenu();
+        end
+
+        tick = 0;
     end
 end
 
