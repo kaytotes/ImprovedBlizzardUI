@@ -12,6 +12,8 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Local Variables
 local dragFrame;
 
+local refreshDelay = 0.15;
+
 --[[
     Actually shows the timers for casting bars.
     @ return void
@@ -27,7 +29,7 @@ function ImpUI_CastBar:ShowTimer(self, elapsed)
         else
             self.timer:SetText('');
         end
-        self.timer.updateDelay = 0.1;
+        self.timer.updateDelay = refreshDelay;
     else
         self.timer.updateDelay = self.timer.updateDelay - elapsed;
     end
@@ -37,8 +39,6 @@ end
 	Creates and attaches a timer to a Casting Bar.
 ]]
 local function CreateCastingTimer(frame, pos)
-    local updateDelay = 0.1;
-
     frame.timer = nil;
 
     -- Get Font
@@ -49,7 +49,7 @@ local function CreateCastingTimer(frame, pos)
     frame.timer:SetFont(font.font, ImpUI.db.profile.castBarFontSize, font.flags);
     frame.timer:SetPoint(pos.point, frame, pos.relativePoint, pos.x, pos.y);
     frame.timer:SetTextColor(font.r, font.g, font.b, font.a);
-    frame.timer.updateDelay = updateDelay;
+    frame.timer.updateDelay = refreshDelay;
 
     -- Hook Timers
     if (ImpUI_CastBar:IsHooked(frame, 'OnUpdate')) then return end;
