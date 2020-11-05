@@ -30,6 +30,10 @@ end
     @ return void
 ]]
 function ApplyButtonStyles()
+    if (Helpers.Debug()) then
+        ImpUI:Print('ApplyButtonStyles');
+    end
+
     local showMainText = ImpUI.db.profile.showMainText;
     local showBottomLeftText = ImpUI.db.profile.showBottomLeftText;
     local showBottomRightText = ImpUI.db.profile.showBottomRightText;

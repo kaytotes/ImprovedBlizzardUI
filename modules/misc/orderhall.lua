@@ -22,6 +22,10 @@ function ImpUI_OrderHall:RefreshInfo()
         return
     end
 
+    if (Helpers.Debug()) then
+        ImpUI:Print('Refreshing Order Hall Info');
+    end
+
     -- Refresh Currency
     local currency = C_Garrison.GetCurrencyTypes(Enum.GarrisonType.Type_7_0);
     local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currency);
@@ -115,6 +119,10 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:PrepBar()
+    if (Helpers.Debug()) then
+        ImpUI:Print('Prepping Order Hall Bar');
+    end
+
     local delay;
 
     if (firstAttempt) then

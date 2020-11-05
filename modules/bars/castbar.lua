@@ -26,8 +26,6 @@ function ImpUI_CastBar:ShowTimer(self, elapsed)
             self.timer:SetText(format('%.1f', max(self.maxValue - self.value, 0)));
         elseif (self.channeling) then
             self.timer:SetText(format('%.1f', max(self.value, 0)));
-        else
-            self.timer:SetText('');
         end
         self.timer.updateDelay = refreshDelay;
     else
@@ -40,6 +38,10 @@ end
 ]]
 local function CreateCastingTimer(frame, pos)
     frame.timer = nil;
+
+    if (Helpers.Debug()) then
+        ImpUI:Print('Creating Castbar for '..frame:GetName());
+    end
 
     -- Get Font
     local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);

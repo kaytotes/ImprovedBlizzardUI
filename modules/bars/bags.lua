@@ -14,6 +14,14 @@ local Bags = CreateFrame('Frame', nil, UIParent);
     @ return void
 ]]
 function ImpUI_Bags:ToggleBagBar()
+    if (Helpers.Debug()) then
+        if (Bags.bagsVisible) then
+            ImpUI:Print('Hiding Bag Bar');
+        else
+            ImpUI:Print('Showing Bag Bar');
+        end
+    end
+    
     if(Bags.bagsVisible) then
         -- Hide them
         Helpers.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil);
