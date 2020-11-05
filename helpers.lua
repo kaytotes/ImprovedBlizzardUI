@@ -1,6 +1,6 @@
 Helpers = CreateFrame('Frame', nil, UIParent);
 
-local debug = true;
+local debug = false;
 
 function Helpers.Debug()
     return debug;
