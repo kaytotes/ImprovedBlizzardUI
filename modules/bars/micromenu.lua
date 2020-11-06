@@ -9,22 +9,27 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 local MicroMenuFrame = CreateFrame('Frame', nil, UIParent);
 
-local hideDelay = 2.0;
-local tick = 0;
-
 --[[
     Hides the Micro Menu by moving it off screen
     @ return void
 ]]
-local function HideMicroMenu()
-    if (UnitHasVehicleUI('player') or C_PetBattles.IsInBattle()) then
-        return
-    end
-
-    Helpers.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
-
-    -- Hide Art
-    MicroButtonAndBagsBar.MicroBagBar:Hide();
+local function HideMicroMenu(delay)
+    C_Timer.After(delay, function() 
+        if (UnitHasVehicleUI('player') or C_PetBattles.IsInBattle() or HasOverrideActionBar() or HasVehicleActionBar()) then
+            return
+        end
+    
+        if (Helpers.Debug()) then
+            ImpUI:Print('Hiding Micro Menu');
+            ImpUI:Print(UnitHasVehicleUI('player'));
+            ImpUI:Print(C_PetBattles.IsInBattle());
+        end
+    
+        Helpers.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
+    
+        -- Hide Art
+        MicroButtonAndBagsBar.MicroBagBar:Hide();
+    end);
 end
 
 --[[
@@ -55,7 +60,7 @@ function ImpUI_MicroMenu:BuildMicroMenu()
     self:StyleMicroMenu();
 
     self:HookScript(UIParent, 'OnShow', function ()
-        HideMicroMenu();
+        HideMicroMenu(0.1);
     end);
 end
 
@@ -157,33 +162,47 @@ function ImpUI_MicroMenu:OnEnable()
     ImpUI_MicroMenu:BuildMicroMenu();
 
     self:RegisterEvent('PLAYER_ENTERING_WORLD', function ()
-        HideMicroMenu();
+        HideMicroMenu(0.1);
         UpdateMicroMenuList(UnitLevel('player'));
     end);
 
-    self:RegisterEvent('PLAYER_FLAGS_CHANGED', HideMicroMenu);
+    self:RegisterEvent('PLAYER_FLAGS_CHANGED', function ()
+        HideMicroMenu(0.1);
+    end);
 
     self:RegisterEvent('PLAYER_TALENT_UPDATE', function ()
-        HideMicroMenu();
+        HideMicroMenu(0.1);
         UpdateMicroMenuList(UnitLevel('player'));
     end);
 
     self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED', function ()
-        HideMicroMenu();
+        HideMicroMenu(0.1);
         UpdateMicroMenuList(UnitLevel('player'));
     end);
 
     self:RegisterEvent('UNIT_EXITED_VEHICLE', function (...)
         if(... == 'player') then
-            HideMicroMenu();
+            HideMicroMenu(0.5);
+        end
+    end);
+
+    self:RegisterEvent('UNIT_ENTERED_VEHICLE', function (...)
+        if(... == 'player') then
+            HideMicroMenu(0.5);
         end
     end);
 
     self:RegisterEvent('PLAYER_LEVEL_UP', CheckLevel);
-    self:RegisterEvent('CINEMATIC_START', HideMicroMenu);
-    self:RegisterEvent('CINEMATIC_STOP', HideMicroMenu);
+    self:RegisterEvent('CINEMATIC_START', function ()
+        HideMicroMenu(0.1);
+    end);
+    self:RegisterEvent('CINEMATIC_STOP', function ()
+        HideMicroMenu(0.1);
+    end);
 
-    self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', HideMicroMenu);
+    self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', function ()
+        HideMicroMenu(0.1);
+    end);
 end
 
 --[[
