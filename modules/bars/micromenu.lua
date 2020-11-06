@@ -17,26 +17,14 @@ local tick = 0;
     @ return void
 ]]
 local function HideMicroMenu()
+    if (UnitHasVehicleUI('player') or C_PetBattles.IsInBattle()) then
+        return
+    end
+
     Helpers.ModifyFrame(CharacterMicroButton, 'BOTTOMLEFT', UIParent, 5000, 2, nil);
 
     -- Hide Art
     MicroButtonAndBagsBar.MicroBagBar:Hide();
-end
-
---[[
-    Checks for the world map on update as when this closes Blizzard moves the micromenu
-    @ return void
-]]
-local function MicroMenu_Tick(self, elapsed)
-    tick = tick + elapsed;
-
-    if (tick > hideDelay) then
-        if (not UnitHasVehicleUI('player') and not C_PetBattles.IsInBattle() and InCombatLockdown() == false) then
-            HideMicroMenu();
-        end
-
-        tick = 0;
-    end
 end
 
 --[[
@@ -63,8 +51,6 @@ function ImpUI_MicroMenu:BuildMicroMenu()
     MicroMenuFrame.button:SetScript("OnClick",function(self)
         ShowMicroMenu();
     end);
-
-    -- MicroMenuFrame:SetScript('OnUpdate', MicroMenu_Tick);
 
     self:StyleMicroMenu();
 
@@ -196,6 +182,8 @@ function ImpUI_MicroMenu:OnEnable()
     self:RegisterEvent('PLAYER_LEVEL_UP', CheckLevel);
     self:RegisterEvent('CINEMATIC_START', HideMicroMenu);
     self:RegisterEvent('CINEMATIC_STOP', HideMicroMenu);
+
+    self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', HideMicroMenu);
 end
 
 --[[
