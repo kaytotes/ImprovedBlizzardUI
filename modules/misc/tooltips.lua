@@ -195,10 +195,17 @@ function ImpUI_Tooltips:FormatGuild(tip, unit)
 
     if (guild == nil) then return end
 
+    local out = format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild);
+
+    if (Helpers.IsClassic()) then
+        tip:AddLine(out);
+        return
+    end
+
     local target = FindLineBy(tip, guild);
 
     if (target) then
-        target:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild));
+        target:SetText(out);
     end
 end
 
