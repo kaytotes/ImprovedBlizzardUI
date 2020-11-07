@@ -236,6 +236,42 @@ function ImpUI_Tooltips:FormatDetails(tip, unit)
     target:SetText(out);
 end
 
+function ImpUI_Tooltips:InferFaction(tip, unit)
+    local levelRow = FindLineBy(tip, "^"..LEVEL);
+
+    if (levelRow == nil) then return end
+
+    -- Get index of level row.
+    local index = string.match(levelRow:GetName(), '%d[%d,.]*');
+
+    -- Faction will always be after the level
+    index = index + 1;
+
+    local row = _G["GameTooltipTextLeft"..index];
+
+    if (row == nil) then return end
+
+    local content = row:GetText();
+
+    -- If row below level contains "PvP" then no title.
+    if (string.find(content, "^"..PVP)) then
+        return;
+    end
+
+    -- Same with threat
+    if (string.find(content, "^"..THREAT_TOOLTIP:gsub("%d%% ", ""))) then
+        return;
+    end
+
+    local line = FindLineBy(tip, "^"..content);
+
+    if (line == nil) then return end
+
+    local colour = ImpUI_Tooltips:GetFriendColour(unit);
+
+    line:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(colour), content));
+end
+
 function ImpUI_Tooltips:FormatTitle(tip, unit)
     local levelRow = FindLineBy(tip, "^"..LEVEL);
 
@@ -313,7 +349,7 @@ function ImpUI_Tooltips:GetFactionColour(unit)
 end
 
 --[[
-	Styles a normal "Unit" tooltip.
+	Styles a normal "Unit" tooltip eg NPC / Players.
 	
     @ return void
 ]]
@@ -335,6 +371,7 @@ function ImpUI_Tooltips:StyleUnitTooltip(tip)
     ImpUI_Tooltips:FormatName(tip, unit);
     ImpUI_Tooltips:FormatGuild(tip, unit);
     ImpUI_Tooltips:FormatTitle(tip, unit);
+    ImpUI_Tooltips:InferFaction(tip, unit)
     ImpUI_Tooltips:FormatDetails(tip, unit);
     ImpUI_Tooltips:FormatFaction(tip, unit);
     ImpUI_Tooltips:FormatPvP(tip, unit);
