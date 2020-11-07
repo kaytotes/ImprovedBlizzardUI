@@ -307,9 +307,7 @@ function ImpUI_Tooltips:InferFaction(tip, unit)
 
     if (line == nil) then return end
 
-    local colour = ImpUI_Tooltips:GetFriendColour(unit);
-
-    line:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(colour), content));
+    line:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipFactionColour), content));
 end
 
 --[[

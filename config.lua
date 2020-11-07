@@ -96,6 +96,7 @@ ImpUI_Config.defaults = {
         anchorMouse = true,
         styleTooltips = true,
         tooltipGuildColour = Helpers.colour_pack(1, 0.529, 1, 1),
+        tooltipFactionColour = Helpers.colour_pack(0, 1, 1, 1),
         tooltipHostileBorder = true,
         tooltipNameClassColours = true,
         tooltipToT = true,
@@ -628,6 +629,23 @@ ImpUI_Config.options = {
                     end,
                     set = function (_, r, g, b, a)
                         ImpUI.db.profile.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.profile.styleTooltips == false;
+                    end,
+                    hasAlpha = false,
+                    order = 3,
+                },
+
+                tooltipFactionColour = {
+                    type = 'color',
+                    name = L['Faction Colour'],
+                    desc = L['The colour of unknown faction names displayed in tooltips.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.profile.tooltipFactionColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.profile.tooltipFactionColour = Helpers.colour_pack(r, g, b, a);
                     end,
                     disabled = function () 
                         return ImpUI.db.profile.styleTooltips == false;
