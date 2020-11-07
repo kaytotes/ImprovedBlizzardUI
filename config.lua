@@ -96,6 +96,7 @@ ImpUI_Config.defaults = {
         anchorMouse = true,
         styleTooltips = true,
         tooltipGuildColour = Helpers.colour_pack(1, 0.529, 1, 1),
+        tooltipFactionColour = Helpers.colour_pack(0, 0.9, 0.9, 1),
         tooltipHostileBorder = true,
         tooltipNameClassColours = true,
         tooltipToT = true,
@@ -619,23 +620,6 @@ ImpUI_Config.options = {
                     order = 2,
                 },
 
-                tooltipGuildColour = {
-                    type = 'color',
-                    name = L['Guild Colour'],
-                    desc = L['The colour of the guild name display in tooltips.'],
-                    get = function ()
-                        return Helpers.colour_unpack(ImpUI.db.profile.tooltipGuildColour);
-                    end,
-                    set = function (_, r, g, b, a)
-                        ImpUI.db.profile.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
-                    end,
-                    disabled = function () 
-                        return ImpUI.db.profile.styleTooltips == false;
-                    end,
-                    hasAlpha = false,
-                    order = 3,
-                },
-
                 tooltipHostileBorder = {
                     type = 'toggle',
                     name = L['Hostile Border'],
@@ -714,6 +698,40 @@ ImpUI_Config.options = {
                         return ImpUI.db.profile.styleTooltips == false;
                     end,
                     order = 7,
+                },
+
+                tooltipGuildColour = {
+                    type = 'color',
+                    name = L['Guild Colour'],
+                    desc = L['The colour of the guild name display in tooltips.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.profile.tooltipGuildColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.profile.tooltipGuildColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.profile.styleTooltips == false;
+                    end,
+                    hasAlpha = false,
+                    order = 8,
+                },
+
+                tooltipFactionColour = {
+                    type = 'color',
+                    name = L['Faction Colour'],
+                    desc = L['The colour of faction names displayed in tooltips.'],
+                    get = function ()
+                        return Helpers.colour_unpack(ImpUI.db.profile.tooltipFactionColour);
+                    end,
+                    set = function (_, r, g, b, a)
+                        ImpUI.db.profile.tooltipFactionColour = Helpers.colour_pack(r, g, b, a);
+                    end,
+                    disabled = function () 
+                        return ImpUI.db.profile.styleTooltips == false;
+                    end,
+                    hasAlpha = false,
+                    order = 9,
                 },
             }
         },
