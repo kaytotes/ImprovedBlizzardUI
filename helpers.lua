@@ -1,5 +1,11 @@
 Helpers = CreateFrame('Frame', nil, UIParent);
 
+local debug = false;
+
+function Helpers.Debug()
+    return debug;
+end
+
 --[[
 	Removes an element from a table by key.
 ]]

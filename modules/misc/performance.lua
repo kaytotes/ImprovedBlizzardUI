@@ -8,6 +8,8 @@ ImpUI_Performance = ImpUI:NewModule('ImpUI_Performance', 'AceEvent-3.0', 'AceTim
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 
 -- Local Functions
+local GetNetStats = GetNetStats;
+local GetFramerate = GetFramerate;
 
 -- Local Variables
 local performance;
@@ -130,7 +132,7 @@ function ImpUI_Performance:OnEnable()
 
     self:StylePerformanceFrame();
 
-    self.perfTimer = self:ScheduleRepeatingTimer('Tick', 1);
+    self.perfTimer = self:ScheduleRepeatingTimer('Tick', 2);
 end
 
 --[[
