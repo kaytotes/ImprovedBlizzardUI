@@ -291,6 +291,8 @@ function ImpUI_Tooltips:InferFaction(tip, unit)
 
     local content = row:GetText();
 
+    if (content == nil or content == '') then return end
+
     -- If row below level contains "PvP" then no title.
     if (string.find(content, "^"..PVP)) then
         return;
