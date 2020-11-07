@@ -53,6 +53,28 @@ local UnitHealthMax = UnitHealthMax;
 local GetItemInfo = GetItemInfo;
 
 --[[
+	Attempts to find a tooltip line by the provided string.
+	
+    @ return nil|Frame
+]]
+local function FindLineBy(tip, search)
+    for i = 1, select("#", tip:GetRegions()) do
+        local region = select(i, tip:GetRegions())
+        if region and region:GetObjectType() == "FontString" then
+            local text = region:GetText() -- string or nil
+
+            if (text ~= nil) then
+                if (string.find(text, search)) then
+                    return region;
+                end
+            end
+        end
+    end
+
+    return nil;
+end
+
+--[[
 	Get whether the Unit is AFK and return a string amendment.
 	
     @ return void
@@ -150,8 +172,12 @@ function ImpUI_Tooltips:FormatGuild(tip, unit)
 
     local guild, rank = GetGuildInfo(unit);
 
-    if (guild) then
-        _G["GameTooltipTextLeft2"]:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild));
+    if (guild == nil) then return end
+
+    local target = FindLineBy(tip, guild);
+
+    if (target) then
+        target:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild));
     end
 end
 
@@ -177,14 +203,9 @@ function ImpUI_Tooltips:FormatName(tip, unit)
 end
 
 function ImpUI_Tooltips:FormatDetails(tip, unit)
-    local guild, rank = GetGuildInfo(unit);
-    local target;
+    local target = FindLineBy(tip, "^"..LEVEL);
 
-    if (guild) then
-        target = _G["GameTooltipTextLeft3"]
-    else
-        target = _G["GameTooltipTextLeft2"];
-    end
+    if (target == nil) then return end
 
     local orig = target:GetText();
 
@@ -207,7 +228,6 @@ function ImpUI_Tooltips:FormatDetails(tip, unit)
     local out;
 
     if (UnitIsPlayer(unit)) then
-        -- out = level;
         out = format('|cff%s%s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, Helpers.RGBPercToHex(friendColor), race);
     else
         out = format('|cff%s%s %s|r |cff%s%s|r', Helpers.RGBPercToHex(levelColor), level, unitClassification[classification], Helpers.RGBPercToHex(friendColor), creatureType or 'Unknown');
@@ -216,34 +236,42 @@ function ImpUI_Tooltips:FormatDetails(tip, unit)
     target:SetText(out);
 end
 
-function ImpUI_Tooltips:FormatPvP(tip, unit)
-    if (UnitIsPlayer(unit)) then return end
+function ImpUI_Tooltips:FormatTitle(tip, unit)
+    local levelRow = FindLineBy(tip, "^"..LEVEL);
 
-    local target = _G["GameTooltipTextLeft4"];
+    if (levelRow == nil) then return end
+
+    -- Title is always second so if level is in that place then they
+    -- have no title.
+    if (levelRow:GetName() == 'GameTooltipTextLeft2') then return end
+
+    local target = _G["GameTooltipTextLeft2"];
 
     if (target == nil) then return end
 
-    local orig = target:GetText();
+    local faction = target:GetText();
 
-    if (orig ~= 'PvP') then return end
+    target:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), faction));
+end
+
+function ImpUI_Tooltips:FormatPvP(tip, unit)
+    local target = FindLineBy(tip, "^"..PVP);
+
+    if (target == nil) then return end
 
     local colour = ImpUI_Tooltips:GetFriendColour(unit);
 
-    target:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(colour), orig));
+    target:SetText(format('|cff%s%s|r', Helpers.RGBPercToHex(colour), PVP));
 end
 
 function ImpUI_Tooltips:FormatFaction(tip, unit)
-    local guild, rank = GetGuildInfo(unit);
-    local target;
-
-    if (guild) then
-        target = _G["GameTooltipTextLeft4"]
-    else
-        target = _G["GameTooltipTextLeft3"];
-    end
-
     local factionGroup = select(1, UnitFactionGroup(unit));
-    local colour;
+
+    if (factionGroup == nil) then return end
+
+    local target = FindLineBy(tip, "^"..factionGroup);
+
+    if (target == nil) then return end
 
     if (factionGroup == nil) then 
         factionGroup = target:GetText();
@@ -251,8 +279,6 @@ function ImpUI_Tooltips:FormatFaction(tip, unit)
     else
         colour = ImpUI_Tooltips:GetFactionColour(unit);
     end
-
-    print(factionGroup);
 
     if (factionGroup == nil) then return end
 
@@ -308,10 +334,10 @@ function ImpUI_Tooltips:StyleUnitTooltip(tip)
     ImpUI_Tooltips:AssignHostilityBorder(tip, unit);
     ImpUI_Tooltips:FormatName(tip, unit);
     ImpUI_Tooltips:FormatGuild(tip, unit);
+    ImpUI_Tooltips:FormatTitle(tip, unit);
     ImpUI_Tooltips:FormatDetails(tip, unit);
     ImpUI_Tooltips:FormatFaction(tip, unit);
     ImpUI_Tooltips:FormatPvP(tip, unit);
-
     ImpUI_Tooltips:AddTargetOfTarget(unit);
     ImpUI_Tooltips:StyleHealthBar(unit);
 end
