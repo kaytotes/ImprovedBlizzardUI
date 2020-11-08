@@ -1,5 +1,14 @@
 # Improved Blizzard UI Changelog
 
+3.2.0 - Tooltips Overhaul
+3.2.0 - Numerous Performance Improvements
+3.2.0 - Configuration Profiles Support - jmedrano87
+3.1.4 - Remove Debug Text
+3.1.3 - Numerous fixes to the Legion Order Hall Bar.
+3.1.2 - Classic Config Support
+3.1.1 - Fix Config Issue
+3.1.0 - Unified Classic and Shadowlands Support
+3.0.5 - Fix Minify Strings Option
 3.0.4 - Fix Target display for Minus creature types.
 3.0.3 - Remove Bash and Batch Files (Was killing Curse upload).
 3.0.1 - Fix an issue with Killfeed and OSD not displaying.
