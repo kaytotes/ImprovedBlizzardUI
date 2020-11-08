@@ -39,16 +39,17 @@ modules/combat/interrupts.lua
 modules/combat/killingblows.lua
 modules/combat/autorelease.lua
 modules/maps/minimap.lua
-modules/frames/player.lua
-modules/frames/target/target.lua
-modules/frames/target/health.lua
-modules/frames/target/mana.lua
-modules/frames/party.lua
-modules/frames/focus.lua
+# modules/frames/player.lua
+# modules/frames/target/target.lua
+# modules/frames/target/health.lua
+# modules/frames/target/mana.lua
+# modules/frames/party.lua
+# modules/frames/focus.lua
 modules/bars/castbar.lua
 modules/bars/buffs.lua
 modules/bars/micromenu.lua
 modules/bars/bags.lua
 modules/bars/actionbars.lua
 modules/bars/range.lua
+modules/frames/ouf/tags.lua
 modules/frames/ouf/layout.lua
