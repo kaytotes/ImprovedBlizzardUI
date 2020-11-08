@@ -110,16 +110,7 @@ function ImpUI_Tooltips:AssignHostilityBorder(tip, unit)
     local friendColor = ImpUI_Tooltips:GetFriendColour(unit);
     local factionColour = ImpUI_Tooltips:GetFactionColour(unit);
 
-    -- Set the Background Colour
-    local backdrop = GameTooltip:GetBackdrop();
-	if backdrop.insets.left == 5 then
-		backdrop.insets.left = 3;
-		backdrop.insets.right = 3;
-		backdrop.insets.top = 3;
-		backdrop.insets.bottom = 3;
-    end
-    tip:SetBackdrop(backdrop);
-    tip:SetBackdropColor(backgroundColour.r, backgroundColour.g, backgroundColour.b);
+    ImpUI_Tooltips:AdjustBackdrop(tip);
 
     -- Hostility Border
     if (ImpUI.db.profile.tooltipHostileBorder) then
@@ -443,6 +434,23 @@ function ImpUI_Tooltips:StyleUnitTooltip(tip)
 end
 
 --[[
+	Prepares the tooltip for applying a border.
+	
+    @ return void
+]]
+function ImpUI_Tooltips:AdjustBackdrop(tip)
+    local backdrop = GameTooltip:GetBackdrop();
+	if backdrop.insets.left == 5 then
+		backdrop.insets.left = 3;
+		backdrop.insets.right = 3;
+		backdrop.insets.top = 3;
+		backdrop.insets.bottom = 3;
+    end
+    tip:SetBackdrop(backdrop);
+    tip:SetBackdropColor(backgroundColour.r, backgroundColour.g, backgroundColour.b);
+end
+
+--[[
 	Styles an Item template to set the border colour by rarity.
 	
     @ return void
@@ -458,10 +466,13 @@ function ImpUI_Tooltips:StyleItemTooltip(tip)
     local _, item = tip:GetItem();
 
     if (item) then
+        ImpUI_Tooltips:AdjustBackdrop(tip);
+
         local _, _, rarity = GetItemInfo(item);
         if (rarity) then
             local colour = ITEM_QUALITY_COLORS[rarity];
-            tip:SetBackdropBorderColor(colour.r, colour.g, colour.b)
+
+            tip:SetBackdropBorderColor(colour.r, colour.g, colour.b);
         end
     end
 end
@@ -507,13 +518,12 @@ function ImpUI_Tooltips:OnEnable()
     -- Hook Tooltips
     ImpUI_Tooltips:SecureHook('GameTooltip_SetDefaultAnchor', 'AnchorTooltip');
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetUnit', 'StyleUnitTooltip');
-    ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
-    ImpUI_Tooltips:HookScript(ItemRefTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
 
     if (Helpers.IsClassic()) then
         ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
     else
         ImpUI_Tooltips:HookScript(GameTooltip, 'OnHide', 'OnHide');
+        ImpUI_Tooltips:SecureHook('SharedTooltip_SetBackdropStyle', 'StyleItemTooltip');
     end
 end
 
