@@ -186,9 +186,9 @@ end
     @ return void
 ]]
 function ImpUI_Chat:StyleChat()
-    if (ImpUI.db.char.styleChat == false) then return; end
+    if (ImpUI.db.profile.styleChat == false) then return; end
 
-    local chatFont = LSM:Fetch('font', ImpUI.db.char.chatFont);
+    local chatFont = LSM:Fetch('font', ImpUI.db.profile.chatFont);
 
     -- Change Edit Box Font
     ChatFontNormal:SetFont(chatFont, 12, 'THINOUTLINE');
@@ -204,13 +204,15 @@ function ImpUI_Chat:StyleChat()
     ChatFrameChannelButton:Hide();
 
     -- Hide Battle.net / Social Button
-    local button = QuickJoinToastButton or FriendsMicroButton;
-    ImpUI_Chat:HookScript(button, 'OnShow', button.Hide);
-    button:Hide();
-
-    -- Move Battle.net Toast
-    BNToastFrame:SetClampedToScreen(true);
-    BNToastFrame:SetClampRectInsets(-15,15,15,-15);
+    if (Helpers.IsRetail()) then
+        local button = QuickJoinToastButton or FriendsMicroButton;
+        ImpUI_Chat:HookScript(button, 'OnShow', button.Hide);
+        button:Hide();
+    
+        -- Move Battle.net Toast
+        BNToastFrame:SetClampedToScreen(true);
+        BNToastFrame:SetClampRectInsets(-15,15,15,-15);
+    end
 
     for i = 1, NUM_CHAT_WINDOWS do
         local window = _G['ChatFrame'..i]:GetName();
@@ -260,7 +262,7 @@ function ImpUI_Chat:StyleChat()
         end
 
         -- Change Chat Font
-        if (ImpUI.db.char.outlineChat) then
+        if (ImpUI.db.profile.outlineChat) then
             _G[window]:SetFont(chatFont, size, 'OUTLINE');
         else
             _G[window]:SetFont(chatFont, size);
@@ -302,7 +304,7 @@ end
     @ return void
 ]]
 function ImpUI_Chat:OnEnable()
-    local minify = ImpUI.db.char.minifyStrings;
+    local minify = ImpUI.db.profile.minifyStrings;
     if (minify == true) then
         ImpUI_Chat:OverrideStrings();    
     end

@@ -1,9 +1,9 @@
-Improved Blizzard UI (Battle for Azeroth Edition)
+Improved Blizzard UI
 ====================
 
 Improved Blizzard UI is an attempt to improve the World of Warcraft interface by styling frames, implementing additional functionality and restructuring / hiding existing elements.
 
-This is a complete ground up rewrite using Ace3 to make porting between versions a bit easier and the upgrade process between patches smoother.
+The AddOn is compatible with both Modern WoW and Classic WoW.
 
 # Project Development Setup
 
@@ -19,24 +19,28 @@ This will require you to have the following:
 
 # Addon Installation
 
+**Modern WoW**
+
 * To install Improved Blizzard UI place the folder into `World of Warcraft//_retail_//Interface//Addons` as you would any other addon.
 
-# Features
+**Classic WoW**
+
+* To install Improved Blizzard UI place the folder into `World of Warcraft//_classic_//Interface//Addons` as you would any other addon.
+* Enable "Load out of date AddOns" in your AddOn selection menu.
+
+# Core Features
 
 ## Customisation
 
 * Once installed if need be customize your installation with `/imp`.
 * Most UI elements can now be repositioned with `/imp unlock` and `/imp lock`.
-* LibSharedMedia-3.0 Support for customising fonts. Any fonts loaded by LSM will be available in Improved Blizzard UI and vice versa. You may now easily use the Improved Blizzard UI in other addons such as Recount, DBM etc.
+* LibSharedMedia-3.0 Support for customising fonts. Any fonts loaded by LSM will be available in Improved Blizzard UI and vice versa. You may now easily use the Improved Blizzard UI font in other AddOns such as Recount, DBM etc to better match this AddOn.
 
 ## Miscellaneous
 
 * AFK 'Hero Mode' Camera View.
-* Automatic Repair (From Guild Bank If Available).
-* Automatic Trash Item Sale
-* Dynamic Objective Tracker (Hides when entering Instanced Content).
-* Automatic Achievement Screenshot.
-* Replacement Order Hall Bar.
+* Automatic Repair.
+* Automatic Trash Item Sale.
 
 ## Unit Frames
 
@@ -65,13 +69,6 @@ This will require you to have the following:
 * Scaleable.
 * Class Coloured Health Bar.
 
-### Focus Frame
-
-* Moved and Re-Scaled.
-* Larger Health Bar.
-* Improved Fonts.
-* Class Coloured Health Bar.
-
 ### Party Frames
 
 * Improved Fonts.
@@ -83,7 +80,6 @@ This will require you to have the following:
 * Casting Bar Repositioned and Scaled.
 * Improved Fonts.
 * Scaleable Buffs and Debuffs.
-* Micro Menu and Bags Hidden (Show with Mini Map Menu).
 
 ## Mini Map
 
@@ -92,7 +88,6 @@ This will require you to have the following:
 * System Performance Statistics.
 * Scroll Wheel Zoom.
 * Improved Fonts.
-* Right Click Micro Menu.
 
 ## Tooltips
 
@@ -102,7 +97,6 @@ This will require you to have the following:
 * Coloured Unit Guild Name, Level, Faction and Race.
 * Target of Target.
 * Class Coloured Health Bar and Name.
-* Customizable Font Size.
 * Improved Font.
 * Item Rarity Border.
 
@@ -119,6 +113,44 @@ This will require you to have the following:
 * Highlighted Killing Blows.
 * Instant Battleground Ressurection.
 
+# Modern WoW Exclusives
+
+## Miscellaneous
+
+* Guild Bank Repair Support.
+* Automatic Achievement Screenshot.
+* Replacement Order Hall Bar.
+
+## Unit Frames
+
+### Focus Frame
+
+* Moved and Re-Scaled.
+* Larger Health Bar.
+* Improved Fonts.
+* Class Coloured Health Bar.
+
+## Action Bars
+
+* Micro Menu replaced with custom drop up menu. (Right of Main Bar).
+* Bags Hidden (Show with drop up menu option).
+
+# Classic WoW Exclusives
+
+## Unit Frames
+
+### Party Frames
+
+* Moved and Re-Scaled.
+* Scaleable.
+
+### Target Frame
+
+* Added Health Text customisable with standard Blizzard "Status Text" option.
+* Added Mana Text customisable with standard Blizzard "Status Text" option.
+
+--------------------------------------
+
 # Improved Blizzard UI needs you!
 
 Improved Blizzard UI is on [Github](https://github.com/kaytotes/ImprovedBlizzardUI) and this is where all issues should be reported. New Feature requests are always welcome as are pull requests.
@@ -129,3 +161,18 @@ Improved Blizzard UI works best with the following addons.
 
 * [Baud Bag](https://www.curseforge.com/wow/addons/baud-bag)
 * [Storyline](https://wow.curseforge.com/projects/storyline)
+
+**Classic WoW**
+
+* [ClassicAuraDurations](https://www.curseforge.com/wow/addons/classicauradurations)
+* [ClassicCastbars](https://www.curseforge.com/wow/addons/classiccastbars)
+
+# Credits
+
+The following libraries have been used in the development of Improved Blizzard UI:
+
+* [LibStub](https://www.wowace.com/projects/libstub)
+* [Ace3](https://www.wowace.com/projects/ace3)
+* [CallbackHandler-1.0](https://www.wowace.com/projects/callbackhandler)
+* [LibSharedMedia-3.0](https://www.wowace.com/projects/libsharedmedia-3-0)
+* [AceGUI-3.0-SharedMediaWidgets](https://www.wowace.com/projects/ace-gui-3-0-shared-media-widgets)

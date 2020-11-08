@@ -22,6 +22,8 @@ local OSD;
     @ return void
 ]]
 local function SetFont(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)	
+	if (obj == nil) then return end
+	
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb) end
 	if sox and soy then obj:SetShadowOffset(sox, soy) end
@@ -35,7 +37,7 @@ end
     @ return void
 ]]
 local function UpdateFonts()
-    local primaryFont = LSM:Fetch('font', ImpUI.db.char.primaryInterfaceFont);
+    local primaryFont = LSM:Fetch('font', ImpUI.db.profile.primaryInterfaceFont);
 
     UNIT_NAME_FONT     = primaryFont;
 	DAMAGE_TEXT_FONT   = primaryFont;
@@ -117,8 +119,10 @@ local function UpdateFonts()
 	SetFont(SystemFont_Shadow_Med1_Outline,     primaryFont, 11, 'OUTLINE');
 	SetFont(SystemFont_Shadow_Small2,           primaryFont, 10);
     SetFont(SystemFont_Small2,                  primaryFont, 11);
-    
-    for _,butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft); end
+	
+	if (Helpers.IsRetail()) then
+		for _,butt in pairs(PaperDollTitlesPane.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft); end
+	end
 end
 
 --[[
@@ -131,7 +135,7 @@ function ImpUI_Fonts:PrimaryFontUpdated()
 
     ImpUI:Print(warning);
 
-    OSD:AddMessage( warning, ImpUI.db.char.primaryInterfaceFont, 22, 1, 1, 0, 5.0 );
+    OSD:AddMessage( warning, ImpUI.db.profile.primaryInterfaceFont, 22, 1, 1, 0, 5.0 );
 
     UpdateFonts();
 end

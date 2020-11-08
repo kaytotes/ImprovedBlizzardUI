@@ -30,40 +30,21 @@ end
     @ return void
 ]]
 function ApplyButtonStyles()
-    local showMainText = ImpUI.db.char.showMainText;
-    local showBottomLeftText = ImpUI.db.char.showBottomLeftText;
-    local showBottomRightText = ImpUI.db.char.showBottomRightText;
-    local showLeftText = ImpUI.db.char.showLeftText;
-    local showRightText = ImpUI.db.char.showRightText;
+    if (Helpers.Debug()) then
+        ImpUI:Print('ApplyButtonStyles');
+    end
+
+    local showMainText = ImpUI.db.profile.showMainText;
+    local showBottomLeftText = ImpUI.db.profile.showBottomLeftText;
+    local showBottomRightText = ImpUI.db.profile.showBottomRightText;
+    local showLeftText = ImpUI.db.profile.showLeftText;
+    local showRightText = ImpUI.db.profile.showRightText;
 
     StyleButtons('ActionButton', showMainText);
     StyleButtons('MultiBarBottomLeftButton', showBottomLeftText);
     StyleButtons('MultiBarBottomRightButton', showBottomRightText);
     StyleButtons('MultiBarLeftButton', showLeftText);
     StyleButtons('MultiBarRightButton', showRightText);
-end
-
---[[
-    Handles the Out of Range action bar colouring
-	@param Frame $self The Action Bar Button
-	@param float $elapsed The amount of time passed since the last frame
-    @ return void
-]]
-local function ActionButton_OnUpdate_Hook(self, elapsed)
-    if(self.rangeTimer == TOOLTIP_UPDATE_TIME) then
-        if(IsActionInRange(self.action) == false) then
-            self.icon:SetVertexColor(1, 0, 0);
-        else
-            local canUse, amountMana = IsUsableAction( self.action );
-            if(canUse) then
-                self.icon:SetVertexColor( 1.0, 1.0, 1.0 );
-            elseif(amountMana) then
-                self.icon:SetVertexColor( 0.5, 0.5, 1.0 );
-            else
-                self.icon:SetVertexColor( 0.4, 0.4, 0.4 );
-            end
-        end
-    end
 end
 
 --[[
@@ -82,8 +63,9 @@ end
 function ImpUI_Bars:OnEnable()
     self:RegisterEvent('PLAYER_ENTERING_WORLD', ApplyButtonStyles);
 
-    self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
-    self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
+    if (Helpers.IsRetail()) then
+        self:SecureHook(MainMenuBar, 'ChangeMenuBarSizeAndPosition', ApplyButtonStyles);
+    end
 end
 
 --[[

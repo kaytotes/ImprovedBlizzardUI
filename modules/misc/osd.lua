@@ -59,7 +59,7 @@ function ImpUI_OSD:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
     -- Store Position
-    ImpUI.db.char.osdPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.osdPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     osd:SetParent(UIParent);
 
@@ -71,7 +71,7 @@ end
 ]]
 function ImpUI_OSD:LoadPosition()
     dragFrame:ClearAllPoints();
-    dragFrame:SetPoint(ImpUI.db.char.osdPosition.point, ImpUI.db.char.osdPosition.relativeTo, ImpUI.db.char.osdPosition.relativePoint, ImpUI.db.char.osdPosition.x, ImpUI.db.char.osdPosition.y);
+    dragFrame:SetPoint(ImpUI.db.profile.osdPosition.point, ImpUI.db.profile.osdPosition.relativeTo, ImpUI.db.profile.osdPosition.relativePoint, ImpUI.db.profile.osdPosition.x, ImpUI.db.profile.osdPosition.y);
 end
 
 --[[

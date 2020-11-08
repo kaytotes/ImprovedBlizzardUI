@@ -18,10 +18,10 @@ local dragFrame;
     @ return void
 ]]
 function ImpUI_Party:StyleFrames()
-    if (ImpUI.db.char.styleUnitFrames == false) then return; end
+    if (ImpUI.db.profile.styleUnitFrames == false) then return; end
 
     -- Fonts
-    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     -- Style Each Party Frame
     for i = 1, 4 do
@@ -43,22 +43,46 @@ end
 	Loads the position of the Party Frames from SavedVariables.
 ]]
 function ImpUI_Party:LoadPosition()
-    local pos = ImpUI.db.char.partyFramePosition;
-    local scale = ImpUI.db.char.partyFrameScale;
+    -- Known issues moving party frames in retail.
+    if (Helpers.IsRetail()) then return end
+
+    local pos = ImpUI.db.profile.partyFramePosition;
+    local scale = ImpUI.db.profile.partyFrameScale;
     local offset = 0;
     
     -- Set Drag Frame Position
-    dragFrame:ClearAllPoints();
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
     for i = 1, 4 do
-        -- _G["PartyMemberFrame"..i]:SetMovable(true);
-        -- _G["PartyMemberFrame"..i]:ClearAllPoints();
-        -- _G["PartyMemberFrame"..i]:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
-        -- _G["PartyMemberFrame"..i]:SetScale(scale);
-        -- _G["PartyMemberFrame"..i]:SetUserPlaced(true);
-        -- _G["PartyMemberFrame"..i]:SetMovable(false);
+        _G["PartyMemberFrame"..i]:SetMovable(true);
+        _G["PartyMemberFrame"..i]:ClearAllPoints();
+        _G["PartyMemberFrame"..i]:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
+        _G["PartyMemberFrame"..i]:SetScale(scale);
+        _G["PartyMemberFrame"..i]:SetUserPlaced(true);
+        _G["PartyMemberFrame"..i]:SetMovable(false);
         offset = offset + 60;
+    end
+end
+
+--[[
+	Hides Debug Party Frames if not in Group.
+]]
+function HideFrames()
+    if (IsInGroup()) then return end
+
+    for i = 1, 4 do
+        _G["PartyMemberFrame"..i]:Hide();
+    end
+end
+
+--[[
+	Shows Debug Party Frames if not in Group.
+]]
+function ShowFrames()
+    if (IsInGroup()) then return end
+
+    for i = 1, 4 do
+        _G["PartyMemberFrame"..i]:Show();
     end
 end
 
@@ -67,6 +91,8 @@ end
 ]]
 function ImpUI_Party:Unlock()
     dragFrame:Show();
+
+    ShowFrames();
 end
 
 --[[
@@ -75,7 +101,9 @@ end
 function ImpUI_Party:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.partyFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.partyFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+
+    HideFrames();
 
     dragFrame:Hide();
 end
@@ -94,6 +122,8 @@ end
     @ return void
 ]]
 function ImpUI_Party:OnEnable()
+    if (Helpers.IsRetail()) then return end
+
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_PartyFrame_DragFrame', 205, 350, L['Party Frames']);
 

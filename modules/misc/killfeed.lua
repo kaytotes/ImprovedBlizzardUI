@@ -19,92 +19,72 @@ local killfeed;
 local dragFrame;
 local lastGUID;
 
+local hordeColour = 'FE2E2E';
+local allianceColour = '2E9AFE';
+local neutralColour = '00FF61';
+
 --[[
-	Adds a new entry to the Kill Feed after building the structure from configuration.
+	Actually handles assigning a colour to text.
 	
     @ return void
 ]]
-function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount)
-    local playerFaction, _ = UnitFactionGroup( 'player' );
-    local killerString, killedString, killerFaction, killedFaction;
-
-    if (sourceName == nil or destName == nil) then return end
-
-    -- Stop repeat events occuring for different spells but the same enemy.
-    if (lastGUID == nil) then
-        lastGUID = destGUID;
+function ImpUI_Killfeed:ToFactionColour(faction, string)
+    if (faction == 'Horde') then
+        return format('|cff%s%s|r', hordeColour, string);
     else
-        if (lastGUID == destGUID) then
-            return
-        else
-            lastGUID = destGUID;
-        end
+        return format('|cff%s%s|r', allianceColour, string);
     end
+end
 
-    -- Work out who killed someone and what faction
-    if (UnitIsPlayer(sourceName)) then
-        killerFaction, _ = UnitFactionGroup( sourceName );
+--[[
+	Simply provides the opposite faction of the one given in.
+	
+    @ return void
+]]
+function ImpUI_Killfeed:GetOppositeFaction(faction)
+    if (faction == 'Horde') then
+        return 'Alliance';
     else
-        if (playerFaction == 'Horde') then
-            killerFaction = 'Alliance';
-        else
-            killerFaction = 'Horde';
-        end
+        return 'Horde';
+    end
+end
+
+--[[
+	Figures out what to colour what and formats the string accordingly.
+	
+    @ return void
+]]
+function ImpUI_Killfeed:GetFormattedString(unitGUID, unitName)
+    local ours, _ = UnitFactionGroup('player');
+    
+    if (Helpers.IsPlayerByGUID(unitGUID) == false) then
+        return ImpUI_Killfeed:ToFactionColour(ImpUI_Killfeed:GetOppositeFaction(ours), unitName);
     end
 
-    if( killerFaction == playerFaction ) then -- Killer on our Faction
-        if( playerFaction == 'Horde' ) then
-            killerString = format('|cffFE2E2E%s|r', sourceName ); -- Print Red
-        else
-            killerString = format('|cff2E9AFE%s|r', sourceName ); -- Print Blue
-        end
-    else -- Killer opposite Faction
-        if( playerFaction == 'Horde' ) then
-            killerString = format('|cff2E9AFE%s|r', sourceName ); -- Print Blue
-        else
-            killerString = format('|cffFE2E2E%s|r', sourceName ); -- Print Red
-        end
-    end
+    local theirs = Helpers.GetFactionByGUID(unitGUID);
 
-    -- Work out who died and what faction
-    killedFaction, _ = UnitFactionGroup( destName );
-    if( killedFaction == playerFaction ) then -- Killed Player on our Faction
-        if( playerFaction == 'Horde' ) then
-            killedString = format('|cffFE2E2E%s|r', destName ); -- Print Red
-        else
-            killedString = format('|cff2E9AFE%s|r', destName ); -- Print Blue
-        end
-    else -- Killed Player opposite Faction
-        if( playerFaction == 'Horde' ) then
-            killedString = format('|cff2E9AFE%s|r', destName ); -- Print Blue
-        else
-            killedString = format('|cffFE2E2E%s|r', destName ); -- Print Red
-        end
+    if (ours == theirs) then
+        return ImpUI_Killfeed:ToFactionColour(ours, unitName);
+    elseif (theirs == 'Unknown') then
+        return format('|cff%s%s|r', neutralColour, unitName);
+    else 
+        return ImpUI_Killfeed:ToFactionColour(theirs, unitName);
     end
+end
 
+--[[
+	Actually sends the provided string to the Kill Feed.
+	
+    @ return void
+]]
+function ImpUI_Killfeed:SendToKillFeed(string)
     -- Drop down each kill
     for i = #killfeed.recentKills, 1, -1 do
         killfeed.recentKills[i] = killfeed.recentKills[i - 1];
     end
 
-    local showSpell = ImpUI.db.char.killFeedShowSpell;
-
-    if (showSpell and spellName ~= nil) then
-        spellString = format(' %s |cff69CCF0%s|r', L['with'], spellName);
-    else
-        spellString = format(' %s |cff69CCF0%s|r', L['with'], L['Melee']);
-    end
-
-    local showDamage = ImpUI.db.char.killFeedShowDamage;
-
-    if (showDamage and amount ~= nil) then
-        damageString = format(' (%s)', Helpers.format_num(amount));
-    else
-        damageString = '';
-    end
-
     -- Set Newest Kill
-    killfeed.recentKills[1] = format('%s%s%s%s%s', killerString, L[' killed '], killedString, spellString, damageString);
+    killfeed.recentKills[1] = string;
 
     -- Display Messages
     for i = 1, #killfeed.recentKills do
@@ -123,11 +103,52 @@ function ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellN
 
     -- Set Fade Timer
     fadeTimer = C_Timer.NewTimer(7.5, function()
-        local inactiveFade = ImpUI.db.char.killFeedFadeInactive;
+        local inactiveFade = ImpUI.db.profile.killFeedFadeInactive;
         if (inactiveFade) then
             killfeed.fadeOutAnim:Play();
         end
     end);
+end
+
+--[[
+	Adds a new entry to the Kill Feed after building the structure from configuration.
+	
+    @ return void
+]]
+function ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount)
+    if (sourceName == nil or destName == nil) then return end
+
+    -- Stop repeat events occuring for different spells but the same enemy.
+    if (lastGUID == nil) then
+        lastGUID = destGUID;
+    else
+        if (lastGUID == destGUID) then
+            return
+        else
+            lastGUID = destGUID;
+        end
+    end
+
+    local killerString = ImpUI_Killfeed:GetFormattedString(sourceGUID, sourceName);
+    local killedString = ImpUI_Killfeed:GetFormattedString(destGUID, destName);
+
+    local showSpell = ImpUI.db.profile.killFeedShowSpell;
+
+    if (showSpell and spellName ~= nil) then
+        spellString = format(' %s |cff69CCF0%s|r', L['with'], spellName);
+    else
+        spellString = format(' %s |cff69CCF0%s|r', L['with'], L['Melee']);
+    end
+
+    local showDamage = ImpUI.db.profile.killFeedShowDamage;
+
+    if (showDamage and amount ~= nil) then
+        damageString = format(' (%s)', Helpers.format_num(amount));
+    else
+        damageString = '';
+    end
+
+    ImpUI_Killfeed:SendToKillFeed(format('%s%s%s%s%s', killerString, L[' killed '], killedString, spellString, damageString));
 end
 
 --[[
@@ -139,15 +160,15 @@ function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
     local _, instanceType = IsInInstance();
 
     -- Bail out based on config options
-    if (ImpUI.db.char.killFeed == false) then return; end
+    if (ImpUI.db.profile.killFeed == false) then return; end
 
     local shouldShow = false;
 
     -- Figure out if we should show based on config.
-    if (instanceType == 'none' and ImpUI.db.char.killFeedInWorld) then shouldShow = true; end
-    if (instanceType == 'party' and ImpUI.db.char.killFeedInInstance) then shouldShow = true; end
-    if (instanceType == 'raid' and ImpUI.db.char.killFeedInRaid) then shouldShow = true; end
-    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.char.killFeedInPvP) then shouldShow = true; end
+    if (instanceType == 'none' and ImpUI.db.profile.killFeedInWorld) then shouldShow = true; end
+    if (instanceType == 'party' and ImpUI.db.profile.killFeedInInstance) then shouldShow = true; end
+    if (instanceType == 'raid' and ImpUI.db.profile.killFeedInRaid) then shouldShow = true; end
+    if((instanceType == 'pvp' or instanceType == 'arena' or (instanceType == 'none' and GetZonePVPInfo() == 'combat')) and ImpUI.db.profile.killFeedInPvP) then shouldShow = true; end
 
     -- Bail out if it shouldn't be shown in current context.
     if (shouldShow == false) then return; end
@@ -160,7 +181,7 @@ function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
         _, _, _, _, _, _, _, _, _, _, _, _, spellName, _, amount, overkill, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
         if (overkill >= 0) then
-            ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount);
+            ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, spellName, amount);
         end
     end
     
@@ -169,7 +190,7 @@ function ImpUI_Killfeed:COMBAT_LOG_EVENT_UNFILTERED()
         _, _, _, _, _, _, _, _, _, _, _, amount, overkill, _, _, _, _, _, _, _, _ = CombatLogGetCurrentEventInfo();
 
         if (overkill >= 0) then
-            ImpUI:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, nil, amount);
+            ImpUI_Killfeed:UpdateKillFeed(sourceGUID, sourceName, destGUID, destName, nil, amount);
         end
     end
 end
@@ -192,9 +213,9 @@ end
     @ return void
 ]]
 function ImpUI_Killfeed:StyleKillFeed()
-    local font = ImpUI.db.char.killFeedFont;
-    local size = ImpUI.db.char.killFeedSize;
-    local spacing = ImpUI.db.char.killFeedSpacing;
+    local font = ImpUI.db.profile.killFeedFont;
+    local size = ImpUI.db.profile.killFeedSize;
+    local spacing = ImpUI.db.profile.killFeedSpacing;
 
     for i = 1, #killfeed.recentKills do
         killfeed.texts[i]:SetFont( LSM:Fetch('font', font), size, 'OUTLINE' );
@@ -216,7 +237,7 @@ end
 ]]
 function ImpUI_Killfeed:LoadPosition()
     dragFrame:ClearAllPoints();
-    dragFrame:SetPoint(ImpUI.db.char.killFeedPosition.point, ImpUI.db.char.killFeedPosition.relativeTo, ImpUI.db.char.killFeedPosition.relativePoint, ImpUI.db.char.killFeedPosition.x, ImpUI.db.char.killFeedPosition.y);
+    dragFrame:SetPoint(ImpUI.db.profile.killFeedPosition.point, ImpUI.db.profile.killFeedPosition.relativeTo, ImpUI.db.profile.killFeedPosition.relativePoint, ImpUI.db.profile.killFeedPosition.x, ImpUI.db.profile.killFeedPosition.y);
 end
 
 -- Called when unlocking the UI.
@@ -234,7 +255,7 @@ function ImpUI_Killfeed:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
     -- Store Position
-    ImpUI.db.char.killFeedPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.killFeedPosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     -- Clear Test Data
     ImpUI_Killfeed:ClearKillFeed();

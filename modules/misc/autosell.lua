@@ -23,7 +23,7 @@ local GetCoinTextureString = GetCoinTextureString;
 ]]
 function ImpUI_Sell:MERCHANT_SHOW()
     -- If disabled in Config do nothing.
-    if (ImpUI.db.char.autoSell == false) then return; end
+    if (ImpUI.db.profile.autoSell == false) then return; end
     
     local copper = 0;
 

@@ -1,5 +1,5 @@
 --[[
-    modules\frames\target.lua
+    modules\frames\target\target.lua
     Styles, Scales and Repositions the Target Unit Frame.
 ]]
 ImpUI_Target = ImpUI:NewModule('ImpUI_Target', 'AceEvent-3.0', 'AceHook-3.0');
@@ -19,7 +19,7 @@ local UnitClassification = UnitClassification;
     @ return void
 ]]
 function ImpUI_Target:TargetofTargetHealthCheck(self)
-    if (ImpUI.db.char.targetOfTargetClassColours) then
+    if (ImpUI.db.profile.targetOfTargetClassColours) then
         Helpers.ApplyClassColours(self.healthbar, self.healthbar.unit);
     end
 end
@@ -30,7 +30,7 @@ end
     @ return void
 ]]
 function ImpUI_Target:HealthBarChanged(bar)
-    if (ImpUI.db.char.targetClassColours and bar.unit == 'target') then
+    if (ImpUI.db.profile.targetClassColours and bar.unit == 'target') then
         Helpers.ApplyClassColours(bar, bar.unit);
     end
 end
@@ -41,7 +41,7 @@ end
     @ return void
 ]]
 function ImpUI_Target:StyleFrame()
-    if (ImpUI.db.char.styleUnitFrames == false) then return; end
+    if (ImpUI.db.profile.styleUnitFrames == false) then return; end
 
     local unitClassification = UnitClassification(TargetFrame.unit);
 
@@ -63,41 +63,47 @@ function ImpUI_Target:StyleFrame()
     -- Update Health Bar Size
     TargetFrame.healthbar:SetHeight(29);
     TargetFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-    TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+
+    if (Helpers.IsRetail()) then
+        TargetFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    end
+
     TargetFrame.deadText:SetPoint('CENTER',-50,6);
     TargetFrame.nameBackground:Hide();
     TargetFrame.Background:SetPoint('TOPLEFT',7,-22);
     TargetFrame.healthbar:SetWidth(119);
 
     -- Class Colours
-    if (ImpUI.db.char.targetClassColours) then
+    if (ImpUI.db.profile.targetClassColours) then
         Helpers.ApplyClassColours(TargetFrame.healthbar, TargetFrame.healthbar.unit);
     end
 
     TargetFrame.healthbar.lockColor = true;
 
     -- Buffs on Top.
-    if (ImpUI.db.char.targetBuffsOnTop) then
+    if (ImpUI.db.profile.targetBuffsOnTop) then
         TargetFrame.buffsOnTop = true;
     else
         TargetFrame.buffsOnTop = false;
     end
 
     -- Fonts
-    local font = Helpers.get_styled_font(ImpUI.db.char.primaryInterfaceFont);
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
-    TargetFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    
     TargetFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
-
     TargetFrameTextureFrameName:SetFont(font.font, 11, font.flags);
 
-    TargetFrameTextureFrameHealthBarText:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameHealthBarTextLeft:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameHealthBarTextRight:SetFont(font.font, 10, font.flags);
-    
-    TargetFrameTextureFrameManaBarText:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameManaBarTextLeft:SetFont(font.font, 10, font.flags);
-    TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
+    if (Helpers.IsRetail()) then
+        TargetFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+        TargetFrameTextureFrameHealthBarText:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameHealthBarTextLeft:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameHealthBarTextRight:SetFont(font.font, 10, font.flags);
+        
+        TargetFrameTextureFrameManaBarText:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameManaBarTextLeft:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
+    end
 
     point, relativeTo, relativePoint, xOfs, yOfs = TargetFrameTextureFrameLevelText:GetPoint();
     local level = UnitLevel('target');
@@ -145,7 +151,7 @@ end
 function ImpUI_Target:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
-    ImpUI.db.char.targetFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
+    ImpUI.db.profile.targetFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     dragFrame:Hide();
 end
@@ -154,8 +160,8 @@ end
 	Loads the position of the Target Frame from SavedVariables.
 ]]
 function ImpUI_Target:LoadPosition()
-    local pos = ImpUI.db.char.targetFramePosition;
-    local scale = ImpUI.db.char.targetFrameScale;
+    local pos = ImpUI.db.profile.targetFramePosition;
+    local scale = ImpUI.db.profile.targetFrameScale;
     
     -- Set Drag Frame Position
     dragFrame:ClearAllPoints();
