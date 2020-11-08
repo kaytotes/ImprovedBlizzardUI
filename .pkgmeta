@@ -19,6 +19,12 @@ externals:
   libs/LibSharedMedia-3.0:
     url: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk
     tag: latest
+  libs/oUF:
+    url: git://github.com/oUF-wow/oUF.git
+    tag: latest
+
+tools-used:
+  - ouf
 
 ignore:
     - README.md

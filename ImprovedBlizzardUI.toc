@@ -12,6 +12,7 @@
 
 # Libraries
 embeds.xml
+libs\oUF\oUF.xml
 
 # Localisation
 localisation.xml
@@ -50,3 +51,4 @@ modules/bars/micromenu.lua
 modules/bars/bags.lua
 modules/bars/actionbars.lua
 modules/bars/range.lua
+modules/frames/ouf/layout.lua
