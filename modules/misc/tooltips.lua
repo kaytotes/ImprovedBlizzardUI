@@ -148,7 +148,7 @@ function ImpUI_Tooltips:StyleHealthBar(unit)
     local hp = UnitHealth(unit);
     local max = UnitHealthMax(unit);
 
-    if (UnitIsPlayer(unit) or (UnitCreatureType(unit) ~= nil)) then
+    if (UnitIsPlayer(unit) or (UnitCreatureType(unit) ~= nil and UnitCreatureType(unit) ~= 'Not specified')) then
         GameTooltipStatusBar:Show();
     else
         GameTooltipStatusBar.unit = nil;
