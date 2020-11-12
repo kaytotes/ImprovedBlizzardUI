@@ -11,7 +11,11 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 local dragFrame;
 
 function ImpUI_TalkingHead:Move()
-    print('Move');
+    if (InCombatLockdown()) then return end
+
+    TalkingHeadFrame.ignoreFramePositionManager = true;
+    TalkingHeadFrame:ClearAllPoints();
+    TalkingHeadFrame:SetPoint('CENTER', dragFrame, 'CENTER', 0, 0);
 end
 
 --[[
@@ -43,6 +47,16 @@ function ImpUI_TalkingHead:LoadPosition()
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 end
 
+
+--[[
+	Fires when the Player hits a loading screen / transition.
+	
+    @ return void
+]]
+function ImpUI_TalkingHead:PLAYER_ENTERING_WORLD()
+    ImpUI_TalkingHead:Move();
+end
+
 --[[
 	Fires when the module is Initialised.
 	
@@ -62,6 +76,8 @@ function ImpUI_TalkingHead:OnEnable()
 
     ImpUI_TalkingHead:LoadPosition();
     ImpUI_TalkingHead:Move();
+
+    self:RegisterEvent('PLAYER_ENTERING_WORLD');
 end
 
 --[[
