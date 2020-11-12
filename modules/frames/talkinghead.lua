@@ -12,6 +12,7 @@ local dragFrame;
 
 function ImpUI_TalkingHead:Move()
     if (InCombatLockdown()) then return end
+    print('Moving');
 
     TalkingHeadFrame.ignoreFramePositionManager = true;
     TalkingHeadFrame:ClearAllPoints();
@@ -71,6 +72,8 @@ end
     @ return void
 ]]
 function ImpUI_TalkingHead:OnEnable()
+    if (Helpers.IsClassic()) then return end
+
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_TalkingHead_DragFrame', 300, 100, L['Talking Head Frame']);
 
