@@ -44,6 +44,7 @@ modules/frames/target/health.lua
 modules/frames/target/mana.lua
 modules/frames/party.lua
 modules/frames/focus.lua
+modules/frames/talkinghead.lua
 modules/bars/castbar.lua
 modules/bars/buffs.lua
 modules/bars/micromenu.lua
