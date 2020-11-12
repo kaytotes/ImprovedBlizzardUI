@@ -12,7 +12,6 @@ local dragFrame;
 
 function ImpUI_TalkingHead:Move()
     if (InCombatLockdown()) then return end
-    print('Moving');
 
     TalkingHeadFrame.ignoreFramePositionManager = true;
     TalkingHeadFrame:ClearAllPoints();
