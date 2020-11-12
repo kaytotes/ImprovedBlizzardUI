@@ -117,6 +117,7 @@ This will require you to have the following:
 
 ## Miscellaneous
 
+* Customisable Talking Head Frame Position.
 * Guild Bank Repair Support.
 * Automatic Achievement Screenshot.
 * Replacement Order Hall Bar.
