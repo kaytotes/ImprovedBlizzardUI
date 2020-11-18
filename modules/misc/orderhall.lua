@@ -197,6 +197,11 @@ function ImpUI_OrderHall:OnEnable()
     self:RegisterEvent('GARRISON_TALENT_UPDATE', 'RefreshInfo');
     self:RegisterEvent('GARRISON_TALENT_COMPLETE', 'RefreshInfo');
     self:RegisterEvent('PLAYER_ENTERING_WORLD', 'PrepBar');
+    self:RegisterEvent('ZONE_CHANGED_NEW_AREA', function() 
+        C_Timer.After(4, function() 
+            ImpUI_OrderHall:PrepBar();
+        end);
+    end);
     self:RegisterEvent('UNIT_AURA');
     self:RegisterEvent('UNIT_PHASE');
 end

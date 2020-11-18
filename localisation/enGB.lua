@@ -252,3 +252,5 @@ L['Show Bottom Left Bar Text'] = true;
 L['Show Bottom Right Bar Text'] = true;
 L['Show Right 1 Bar Text'] = true;
 L['Show Right 2 Bar Text'] = true;
+
+L['Talking Head Frame'] = true;
