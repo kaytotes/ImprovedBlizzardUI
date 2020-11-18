@@ -1,5 +1,7 @@
 # Improved Blizzard UI Changelog
 
+3.2.1 - More Tooltip Fixes
+3.2.1 - Movable Talking Head Frame
 3.2.0 - Tooltips Overhaul
 3.2.0 - Numerous Performance Improvements
 3.2.0 - Configuration Profiles Support - jmedrano87
