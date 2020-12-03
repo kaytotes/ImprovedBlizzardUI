@@ -515,6 +515,8 @@ function ImpUI_Tooltips:OnEnable()
     else
         ImpUI_Tooltips:HookScript(GameTooltip, 'OnHide', 'OnHide');
         ImpUI_Tooltips:SecureHook('SharedTooltip_SetBackdropStyle', 'StyleItemTooltip');
+
+        ImpUI_Tooltips:HookScript(ItemRefTooltip, 'OnShow', 'StyleItemTooltip');
     end
 end
 
