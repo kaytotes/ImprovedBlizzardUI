@@ -43,7 +43,7 @@ function Helpers.GetSupportedBuild()
     if (Helpers.IsRetail()) then
         return '9.0.2';
     else
-        return '1.13.5';
+        return '1.13.6';
     end
 end
 
