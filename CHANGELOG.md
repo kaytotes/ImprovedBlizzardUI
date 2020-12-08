@@ -1,5 +1,8 @@
 # Improved Blizzard UI Changelog
 
+3.2.2 - WoW Classic Version Bump
+3.2.2 - Fix Item Ref Tooltip Colouring
+3.2.2 - Fix Sold Grey Loot Miscalculated Price
 3.2.1 - More Tooltip Fixes
 3.2.1 - Movable Talking Head Frame
 3.2.0 - Tooltips Overhaul
