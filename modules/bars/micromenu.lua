@@ -118,6 +118,11 @@ local function UpdateMicroMenuList(newLevel)
     if(newLevel >= 15) then
         table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Adventure Guide']..'     ', func = function() securecall(ToggleEncounterJournal) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\BattleMaster' });
     end
+    if(newLevel >= 60) then
+        table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Great Vault'], func = function() 
+            WeeklyRewardsFrame:Show();
+        end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\BUTTONS\\UI-GroupLoot-DE-Up' });
+    end
     table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Shop'], func = function() securecall(ToggleStoreUI) end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Repair' });
     table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Improved Blizzard UI'], func = function() OpenImprovedUIOptions() end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\InnKeeper' });
     table.insert(MicroMenuFrame.microMenuList, {text = '|cffFFFFFF'..L['Swap Bags'], func = function() ImpUI_Bags:ToggleBagBar() end, notCheckable = true, fontObject = MicroMenuFrame.menuFont, icon = 'Interface\\MINIMAP\\TRACKING\\Banker' });
