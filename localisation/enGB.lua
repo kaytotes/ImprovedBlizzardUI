@@ -242,6 +242,7 @@ L['Swap Bags'] = true;
 L['Talents now available under the Micro Menu!'] = true;
 L['Group Finder and Adventure Guide now available under the Micro Menu!'] = true;
 L['Improved Blizzard UI'] = true;
+L['Great Vault'] = true;
 
 -- Action Bars
 L['Action Bars'] = true;

@@ -4,7 +4,7 @@
 ## Version: @project-version@
 ## Author: Kaytotes
 ## SavedVariables: ImpUI_DB
-## OptionalDeps: Ace3, Blizzard_TalkingHeadUI
+## OptionalDeps: Ace3, Blizzard_TalkingHeadUI, Blizzard_WeeklyRewards
 ## X-Embeds: Ace3
 ## X-Curse-Project-ID: 103336
 ## X-WoWI-ID: 23299

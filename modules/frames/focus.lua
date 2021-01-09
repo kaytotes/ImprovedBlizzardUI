@@ -19,60 +19,46 @@ local dragFrame;
 function ImpUI_Focus:ToggleClassColours(enabled)
     if (enabled) then
         ImpUI_Focus:HealthBarChanged(FocusFrame.healthbar);
+        if(FocusFrameToT:IsShown()) then
+            ImpUI_Focus:HealthBarChanged(FocusFrameToTHealthBar);
+        end
     else
         FocusFrame.healthbar:SetStatusBarColor(0, 0.99, 0); -- Blizz Default.
+        if(FocusFrameToT:IsShown()) then
+            FocusFrameToTHealthBar:SetStatusBarColor(0, 0.99, 0);
+        end
     end
 end
 
 --[[
-	Actually does
+	Adds Class Colours.
+	
+    @ return void
 ]]
-function ImpUI_Focus:StyleFrame()
-    if (ImpUI.db.profile.styleUnitFrames == false) then return; end
+function ImpUI_Focus:AddColours(bar)
+    if (bar == nil) then return end
+    if (bar.unit == nil) then return end
+    if (bar.unit ~= 'focus' and bar.unit ~= 'focus-target') then return end
 
-    if(UnitExists('focus') == false) then return; end
-
-    local unitClassification = UnitClassification(FocusFrame.unit);
-
-    -- Figure out what texture we need.
-    local frameTexture;
-    if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
-		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
-	elseif ( unitClassification == 'rareelite' ) then
-		frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite';
-	elseif ( unitClassification == 'rare' ) then
-        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare';
-    else
-        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
-	end
-
-    -- Apply It
-    FocusFrame.borderTexture:SetTexture(frameTexture);
-
-    -- Update Health Bar Size
-    FocusFrame.healthbar:SetHeight(29);
-    FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
-    FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
-    FocusFrame.healthbar:SetWidth(119);
-    FocusFrame.deadText:SetPoint('CENTER',-50,6);
-    FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
-    
-
-    -- Hide Background
-    FocusFrame.nameBackground:Hide();
-
-    -- Class Colours
     if (ImpUI.db.profile.focusClassColours) then
-        Helpers.ApplyClassColours(FocusFrame.healthbar, FocusFrame.healthbar.unit);
+        Helpers.ApplyClassColours(bar, bar.unit);
     end
-    FocusFrame.healthbar.lockColor = true;
+end
 
+--[[
+	Applies the primary interface font to anything related to the Focus Frame.
+	
+    @ return void
+]]
+function ImpUI_Focus:AdjustFonts()
     -- Set Fonts
     local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     FocusFrameTextureFrameName:SetFont(font.font, 11, font.flags);
     FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
     FocusFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
+
+    FocusFrameTextureFrameLevelText:SetTextColor(font.r, font.g, font.b, font.a);
 
     if (FocusFrameTextureFramePVPIcon:IsShown()) then
         FocusFrameTextureFramePVPIcon:Hide();
@@ -83,8 +69,23 @@ function ImpUI_Focus:StyleFrame()
         FocusFrameToTTextureFrameName:SetFont(font.font, 11, font.flags);
         FocusFrameToTTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
     end
+end
 
-    -- Buffs on Top
+--[[
+	Hides any background elements that should not appear.
+	
+    @ return void
+]]
+function ImpUI_Focus:AdjustBackgrounds()
+    FocusFrame.nameBackground:Hide();
+end
+
+--[[
+	Sets whether buffs appear on the top or bottom of the focus frame.
+	
+    @ return void
+]]
+function ImpUI_Focus:AdjustBuffs()
     if (ImpUI.db.profile.focusBuffsOnTop) then
         FocusFrame.buffsOnTop = true;
     else
@@ -93,14 +94,73 @@ function ImpUI_Focus:StyleFrame()
 end
 
 --[[
+	Figures out what texture to assign to the Focus Frame then applies it.
+	
+    @ return void
+]]
+function ImpUI_Focus:AdjustTexture()
+    local frameTexture;
+
+    local unitClassification = UnitClassification(FocusFrame.unit);
+
+    if ( unitClassification == 'worldboss' or unitClassification == 'elite' ) then
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Elite';
+    elseif ( unitClassification == 'rareelite' ) then
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare-Elite';
+    elseif ( unitClassification == 'rare' ) then
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame-Rare';
+    else
+        frameTexture = 'Interface\\Addons\\ImprovedBlizzardUI\\media\\UI-TargetingFrame';
+    end
+
+    -- Apply It
+    FocusFrame.borderTexture:SetTexture(frameTexture);
+end
+
+--[[
+	Adjusts the size and position of the Focus Frame health bar.
+	
+    @ return void
+]]
+function ImpUI_Focus:AdjustHealth()
+    FocusFrame.healthbar:SetHeight(29);
+    FocusFrame.healthbar:SetPoint('TOPLEFT',7,-22);
+    FocusFrame.healthbar.TextString:SetPoint('CENTER',-50,6);
+    FocusFrame.healthbar:SetWidth(119);
+    FocusFrame.deadText:SetPoint('CENTER',-50,6);
+    FocusFrame.Background:SetPoint('TOPLEFT',7,-22);
+end
+
+--[[
 	When the health bar changes in any way, reapply class colours.
 	
     @ return void
 ]]
 function ImpUI_Focus:HealthBarChanged(bar)
-    if (ImpUI.db.profile.focusClassColours and bar.unit == 'focus') then
-        Helpers.ApplyClassColours(bar, bar.unit);
-    end
+    ImpUI_Focus:AddColours(bar);
+
+    if (bar == nil) then return end
+
+    if (bar.unit == nil) then return end
+    if (bar.unit ~= 'focus' and bar.unit ~= 'focus-target') then return end
+
+    ImpUI_Focus:AdjustFonts();
+end
+
+--[[
+	Fired when the Player gains or loses focus of something else.
+	
+    @ return void
+]]
+function ImpUI_Focus:PLAYER_FOCUS_CHANGED()
+    if(UnitExists('focus') == false) then return; end
+
+    ImpUI_Focus:AdjustTexture();
+    ImpUI_Focus:AdjustHealth();
+    ImpUI_Focus:AdjustBackgrounds();
+    ImpUI_Focus:AdjustFonts();
+    ImpUI_Focus:AdjustBuffs();
+    ImpUI_Focus:AddColours(FocusFrame.healthbar);
 end
 
 --[[
@@ -163,19 +223,10 @@ function ImpUI_Focus:OnEnable()
 
     ImpUI_Focus:LoadPosition();
 
-    ImpUI_Focus:StyleFrame();
+    self:RegisterEvent('PLAYER_FOCUS_CHANGED');
 
-    -- Register Hooks
-    self:SecureHook('FocusFrame_UpdateBuffsOnTop', 'StyleFrame');
-    self:SecureHook('FocusFrame_SetSmallSize', function ()
-        ImpUI_Focus:LoadPosition();
-        ImpUI_Focus:StyleFrame();
-    end);
     self:SecureHook('UnitFrameHealthBar_Update', 'HealthBarChanged');
     self:SecureHook('HealthBar_OnValueChanged', 'HealthBarChanged');
-
-    self:HookScript(FocusFrame, 'OnShow', 'StyleFrame');
-    self:HookScript(FocusFrame, 'OnUpdate', 'StyleFrame');
 end
 
 --[[
