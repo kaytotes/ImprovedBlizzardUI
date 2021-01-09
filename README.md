@@ -135,6 +135,7 @@ This will require you to have the following:
 
 * Micro Menu replaced with custom drop up menu. (Right of Main Bar).
 * Bags Hidden (Show with drop up menu option).
+* Great Vault Micro Menu.
 
 # Classic WoW Exclusives
 
