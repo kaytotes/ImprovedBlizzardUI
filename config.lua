@@ -120,6 +120,8 @@ ImpUI_Config.defaults = {
         showBottomRightText = true,
         showLeftText = true,
         showRightText = true,
+
+        talkingHeadPosition = Helpers.pack_position('TOP', UIParent, 'TOP', 0, -35),
     },
 };
 

@@ -27,19 +27,17 @@ function ImpUI_Sell:MERCHANT_SHOW()
     
     local copper = 0;
 
-    for i = 0, 3 do
-        for bags = 0, 5 do
-            local slots = GetContainerNumSlots(bags);
-    
-            for slot = 0, slots do
-                local item = GetContainerItemLink( bags, slot );
-                if( item ) then
-                    local _,_,quality,_,_,_,_,_,_,_,price = GetItemInfo( item );
-                    local _, count = GetContainerItemInfo( bags, slot );
-                    if( quality == 0 and price ~= 0 ) then
-                        copper = copper + ( price * count );
-                        UseContainerItem( bags, slot );
-                    end
+    for bags = 0, 5 do
+        local slots = GetContainerNumSlots(bags);
+
+        for slot = 0, slots do
+            local item = GetContainerItemLink( bags, slot );
+            if( item ) then
+                local _,_,quality,_,_,_,_,_,_,_,price = GetItemInfo( item );
+                local _, count = GetContainerItemInfo( bags, slot );
+                if( quality == 0 and price ~= 0 ) then
+                    copper = copper + ( price * count );
+                    UseContainerItem( bags, slot );
                 end
             end
         end

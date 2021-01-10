@@ -1,10 +1,10 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: Improved Blizzard UI
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
 ## Author: Kaytotes
 ## SavedVariables: ImpUI_DB
-## OptionalDeps: Ace3
+## OptionalDeps: Ace3, Blizzard_TalkingHeadUI, Blizzard_WeeklyRewards
 ## X-Embeds: Ace3, oUF
 
 ## X-Curse-Project-ID: 103336
@@ -45,6 +45,7 @@ modules/frames/target/health.lua
 modules/frames/target/mana.lua
 # modules/frames/party.lua
 modules/frames/focus.lua
+modules/frames/talkinghead.lua
 modules/bars/castbar.lua
 modules/bars/buffs.lua
 modules/bars/micromenu.lua

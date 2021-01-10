@@ -148,15 +148,6 @@ function ImpUI_Tooltips:StyleHealthBar(unit)
     local hp = UnitHealth(unit);
     local max = UnitHealthMax(unit);
 
-    if (UnitIsPlayer(unit) or (UnitCreatureType(unit) ~= nil)) then
-        GameTooltipStatusBar:Show();
-    else
-        GameTooltipStatusBar.unit = nil;
-        GameTooltipStatusBar:Hide();
-
-        return;
-    end
-
     -- Set Tooltip Unit.
     GameTooltipStatusBar.unit = unit;
     GameTooltipStatusBar:SetMinMaxValues(0, max);
@@ -518,6 +509,7 @@ function ImpUI_Tooltips:OnEnable()
     -- Hook Tooltips
     ImpUI_Tooltips:SecureHook('GameTooltip_SetDefaultAnchor', 'AnchorTooltip');
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetUnit', 'StyleUnitTooltip');
+    ImpUI_Tooltips:HookScript(ItemRefTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
 
     if (Helpers.IsClassic()) then
         ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
