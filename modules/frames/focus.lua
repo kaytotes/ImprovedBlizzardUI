@@ -147,20 +147,45 @@ function ImpUI_Focus:HealthBarChanged(bar)
     ImpUI_Focus:AdjustFonts();
 end
 
+function ImpUI_Focus:Style(delayed)
+
+    if (delayed) then
+        delay = 2.0;
+    else
+        delay = 0;
+    end
+
+    C_Timer.After(delay, function() 
+        if(UnitExists('focus') == false) then return; end
+
+        ImpUI_Focus:AdjustTexture();
+        ImpUI_Focus:AdjustHealth();
+        ImpUI_Focus:AdjustBackgrounds();
+        ImpUI_Focus:AdjustFonts();
+        ImpUI_Focus:AdjustBuffs();
+        ImpUI_Focus:AddColours(FocusFrame.healthbar);
+    end);
+end
+
 --[[
 	Fired when the Player gains or loses focus of something else.
 	
     @ return void
 ]]
 function ImpUI_Focus:PLAYER_FOCUS_CHANGED()
-    if(UnitExists('focus') == false) then return; end
+    ImpUI_Focus:Style(false);
+end
 
-    ImpUI_Focus:AdjustTexture();
-    ImpUI_Focus:AdjustHealth();
-    ImpUI_Focus:AdjustBackgrounds();
-    ImpUI_Focus:AdjustFonts();
-    ImpUI_Focus:AdjustBuffs();
-    ImpUI_Focus:AddColours(FocusFrame.healthbar);
+function ImpUI_Focus:PLAYER_ENTERING_WORLD()
+    ImpUI_Focus:Style(true);
+end
+
+function ImpUI_Focus:RAID_ROSTER_UPDATE()
+    ImpUI_Focus:Style(false);
+end
+
+function ImpUI_Focus:GROUP_ROSTER_UPDATE()
+    ImpUI_Focus:Style(false);
 end
 
 --[[
@@ -224,6 +249,9 @@ function ImpUI_Focus:OnEnable()
     ImpUI_Focus:LoadPosition();
 
     self:RegisterEvent('PLAYER_FOCUS_CHANGED');
+    self:RegisterEvent('PLAYER_ENTERING_WORLD');
+    self:RegisterEvent('RAID_ROSTER_UPDATE');
+    self:RegisterEvent('GROUP_ROSTER_UPDATE');
 
     self:SecureHook('UnitFrameHealthBar_Update', 'HealthBarChanged');
     self:SecureHook('HealthBar_OnValueChanged', 'HealthBarChanged');
