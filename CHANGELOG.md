@@ -1,5 +1,6 @@
 # Improved Blizzard UI Changelog
 
+3.3.1 - More Focus Frame Improvements.
 3.3.0 - Added Great Vault option to the micro menu.
 3.3.0 - Fixed Focus Frame Errors.
 3.2.2 - WoW Classic Version Bump
