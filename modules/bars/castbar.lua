@@ -91,7 +91,7 @@ function ImpUI_CastBar:StyleFrame()
     end
 
     -- Anything else is Retail
-    if (Helpers.IsClassic()) then return end
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
     
     -- Target Frame
     if (ImpUI.db.profile.castBarTargetTimer) then

@@ -179,7 +179,7 @@ function ImpUI_Tooltips:FormatGuild(tip, unit)
 
     local out = format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild);
 
-    if (Helpers.IsClassic()) then
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then
         tip:AddLine(out);
         return
     end
@@ -511,7 +511,7 @@ function ImpUI_Tooltips:OnEnable()
     ImpUI_Tooltips:HookScript(GameTooltip, 'OnTooltipSetUnit', 'StyleUnitTooltip');
     ImpUI_Tooltips:HookScript(ItemRefTooltip, 'OnTooltipSetItem', 'StyleItemTooltip');
 
-    if (Helpers.IsClassic()) then
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then
         ImpUI_Tooltips:SecureHook('GameTooltip_SetBackdropStyle', 'StyleItemTooltip');
     else
         ImpUI_Tooltips:HookScript(GameTooltip, 'OnHide', 'OnHide');

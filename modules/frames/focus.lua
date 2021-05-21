@@ -241,7 +241,7 @@ end
     @ return void
 ]]
 function ImpUI_Focus:OnEnable()
-    if (Helpers.IsClassic()) then return end
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
 
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_FocusFrame_DragFrame', 205, 90, L['Focus Frame']);

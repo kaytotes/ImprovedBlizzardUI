@@ -105,6 +105,17 @@ function ImpUI_Target:StyleFrame()
         TargetFrameTextureFrameManaBarTextRight:SetFont(font.font, 10, font.flags);
     end
 
+    if (Helpers.IsTBC()) then
+        TargetFrameTextureFrame.HealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+        TargetFrameTextureFrame.HealthBarText:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrame.HealthBarTextLeft:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrame.HealthBarTextRight:SetFont(font.font, 10, font.flags);
+        
+        TargetFrameTextureFrame.ManaBarText:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrame.ManaBarTextLeft:SetFont(font.font, 10, font.flags);
+        TargetFrameTextureFrame.ManaBarTextRight:SetFont(font.font, 10, font.flags);
+    end
+
     point, relativeTo, relativePoint, xOfs, yOfs = TargetFrameTextureFrameLevelText:GetPoint();
     local level = UnitLevel('target');
 

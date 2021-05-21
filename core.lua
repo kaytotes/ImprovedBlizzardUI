@@ -42,7 +42,7 @@ local function GetDraggables()
         table.insert(draggables, 'ImpUI_TalkingHead');
     end
 
-    if (Helpers.IsClassic()) then
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then
         table.insert(draggables, 'ImpUI_Party');
     end
 
