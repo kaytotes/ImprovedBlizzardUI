@@ -53,7 +53,13 @@ end
 function Helpers.GetSupportedBuild()
     if (Helpers.IsRetail()) then
         return '9.0.5';
-    else
+    end
+
+    if (Helpers.IsTBC()) then
+        return '2.5.1';
+    end
+
+    if (Helpers.IsClassic()) then
         return '1.13.6';
     end
 end
@@ -64,7 +70,13 @@ end
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
         return 'Shadowlands';
-    else
+    end
+
+    if (Helpers.IsTBC()) then
+        return 'The Burning Crusade';
+    end
+
+    if (Helpers.IsClassic()) then
         return 'Classic';
     end
 end
