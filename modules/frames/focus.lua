@@ -55,7 +55,17 @@ function ImpUI_Focus:AdjustFonts()
     local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     FocusFrameTextureFrameName:SetFont(font.font, 11, font.flags);
-    FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+
+    if(Helpers.IsRetail()) then
+        FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    else
+        FocusFrameTextureFrame.HealthBarText:SetFont(font.font, 11, font.flags);
+        FocusFrameTextureFrame.HealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+
+        FocusFrameTextureFrame.ManaBarText:SetFont(font.font, 11, font.flags);
+        FocusFrameTextureFrame.ManaBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    end
+
     FocusFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
 
     FocusFrameTextureFrameLevelText:SetTextColor(font.r, font.g, font.b, font.a);
@@ -241,7 +251,7 @@ end
     @ return void
 ]]
 function ImpUI_Focus:OnEnable()
-    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
+    if (Helpers.IsClassic()) then return end
 
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_FocusFrame_DragFrame', 205, 90, L['Focus Frame']);
