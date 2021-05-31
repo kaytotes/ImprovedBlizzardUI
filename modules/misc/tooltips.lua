@@ -179,7 +179,7 @@ function ImpUI_Tooltips:FormatGuild(tip, unit)
 
     local out = format('|cff%s%s|r', Helpers.RGBPercToHex(ImpUI.db.profile.tooltipGuildColour), guild);
 
-    if (Helpers.IsClassic() or Helpers.IsTBC()) then
+    if (Helpers.IsClassic()) then
         tip:AddLine(out);
         return
     end
