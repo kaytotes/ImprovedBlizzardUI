@@ -71,7 +71,7 @@ end
     @ return void
 ]]
 function ImpUI_TalkingHead:OnEnable()
-    if (Helpers.IsClassic()) then return end
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
 
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_TalkingHead_DragFrame', 300, 100, L['Talking Head Frame']);

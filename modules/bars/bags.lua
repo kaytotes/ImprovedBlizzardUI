@@ -56,7 +56,7 @@ end
     @ return void
 ]]
 function ImpUI_Bags:OnEnable()
-    if (Helpers.IsClassic()) then return end
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
 
     self:RegisterEvent('PLAYER_ENTERING_WORLD', HideBagBar);
 

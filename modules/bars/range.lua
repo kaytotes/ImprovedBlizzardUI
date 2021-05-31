@@ -84,7 +84,7 @@ end
     @ return void
 ]]
 function ImpUI_Range:OnEnable()
-    if (Helpers.IsClassic()) then
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then
         self:SecureHook('ActionButton_OnUpdate', ActionButton_OnUpdate_Hook);
         return
     end
