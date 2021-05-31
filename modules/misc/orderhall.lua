@@ -163,7 +163,7 @@ end
     @ return void
 ]]
 function ImpUI_OrderHall:OnEnable()
-    if (Helpers.IsClassic()) then return end
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
 
     orderbar = CreateFrame('Frame', nil, UIParent);
 

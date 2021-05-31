@@ -131,7 +131,7 @@ end
     @ return void
 ]]
 function ImpUI_Target_Health:OnEnable()
-    if (Helpers.IsRetail()) then return end
+    if (Helpers.IsRetail() or Helpers.IsTBC()) then return end
 
     frame = CreateFrame('Frame', nil, TargetFrame);
     frame:SetWidth(32);

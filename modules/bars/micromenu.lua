@@ -162,7 +162,7 @@ end
     @ return void
 ]]
 function ImpUI_MicroMenu:OnEnable()
-    if (Helpers.IsClassic()) then return end
+    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
 
     ImpUI_MicroMenu:BuildMicroMenu();
 

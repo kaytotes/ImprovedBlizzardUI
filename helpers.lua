@@ -23,17 +23,28 @@ function Helpers.to_percentage(first, second)
 end
 
 --[[
+	Simply returns the current game build integer.
+]]
+function Helpers.GetBuild()
+    return select(4,GetBuildInfo());
+end
+
+--[[
 	Simple check for if we're currently running in a Classic WoW Client.
 ]]
 function Helpers.IsClassic()
-    return select(4,GetBuildInfo()) <= 19999;
+    return Helpers.GetBuild() <= 19999;
+end
+
+function Helpers.IsTBC()
+    return (not Helpers.IsClassic() and not Helpers.IsRetail());
 end
 
 --[[
 	Simple check for if we're currently running in a Retail WoW Client.
 ]]
 function Helpers.IsRetail()
-    return not Helpers.IsClassic();
+    return Helpers.GetBuild() >= 90000;
 end
 
 --[[
@@ -42,7 +53,13 @@ end
 function Helpers.GetSupportedBuild()
     if (Helpers.IsRetail()) then
         return '9.0.5';
-    else
+    end
+
+    if (Helpers.IsTBC()) then
+        return '2.5.1';
+    end
+
+    if (Helpers.IsClassic()) then
         return '1.13.6';
     end
 end
@@ -53,7 +70,13 @@ end
 function Helpers.GetEnvironment()
     if (Helpers.IsRetail()) then
         return 'Shadowlands';
-    else
+    end
+
+    if (Helpers.IsTBC()) then
+        return 'The Burning Crusade';
+    end
+
+    if (Helpers.IsClassic()) then
         return 'Classic';
     end
 end

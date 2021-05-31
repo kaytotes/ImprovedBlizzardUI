@@ -55,7 +55,17 @@ function ImpUI_Focus:AdjustFonts()
     local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
 
     FocusFrameTextureFrameName:SetFont(font.font, 11, font.flags);
-    FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+
+    if(Helpers.IsRetail()) then
+        FocusFrameTextureFrameHealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    else
+        FocusFrameTextureFrame.HealthBarText:SetFont(font.font, 11, font.flags);
+        FocusFrameTextureFrame.HealthBarText:SetTextColor(font.r, font.g, font.b, font.a);
+
+        FocusFrameTextureFrame.ManaBarText:SetFont(font.font, 11, font.flags);
+        FocusFrameTextureFrame.ManaBarText:SetTextColor(font.r, font.g, font.b, font.a);
+    end
+
     FocusFrameTextureFrameName:SetTextColor(font.r, font.g, font.b, font.a);
 
     FocusFrameTextureFrameLevelText:SetTextColor(font.r, font.g, font.b, font.a);
