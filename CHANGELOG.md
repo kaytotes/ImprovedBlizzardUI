@@ -1,5 +1,6 @@
 # Improved Blizzard UI Changelog
 
+3.4.1 - Disabled Party Frames in TBC.
 3.4.0 - The Burning Crusade Classic Support
 3.3.1 - More Focus Frame Improvements.
 3.3.0 - Added Great Vault option to the micro menu.
