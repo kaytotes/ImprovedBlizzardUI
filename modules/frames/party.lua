@@ -44,7 +44,7 @@ end
 ]]
 function ImpUI_Party:LoadPosition()
     -- Known issues moving party frames in retail.
-    if (Helpers.IsRetail() || Helpers.IsTBC()) then return end
+    if (Helpers.IsRetail() or Helpers.IsTBC()) then return end
 
     local pos = ImpUI.db.profile.partyFramePosition;
     local scale = ImpUI.db.profile.partyFrameScale;
