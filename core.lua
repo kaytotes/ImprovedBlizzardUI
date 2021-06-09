@@ -34,6 +34,7 @@ local function GetDraggables()
         'ImpUI_Target',
         'ImpUI_CastBar',
         'ImpUI_Buffs',
+        'ImpUI_Party',
         'ImpUI_Performance',
     };
 
@@ -43,10 +44,6 @@ local function GetDraggables()
 
     if (Helpers.IsRetail() or Helpers.IsTBC()) then
         table.insert(draggables, 'ImpUI_Focus');
-    end
-
-    if (Helpers.IsClassic() or Helpers.IsTBC()) then
-        table.insert(draggables, 'ImpUI_Party');
     end
 
     return draggables;

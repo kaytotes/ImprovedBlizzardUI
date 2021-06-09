@@ -44,7 +44,7 @@ end
 ]]
 function ImpUI_Party:LoadPosition()
     -- Known issues moving party frames in retail.
-    if (Helpers.IsRetail()) then return end
+    -- if (Helpers.IsRetail()) then return end
 
     local pos = ImpUI.db.profile.partyFramePosition;
     local scale = ImpUI.db.profile.partyFrameScale;
@@ -138,7 +138,7 @@ end
     @ return void
 ]]
 function ImpUI_Party:OnEnable()
-    if (Helpers.IsRetail()) then return end
+    -- if (Helpers.IsRetail()) then return end
 
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_PartyFrame_DragFrame', 205, 350, L['Party Frames']);
