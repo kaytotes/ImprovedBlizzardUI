@@ -2,7 +2,7 @@
     modules\frames\party.lua
     Styles and Repositions the Blizzard Party Frames.
 ]]
-ImpUI_Party = ImpUI:NewModule('ImpUI_Party', 'AceEvent-3.0');
+ImpUI_Party = ImpUI:NewModule('ImpUI_Party', 'AceEvent-3.0', 'AceHook-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -44,22 +44,30 @@ end
 ]]
 function ImpUI_Party:LoadPosition()
     -- Known issues moving party frames in retail.
-    if (Helpers.IsRetail() or Helpers.IsTBC()) then return end
+    if (Helpers.IsRetail()) then return end
 
     local pos = ImpUI.db.profile.partyFramePosition;
     local scale = ImpUI.db.profile.partyFrameScale;
     local offset = 0;
+
+    if (pos.relativeTo == nil) then
+        pos.relativeTo = UIParent;
+    end
     
     -- Set Drag Frame Position
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
 
+    -- print(dragFrame:GetParent():GetName());
+    -- print(dragFrame:IsRectValid());
+
     for i = 1, 4 do
-        _G["PartyMemberFrame"..i]:SetMovable(true);
-        _G["PartyMemberFrame"..i]:ClearAllPoints();
-        _G["PartyMemberFrame"..i]:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
-        _G["PartyMemberFrame"..i]:SetScale(scale);
-        _G["PartyMemberFrame"..i]:SetUserPlaced(true);
-        _G["PartyMemberFrame"..i]:SetMovable(false);
+        local partyFrame = _G["PartyMemberFrame"..i];
+
+        partyFrame:ClearAllPoints();
+        partyFrame:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
+        -- partyFrame:SetScale(scale);
+        -- partyFrame:SetUserPlaced(true);
+        -- partyFrame:SetMovable(false);
         offset = offset + 60;
     end
 end
@@ -101,11 +109,19 @@ end
 function ImpUI_Party:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
+    if (relativeTo == nil) then
+        relativeTo = UIParent;
+    end
+
     ImpUI.db.profile.partyFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     HideFrames();
 
     dragFrame:Hide();
+end
+
+function ImpUI_Party:Hook_CompactRaidFrameManager_AttachPartyFrames()
+    print('CompactRaidFrameManager_AttachPartyFrames');
 end
 
 --[[
@@ -126,6 +142,8 @@ function ImpUI_Party:OnEnable()
 
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_PartyFrame_DragFrame', 205, 350, L['Party Frames']);
+
+    self:SecureHook('CompactRaidFrameManager_AttachPartyFrames', 'Hook_CompactRaidFrameManager_AttachPartyFrames');
 
     ImpUI_Party:LoadPosition();
 end

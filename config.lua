@@ -74,7 +74,7 @@ ImpUI_Config.defaults = {
         targetOfTargetClassColours = true,
 
         partyFrameScale = 1.4,
-        partyFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -550, 100),
+        partyFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', -550, 100),
 
         focusFrameScale = 0.9,
         focusFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -500.0, -250.0),

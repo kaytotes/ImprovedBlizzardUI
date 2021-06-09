@@ -164,28 +164,50 @@ function Helpers.create_drag_frame(name, width, height, label)
     frame:SetMovable(true);
     frame:EnableMouse(true);
 
+    
+
     -- On Click Set as Moving.
     frame:SetScript('OnMouseDown', function(self, button)
+        print('OnMouseDown');
+        print(self:GetName());
+
         if (button == 'LeftButton' and not self.isMoving) then
+            
             self:StartMoving();
             self.isMoving = true;
+
+            print('LeftButton');
+            print(self.isMoving);
         end
     end);
 
     -- Mouse Released
     frame:SetScript('OnMouseUp', function(self, button)
+        print('OnMouseUp');
+        print(self:GetName());
+
         if (button == 'LeftButton' and self.isMoving) then
+
             self:StopMovingOrSizing();
             self.isMoving = false;
+
+            print('LeftButton');
+            print(self.isMoving);
         end
     end);
 
     -- Hiding 
     frame:SetScript('OnHide', function(self)
+        print('OnHide');
+        print(self:GetName());
+
         if ( self.isMoving ) then
             self:StopMovingOrSizing();
             self.isMoving = false;
         end
+
+        self:StopMovingOrSizing();
+        self.isMoving = false;
     end);
 
     -- Make the Drag Frame Visible.
@@ -193,6 +215,7 @@ function Helpers.create_drag_frame(name, width, height, label)
     frame:SetWidth(width); 
     frame:SetHeight(height);
     local tex = frame:CreateTexture('ARTWORK');
+    tex:SetParent(frame);
     tex:SetAllPoints();
     tex:SetTexture(1.0, 0.5, 0); 
     tex:SetAlpha(0.5);
@@ -203,6 +226,10 @@ function Helpers.create_drag_frame(name, width, height, label)
 
     -- Hide it
     frame:Hide();
+
+    print(frame:GetName());
+    print(frame:GetParent():GetName());
+    print(frame:IsRectValid());
 
     return frame;
 end
