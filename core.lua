@@ -139,7 +139,7 @@ function ImpUI:OnInitialize()
     LSM:Register(LSM.MediaType.FONT, 'Improved Blizzard UI', [[Interface\AddOns\ImprovedBlizzardUI\media\ImprovedBlizzardUI.ttf]]);
 
     -- Set up DB
-    self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
+    self.db = LibStub('AceDB-3.0'):New('ImpBlizzardUI_DB', ImpUI_Config.defaults, true);
 
     -- Enable Profile Management
     ImpUI_Config.options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
