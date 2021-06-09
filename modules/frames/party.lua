@@ -60,14 +60,15 @@ function ImpUI_Party:LoadPosition()
     -- print(dragFrame:GetParent():GetName());
     -- print(dragFrame:IsRectValid());
 
+    PartyMemberBackground:ClearAllPoints();
+PartyMemberBackground:Hide();
+
     for i = 1, 4 do
         local partyFrame = _G["PartyMemberFrame"..i];
 
         partyFrame:ClearAllPoints();
         partyFrame:SetPoint('CENTER', dragFrame, 'BOTTOM', 0, 35 + offset);
-        -- partyFrame:SetScale(scale);
-        -- partyFrame:SetUserPlaced(true);
-        -- partyFrame:SetMovable(false);
+        partyFrame:SetScale(scale);
         offset = offset + 60;
     end
 end
@@ -120,10 +121,6 @@ function ImpUI_Party:Lock()
     dragFrame:Hide();
 end
 
-function ImpUI_Party:Hook_CompactRaidFrameManager_AttachPartyFrames()
-    print('CompactRaidFrameManager_AttachPartyFrames');
-end
-
 --[[
 	Fires when the module is Initialised.
 	
@@ -143,9 +140,8 @@ function ImpUI_Party:OnEnable()
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_PartyFrame_DragFrame', 205, 350, L['Party Frames']);
 
-    self:SecureHook('CompactRaidFrameManager_AttachPartyFrames', 'Hook_CompactRaidFrameManager_AttachPartyFrames');
-
     ImpUI_Party:LoadPosition();
+    -- ImpUI_Party:StyleFrames();
 end
 
 --[[
