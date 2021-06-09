@@ -35,15 +35,12 @@ local function GetDraggables()
         'ImpUI_CastBar',
         'ImpUI_Buffs',
         'ImpUI_Performance',
+        'ImpUI_Party',
     };
 
     if (Helpers.IsRetail()) then
         table.insert(draggables, 'ImpUI_Focus');
         table.insert(draggables, 'ImpUI_TalkingHead');
-    end
-
-    if (Helpers.IsClassic() or Helpers.IsTBC()) then
-        table.insert(draggables, 'ImpUI_Party');
     end
 
     return draggables;
