@@ -60,7 +60,7 @@ function Helpers.GetSupportedBuild()
     end
 
     if (Helpers.IsClassic()) then
-        return '1.13.6';
+        return '1.13.7';
     end
 end
 
