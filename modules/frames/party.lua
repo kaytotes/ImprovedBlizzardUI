@@ -29,13 +29,15 @@ function ImpUI_Party:StyleFrames()
         _G["PartyMemberFrame"..i.."Name"]:SetTextColor(font.r, font.g, font.b, font.a);
         _G["PartyMemberFrame"..i.."Name"]:SetFont(font.font, 10, font.flags);
         
-        _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetFont(font.font, 8, font.flags);
-
-        _G["PartyMemberFrame"..i.."ManaBarText"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font.font, 8, font.flags);
+        if (Helpers.IsRetail()) then
+            _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetFont(font.font, 8, font.flags);
+    
+            _G["PartyMemberFrame"..i.."ManaBarText"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font.font, 8, font.flags);
+        end
     end
 end
 
