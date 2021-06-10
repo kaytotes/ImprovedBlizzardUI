@@ -72,6 +72,8 @@ This will require you to have the following:
 ### Party Frames
 
 * Improved Fonts.
+* Moveable.
+* Scaleable.
 
 ## Action Bars
 
@@ -140,11 +142,6 @@ This will require you to have the following:
 # Classic WoW Exclusives
 
 ## Unit Frames
-
-### Party Frames
-
-* Moved and Re-Scaled.
-* Scaleable.
 
 ### Target Frame
 
