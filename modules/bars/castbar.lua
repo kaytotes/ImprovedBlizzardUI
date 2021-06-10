@@ -38,7 +38,7 @@ end
 ]]
 local function CreateCastingTimer(frame, pos)
     frame.timer = nil;
-
+    
     if (Helpers.Debug()) then
         ImpUI:Print('Creating Castbar for '..frame:GetName());
     end
@@ -73,7 +73,7 @@ function ImpUI_CastBar:StyleFrame()
     -- Kill If Needed
     KillTimer(CastingBarFrame);
 
-    if (Helpers.IsRetail()) then
+    if (Helpers.IsRetail() or Helpers.IsTBC()) then
         KillTimer(TargetFrameSpellBar);
         KillTimer(FocusFrameSpellBar);
     end
@@ -90,8 +90,7 @@ function ImpUI_CastBar:StyleFrame()
         CreateCastingTimer(CastingBarFrame, Helpers.pack_position('TOP', nil, 'BOTTOM', 0, 35));
     end
 
-    -- Anything else is Retail
-    if (Helpers.IsClassic() or Helpers.IsTBC()) then return end
+    if (Helpers.IsClassic()) then return end
     
     -- Target Frame
     if (ImpUI.db.profile.castBarTargetTimer) then

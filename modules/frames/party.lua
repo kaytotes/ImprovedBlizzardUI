@@ -29,13 +29,15 @@ function ImpUI_Party:StyleFrames()
         _G["PartyMemberFrame"..i.."Name"]:SetTextColor(font.r, font.g, font.b, font.a);
         _G["PartyMemberFrame"..i.."Name"]:SetFont(font.font, 10, font.flags);
         
-        _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetFont(font.font, 8, font.flags);
-
-        _G["PartyMemberFrame"..i.."ManaBarText"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetFont(font.font, 8, font.flags);
-        _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font.font, 8, font.flags);
+        if (Helpers.IsRetail()) then
+            _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetFont(font.font, 8, font.flags);
+    
+            _G["PartyMemberFrame"..i.."ManaBarText"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetFont(font.font, 8, font.flags);
+            _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font.font, 8, font.flags);
+        end
     end
 end
 
@@ -43,15 +45,21 @@ end
 	Loads the position of the Party Frames from SavedVariables.
 ]]
 function ImpUI_Party:LoadPosition()
-    -- Known issues moving party frames in retail.
-    if (Helpers.IsRetail() or Helpers.IsTBC()) then return end
-
     local pos = ImpUI.db.profile.partyFramePosition;
     local scale = ImpUI.db.profile.partyFrameScale;
     local offset = 0;
+
+    -- Fixes Set Anchor Point
+    if (pos.relativeTo == nil) then
+        pos.relativeTo = 'UIParent';
+    end
     
     -- Set Drag Frame Position
     dragFrame:SetPoint(pos.point, pos.relativeTo, pos.relativePoint, pos.x, pos.y);
+
+    -- Fixes Drag Frame
+    PartyMemberBackground:ClearAllPoints();
+    PartyMemberBackground:Hide();
 
     for i = 1, 4 do
         _G["PartyMemberFrame"..i]:SetMovable(true);
@@ -101,6 +109,11 @@ end
 function ImpUI_Party:Lock()
     local point, relativeTo, relativePoint, xOfs, yOfs = dragFrame:GetPoint();
 
+    -- Fixes Set Anchor Point
+    if (relativeTo == nil) then
+        relativeTo = 'UIParent';
+    end
+
     ImpUI.db.profile.partyFramePosition = Helpers.pack_position(point, relativeTo, relativePoint, xOfs, yOfs);
 
     HideFrames();
@@ -122,12 +135,11 @@ end
     @ return void
 ]]
 function ImpUI_Party:OnEnable()
-    if (Helpers.IsRetail()) then return end
-
     -- Create Drag Frame and load position.
     dragFrame = Helpers.create_drag_frame('ImpUI_PartyFrame_DragFrame', 205, 350, L['Party Frames']);
 
     ImpUI_Party:LoadPosition();
+    ImpUI_Party:StyleFrames();
 end
 
 --[[

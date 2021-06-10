@@ -35,15 +35,12 @@ local function GetDraggables()
         'ImpUI_CastBar',
         'ImpUI_Buffs',
         'ImpUI_Performance',
+        'ImpUI_Party',
     };
 
     if (Helpers.IsRetail()) then
         table.insert(draggables, 'ImpUI_Focus');
         table.insert(draggables, 'ImpUI_TalkingHead');
-    end
-
-    if (Helpers.IsClassic() or Helpers.IsTBC()) then
-        table.insert(draggables, 'ImpUI_Party');
     end
 
     return draggables;
@@ -142,7 +139,7 @@ function ImpUI:OnInitialize()
     LSM:Register(LSM.MediaType.FONT, 'Improved Blizzard UI', [[Interface\AddOns\ImprovedBlizzardUI\media\ImprovedBlizzardUI.ttf]]);
 
     -- Set up DB
-    self.db = LibStub('AceDB-3.0'):New('ImpUI_DB', ImpUI_Config.defaults, true);
+    self.db = LibStub('AceDB-3.0'):New('ImpBlizzardUI_DB', ImpUI_Config.defaults, true);
 
     -- Enable Profile Management
     ImpUI_Config.options.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
