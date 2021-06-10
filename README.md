@@ -23,9 +23,14 @@ This will require you to have the following:
 
 * To install Improved Blizzard UI place the folder into `World of Warcraft//_retail_//Interface//Addons` as you would any other addon.
 
-**Classic WoW**
+**The Burning Crusade**
 
 * To install Improved Blizzard UI place the folder into `World of Warcraft//_classic_//Interface//Addons` as you would any other addon.
+* Enable "Load out of date AddOns" in your AddOn selection menu.
+
+**Classic WoW**
+
+* To install Improved Blizzard UI place the folder into `World of Warcraft//_classic_era_//Interface//Addons` as you would any other addon.
 * Enable "Load out of date AddOns" in your AddOn selection menu.
 
 # Core Features
@@ -67,6 +72,13 @@ This will require you to have the following:
 
 * Improved Fonts.
 * Scaleable.
+* Class Coloured Health Bar.
+
+### Focus Frame
+
+* Moved and Re-Scaled.
+* Larger Health Bar.
+* Improved Fonts.
 * Class Coloured Health Bar.
 
 ### Party Frames
@@ -124,22 +136,13 @@ This will require you to have the following:
 * Automatic Achievement Screenshot.
 * Replacement Order Hall Bar.
 
-## Unit Frames
-
-### Focus Frame
-
-* Moved and Re-Scaled.
-* Larger Health Bar.
-* Improved Fonts.
-* Class Coloured Health Bar.
-
 ## Action Bars
 
 * Micro Menu replaced with custom drop up menu. (Right of Main Bar).
 * Bags Hidden (Show with drop up menu option).
 * Great Vault Micro Menu.
 
-# Classic WoW Exclusives
+# Classic Era Exclusives
 
 ## Unit Frames
 
