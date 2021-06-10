@@ -54,30 +54,30 @@ ImpUI_Config.defaults = {
 
         performanceFrame = true,
         performanceFrameSize = 14,
-        performanceFramePosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -27.80, -9.40),
+        performanceFramePosition = Helpers.pack_position('TOPRIGHT', UIParent, 'TOPRIGHT', -27.80, -9.40),
 
-        osdPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, 72),
-        killFeedPosition = Helpers.pack_position('TOPLEFT', nil, 'TOPLEFT', 8.33, -5),
+        osdPosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', 0, 72),
+        killFeedPosition = Helpers.pack_position('TOPLEFT', UIParent, 'TOPLEFT', 8.33, -5),
 
         styleUnitFrames = true,
         
         playerFrameScale = 1.2,
-        playerFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -305.16, -160.82),
+        playerFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', -305.16, -160.82),
         playerClassColours = true,
         playerHidePortraitSpam = true,
         playerHideOOC = true,
 
         targetFrameScale = 1.2,
-        targetFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', 305.16, -160.82),
+        targetFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', 305.16, -160.82),
         targetClassColours = true,
         targetBuffsOnTop = true,
         targetOfTargetClassColours = true,
 
         partyFrameScale = 1.4,
-        partyFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -550, 100),
+        partyFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', -550, 100),
 
         focusFrameScale = 0.9,
-        focusFramePosition = Helpers.pack_position('CENTER', nil, 'CENTER', -500.0, -250.0),
+        focusFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', -500.0, -250.0),
         focusClassColours = true,
         focusBuffsOnTop = true,
 
@@ -104,13 +104,13 @@ ImpUI_Config.defaults = {
         tooltipItemRarity = true,
 
         castBarScale = 1.0,
-        castBarPosition = Helpers.pack_position('CENTER', nil, 'CENTER', 0, -175);
+        castBarPosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', 0, -175);
         castBarPlayerTimer = true,
         castBarTargetTimer = true,
         castBarFocusTimer = true,
         castBarFontSize = 13,
 
-        buffsPosition = Helpers.pack_position('TOPRIGHT', nil, 'TOPRIGHT', -216, -34),
+        buffsPosition = Helpers.pack_position('TOPRIGHT', UIParent, 'TOPRIGHT', -216, -34),
         buffsScale = 1.1,
 
         microMenuFont = 'Improved Blizzard UI',
@@ -296,7 +296,7 @@ ImpUI_Config.options = {
                     type = 'header',
                     name = L['Party Frames'],
                     order = 11,
-                    hidden = true,
+                    hidden = false,
                 },
 
                 partyFrameScale = {
@@ -316,7 +316,7 @@ ImpUI_Config.options = {
                     end,
                     isPercent = false,
                     order = 12,
-                    hidden = true,
+                    hidden = false,
                 },
 
                 -- Focus Frames Section
