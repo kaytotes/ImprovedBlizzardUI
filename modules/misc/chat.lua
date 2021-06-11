@@ -17,6 +17,7 @@ local strings = {
 	CURRENCY_GAINED_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
 	CURRENCY_GAINED_MULTIPLE_BONUS = '|cffFFFF00+ %s |cffFFFF00(%d)',
 	YOU_LOOT_MONEY = '|cffFFFF00+ %s',
+    ERR_AUTOLOOT_MONEY_S  = '|cffFFFF00+ %s',
 	LOOT_ITEM_SELF = '|cffFFFF00+ %s',
 	LOOT_ITEM_SELF_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
 	LOOT_ITEM_CREATED_SELF = '|cffFFFF00+ %s',
