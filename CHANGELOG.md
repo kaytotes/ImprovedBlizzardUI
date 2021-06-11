@@ -1,5 +1,8 @@
 # Improved Blizzard UI Changelog
 
+3.5.1 - Fix TBC Focus Frame Dragging
+3.5.0 - Full TBC Support.
+3.5.0 - Fix Party Frames
 3.4.1 - Disabled Party Frames in TBC.
 3.4.0 - The Burning Crusade Classic Support
 3.3.1 - More Focus Frame Improvements.
