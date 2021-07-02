@@ -22,12 +22,13 @@ function ImpUI_Party:StyleFrames()
 
     -- Fonts
     local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
+    local size = 10;
 
     -- Style Each Party Frame
     for i = 1, 4 do
         -- Update Fonts
         _G["PartyMemberFrame"..i.."Name"]:SetTextColor(font.r, font.g, font.b, font.a);
-        _G["PartyMemberFrame"..i.."Name"]:SetFont(font.font, 10, font.flags);
+        _G["PartyMemberFrame"..i.."Name"]:SetFont(font.font, size, font.flags);
         
         if (Helpers.IsRetail()) then
             _G["PartyMemberFrame"..i.."HealthBarText"]:SetFont(font.font, 8, font.flags);
@@ -39,6 +40,45 @@ function ImpUI_Party:StyleFrames()
             _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetFont(font.font, 8, font.flags);
         end
     end
+
+    ImpUI_Party:UpdateColours();
+end
+
+--[[
+	Simply updates the class colouring for all party members.
+	
+    @ return void
+]]
+function ImpUI_Party:UpdateColours()
+    if (IsInGroup() == false) then return end
+
+    local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
+    local enabled = ImpUI.db.profile.partyClassColours;
+    
+    for i = 1, 4 do
+        local unitName = "party"..i;
+        if (UnitExists(unitName)) then
+            if (UnitClass(unitName)) then
+                local c = Helpers.GetClassColour(unitName);
+                local nameFrame = _G["PartyMemberFrame"..i.."Name"];
+
+                if (enabled) then
+                    nameFrame:SetTextColor(c.r, c.g, c.b, 1);
+                else
+                    nameFrame:SetTextColor(font.r, font.g, font.b, font.a);
+                end
+            end
+        end
+    end
+end
+
+--[[
+	Fires when the party a player is in changes / updates with new members.
+	
+    @ return void
+]]
+function ImpUI_Party:GROUP_ROSTER_UPDATE()
+    ImpUI_Party:UpdateColours();
 end
 
 --[[
@@ -140,6 +180,8 @@ function ImpUI_Party:OnEnable()
 
     ImpUI_Party:LoadPosition();
     ImpUI_Party:StyleFrames();
+
+    self:RegisterEvent('GROUP_ROSTER_UPDATE');
 end
 
 --[[
