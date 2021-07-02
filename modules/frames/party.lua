@@ -53,16 +53,20 @@ function ImpUI_Party:UpdateColours()
     if (IsInGroup() == false) then return end
 
     local font = Helpers.get_styled_font(ImpUI.db.profile.primaryInterfaceFont);
-
+    local enabled = ImpUI.db.profile.partyClassColours;
+    
     for i = 1, 4 do
         local unitName = "party"..i;
-
         if (UnitExists(unitName)) then
             if (UnitClass(unitName)) then
                 local c = Helpers.GetClassColour(unitName);
                 local nameFrame = _G["PartyMemberFrame"..i.."Name"];
 
-                nameFrame:SetTextColor(c.r, c.g, c.b, 1);
+                if (enabled) then
+                    nameFrame:SetTextColor(c.r, c.g, c.b, 1);
+                else
+                    nameFrame:SetTextColor(font.r, font.g, font.b, font.a);
+                end
             end
         end
     end
