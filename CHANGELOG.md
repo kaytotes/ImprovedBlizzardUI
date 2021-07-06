@@ -1,5 +1,11 @@
 # Improved Blizzard UI Changelog
 
+3.6.0 - 9.1 Support.
+3.6.0 - Class Coloured Party Frames
+3.6.0 - Fix Zandalari Troll Loot String
+3.5.1 - Fix TBC Focus Frame Dragging
+3.5.0 - Full TBC Support.
+3.5.0 - Fix Party Frames
 3.4.1 - Disabled Party Frames in TBC.
 3.4.0 - The Burning Crusade Classic Support
 3.3.1 - More Focus Frame Improvements.

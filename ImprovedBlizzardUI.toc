@@ -1,9 +1,9 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: Improved Blizzard UI
 ## Notes: A variety of improvements to the default Blizzard UI
 ## Version: @project-version@
 ## Author: Kaytotes
-## SavedVariables: ImpUI_DB
+## SavedVariables: ImpBlizzardUI_DB
 ## OptionalDeps: Ace3, Blizzard_TalkingHeadUI, Blizzard_WeeklyRewards
 ## X-Embeds: Ace3
 ## X-Curse-Project-ID: 103336

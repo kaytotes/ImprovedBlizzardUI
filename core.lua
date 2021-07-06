@@ -39,8 +39,11 @@ local function GetDraggables()
     };
 
     if (Helpers.IsRetail()) then
-        table.insert(draggables, 'ImpUI_Focus');
         table.insert(draggables, 'ImpUI_TalkingHead');
+    end
+
+    if (Helpers.IsRetail() or Helpers.IsTBC()) then
+        table.insert(draggables, 'ImpUI_Focus');
     end
 
     return draggables;

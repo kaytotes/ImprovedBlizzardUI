@@ -52,7 +52,7 @@ end
 ]]
 function Helpers.GetSupportedBuild()
     if (Helpers.IsRetail()) then
-        return '9.0.5';
+        return '9.1.0';
     end
 
     if (Helpers.IsTBC()) then

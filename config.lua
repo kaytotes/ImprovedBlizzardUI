@@ -75,6 +75,7 @@ ImpUI_Config.defaults = {
 
         partyFrameScale = 1.4,
         partyFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', -550, 100),
+        partyClassColours = true,
 
         focusFrameScale = 0.9,
         focusFramePosition = Helpers.pack_position('CENTER', UIParent, 'CENTER', -500.0, -250.0),
@@ -317,6 +318,20 @@ ImpUI_Config.options = {
                     isPercent = false,
                     order = 12,
                     hidden = false,
+                },
+
+                partyClassColours = {
+                    type = 'toggle',
+                    name = L['Display Class Colours'],
+                    desc = '',
+                    get = function ()
+                        return ImpUI.db.profile.partyClassColours;
+                    end,
+                    set = function (info, newValue)
+                        ImpUI.db.profile.partyClassColours = newValue;
+                        ImpUI_Party:UpdateColours();
+                    end,
+                    order = 13,
                 },
 
                 -- Focus Frames Section
