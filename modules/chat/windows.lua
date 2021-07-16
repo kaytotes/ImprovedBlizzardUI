@@ -18,6 +18,11 @@ function ImpUI_ChatWindows:ChangeTabFonts()
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 end
 
+--[[
+	Hides the main buttons on the chat frame eg chat channels, social button, battle net button
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:HideButtons()
     -- Hide Chat Channels Button
     if (not ImpUI_ChatWindows:IsHooked(ChatFrameMenuButton, 'OnShow')) then
@@ -46,12 +51,23 @@ function ImpUI_ChatWindows:HideButtons()
     end
 end
 
+--[[
+	Allows us to move chat windows into the corners of the screen within 1px
+    Normally the blizzard ui disallows this.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:RemoveScreenClamping(window)
     window:SetClampRectInsets( 0, 0, 0, 0 );
     window:SetMinResize( 100, 50 );
     window:SetMaxResize( UIParent:GetWidth(), UIParent:GetHeight() );
 end
 
+--[[
+	Removes the chat arrows. Use a scroll wheel yo.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:RemoveChatArrows(window)
     local buttonFrame = _G[window:GetName()..'ButtonFrame'];
 
@@ -62,6 +78,11 @@ function ImpUI_ChatWindows:RemoveChatArrows(window)
     buttonFrame:Hide();
 end
 
+--[[
+	Restyles the chat tabs by adjusting font and removing textures.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:AdjustTab(window)
     -- Style Tab Fonts
     local tab = _G[window:GetName()..'Tab'];
@@ -82,12 +103,22 @@ function ImpUI_ChatWindows:AdjustTab(window)
     tab:SetAlpha( 1.0 );
 end
 
+--[[
+	Hides textures for the edit box.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:SkinEditBox(window)
     _G[window:GetName()..'EditBoxLeft']:Hide();
     _G[window:GetName()..'EditBoxMid']:Hide();
     _G[window:GetName()..'EditBoxRight']:Hide();
 end
 
+--[[
+	Moves the edit box to the top of the chat frame.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:MoveEditBox(window)
     local editBox = _G[window:GetName()..'EditBox'];
 
@@ -103,6 +134,11 @@ function ImpUI_ChatWindows:MoveEditBox(window)
     editBox:SetPoint('RIGHT',window,10,0);
 end
 
+--[[
+	Simple helper to check if we're looking at the Combat Log.
+	
+    @ return bool
+]]
 function ImpUI_ChatWindows:IsCombatLog(window)
     return window:GetName() == 'ChatFrame2';
 end
@@ -123,6 +159,11 @@ function ImpUI_ChatWindows:SetFontSize(window, index)
     end
 end
 
+--[[
+	As titled, adds a shadow to the chat window.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:AddShadow(window)
     window:SetShadowOffset( 1, -1 );
     window:SetShadowColor( 0, 0, 0, 0.6 );
@@ -157,13 +198,24 @@ function ImpUI_ChatWindows:ApplyStyles()
     end
 end
 
+--[[
+	Fired when we get a battle.net whisper.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:CHAT_MSG_BN_WHISPER()
     ImpUI_ChatWindows:ApplyStyles();
 end
 
+--[[
+	Fired when we get a normal in game whisper.
+	
+    @ return void
+]]
 function ImpUI_ChatWindows:CHAT_MSG_WHISPER()
     ImpUI_ChatWindows:ApplyStyles();
 end
+
 
 function ImpUI_ChatWindows:OpenTemporaryWindowHook()
     ImpUI_ChatWindows:ApplyStyles();
