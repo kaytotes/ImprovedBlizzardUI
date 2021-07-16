@@ -1407,11 +1407,7 @@ ImpUI_Config.options = {
                     set = function (info, newValue)
                         ImpUI.db.profile.styleChat = newValue;
 
-                        if (newValue == true) then
-                            ImpUI_ChatWindows:StyleChat();
-                        else
-                            ImpUI_ChatWindows:ResetChat();
-                        end
+                        ReloadUI();
                     end,
                     order = 8,
                 },
