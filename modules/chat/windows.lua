@@ -1,8 +1,8 @@
 --[[
-    modules\misc\chat.lua
+    modules\chat\windows.lua
     Styles the Blizzard Chat frame to better match the rest of the UI.
 ]]
-ImpUI_Chat = ImpUI:NewModule('ImpUI_Chat', 'AceEvent-3.0', 'AceHook-3.0');
+ImpUI_ChatWindows = ImpUI:NewModule('ImpUI_ChatWindows', 'AceEvent-3.0', 'AceHook-3.0');
 
 -- Get Locale
 local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
@@ -10,127 +10,31 @@ local L = LibStub('AceLocale-3.0'):GetLocale('ImprovedBlizzardUI');
 -- Local Functions
 local GetChatWindowInfo = GetChatWindowInfo;
 
--- The Global strings we're replacing and what they're being replaced with.
-local strings = {
-    -- Local Player Loot
-	CURRENCY_GAINED = '|cffFFFF00+ %s',
-	CURRENCY_GAINED_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	CURRENCY_GAINED_MULTIPLE_BONUS = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	YOU_LOOT_MONEY = '|cffFFFF00+ %s',
-    ERR_AUTOLOOT_MONEY_S  = '|cffFFFF00+ %s',
-	LOOT_ITEM_SELF = '|cffFFFF00+ %s',
-	LOOT_ITEM_SELF_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	LOOT_ITEM_CREATED_SELF = '|cffFFFF00+ %s',
-	LOOT_ITEM_CREATED_SELF_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	LOOT_ITEM_BONUS_ROLL_SELF = '|cffFFFF00+ %s',
-	LOOT_ITEM_BONUS_ROLL_SELF_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	LOOT_ITEM_REFUND = '|cffFFFF00+ %s',
-	LOOT_ITEM_REFUND_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	LOOT_ITEM_PUSHED_SELF = '|cffFFFF00+ %s',
-	LOOT_ITEM_PUSHED_SELF_MULTIPLE = '|cffFFFF00+ %s |cffFFFF00(%d)',
-	TRADESKILL_LOG_FIRSTPERSON = '', -- Hidden. Useless Info.
-	ERR_QUEST_REWARD_ITEM_S = '|cffFFFF00+ %s',
-	ERR_QUEST_REWARD_ITEM_MULT_IS = '|cffFFFF00+ %d |cffFFFF00%s',
-	ERR_QUEST_REWARD_MONEY_S = '|cffFFFF00+ %s',
-	ERR_QUEST_REWARD_EXP_I = '|cffFFFF00+ %d EXP',
-
-	-- Remote Players Loot
-	LOOT_ITEM = '%s |cffFFFF00+ %s',
-	LOOT_ITEM_BONUS_ROLL = '%s |cffFFFF00+ %s',
-	LOOT_ITEM_BONUS_ROLL_MULTIPLE = '%s |cffFFFF00+ %s |cffFFFF00(%d)',
-	LOOT_ITEM_MULTIPLE = '%s |cffFFFF00+ %s |cffFFFF00(%d)',
-	LOOT_ITEM_PUSHED = '%s |cffFFFF00+ %s',
-	LOOT_ITEM_PUSHED_MULTIPLE = '%s |cffFFFF00+ %s |cffFFFF00(%d)',
-	CREATED_ITEM = '%s |cffFFFF00+ %s',
-	TRADESKILL_LOG_THIRDPERSON = '%s |cffFFFF00+ %s',
-	CREATED_ITEM_MULTIPLE = '%s |cffFFFF00+ %s |cffFFFF00(%d)',
-
-	-- Chat Channels
-	CHAT_SAY_GET = '%s ',
-	CHAT_YELL_GET = '%s ',
-	CHAT_WHISPER_INFORM_GET = 'w to %s ',
-	CHAT_WHISPER_GET = 'w from %s ',
-	CHAT_BN_WHISPER_INFORM_GET = 'w to %s ',
-	CHAT_BN_WHISPER_GET = 'w from %s ',
-	CHAT_PARTY_GET = '|Hchannel:PARTY|hp|h %s ',
-	CHAT_PARTY_LEADER_GET =  '|Hchannel:PARTY|hpl|h %s ',
-	CHAT_PARTY_GUIDE_GET =  '|Hchannel:PARTY|hpg|h %s ',
-	CHAT_INSTANCE_CHAT_GET = '|Hchannel:Battleground|hi|h %s: ',
-	CHAT_INSTANCE_CHAT_LEADER_GET = '|Hchannel:Battleground|hil|h %s: ',
-	CHAT_GUILD_GET = '|Hchannel:GUILD|hg|h %s ',
-	CHAT_OFFICER_GET = '|Hchannel:OFFICER|ho|h %s ',
-	CHAT_FLAG_AFK = '[AFK] ',
-	CHAT_FLAG_DND = '[DND] ',
-	CHAT_FLAG_GM = '[GM] ',
-
-	-- Skill Ups
-	ERR_SKILL_UP_SI = '|cffFFFF00+ |cff00FFFF%s Skill |cffFFFF00(%d)',
-};
-
--- Backup of Blizzard Global Strings.
-local backup = {};
-
---[[
-	Restore from the Blizzard strings backup.
-	
-    @ return void
-]]
-function ImpUI_Chat:RestoreStrings()
-    -- Loop through strings and do the replacement
-    for string, replacement in pairs(backup) do
-        _G[string] = replacement;
-    end
-end
-
---[[
-	Override the global strings with the new ones.
-	
-    @ return void
-]]
-function ImpUI_Chat:OverrideStrings()
-    -- Loop through strings and do the replacement
-    for string, replacement in pairs(strings) do
-        _G[string] = replacement;
-    end
-end
-
---[[
-	Makes a backup of the original global Blizzard strings.
-	
-    @ return void
-]]
-function ImpUI_Chat:BackupBlizzardStrings()
-    -- Loop through strings and make a backup.
-    for string, replacement in pairs(strings) do
-        backup[string] = _G[string];
-    end
-end
-
 --[[
 	Resets the Chat to essentially the default blizzard.
 	
     @ return void
 ]]
-function ImpUI_Chat:ResetChat()
+function ImpUI_ChatWindows:ResetChat()
     -- Restore Edit Box Font
     ChatFontNormal:SetFont(LSM:Fetch('font', 'Arial Narrow'), 12);
 
     -- Restore Chat Channel Button
-    if (ImpUI_Chat:IsHooked(ChatFrameMenuButton, 'OnShow')) then
-        ImpUI_Chat:Unhook(ChatFrameMenuButton, 'OnShow');
+    if (ImpUI_ChatWindows:IsHooked(ChatFrameMenuButton, 'OnShow')) then
+        ImpUI_ChatWindows:Unhook(ChatFrameMenuButton, 'OnShow');
         ChatFrameMenuButton:Show();
     end
 
     -- Restore ChatFrameChannelButton
-    if (ImpUI_Chat:IsHooked(ChatFrameChannelButton, 'OnShow')) then
-        ImpUI_Chat:Unhook(ChatFrameChannelButton, 'OnShow');
+    if (ImpUI_ChatWindows:IsHooked(ChatFrameChannelButton, 'OnShow')) then
+        ImpUI_ChatWindows:Unhook(ChatFrameChannelButton, 'OnShow');
         ChatFrameChannelButton:Show();
     end
 
     -- Restore Battle.net / Social Button
 	local button = QuickJoinToastButton or FriendsMicroButton;
-    if (ImpUI_Chat:IsHooked(button, 'OnShow')) then
-        ImpUI_Chat:Unhook(button, 'OnShow');
+    if (ImpUI_ChatWindows:IsHooked(button, 'OnShow')) then
+        ImpUI_ChatWindows:Unhook(button, 'OnShow');
         button:Show();
     end
     
@@ -142,8 +46,8 @@ function ImpUI_Chat:ResetChat()
         local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
 
         -- Restore Chat Arrows
-        if (ImpUI_Chat:IsHooked(_G[window..'ButtonFrame'], 'OnShow')) then
-            ImpUI_Chat:Unhook(_G[window..'ButtonFrame'], 'OnShow');
+        if (ImpUI_ChatWindows:IsHooked(_G[window..'ButtonFrame'], 'OnShow')) then
+            ImpUI_ChatWindows:Unhook(_G[window..'ButtonFrame'], 'OnShow');
             _G[window..'ButtonFrame']:Show();
         end
 
@@ -186,7 +90,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_Chat:StyleChat()
+function ImpUI_ChatWindows:StyleChat()
     if (ImpUI.db.profile.styleChat == false) then return; end
 
     local chatFont = LSM:Fetch('font', ImpUI.db.profile.chatFont);
@@ -197,17 +101,17 @@ function ImpUI_Chat:StyleChat()
     ChatFontNormal:SetShadowColor(0,0,0,0.6);
 
     -- Hide Chat Channels Button
-    ImpUI_Chat:HookScript(ChatFrameMenuButton, 'OnShow', ChatFrameMenuButton.Hide);
+    ImpUI_ChatWindows:HookScript(ChatFrameMenuButton, 'OnShow', ChatFrameMenuButton.Hide);
     ChatFrameMenuButton:Hide();
 
     -- Hide ChatFrameChannelButton
-    ImpUI_Chat:HookScript(ChatFrameChannelButton, 'OnShow', ChatFrameChannelButton.Hide);
+    ImpUI_ChatWindows:HookScript(ChatFrameChannelButton, 'OnShow', ChatFrameChannelButton.Hide);
     ChatFrameChannelButton:Hide();
 
     -- Hide Battle.net / Social Button
     if (Helpers.IsRetail()) then
         local button = QuickJoinToastButton or FriendsMicroButton;
-        ImpUI_Chat:HookScript(button, 'OnShow', button.Hide);
+        ImpUI_ChatWindows:HookScript(button, 'OnShow', button.Hide);
         button:Hide();
     
         -- Move Battle.net Toast
@@ -220,7 +124,7 @@ function ImpUI_Chat:StyleChat()
         local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i);
 
         -- Stop Chat Arrows Coming Back
-        ImpUI_Chat:HookScript(_G[window..'ButtonFrame'], 'OnShow', _G[window..'ButtonFrame'].Hide);
+        ImpUI_ChatWindows:HookScript(_G[window..'ButtonFrame'], 'OnShow', _G[window..'ButtonFrame'].Hide);
 		_G[window..'ButtonFrame']:Hide();
         
         -- Style Tab Fonts
@@ -280,9 +184,7 @@ end
 	
     @ return void
 ]]
-function ImpUI_Chat:OnInitialize()
-    ImpUI_Chat:BackupBlizzardStrings();
-
+function ImpUI_ChatWindows:OnInitialize()
     -- Add More Font Sizes
     for i = 1, 13 do
         CHAT_FONT_HEIGHTS[i] = i + 10;
@@ -304,12 +206,8 @@ end
 	
     @ return void
 ]]
-function ImpUI_Chat:OnEnable()
-    local minify = ImpUI.db.profile.minifyStrings;
-    if (minify == true) then
-        ImpUI_Chat:OverrideStrings();    
-    end
-    ImpUI_Chat:StyleChat();
+function ImpUI_ChatWindows:OnEnable()
+    ImpUI_ChatWindows:StyleChat();
 
     -- Apply Quality of Life changes that don't need to be toggled.
     for i = 1, NUM_CHAT_WINDOWS do
@@ -330,5 +228,5 @@ end
 	
     @ return void
 ]]
-function ImpUI_Chat:OnDisable()
+function ImpUI_ChatWindows:OnDisable()
 end
