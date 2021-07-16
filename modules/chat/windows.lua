@@ -199,11 +199,30 @@ function ImpUI_ChatWindows:ApplyStyles()
 end
 
 --[[
+	Simple check to see if the player has chat tabs enabled or the og inline style.
+	
+    @ return bool
+]]
+function ImpUI_ChatWindows:HasChatTabsEnabled()
+    local setting = '';
+
+    if (Helpers.IsRetail() or Helpers.IsTBC()) then
+        setting = C_CVar.GetCVar('whisperMode');
+    else
+        setting = GetCVar('whisperMode');
+    end
+
+    return setting ~= 'inline';
+end
+
+--[[
 	Fired when we get a battle.net whisper.
 	
     @ return void
 ]]
 function ImpUI_ChatWindows:CHAT_MSG_BN_WHISPER()
+    if (not ImpUI_ChatWindows:HasChatTabsEnabled()) then return end
+
     ImpUI_ChatWindows:ApplyStyles();
 end
 
@@ -213,6 +232,8 @@ end
     @ return void
 ]]
 function ImpUI_ChatWindows:CHAT_MSG_WHISPER()
+    if (not ImpUI_ChatWindows:HasChatTabsEnabled()) then return end
+    
     ImpUI_ChatWindows:ApplyStyles();
 end
 
