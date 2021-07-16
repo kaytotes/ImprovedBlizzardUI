@@ -157,13 +157,19 @@ function ImpUI_ChatWindows:ApplyStyles()
     end
 end
 
+function ImpUI_ChatWindows:CHAT_MSG_BN_WHISPER()
+    ImpUI_ChatWindows:ApplyStyles();
+end
+
 function ImpUI_ChatWindows:CHAT_MSG_WHISPER()
-    print('CHAT_MSG_WHISPER');
     ImpUI_ChatWindows:ApplyStyles();
 end
 
 function ImpUI_ChatWindows:OpenTemporaryWindowHook()
-    print('OpenTemporaryWindowHook');
+    ImpUI_ChatWindows:ApplyStyles();
+end
+
+function ImpUI_ChatWindows:UpdateTabsHook()
     ImpUI_ChatWindows:ApplyStyles();
 end
 
@@ -192,7 +198,9 @@ function ImpUI_ChatWindows:OnEnable()
 
     -- Hooks
     self:SecureHook('FCF_OpenTemporaryWindow', 'OpenTemporaryWindowHook');
+    self:SecureHook('FCFDock_UpdateTabs', 'UpdateTabsHook');
     self:RegisterEvent('CHAT_MSG_WHISPER');
+    self:RegisterEvent('CHAT_MSG_BN_WHISPER');
 end
 
 --[[
