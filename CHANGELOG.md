@@ -1,5 +1,6 @@
 # Improved Blizzard UI Changelog
 
+3.7.0 - Refactor Chat Module
 3.6.0 - 9.1 Support.
 3.6.0 - Class Coloured Party Frames
 3.6.0 - Fix Zandalari Troll Loot String

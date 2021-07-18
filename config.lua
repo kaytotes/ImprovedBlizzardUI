@@ -1388,10 +1388,10 @@ ImpUI_Config.options = {
                         ImpUI.db.profile.minifyStrings = newValue;
 
                         if (newValue == true) then
-                            ImpUI_Chat:RestoreStrings();
-                            ImpUI_Chat:OverrideStrings();
+                            ImpUI_Strings:RestoreStrings();
+                            ImpUI_Strings:OverrideStrings();
                         else
-                            ImpUI_Chat:RestoreStrings();
+                            ImpUI_Strings:RestoreStrings();
                         end
                     end,
                     order = 7,
@@ -1407,11 +1407,7 @@ ImpUI_Config.options = {
                     set = function (info, newValue)
                         ImpUI.db.profile.styleChat = newValue;
 
-                        if (newValue == true) then
-                            ImpUI_Chat:StyleChat();
-                        else
-                            ImpUI_Chat:ResetChat();
-                        end
+                        ReloadUI();
                     end,
                     order = 8,
                 },
@@ -1427,7 +1423,7 @@ ImpUI_Config.options = {
                     end,
                     set = function (info, newValue)
                         ImpUI.db.profile.chatFont = newValue;
-                        ImpUI_Chat:StyleChat();
+                        ImpUI_ChatWindows:StyleChat();
                     end,
                     disabled = function () 
                         return ImpUI.db.profile.styleChat == false;
@@ -1444,7 +1440,7 @@ ImpUI_Config.options = {
                     end,
                     set = function (info, newValue)
                         ImpUI.db.profile.outlineChat = newValue;
-                        ImpUI_Chat:StyleChat();
+                        ImpUI_ChatWindows:StyleChat();
                     end,
                     disabled = function () 
                         return ImpUI.db.profile.styleChat == false;

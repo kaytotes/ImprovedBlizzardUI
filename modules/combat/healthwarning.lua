@@ -24,7 +24,7 @@ local canShowQuarter = true;
     @ return void
 ]]
 function ImpUI_Health:UNIT_HEALTH(event, ...)
-    if (ImpUI.db.profile.healthWarning == false) then return; end
+    if (ImpUI.db.profile.healthWarnings == false) then return; end
 
     if (... == 'player') then
         local hp = UnitHealth('player') / UnitHealthMax('player');
